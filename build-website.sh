@@ -14,4 +14,4 @@ cd -
 chmod +x ./create-everything.sh
 ./create-everything.sh
 
-agda --html --html-dir=html index.agda
+agda --html --html-dir=public index.agda
