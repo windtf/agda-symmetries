@@ -1,5 +1,4 @@
 ![agda build status](https://github.com/pufferffish/agda-symmetries/actions/workflows/ci-ubuntu.yml/badge.svg) 
-![html build status](https://github.com/pufferffish/agda-symmetries/actions/workflows/ci-html.yml/badge.svg) 
 
 This repository contains the source code, project time log, supervisor meeting minutes, status report,
 and dissertation of my individual project for the 4th year of my computing science BSc at the University of Glasgow.
@@ -16,7 +15,7 @@ axiomatic understanding of sorting.
 
 # Formalization in Agda
 
-This project is formalized using cubical Agda. A HTML rendered version is hosted [here](https://windtfw.com/agda-symmetries/).
+This project is formalized using cubical Agda. A HTML rendered version is hosted [here](https://symmetries.windtfw.com/).
 
 ## Prerequisites
 
