@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script is meant to be run by Cloudflare Pages to build the website
 
-wget https://github.com/agda/agda/releases/download/v2.8.0/Agda-v2.8.0-linux.tar.xz
-tar -xf Agda-v2.8.0-linux.tar.xz
+wget https://github.com/agda/agda/releases/download/v2.7.0.1/Agda-v2.7.0.1-linux.tar.xz -O Agda.tar.xz
+tar -xf Agda.tar.xz
 chmod +x agda
 
 mkdir ~/.agda/

@@ -21,7 +21,7 @@ This project is formalized using cubical Agda. A HTML rendered version is hosted
 ## Prerequisites
 
 This library has been tested with the following software versions:
- * Agda v2.6.4
+ * Agda v2.7.0.1
  * The Cubical library, [version 0.6](https://github.com/agda/cubical/releases/tag/v0.6) (Oct 24, 2023)
 
 ## Type checking the code
