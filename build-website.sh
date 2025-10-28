@@ -3,7 +3,10 @@
 
 wget https://github.com/agda/agda/releases/download/v2.7.0.1/Agda-v2.7.0.1-linux.tar.xz -O Agda.tar.xz
 tar -xf Agda.tar.xz
+export Agda_datadir=$(pwd)/Agda-v2.7.0.1/data
+mv Agda-v2.7.0.1/bin/agda . 
 chmod +x agda
+./agda --version
 
 mkdir ~/.agda/
 echo $HOME/.agda/cubical/cubical.agda-lib > ~/.agda/libraries
