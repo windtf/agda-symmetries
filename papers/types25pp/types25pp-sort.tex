@@ -1,0 +1,185 @@
+\documentclass[a4paper,UKenglish,cleveref]{lipics-v2021}
+
+\RequirePackage{currfile}
+\ifcurrfilename{arxiv-sort.tex}%
+{%
+  \pdfoutput=1
+  \hideLIPIcs
+}%
+{}
+
+\bibliographystyle{plainurl} % the mandatory bibstyle
+
+\title{Symmetries in Sorting}
+
+\author{Wind Wong}{Amsterdam}{t.f.w.wong@vu.nl}{orcid}{funding}
+\author{Vikraman Choudhury}{Bologna}{vikraman.choudhury@unibo.it}{[orcid]}{[funding]}
+
+\authorrunning{W. Wong and V. Choudhury}
+
+\Copyright{Wind Wong and Vikraman Choudhury}
+
+\ccsdesc[500]{Theory of computation~Type theory}
+\ccsdesc[500]{Theory of computation~Categorical semantics}
+\ccsdesc[500]{Theory of computation~Denotational semantics}
+\ccsdesc[500]{Software and its engineering~Functional languages}
+\ccsdesc[500]{Software and its engineering~Syntax}
+\ccsdesc[500]{Software and its engineering~Semantics}
+
+\keywords{universal algebra, category theory, type theory, homotopy type theory, combinatorics, formalization}
+
+\category{} %optional, e.g. invited paper
+
+\relatedversion{} %optional, e.g. full version hosted on arXiv, HAL, or other respository/website
+%\relatedversiondetails[linktext={opt. text shown instead of the URL}, cite=DBLP:books/mk/GrayR93]{Classification (e.g. Full Version, Extended Version, Previous Version}{URL to related version} %linktext and cite are optional
+
+%\supplement{}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
+%\supplementdetails[linktext={opt. text shown instead of the URL}, cite=DBLP:books/mk/GrayR93, subcategory={Description, Subcategory}, swhid={Software Heritage Identifier}]{General Classification (e.g. Software, Dataset, Model, ...)}{URL to related version} %linktext, cite, and subcategory are optional
+
+%\funding{(Optional) general funding statement \dots}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
+
+\acknowledgements{I want to thank \dots}%optional
+
+%\nolinenumbers %uncomment to disable line numbering
+
+
+%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\EventEditors{John Q. Open and Joan R. Access}
+\EventNoEds{2}
+\EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
+\EventShortTitle{CVIT 2016}
+\EventAcronym{CVIT}
+\EventYear{2016}
+\EventDate{December 24--27, 2016}
+\EventLocation{Little Whinging, United Kingdom}
+\EventLogo{}
+\SeriesVolume{42}
+\ArticleNo{23}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% figures
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{afterpage}
+%\usepackage[section,above]{placeins}
+
+%% tikz
+\usepackage{tikz}
+\usepackage{xifthen}
+
+%% math
+\let\Bbbk\relax
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{newtxmath}
+\usepackage{bbold}
+\usepackage{mathpartir}
+\usepackage{stmaryrd}
+\usepackage{quiver}
+\usepackage{ebproof}
+\usepackage{listings}
+
+\lstset{%
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  keepspaces=true,
+  mathescape=true,      % Allow escaping to LaTeX math mode within $$
+  escapechar=\%,        % Set the escape character (e.g., % for LaTeX commands)
+}
+
+%% typesetting
+%% fancy quotation
+\usepackage[
+  style=english,
+  english=american,
+  french=guillemets,
+  autopunct=true,
+  csdisplay=true
+]{csquotes}
+%% customize quote margins
+\newenvironment*{innerquote}
+  {\setlength{\leftmargini}{0.2cm}%
+   \quote}
+  {\endquote}
+\SetBlockEnvironment{innerquote}
+
+%% special hyphenation
+\hyphenation{
+  sort-ing
+  mon-oid
+  comm-ut-ative
+  comm-ut-ativ-ity
+  homo-mor-phism
+}
+%% tweak hyphenation
+\tolerance=9999
+\emergencystretch=10pt
+\hyphenpenalty=10000
+\exhyphenpenalty=100
+
+%% space saving magic macro
+\usepackage[
+  all=normal,
+  % paragraphs,
+  % floats,
+  % wordspacing,
+  % charwidths,
+  % mathdisplays,
+  % indent,
+  ]{savetrees}
+
+%% microtypography
+\usepackage{microtype}
+\microtypesetup{
+  activate={true,nocompatibility},
+  final,
+  tracking=true,
+  kerning=all,
+  spacing=true,
+  protrusion=all,
+  factor=1100,
+  stretch=10,
+  shrink=10
+}
+
+%% custom macros
+\usepackage{hott}
+\usepackage{math}
+\usepackage{code}
+\usepackage{macros}
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+\maketitle
+
+%%
+\begin{abstract}
+  \input{abstract}
+\end{abstract}
+
+\input{introduction} %% 2.5 pages
+\input{type-theory} %% 1 page
+\input{universal-algebra} %% 3 pages
+\input{free-monoids} %% 2 pages
+\input{free-commutative-monoids} %% 4 pages
+\input{application} %% 5 pages
+\input{formalization} %% 1 page
+\input{discussion} %% 2 pages
+
+%% total: 20.5 pages
+
+\renewcommand{\appendixsectionformat}[2]{
+  {Supplementary material for Section~#1 (#2)}
+}
+
+\bibliography{../symmetries}
+\appendix
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: context
+%%% fill-column: 120
+%%% TeX-master: t
+%%% End:
