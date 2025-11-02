@@ -156,7 +156,7 @@ and the implications of its existence is that $A$ can be ordered, or sorted.
     To see how this proposition holds: $q(s(xs))$ orders an unordered list $xs$ by $s$,
     and discards the order again by $q$ --
     imposing and then forgetting an order on $xs$ simply \emph{permutes} its elements,
-    which proves $q \comp s \htpy \idfunc$.
+    which proves $q \comp s = \idfunc$.
 \end{proofsketch}
 \noindent
 This is not surprising\ldots we want to go the other way.
@@ -264,7 +264,7 @@ First, we note that the 2-element case is correct.
 We use the definition of list membership from~\cref{def:membership}.
 The $\in$ symbol is intentionally overloaded
 to make the axiom look like a logical ``cut'' rule.
-Inforamlly, it says that the head of an $s$-``sorted'' list
+Informally, it says that the head of an $s$-``sorted'' list
 is the least element of the list.
 
 \begin{proposition}
@@ -385,7 +385,7 @@ data Sorted ($\leq$ : A -> A -> UU) : List A -> UU where
 Note that $\term{Sorted}_{\leq}(xs)$ is a proposition for every $xs$,
 and forces the list $xs$ to be permuted in a unique way.
 \begin{lemma}
-    Given an order $\leq$, for any $xs, ys : \LL(A)$,
+    Given a total order $\leq$, for any $xs, ys : \LL(A)$,
     $q(xs) = q(ys) \land \term{Sorted}_{\leq}(xs) \land \term{Sorted}_{\leq}(ys) \to xs = ys$.
 \end{lemma}
 
@@ -394,7 +394,7 @@ Functions that also produce lists satisfying $\term{Sorted}_{\leq}$ are equal to
 by function extensionality.
 
 \begin{proposition}\label{sort:sort-uniq}
-    Given an order $\leq$,
+    Given a total order $\leq$,
     if a section $s$ always produces sorted list, i.e. $\forall xs.\,\term{Sorted}_{\leq}(s(xs))$,
     $s$ is equal to insertion sort by $\leq$.
 \end{proposition}
@@ -474,7 +474,7 @@ We can now state and prove our main theorem.
 \end{definition}
 \begin{theorem}\label{sort:main}
     Let $\term{DecTotOrd}(A)$ be the set of decidable total orders on $A$,
-    $\term{Sort}(A)$ be the set of correct sorting functions with carrier set $A$,
+    $\term{Sort}(A)$ be the set of sorting functions with carrier set $A$,
     and $\term{Discrete}(A)$ be a predicate which states $A$ has decidable equality.
     There is a map $o2s \colon \term{DecTotOrd}(A) \to \term{Sort}(A) \times \term{Discrete}(A)$,
     which is an equivalence.

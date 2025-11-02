@@ -11,7 +11,7 @@ by~\cref{lem:free-algebras-unique},
 these are canonically equivalent (hence equal, by univalence) as types (and as monoids),
 allowing us to transport proofs between them.
 %
-Using the unviersal property allows us to define and prove our programs correct in one go,
+Using the universal property allows us to define and prove our programs correct in one go,
 which is used in~\cref{sec:application}.
 
 \subsection{Lists}
@@ -258,6 +258,8 @@ and the monoid operation $\doubleplus$ is array concatenation.
 
     In all cases $(f \oplus (g \oplus h))(k) = ((f \oplus g) \oplus h)(k)$, therefore associativity holds.
 \end{proof}
+
+For brevity, we write $S$ for the successor function on natural numbers.
 
 \begin{lemmarep}[Array cons]\label{array:eta-suc}
     Any array $(S(n), f)$ is equal to $\eta_A (f(0)) \doubleplus (n, f \comp S)$.

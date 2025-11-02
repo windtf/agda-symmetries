@@ -43,7 +43,7 @@ This is exactly a \emph{permutation relation}!
 \begin{definition}[Permutation relation]
     \label{def:permutation-relation}
     \leavevmode
-    A binary relation $\approx$ on free monoids is a correct permutation relation iff it:
+    A binary relation on a free monoid $F(A)$ is a permutation relation iff it:
     \begin{itemize}
         \item is reflexive, symmetric, transitive (an equivalence),
         \item is a congruence wrt $\mult$: $a \approx b \to c \approx d \to a \mult c \approx b \mult d$,
@@ -69,6 +69,8 @@ and the $\mult$ operation is lifted to the quotient by congruence.
     therefore $(\quot{F(A)}{\approx}, \concat, q(i))$ forms a commutative monoid.
 \end{proof}
 \noindent
+As a consequence, there is at most one permutation relation on $F(A)$.
+
 For clarity, we will use $\exthat{(\blank)}$ to denote the extension operation of $F(A)$,
 and $\ext{(\blank)}$ for the extension operation of $\quot{F(A)}{\approx}$.
 
@@ -134,8 +136,8 @@ PList A = List A quot Perm
     \end{code}
 \end{definition}
 \vspace*{-2em}
-By~\cref{cmon:qfreemon}, it suffices to show $\Perm$ satisfies the axioms of permutation relation
-to show $\PList$ is the free commutative monoid.
+By~\cref{cmon:qfreemon}, it suffices to show $\Perm(A)$ satisfies the axioms of permutation relation
+to show $\PList(A)$ is the free commutative monoid.
 
 \begin{propositionrep}
     \label{plist:sharp-sat}
@@ -460,7 +462,7 @@ in~\cite{choudhurySymmetriesReversibleProgramming2022} for studying permutation 
 
 Unlike $\PList$ and $\SList$, $\Bag$ and its underlying construction $\Array$ are not inductively defined,
 making it difficult to work with when trying to do induction on them. For example,
-in the proof~\cref{array:univ}, two~\cref{array:eta-suc,array:split} are needed to do
+in the proof of~\cref{array:univ}, both~\cref{array:eta-suc,array:split} are needed to do
 induction on $\Array$, as opposed to $\List$ and its quotients, where we can do induction simply by
 pattern matching. Much like $\PList$, when defining functions on $\Bag$, we need to show they respect
 $\approx$, i.e. $as \approx bs \to f(as) = f(bs)$. This is notably much more difficult than

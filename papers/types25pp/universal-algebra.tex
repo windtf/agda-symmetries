@@ -32,7 +32,7 @@ We keep a running example of monoids in mind, while explaining and defining the 
 \end{definition}
 
 \begin{example}
-    A monoid is a set with an identity element (a nullary operation), and a binary multiplication operation,
+    A premonoid is a set with an identity element (a nullary operation), and a binary multiplication operation,
     with signature $\sigMon \defeq
         (\Fin[2],\lambda \{0 \mapsto \Fin[0] ; 1 \mapsto \Fin[2] \})$.
     %
@@ -163,8 +163,8 @@ The inverse operation to post-composition with $\eta_X$ is the \emph{universal e
     The universal extension of a function $f : X \to Y$ to a homomorphism out of the free $\sig$-algebra on $X$ is written
     as $\ext{f} : \str{F}(X) \to \str{Y}$.
     %
-    It satisfies the identities: $\ext{f} \comp \eta_X \htpy f$, $\ext{\eta_{X}} \htpy \idfunc_{\str{F}(X)}$,
-    and $\ext{(\ext{g} \comp f)} \htpy \ext{g} \comp \ext{f}$.
+    It satisfies the identities: $\ext{f} \comp \eta_X = f$, $\ext{\eta_{X}} = \idfunc_{\str{F}(X)}$,
+    and $\ext{(\ext{g} \comp f)} = \ext{g} \comp \ext{f}$.
 \end{definition}
 \noindent
 Free algebra constructions are canonically equivalent.
@@ -181,9 +181,9 @@ Free algebra constructions are canonically equivalent.
     %
     Finally, using~\cref{def:universal-extension}, we have
     \(
-    {\ext{F\fdot\eta_{X}} \comp \ext{G\fdot\eta_{X}}} \htpy
-    {\ext{(\ext{F\fdot\eta_{X}} \comp G\fdot\eta_{X})}} \htpy
-    {\ext{F\fdot\eta_{X}}} \htpy
+    {\ext{F\fdot\eta_{X}} \comp \ext{G\fdot\eta_{X}}} =
+    {\ext{(\ext{F\fdot\eta_{X}} \comp G\fdot\eta_{X})}} =
+    {\ext{F\fdot\eta_{X}}} =
     {\idfunc_{\str{F}(X)}}
     \).
     % \vc{Mention SIP.}
@@ -365,7 +365,7 @@ free variables available -- a system of equations.
         \eqleft, \eqright \colon \EqSig \natto \str{F}_{\sig} \enspace.
     \]
     Concretely, for any set (of variables) $V$,
-    this gives a pair of trees $\eqleft_{V}, \eqright_{V}\colon \EqSig(V) \to \str{F}_{\sig}(V)$,
+    this gives a pair of functions $\eqleft_{V}, \eqright_{V}\colon \EqSig(V) \to \str{F}_{\sig}(V)$,
     and naturality ensures correctness of renaming.
 \end{definition}
 
