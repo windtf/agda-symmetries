@@ -259,6 +259,7 @@ definition-30 = ListMon.Head.head
 open import Cubical.Relation.Binary.Order
 open import Cubical.Structures.Set.CMon.SList.Sort.Base
 open import Cubical.Structures.Set.CMon.SList.Sort.Sort
+open import Cubical.Structures.Set.CMon.SList.Sort.Order
 open import Cubical.Structures.Set.CMon.SList.Sort.Equiv
 
 -- Definition 31 (Total order). A total order on a set 𝐴 is a relation ≤ : 𝐴 → 𝐴 → hProp that
@@ -303,3 +304,60 @@ proposition-19 = Sort→Order.is-sorted↔≤
 -- 𝑦 ∈ 𝑥 :: 𝑥𝑠 ∧ 𝑥 :: 𝑥𝑠 ∈ im(𝑠) → [𝑥, 𝑦] ∈ im(𝑠) .
 definition-36 : _
 definition-36 = Sort.is-head-least
+
+-- Proposition 20. If 𝐴 has a total order ≤, insertion sort defined using ≤ satisfies im-cut.
+proposition-20 : _
+proposition-20 = Order→Sort.sort-is-head-least
+
+-- Proposition 21. If 𝑠 satisfies im-cut, ≼𝑠 is transitive.
+proposition-21 : _
+proposition-21 = Sort→Order.trans-≤
+
+-- Proposition 22. Assume 𝐴 has a decidable total order ≤, we can construct a section 𝑠 that
+-- satisfies im-cut, such that ≼𝑠 constructed from 𝑠 is equivalent to ≤
+proposition-22 : _
+proposition-22 = Sort↔Order.order→head-least→order
+
+-- Definition 37 (im-cons). A section 𝑠 satisfies im-cons iff for all 𝑥, 𝑥𝑠,
+-- 𝑥 :: 𝑥𝑠 ∈ im(𝑠) → 𝑥𝑠 ∈ im(𝑠)
+definition-37 : _
+definition-37 = Sort.is-tail-sort
+
+-- Lemma 6. Given a total order ≤, for any 𝑥𝑠, 𝑦𝑠 : L( 𝐴), 𝑞(𝑥𝑠) = 𝑞(𝑦𝑠) ∧ Sorted≤ (𝑥𝑠) ∧
+-- Sorted≤ (𝑦𝑠) → 𝑥𝑠 = 𝑦𝑠.
+lemma-6 : _
+lemma-6 = Order→Sort.unique-sorted-xs
+
+-- Proposition 23. Given a total order ≤, if a section 𝑠 always produces sorted list, i.e.
+-- ∀𝑥𝑠. Sorted≤ (𝑠(𝑥𝑠)), 𝑠 is equal to insertion sort by ≤.
+proposition-23 : _
+proposition-23 = Order→Sort.unique-sort
+
+-- Proposition 24. Given a section 𝑠 that satisfies im-cut and im-cons, and ≼𝑠 the order
+-- derived from 𝑠, then for all 𝑥𝑠 : M ( 𝐴), it holds that Sorted≼𝑠 (𝑠(𝑥𝑠)). Equivalently, for all lists
+-- 𝑥𝑠 : L( 𝐴), it holds that 𝑥𝑠 ∈ im(𝑠) iff Sorted≼𝑠 (𝑥𝑠).
+proposition-24 : _
+proposition-24 = Order→Sort.sort-is-sorted
+
+-- Lemma 7. Given a decidable total order ≤ on 𝐴, we can construct a section 𝑡≤ satisfying
+-- im-cut and im-cons, such that, for the order ≼𝑠 derived from 𝑠, we have 𝑡≼𝑠 = 𝑠
+lemma-7 : _
+lemma-7 = Sort↔Order.sort→order→sort
+
+-- Proposition 25. Assume 𝐴 has a decidable total order ≤, then 𝐴 has decidable equality.
+proposition-25 : _
+proposition-25 = Order→Sort.isDiscreteA
+
+-- Definition 38 (Sorting function). A sorting function is a section 𝑠 : M ( 𝐴) → L( 𝐴) to the
+-- canonical surjection 𝑞 : L( 𝐴) ↠ M ( 𝐴) satisfying two axioms:
+-- im-cut: 𝑥 :: 𝑥𝑠 ∈ im(𝑠) ∧ 𝑦 ∈ 𝑥 :: 𝑥𝑠 → [𝑥, 𝑦] ∈ im(𝑠),
+-- im-cons: 𝑥 :: 𝑥𝑠 ∈ im(𝑠) → 𝑥𝑠 ∈ im(𝑠).
+definition-38 : _
+definition-38 = Sort↔Order.HasSortSectionAndIsDiscrete
+
+-- Theorem 39. Let DecTotOrd( 𝐴) be the set of decidable total orders on 𝐴, Sort( 𝐴) be the
+-- set of sorting functions with carrier set 𝐴, and Discrete( 𝐴) be a predicate which states 𝐴 has
+-- decidable equality. There is a map 𝑜2𝑠 : DecTotOrd( 𝐴) → Sort( 𝐴) × Discrete( 𝐴), which is an
+-- equivalence.
+theorem-39 : _
+theorem-39 = Sort↔Order.sort≃order
