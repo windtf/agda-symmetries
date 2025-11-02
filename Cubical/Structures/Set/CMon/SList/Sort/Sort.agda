@@ -129,6 +129,61 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   is-sorted→≤ x y = P.rec (isSetMaybeA _ _) λ (xs , p) ->
     congS head-maybe (congS sort (sym (sym (sort≡ xs) ∙ congS list→slist p)) ∙ p)
 
+  ≤→is-sorted : ∀ x y -> x ≤ y -> is-sorted (x ∷ y ∷ []) 
+  ≤→is-sorted x y p = ∣ x ∷* y ∷* []* , proof ∣₁
+    where
+      proof : sort (x ∷* [ y ]*) ≡ x ∷ y ∷ []
+      proof with least-Σ _ _ p
+      ... | [] , r = ⊥.rec $ snotz $ injSuc $
+        congS S.length (sym (sort≡ (x ∷* [ y ]*)) ∙  congS list→slist r)
+      ... | a ∷ b ∷ c , r = ⊥.rec $ znots $ injSuc $ injSuc $
+        congS S.length (sym (sort≡ (x ∷* [ y ]*)) ∙  congS list→slist r)
+      ... | y' ∷ [] , q = P.rec isProp-α
+        (⊎.rec
+          (λ r →
+            sort (x ∷* [ y ]*) ≡⟨ congS (λ z → sort (x ∷* [ z ]*)) r ⟩
+            sort (x ∷* [ x ]*) ≡⟨ lemma-α ⟩
+            x ∷ x ∷ [] ≡⟨ congS (λ z → x ∷ [ z ]) (sym r) ⟩
+            x ∷ y ∷ [] ∎)
+        (P.rec isProp-α
+          (⊎.rec
+            (λ r →
+              sort (x ∷* [ y ]*) ≡⟨ q ⟩
+              x ∷ y' ∷ [] ≡⟨ congS (λ z → x ∷ [ z ]) (sym r) ⟩
+              x ∷ y ∷ [] ∎)
+          ⊥.rec*)))
+        y∈
+        where
+          isProp-α : isProp (sort (x ∷* [ y ]*) ≡ x ∷ y ∷ [])
+          isProp-α = isOfHLevelList 0 isSetA _ _
+          y∈* : y ∈* (x ∷* [ y ]*)
+          y∈* = L.inr (L.inl refl)
+          y∈sort : y ∈ sort (x ∷* [ y ]*)
+          y∈sort = ∈*→∈ y (sort (x ∷* [ y ]*)) (subst (y ∈*_) (sym (sort≡ (x ∷* [ y ]*))) y∈*)
+          y∈ : y ∈ (x ∷ y' ∷ [])
+          y∈ = subst (y ∈_) q y∈sort
+          lemma-α : sort (x ∷* [ x ]*) ≡ x ∷ x ∷ []
+          lemma-α with sort (x ∷* [ x ]*) | inspect sort (x ∷* [ x ]*)
+          ... | [] | [ r ]ᵢ = ⊥.rec $ snotz $
+            congS S.length (sym (sort≡ (x ∷* [ x ]*)) ∙ congS list→slist r)
+          ... | a ∷ [] | [ r ]ᵢ = ⊥.rec $ snotz $ injSuc $
+            congS S.length (sym (sort≡ (x ∷* [ x ]*)) ∙ congS list→slist r)
+          ... | a ∷ b ∷ c ∷ as | [ r ]ᵢ = ⊥.rec $ znots $ injSuc $ injSuc $
+            congS S.length (sym (sort≡ (x ∷* [ x ]*)) ∙ congS list→slist r)
+          ... | a ∷ b ∷ [] | [ r ]ᵢ = cong₂ (λ m n → m ∷ [ n ]) (x∈*[yy]→x≡y a x a∈*) (x∈*[yy]→x≡y b x b∈*)
+            where
+              xx≡ab : x ∷* [ x ]* ≡ a ∷* [ b ]*
+              xx≡ab = sym (sort≡ (x ∷* [ x ]*)) ∙ congS list→slist r
+              a∈* : a ∈* (x ∷* [ x ]*)
+              a∈* = subst (a ∈*_) (sym xx≡ab) (L.inl refl)
+              b∈* : b ∈* (x ∷* [ x ]*)
+              b∈* = subst (b ∈*_) (sym xx≡ab) (L.inr (L.inl refl))
+
+  is-sorted↔≤ : ∀ x y -> is-sorted (x ∷ y ∷ []) ≃ (x ≤ y)
+  is-sorted↔≤ x y = isoToEquiv (iso (is-sorted→≤ x y) (≤→is-sorted x y)
+    (λ p → isProp-≤ _ p)
+    (λ p → squash₁ _ p))
+  
   module _ (sort-is-sort : is-head-least) where
     trans-≤ : ∀ x y z -> x ≤ y -> y ≤ z -> x ≤ z
     trans-≤ x y z x≤y y≤z with least (x ∷* y ∷* z ∷* []*) | inspect least (x ∷* y ∷* z ∷* []*)
