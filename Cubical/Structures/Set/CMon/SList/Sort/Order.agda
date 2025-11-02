@@ -308,13 +308,13 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
         (sort→order-lemma x z zs p)
         (sort→order z y zs (tail-is-sorted x (z ∷ zs) p) y∈z∷zs)
 
-  sort-is-head-least : is-head-least sort
-  sort-is-head-least x y xs p y∈xs = ∣ (x ∷* y ∷* []* , insert-β-1 x y [] (sort→order x y xs p y∈xs)) ∣₁
+  sort-im-cut : im-cut sort
+  sort-im-cut x y xs p y∈xs = ∣ (x ∷* y ∷* []* , insert-β-1 x y [] (sort→order x y xs p y∈xs)) ∣₁
 
   sort-is-sort-section : is-sort-section sort
-  sort-is-sort-section = sort-is-permute , sort-is-head-least , tail-is-sorted
+  sort-is-sort-section = sort-is-permute , sort-im-cut , tail-is-sorted
 
-  -- counter example that obeys is-head-least and not tail-sort
+  -- counter example that obeys im-cut and not tail-sort
 
   swap1-2 : List A -> List A
   swap1-2 [] = []
@@ -345,22 +345,22 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
     list→slist (f xs) ≡⟨ f-is-permute xs ⟩
     xs ∎
 
-  head-least-only : SList A -> List A
-  head-least-only = swap2-3 ∘ sort
+  im-cut-only : SList A -> List A
+  im-cut-only = swap2-3 ∘ sort
 
-  head-least-only-is-permute : is-section head-least-only
-  head-least-only-is-permute = swap2-3-is-permute sort sort-is-permute
+  im-cut-only-is-permute : is-section im-cut-only
+  im-cut-only-is-permute = swap2-3-is-permute sort sort-is-permute
 
   private
-    head-least-is-same-for-2 : ∀ u v -> is-sorted sort (u ∷ v ∷ []) -> is-sorted head-least-only (u ∷ v ∷ [])
-    head-least-is-same-for-2 u v = P.map λ (ys , q) -> ys , congS swap2-3 q
+    im-cut-is-same-for-2 : ∀ u v -> is-sorted sort (u ∷ v ∷ []) -> is-sorted im-cut-only (u ∷ v ∷ [])
+    im-cut-is-same-for-2 u v = P.map λ (ys , q) -> ys , congS swap2-3 q
 
-    head-least→sorted : ∀ x xs -> is-sorted head-least-only (x ∷ xs) -> is-sorted sort (x ∷ swap1-2 xs)
-    head-least→sorted x [] =
+    im-cut→sorted : ∀ x xs -> is-sorted im-cut-only (x ∷ xs) -> is-sorted sort (x ∷ swap1-2 xs)
+    im-cut→sorted x [] =
       P.map λ (ys , q) -> ys , sym (swap2-3-id (sort ys)) ∙ congS swap2-3 q
-    head-least→sorted x (y ∷ []) =
+    im-cut→sorted x (y ∷ []) =
       P.map λ (ys , q) -> ys , sym (swap2-3-id (sort ys)) ∙ congS swap2-3 q
-    head-least→sorted x (y ∷ z ∷ xs) =
+    im-cut→sorted x (y ∷ z ∷ xs) =
       P.map λ (ys , q) -> ys , sym (swap2-3-id (sort ys)) ∙ congS swap2-3 q
 
     swap1-2-∈ : ∀ x xs -> x ∈ xs -> x ∈ swap1-2 xs
@@ -377,26 +377,26 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
       (≤-tail {ys = y ∷ []} (L.inr (L.inl refl)))
       (sort-is-sorted'' (x ∷ y ∷ []) p)
 
-    head-least-tail-sort→x≡y : ∀ x y -> is-tail-sort head-least-only -> x ≤ y -> x ≡ y
-    head-least-tail-sort→x≡y x y h-tail-sort x≤y =
+    im-cut-tail-sort→x≡y : ∀ x y -> im-cons im-cut-only -> x ≤ y -> x ≡ y
+    im-cut-tail-sort→x≡y x y h-tail-sort x≤y =
       is-antisym x y x≤y (is-sorted→≤ (lemma1 ∣ x ∷* x ∷* y ∷* []* , lemma2 ∣₁))
       where
-      -- [1, 2, 3] sorted by sort -> [1, 3, 2] sorted by head-least -> [3, 2] sorted by head-least -> [3, 2] sorted by sort
+      -- [1, 2, 3] sorted by sort -> [1, 3, 2] sorted by im-cut -> [3, 2] sorted by im-cut -> [3, 2] sorted by sort
       lemma1 : is-sorted sort (x ∷ x ∷ y ∷ []) -> is-sorted sort (y ∷ x ∷ [])
-      lemma1 = P.rec squash₁ λ (ys , q) -> head-least→sorted y [ x ] (h-tail-sort x _ ∣ ys , congS swap2-3 q ∣₁) 
+      lemma1 = P.rec squash₁ λ (ys , q) -> im-cut→sorted y [ x ] (h-tail-sort x _ ∣ ys , congS swap2-3 q ∣₁) 
       lemma2 : sort (x ∷* x ∷* [ y ]*) ≡ x ∷ x ∷ y ∷ []
       lemma2 =
         insert x (insert x [ y ]) ≡⟨ congS (insert x) (insert-β-1 x y [] x≤y) ⟩
         insert x (x ∷ y ∷ []) ≡⟨ insert-β-1 x x [ y ] (is-refl x) ⟩
         x ∷ x ∷ [ y ] ∎
 
-  head-least-only-is-head-least : is-head-least head-least-only
-  head-least-only-is-head-least x y xs p y∈xs = head-least-is-same-for-2 x y
-    (sort-is-head-least x y (swap1-2 xs) (head-least→sorted x xs p) (swap2-3-∈ y (x ∷ xs) y∈xs))
+  im-cut-only-im-cut : im-cut im-cut-only
+  im-cut-only-im-cut x y xs p y∈xs = im-cut-is-same-for-2 x y
+    (sort-im-cut x y (swap1-2 xs) (im-cut→sorted x xs p) (swap2-3-∈ y (x ∷ xs) y∈xs))
 
-  head-least-tail-sort→isProp-A : is-tail-sort head-least-only -> isProp A
-  head-least-tail-sort→isProp-A h-tail-sort x y = P.rec (is-set _ _)
-    (⊎.rec (head-least-tail-sort→x≡y x y h-tail-sort) (sym ∘ (head-least-tail-sort→x≡y y x h-tail-sort)))
+  im-cut-tail-sort→isProp-A : im-cons im-cut-only -> isProp A
+  im-cut-tail-sort→isProp-A h-tail-sort x y = P.rec (is-set _ _)
+    (⊎.rec (im-cut-tail-sort→x≡y x y h-tail-sort) (sym ∘ (im-cut-tail-sort→x≡y y x h-tail-sort)))
     (is-strongly-connected x y)
 
 module Order→Sort-Example where

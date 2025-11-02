@@ -56,23 +56,23 @@ module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
   isProp-is-section : isProp is-section
   isProp-is-section = isPropΠ (λ _ -> trunc _ _)
 
-  is-head-least : Type _
-  is-head-least = ∀ x y xs -> is-sorted (x ∷ xs) -> y ∈ (x ∷ xs) -> is-sorted (x ∷ y ∷ [])
+  im-cut : Type _
+  im-cut = ∀ x y xs -> is-sorted (x ∷ xs) -> y ∈ (x ∷ xs) -> is-sorted (x ∷ y ∷ [])
 
-  is-tail-sort : Type _
-  is-tail-sort = ∀ x xs -> is-sorted (x ∷ xs) -> is-sorted xs
+  im-cons : Type _
+  im-cons = ∀ x xs -> is-sorted (x ∷ xs) -> is-sorted xs
 
   is-sort : Type _
-  is-sort = is-head-least × is-tail-sort
+  is-sort = im-cut × im-cons
 
-  isProp-is-head-least : isProp is-head-least
-  isProp-is-head-least = isPropΠ5 λ _ _ _ _ _ -> squash₁
+  isProp-im-cut : isProp im-cut
+  isProp-im-cut = isPropΠ5 λ _ _ _ _ _ -> squash₁
 
-  isProp-is-tail-sort : isProp is-tail-sort
-  isProp-is-tail-sort = isPropΠ3 (λ _ _ _ -> squash₁)
+  isProp-im-cons : isProp im-cons
+  isProp-im-cons = isPropΠ3 (λ _ _ _ -> squash₁)
 
   isProp-is-sort : isProp is-sort
-  isProp-is-sort = isProp× isProp-is-head-least isProp-is-tail-sort
+  isProp-is-sort = isProp× isProp-im-cut isProp-im-cons
 
   is-sort-section : Type _
   is-sort-section = is-section × is-sort

@@ -303,11 +303,11 @@ proposition-19 = Sort→Order.is-sorted↔≤
 -- Definition 36 (im-cut). A section 𝑠 satisfies im-cut iff for all 𝑥, 𝑦, 𝑥𝑠:
 -- 𝑦 ∈ 𝑥 :: 𝑥𝑠 ∧ 𝑥 :: 𝑥𝑠 ∈ im(𝑠) → [𝑥, 𝑦] ∈ im(𝑠) .
 definition-36 : _
-definition-36 = Sort.is-head-least
+definition-36 = Sort.im-cut
 
 -- Proposition 20. If 𝐴 has a total order ≤, insertion sort defined using ≤ satisfies im-cut.
 proposition-20 : _
-proposition-20 = Order→Sort.sort-is-head-least
+proposition-20 = Order→Sort.sort-im-cut
 
 -- Proposition 21. If 𝑠 satisfies im-cut, ≼𝑠 is transitive.
 proposition-21 : _
@@ -316,12 +316,12 @@ proposition-21 = Sort→Order.trans-≤
 -- Proposition 22. Assume 𝐴 has a decidable total order ≤, we can construct a section 𝑠 that
 -- satisfies im-cut, such that ≼𝑠 constructed from 𝑠 is equivalent to ≤
 proposition-22 : _
-proposition-22 = Sort↔Order.order→head-least→order
+proposition-22 = Sort↔Order.order→im-cut→order
 
 -- Definition 37 (im-cons). A section 𝑠 satisfies im-cons iff for all 𝑥, 𝑥𝑠,
 -- 𝑥 :: 𝑥𝑠 ∈ im(𝑠) → 𝑥𝑠 ∈ im(𝑠)
 definition-37 : _
-definition-37 = Sort.is-tail-sort
+definition-37 = Sort.im-cons
 
 -- Lemma 6. Given a total order ≤, for any 𝑥𝑠, 𝑦𝑠 : L( 𝐴), 𝑞(𝑥𝑠) = 𝑞(𝑦𝑠) ∧ Sorted≤ (𝑥𝑠) ∧
 -- Sorted≤ (𝑦𝑠) → 𝑥𝑠 = 𝑦𝑠.

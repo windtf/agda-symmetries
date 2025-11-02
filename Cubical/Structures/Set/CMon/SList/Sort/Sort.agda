@@ -184,7 +184,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
     (λ p → isProp-≤ _ p)
     (λ p → squash₁ _ p))
   
-  module _ (sort-is-sort : is-head-least) where
+  module _ (sort-is-sort : im-cut) where
     trans-≤ : ∀ x y z -> x ≤ y -> y ≤ z -> x ≤ z
     trans-≤ x y z x≤y y≤z with least (x ∷* y ∷* z ∷* []*) | inspect least (x ∷* y ∷* z ∷* []*)
     ... | nothing | [ p ]ᵢ = ⊥.rec (snotz (congS S.length (least-nothing _ p)))
