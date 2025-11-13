@@ -2,12 +2,17 @@ name: ci
 on:
   push:
     branches:
-      - master
       - main
+    paths-ignore:
+      - "papers/*"
+      - "README.md"
   pull_request:
     branches:
-      - master
       - main
+    paths-ignore:
+      - "papers/*"
+      - "README.md"
+  workflow_dispatch:
 
 env:
   AGDA_BRANCH: v2.8.0
@@ -20,6 +25,7 @@ env:
     ~/.cabal/store
     ~/.cabal/bin
     ~/.agda
+    ~/cubical
 
 jobs:
   test:
@@ -38,7 +44,7 @@ jobs:
         id: cache-external-restore
         with:
           path: ${{ env.CACHE_PATHS }}
-          key: ${{ runner.os }}-${{ env.GHC_VERSION }}-${{ env.CABAL_VERSION }}-${{ env.AGDA_BRANCH }}
+          key: ${{ runner.os }}-${{ env.GHC_VERSION }}-${{ env.CABAL_VERSION }}-${{ env.AGDA_BRANCH }}-${{ env.CUBICAL_BRANCH }}
 
       ########################################################################
       ## INSTALLATION STEPS
@@ -54,6 +60,18 @@ jobs:
           ${{ env.CABAL_INSTALL }}
           cd ..
           rm -rf agda
+
+      - name: Put cabal programs in PATH
+        run: echo "~/.cabal/bin" >> $GITHUB_PATH
+
+      - name: Download and install the cubical library from github
+        if: steps.cache-external-restore.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/agda/cubical --branch ${{ env.CUBICAL_BRANCH }} --depth=1
+          cd cubical
+          agda --build-library
+          mkdir -p ~/.agda
+          echo "$GITHUB_WORKSPACE/cubical/cubical.agda-lib" >> ~/.agda/libraries
 
       - name: Save external dependencies cache
         if: steps.cache-external-restore.outputs.cache-hit != 'true'
@@ -73,24 +91,9 @@ jobs:
         with:
           path: symmetries
 
-      - name: Checkout cubical
-        uses: actions/checkout@v4
-        with:
-          repository: agda/cubical
-          path: cubical
-          ref: ${{ env.CUBICAL_BRANCH }}
-
-      - name: Register cubical
-        run: |
-          mkdir ~/.agda
-          echo "$GITHUB_WORKSPACE/cubical/cubical.agda-lib" >> ~/.agda/libraries
-
       ########################################################################
       ## TESTING
       ########################################################################
-
-      - name: Put cabal programs in PATH
-        run: echo "~/.cabal/bin" >> $GITHUB_PATH
 
       - name: Generate everything.agda
         run: |
