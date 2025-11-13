@@ -4,10 +4,13 @@
 chmod +x ./create-everything.sh
 ./create-everything.sh
 
-wget https://github.com/agda/agda/releases/download/v2.7.0.1/Agda-v2.7.0.1-linux.tar.xz -O Agda.tar.xz
+AGDA_VERSION=v2.8.0
+CUBICAL_VERSION=v0.9
+
+wget https://github.com/agda/agda/releases/download/$AGDA_VERSION/Agda-$AGDA_VERSION-linux.tar.xz -O Agda.tar.xz
 tar -xf Agda.tar.xz
-export Agda_datadir=$(pwd)/Agda-v2.7.0.1/data
-mv Agda-v2.7.0.1/bin/agda . 
+export Agda_datadir=$(pwd)/Agda-$AGDA_VERSION/data
+mv Agda-$AGDA_VERSION/bin/agda .
 chmod +x agda
 ./agda --version
 
@@ -16,7 +19,7 @@ echo $HOME/.agda/cubical/cubical.agda-lib > ~/.agda/libraries
 
 git clone https://github.com/agda/cubical ~/.agda/cubical
 cd ~/.agda/cubical
-git checkout v0.6
+git checkout $CUBICAL_VERSION
 
 cd -
 ./agda --html --html-dir=public index.agda

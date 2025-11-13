@@ -1,10 +1,10 @@
-To type check the program, first you must need the cubical Agda library in `~/.agda`. 
+To type check the program, first you must need the cubical Agda library in `~/.agda`.
 ```
 mkdir -p ~/.agda/
 cd ~/.agda/
 git clone https://github.com/agda/cubical
 cd cubical
-git checkout v0.6
+git checkout v0.9
 ```
 To register the cubical library:
 ```
