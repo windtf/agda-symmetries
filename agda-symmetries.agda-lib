@@ -1,4 +1,4 @@
 name: agda-symmetries
 depend: cubical
 include: .
-flags: --cubical --safe --exact-split
+flags: --cubical --exact-split
