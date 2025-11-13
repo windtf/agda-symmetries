@@ -1,19 +1,18 @@
 module Cubical.Structures.Set.CMon.QFreeMon where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.HLevels
-open import Cubical.Foundations.Equiv
-open import Cubical.Foundations.Isomorphism
+open import Cubical.Structures.Prelude
+
+open import Cubical.Data.List as L
+
 open import Cubical.HITs.PropositionalTruncation as P
 open import Cubical.HITs.SetQuotients as Q
-open import Cubical.Data.List as L
+
 open import Cubical.Relation.Binary
 
-import Cubical.Structures.Set.Mon.Desc as M
-import Cubical.Structures.Set.CMon.Desc as M
 import Cubical.Structures.Free as F
 open import Cubical.Structures.Sig
+import Cubical.Structures.Set.CMon.Desc as M
+import Cubical.Structures.Set.Mon.Desc as M
 open import Cubical.Structures.Str public
 open import Cubical.Structures.Tree
 open import Cubical.Structures.Eq

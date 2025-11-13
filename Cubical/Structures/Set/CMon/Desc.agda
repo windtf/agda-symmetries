@@ -1,18 +1,20 @@
 module Cubical.Structures.Set.CMon.Desc where
 
+open import Cubical.Structures.Prelude
+
+open import Cubical.Data.Empty as ⊥
+open import Cubical.Data.List
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order
-open import Cubical.Data.List
 open import Cubical.Data.Sigma
-open import Cubical.Data.Empty as ⊥
-open import Cubical.Functions.Logic as L
-open import Cubical.Structures.Arity as F public
-open import Cubical.Foundations.Prelude
 
+open import Cubical.Functions.Logic as L
+
+open import Cubical.Structures.Arity as F public
+open import Cubical.Structures.Eq
 open import Cubical.Structures.Sig
 open import Cubical.Structures.Str public
 open import Cubical.Structures.Tree
-open import Cubical.Structures.Eq
 
 import Cubical.Structures.Set.Mon.Desc as M
 

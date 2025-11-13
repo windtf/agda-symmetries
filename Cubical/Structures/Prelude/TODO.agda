@@ -1,7 +1,6 @@
 module Cubical.Structures.Prelude.TODO where
 
-open import Agda.Primitive
-open import Cubical.Foundations.Prelude
+open import Cubical.Structures.Prelude
 
 postulate
   TODO : {a : Level} {A : Type a} -> A

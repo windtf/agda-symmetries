@@ -1,9 +1,11 @@
 module Cubical.Structures.Prelude where
 
+open import Cubical.Foundations.Equiv public
+open import Cubical.Foundations.Function public
+open import Cubical.Foundations.HLevels public
+open import Cubical.Foundations.Isomorphism public
+open import Cubical.Foundations.Path public
 open import Cubical.Foundations.Prelude public
-open import Cubical.Foundations.Equiv
-open import Cubical.Foundations.HLevels
-open import Cubical.Foundations.Function
 open import Cubical.Foundations.Structure
 open import Cubical.Relation.Nullary.Base
 import Cubical.Data.Empty as ⊥

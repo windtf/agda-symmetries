@@ -1,21 +1,22 @@
 module Cubical.Structures.Sig where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function 
-open import Cubical.Foundations.Equiv
-open import Cubical.Functions.Image
-open import Cubical.HITs.PropositionalTruncation as P
-open import Cubical.Data.Nat
+open import Cubical.Structures.Prelude
+
+open import Cubical.Data.Empty as ⊥
 open import Cubical.Data.Fin
 open import Cubical.Data.List as L
+open import Cubical.Data.Nat
 open import Cubical.Data.Sigma
-open import Cubical.Data.Empty as ⊥
 open import Cubical.Data.Sum as ⊎
-open import Cubical.Reflection.RecordEquiv
-open import Cubical.HITs.SetQuotients as Q
-open import Agda.Primitive
 
-record Sig (f a : Level) : Type ((ℓ-suc f) ⊔ (ℓ-suc a)) where
+open import Cubical.Functions.Image
+
+open import Cubical.HITs.PropositionalTruncation as P
+open import Cubical.HITs.SetQuotients as Q
+
+open import Cubical.Reflection.RecordEquiv
+
+record Sig (f a : Level) : Type (ℓ-max (ℓ-suc f) (ℓ-suc a)) where
   field
     symbol : Type f
     arity : symbol -> Type a

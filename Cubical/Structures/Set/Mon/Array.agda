@@ -1,18 +1,16 @@
 module Cubical.Structures.Set.Mon.Array where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.HLevels
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.Equiv
-open import Cubical.Foundations.Isomorphism
-open import Cubical.Foundations.Univalence
-open import Cubical.Data.Sigma
-open import Cubical.Data.List renaming (_∷_ to _∷ₗ_)
+open import Cubical.Structures.Prelude
+
+import Cubical.Data.Empty as ⊥
 open import Cubical.Data.Fin
+open import Cubical.Data.List renaming (_∷_ to _∷ₗ_)
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order
+open import Cubical.Data.Sigma
 open import Cubical.Data.Sum as ⊎
-import Cubical.Data.Empty as ⊥
+
+open import Cubical.Foundations.Univalence
 
 import Cubical.Structures.Set.Mon.Desc as M
 import Cubical.Structures.Free as F

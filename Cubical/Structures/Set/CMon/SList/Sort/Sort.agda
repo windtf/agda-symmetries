@@ -1,18 +1,16 @@
 module Cubical.Structures.Set.CMon.SList.Sort.Sort where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.HLevels
-open import Cubical.Foundations.Isomorphism
-open import Cubical.Foundations.Equiv
-open import Cubical.Foundations.Path
-open import Cubical.Data.Sigma
+open import Cubical.Structures.Prelude
+
+open import Cubical.Data.Empty as ⊥
+open import Cubical.Data.Maybe as Maybe
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order renaming (_≤_ to _≤ℕ_; _<_ to _<ℕ_)
+open import Cubical.Data.Sigma
 open import Cubical.Data.Sum as ⊎
-open import Cubical.Data.Maybe as Maybe
-open import Cubical.Data.Empty as ⊥
+
 open import Cubical.Induction.WellFounded
+
 open import Cubical.Relation.Binary
 open import Cubical.Relation.Binary.Order
 open import Cubical.Relation.Nullary

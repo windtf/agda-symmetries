@@ -1,21 +1,23 @@
 module Cubical.Structures.Tree where
 
+open import Cubical.Structures.Prelude
+
 open import Cubical.Core.Primitives
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Equiv
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.Isomorphism
-open import Cubical.Foundations.HLevels
-open import Cubical.Functions.Image
-open import Cubical.HITs.PropositionalTruncation as P
-open import Cubical.Data.Nat
+
+open import Cubical.Data.Empty as ⊥
 open import Cubical.Data.Fin
+open import Cubical.Data.Nat
+open import Cubical.Data.Nat.Order
+open import Cubical.Data.Sum as S
+
+open import Cubical.Foundations.Isomorphism renaming (Iso to _≅_)
+
+open import Cubical.Functions.Image
+
+open import Cubical.HITs.PropositionalTruncation as P
+
 open import Cubical.Structures.Sig
 open import Cubical.Structures.Str
-open import Cubical.Data.Nat.Order
-open import Cubical.Data.Empty as ⊥
-open import Cubical.Data.Sum as S
-open import Cubical.Foundations.Isomorphism renaming (Iso to _≅_)
 
 module _ {f a n : Level} (σ : Sig f a) where
   data Tree (V : Type n) : Type (ℓ-max (ℓ-max f a) n) where

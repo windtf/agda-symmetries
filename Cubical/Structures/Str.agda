@@ -1,17 +1,17 @@
 module Cubical.Structures.Str where
 
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.Equiv
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.HLevels
-open import Cubical.Functions.Image
-open import Cubical.HITs.PropositionalTruncation as P
-open import Cubical.Data.Nat
+open import Cubical.Structures.Prelude
+
 open import Cubical.Data.List as L
+open import Cubical.Data.Nat
 open import Cubical.Data.Sigma
-open import Cubical.Reflection.RecordEquiv
+
+open import Cubical.Functions.Image
+
+open import Cubical.HITs.PropositionalTruncation as P
 open import Cubical.HITs.SetQuotients as Q
-open import Agda.Primitive
+
+open import Cubical.Reflection.RecordEquiv
 
 open import Cubical.Structures.Sig
 

@@ -1,19 +1,20 @@
-open import Agda.Primitive
+open import Cubical.Foundations.Prelude
 
 -- TODO: Fix levels in Free so this isn't necessary
 module Experiments.Norm {ℓ : Level} {A : Set ℓ} where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.HLevels
-open import Cubical.Functions.Embedding
-open import Cubical.Data.Sigma
+open import Cubical.Structures.Prelude
+
+import Cubical.Data.Empty as ⊥
 open import Cubical.Data.Fin
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order
+open import Cubical.Data.Sigma
 open import Cubical.Data.Sum as ⊎
+
+open import Cubical.Functions.Embedding
+
 open import Cubical.Induction.WellFounded
-import Cubical.Data.Empty as ⊥
 open import Cubical.HITs.SetQuotients as Q
 
 import Cubical.Structures.Set.CMon.Desc as M

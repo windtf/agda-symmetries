@@ -1,13 +1,13 @@
 module Cubical.Structures.Arity where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function
+open import Cubical.Structures.Prelude
+
 import Cubical.Data.Empty as ⊥
 open import Cubical.Data.Fin public renaming (Fin to Arity)
 open import Cubical.Data.Fin.Recursive public using (rec)
+open import Cubical.Data.List
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order
-open import Cubical.Data.List
 open import Cubical.Data.Sigma
 
 private

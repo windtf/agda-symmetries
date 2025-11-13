@@ -1,16 +1,16 @@
 module Cubical.Structures.Set.Mon.Desc where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.HLevels
-open import Cubical.Functions.Logic as L
+open import Cubical.Structures.Prelude
+
+open import Cubical.Data.Empty as ⊥
+open import Cubical.Data.List
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order
-open import Cubical.Data.List
 open import Cubical.Data.Sigma
 open import Cubical.Data.Sum
 open import Cubical.Data.Unit
-open import Cubical.Data.Empty as ⊥
+
+open import Cubical.Functions.Logic as L
 
 open import Cubical.Structures.Sig
 open import Cubical.Structures.Str public

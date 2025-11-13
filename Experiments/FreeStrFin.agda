@@ -12,7 +12,6 @@ open import Cubical.Data.List.FinData as F
 open import Cubical.Data.Sigma
 open import Cubical.Reflection.RecordEquiv
 open import Cubical.HITs.SetQuotients as Q
-open import Agda.Primitive
 
 record Sig : Type₁ where
   field

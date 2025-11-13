@@ -1,19 +1,17 @@
 -- Taken from https://github.com/vikraman/generalised-species/
 module Cubical.Structures.Set.CMon.SList.Length where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.HLevels
-open import Cubical.Foundations.Equiv
-open import Cubical.Foundations.Isomorphism
-open import Cubical.Foundations.Univalence
-open import Cubical.Foundations.Path
-open import Cubical.Data.Sum
-open import Cubical.Data.Prod
+open import Cubical.Structures.Prelude
+
 open import Cubical.Data.Empty as E
-open import Cubical.Data.Unit
 open import Cubical.Data.Nat
+open import Cubical.Data.Prod
 open import Cubical.Data.Sigma
+open import Cubical.Data.Sum
+open import Cubical.Data.Unit
+
+open import Cubical.Foundations.Univalence
+
 open import Cubical.Functions.Embedding
 
 open import Cubical.Structures.Set.CMon.SList.Base as SList

@@ -1,17 +1,19 @@
 module Cubical.Structures.Set.CMon.SList.Membership where
 
-open import Cubical.Foundations.Prelude
-open import Cubical.Foundations.Function
-open import Cubical.Foundations.HLevels
-open import Cubical.Data.Sigma
+open import Cubical.Structures.Prelude
+
+open import Cubical.Data.Empty as ⊥
+import Cubical.Data.List as L
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order
-open import Cubical.Data.Empty as ⊥
-open import Cubical.Induction.WellFounded
-import Cubical.Data.List as L
-open import Cubical.Functions.Logic as L
-open import Cubical.HITs.PropositionalTruncation as P
+open import Cubical.Data.Sigma
 open import Cubical.Data.Sum as ⊎
+
+open import Cubical.Functions.Logic as L
+
+open import Cubical.HITs.PropositionalTruncation as P
+
+open import Cubical.Induction.WellFounded
 
 import Cubical.Structures.Set.Mon.Desc as M
 import Cubical.Structures.Set.CMon.Desc as M
