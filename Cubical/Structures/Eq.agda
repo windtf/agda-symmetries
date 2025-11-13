@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Eq where
 
 open import Cubical.Foundations.Everything

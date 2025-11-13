@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
-
 module Cubical.Structures.Gpd.Mon.Desc where
 
 open import Cubical.Foundations.Everything hiding (str)
@@ -32,7 +30,7 @@ MonCohFree `pentagon = 4
 MonCohSig : CohSig ℓ-zero ℓ-zero
 MonCohSig = finCohSig (MonCoh , MonCohFree)
 
--- TODO: coherences on top of signatures and equations 
+-- TODO: coherences on top of signatures and equations
 
 record MonStr {a : Level} (A : Type a) : Type (ℓ-suc a) where
   constructor mkMonStr

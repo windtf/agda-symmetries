@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split --safe #-}
-
 module Cubical.Structures.Set.CMon.SList.Membership where
 
 open import Cubical.Foundations.Everything
@@ -41,16 +39,16 @@ module Membership* {ℓ} {A : Type ℓ} (isSetA : isSet A) where
 
   よ : A -> A -> hProp ℓ
   よ x = λ y -> (x ≡ y) , isSetA x y
-  
-  ∈*Prop : A -> SList A -> hProp ℓ 
+
+  ∈*Prop : A -> SList A -> hProp ℓ
   ∈*Prop x = (よ x) ♯
 
   _∈*_ : A -> SList A -> Type ℓ
   x ∈* xs = ∈*Prop x xs .fst
-  
+
   isProp-∈* : (x : A) -> (xs : SList A) -> isProp (x ∈* xs)
   isProp-∈* x xs = (∈*Prop x xs) .snd
-  
+
   x∈*xs : ∀ x xs -> x ∈* (x ∷ xs)
   x∈*xs x xs = L.inl refl
 

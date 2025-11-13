@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.Empty where
 
 open import Cubical.Foundations.Everything
@@ -56,7 +54,7 @@ F.Definition.Free.isFree (treeDef {ℓ = ℓ}) {X = A} {𝔜 = 𝔜} H ϕ = lemm
     structHom 𝔗 𝔜 ≃⟨ emptyHomDegen 𝔜 ⟩
     (𝔗 .car -> 𝔜 .car) ≃⟨ equiv→ treeEmpty≃ (idEquiv (𝔜 .car)) ⟩
     (A -> 𝔜 .car) ■
-    
+
 anyDef : ∀ {ℓ ℓ'} -> EmptyDef.Free ℓ ℓ' 2
 F.Definition.Free.F anyDef A = A
 F.Definition.Free.η anyDef a = a

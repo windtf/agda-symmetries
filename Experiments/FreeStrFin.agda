@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --type-in-type #-}
-
 module Experiments.FreeStrFin where
 
 open import Cubical.Foundations.Everything

@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.Mon.Free where
 
 open import Cubical.Foundations.Everything
@@ -127,7 +125,7 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
   freeMonEquiv : structHom 𝔉 𝔜 ≃ (A -> 𝔜 .car)
   freeMonEquiv =
     isoToEquiv (iso (λ g -> g .fst ∘ η) ♯-isMonHom (λ _ -> refl) (sym ∘ freeMonEquivLemma-β))
-      
+
 module FreeMonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 
 freeMon-sat : ∀ {n} {X : Type n} -> < FreeMon X , freeMon-α > ⊨ M.MonSEq

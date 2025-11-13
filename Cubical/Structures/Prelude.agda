@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
-
 module Cubical.Structures.Prelude where
 
 open import Cubical.Foundations.Prelude public

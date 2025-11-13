@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.CMon.QFreeMon where
 
 open import Cubical.Core.Everything
@@ -133,7 +131,7 @@ module QFreeMon {ℓr ℓB} {freeMon : Free ℓr ℓB 2} (A : Type ℓr) ((R , i
   private
     𝔛 : M.CMonStruct
     𝔛 = < 𝒬 , qFreeMon-α >
-    
+
     module 𝔛 = M.CMonSEq 𝔛 qFreeMon-sat
 
   [_]-isMonHom : structHom 𝔉 𝔛

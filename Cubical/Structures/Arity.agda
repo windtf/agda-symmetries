@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Arity where
 
 import Cubical.Data.Empty as ⊥

@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split --safe #-}
-
 -- Taken from https://github.com/vikraman/generalised-species/
 module Cubical.Structures.Set.CMon.SList.Length where
 
@@ -40,7 +38,7 @@ length = Elim.f 0 (λ _ n -> suc n) (λ _ _ _ -> refl) (λ _ -> isSetℕ)
 length-++ : (x y : SList A) → length (x ++ y) ≡ length x + length y
 length-++ x y = ElimProp.f {B = λ xs → length (xs ++ y) ≡ length xs + length y}
   (isSetℕ _ _) refl (λ a p -> cong suc p) x
-  
+
 lenZero-out : (xs : SList A) → length xs ≡ 0 → [] ≡ xs
 lenZero-out = ElimProp.f (isPropΠ λ _ → trunc _ _)
   (λ _ -> refl)
@@ -108,7 +106,7 @@ module _ {ϕ : isSet A} where
     (λ x {xs} f p → lenOne-cons x xs p)
     (λ x y {xs} f → lenOne-swap x y xs)
     λ xs → isSetΠ (λ p → is-sing-set xs)
- 
+
   head : lenOne A → A
   head (xs , p) = lenOne-out xs p .fst
 

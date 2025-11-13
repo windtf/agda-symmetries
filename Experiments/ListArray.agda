@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical #-}
-
 module Experiments.ListArray where
 
 open import Cubical.Foundations.Everything

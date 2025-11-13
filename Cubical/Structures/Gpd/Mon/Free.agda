@@ -1,4 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
 module Cubical.Structures.Gpd.Mon.Free where
 
 open import Cubical.Foundations.Everything

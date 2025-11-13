@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 open import Agda.Primitive
 
 -- TODO: Fix levels in Free so this isn't necessary

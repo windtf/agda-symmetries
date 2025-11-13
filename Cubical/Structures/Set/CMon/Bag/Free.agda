@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 -- Definition taken from https://drops.dagstuhl.de/opus/volltexte/2023/18395/pdf/LIPIcs-ITP-2023-20.pdf
 module Cubical.Structures.Set.CMon.Bag.Free where
 
@@ -170,7 +168,7 @@ Fin≅ {n = n} {m = m} p = iso
 Fin≅-inj : {n m : ℕ} -> Iso (Fin n) (Fin m) -> n ≡ m
 Fin≅-inj {n = n} {m = m} σ = Fin-inj n m (isoToPath σ)
 
-≈-length : {n m : ℕ} -> Iso (Fin n) (Fin m) -> n ≡ m 
+≈-length : {n m : ℕ} -> Iso (Fin n) (Fin m) -> n ≡ m
 ≈-length {n = n} {m = m} σ = Fin-inj n m (isoToPath σ)
 
 module _ {n} (σ : Iso (Fin (suc n)) (Fin (suc n))) where
@@ -284,7 +282,7 @@ module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : 
             (finSplit (m ∸ cutoff) cutoff (k , k<m∸cutoff+cutoff))
       ∎)
       (k ≤? (m ∸ cutoff))
-    
+
     lemma-β : Path (Array A) (cutoff + (m ∸ cutoff) , _) (m , zs ∘ σ .fun)
     lemma-β = Array≡ cutoff+- λ k k<m -> ⊎.rec
       (λ k<cutoff ->
@@ -293,7 +291,7 @@ module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : 
             (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff (m ∸ cutoff) ∘ inr)
             (finSplit cutoff (m ∸ cutoff) (k , _))
         ≡⟨ congS (⊎.rec _ _) (finSplit-beta-inl k k<cutoff _) ⟩
-          ⊎.rec  
+          ⊎.rec
             (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff (m ∸ cutoff) ∘ inl)
             (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff (m ∸ cutoff) ∘ inr)
             (inl (k , _))

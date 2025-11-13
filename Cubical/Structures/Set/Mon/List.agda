@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.Mon.List where
 
 open import Cubical.Foundations.Everything
@@ -45,7 +43,7 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     private
       ♯-++ : ∀ xs ys -> (xs ++ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
       ♯-++ [] ys = sym (𝔜.unitl (ys ♯))
-      ♯-++ (x ∷ xs) ys = cong (f x 𝔜.⊕_) (♯-++ xs ys) ∙ sym (𝔜.assocr (f x) (xs ♯) (ys ♯)) 
+      ♯-++ (x ∷ xs) ys = cong (f x 𝔜.⊕_) (♯-++ xs ys) ∙ sym (𝔜.assocr (f x) (xs ♯) (ys ♯))
 
     ♯-isMonHom : structHom 𝔏 𝔜
     fst ♯-isMonHom = _♯
@@ -58,7 +56,7 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     listEquivLemma (g , homMonWit) (x ∷ xs) =
       g (x ∷ xs) ≡⟨ sym (homMonWit M.`⊕ (lookup ([ x ] ∷ xs ∷ []))) ⟩
       𝔜 .alg (M.`⊕ , (λ w -> g (lookup ((x ∷ []) ∷ xs ∷ []) w))) ≡⟨ 𝔜.⊕-eta (lookup ([ x ] ∷ xs ∷ [])) g ⟩
-      g [ x ] 𝔜.⊕ g xs ≡⟨ cong (g [ x ] 𝔜.⊕_) (listEquivLemma (g , homMonWit) xs) ⟩ 
+      g [ x ] 𝔜.⊕ g xs ≡⟨ cong (g [ x ] 𝔜.⊕_) (listEquivLemma (g , homMonWit) xs) ⟩
       _ ∎
 
     listEquivLemma-β : (g : structHom 𝔏 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ [_])
@@ -112,7 +110,7 @@ module Membership {ℓ} {A : Type ℓ} (isSetA : isSet A) where
   よ : A -> A -> hProp ℓ
   よ x = λ y -> (x ≡ y) , isSetA x y
 
-  ∈Prop : A -> List A -> hProp ℓ 
+  ∈Prop : A -> List A -> hProp ℓ
   ∈Prop x = (よ x) ♯
 
   _∈_ : A -> List A -> Type ℓ
@@ -120,7 +118,7 @@ module Membership {ℓ} {A : Type ℓ} (isSetA : isSet A) where
 
   isProp-∈ : (x : A) -> (xs : List A) -> isProp (x ∈ xs)
   isProp-∈ x xs = (∈Prop x xs) .snd
-  
+
   x∈xs : ∀ x xs -> x ∈ (x ∷ xs)
   x∈xs x xs = L.inl refl
 

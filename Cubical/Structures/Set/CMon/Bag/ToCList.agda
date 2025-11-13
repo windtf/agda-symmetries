@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 -- Definition taken from https://drops.dagstuhl.de/opus/volltexte/2023/18395/pdf/LIPIcs-ITP-2023-20.pdf
 module Cubical.Structures.Set.CMon.Bag.ToCList where
 
@@ -261,7 +259,7 @@ module IsoToCList {ℓ} (A : Type ℓ) where
   toCList-fromCList : ∀ xs -> toCList (fromCList xs) ≡ xs
   toCList-fromCList =
     elimCListProp.f _
-      (congS toCList fromCList-e ∙ toCList-e) 
+      (congS toCList fromCList-e ∙ toCList-e)
       (λ x {xs} p ->
         toCList (fromCList (x ∷ xs)) ≡⟨ congS toCList (fromCList-++ CL.[ x ] xs) ⟩
         toCList (fromCList CL.[ x ] 𝔅.⊕ fromCList xs) ≡⟨ toCList-++ (fromCList CL.[ x ]) (fromCList xs) ⟩

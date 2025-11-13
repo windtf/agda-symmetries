@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split --safe #-}
-
 module Cubical.Structures.Set.CMon.SList.Seely where
 
 open import Cubical.Foundations.Everything
@@ -44,20 +42,20 @@ module _ {ℓ} {A B : Type ℓ} where
   f-η : A ⊎ B -> SList A × SList B
   f-η (inl x) = [ x ] , []
   f-η (inr x) = [] , [ x ]
-  
+
   f-hom : structHom < SList (A ⊎ B) , slist-α > < (SList A × SList B) , slist×-α >
   f-hom = ext slistDef isSetSList× slist×-sat f-η
-  
+
   f : SList (A ⊎ B) -> SList A × SList B
   f = f-hom .fst
 
   mmap : ∀ {X Y : Type ℓ} -> (X -> Y) -> SList X -> SList Y
   mmap f = ext slistDef trunc slist-sat ([_] ∘ f) .fst
 
-  mmap-++ : ∀ {X Y : Type ℓ} -> ∀ f xs ys -> mmap {X = X} {Y = Y} f (xs ++ ys) ≡ mmap f xs ++ mmap f ys 
+  mmap-++ : ∀ {X Y : Type ℓ} -> ∀ f xs ys -> mmap {X = X} {Y = Y} f (xs ++ ys) ≡ mmap f xs ++ mmap f ys
   mmap-++ f xs ys = sym (ext slistDef trunc slist-sat ([_] ∘ f) .snd M.`⊕ ⟪ xs ⨾ ys ⟫)
 
-  mmap-∷ : ∀ {X Y : Type ℓ} -> ∀ f x xs -> mmap {X = X} {Y = Y} f (x ∷ xs) ≡ f x ∷ mmap f xs 
+  mmap-∷ : ∀ {X Y : Type ℓ} -> ∀ f x xs -> mmap {X = X} {Y = Y} f (x ∷ xs) ≡ f x ∷ mmap f xs
   mmap-∷ f x xs = mmap-++ f [ x ] xs
 
   g : SList A × SList B -> SList (A ⊎ B)
@@ -84,7 +82,7 @@ module _ {ℓ} {A B : Type ℓ} where
       g (as , bs) ++ g (cs , ds)
     ∎
 
-  g-hom : structHom < (SList A × SList B) , slist×-α > < SList (A ⊎ B) , slist-α > 
+  g-hom : structHom < (SList A × SList B) , slist×-α > < SList (A ⊎ B) , slist-α >
   g-hom = g , g-is-hom
     where
     g-is-hom : structIsHom < SList A × SList B , slist×-α > < SList (A ⊎ B) , slist-α > g
@@ -103,7 +101,7 @@ module _ {ℓ} {A B : Type ℓ} where
         x ∷ ext slistDef trunc slist-sat [_] .fst xs ∎
       η♯~id : ∀ xs -> ext slistDef trunc slist-sat [_] .fst xs ≡ xs
       η♯~id xs = congS (λ h -> h .fst xs) (ext-β slistDef trunc slist-sat (idHom < SList X , slist-α >))
-  
+
   g-f : ∀ xs -> g (f xs) ≡ xs
   g-f = univ-htpy (structHom∘ _ _ < SList (A ⊎ B) , slist-α > g-hom f-hom) lemma
     where

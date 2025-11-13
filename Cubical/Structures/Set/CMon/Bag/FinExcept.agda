@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 -- Definition taken from https://drops.dagstuhl.de/opus/volltexte/2023/18395/pdf/LIPIcs-ITP-2023-20.pdf
 module Cubical.Structures.Set.CMon.Bag.FinExcept where
 
@@ -55,24 +53,24 @@ abstract
   ... | lt q = inl q
   ... | gt q = inr q
   ... | eq q = ⊥.rec (p q)
-  
+
   <?-beta-inl : ∀ (a b : ℕ) -> (p : ¬ a ≡ b) -> (q : a < b) -> a <? b on p ≡ inl q
   <?-beta-inl a b p q with a ≟ b
   ... | lt r = congS inl (isProp≤ _ _)
   ... | eq r = ⊥.rec (p r)
   ... | gt r = ⊥.rec (<-asym r (<-weaken q))
-  
+
   <?-beta-inr : ∀ (a b : ℕ) -> (p : ¬ a ≡ b) -> (q : a > b) -> a <? b on p ≡ inr q
   <?-beta-inr a b p q with a ≟ b
   ... | lt r = ⊥.rec (<-asym r (<-weaken q))
   ... | eq r = ⊥.rec (p r)
   ... | gt r = congS inr (isProp≤ _ _)
-  
+
   ≤?-beta-inl : ∀ (a b : ℕ) -> (p : a < b) -> a ≤? b ≡ inl p
   ≤?-beta-inl a b p with a ≤? b
   ... | inl q = congS inl (isProp≤ _ _)
   ... | inr q = ⊥.rec (<-asym p q)
-  
+
   ≤?-beta-inr : ∀ (a b : ℕ) -> (p : b ≤ a) -> a ≤? b ≡ inr p
   ≤?-beta-inr a b p with a ≤? b
   ... | inl q = ⊥.rec (<-asym q p)
@@ -296,7 +294,7 @@ module _ {n : ℕ} where
   fun G σ = σ .fun fzero , equivIn σ
   inv G (k , τ) = equivOut τ
   rightInv G (k , τ) = ΣPathP (refl , equivIn∘Out τ)
-  leftInv G = equivOut∘In 
+  leftInv G = equivOut∘In
 
   punch-σ : (σ : Aut (Fin (suc n))) -> Aut (Fin n)
   punch-σ σ =

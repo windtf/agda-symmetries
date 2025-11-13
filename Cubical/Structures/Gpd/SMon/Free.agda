@@ -1,4 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
 module Cubical.Structures.Gpd.SMon.Free where
 
 open import Cubical.Foundations.Everything
@@ -33,7 +32,7 @@ data FreeSMon {ℓ : Level} (A : Type ℓ) : Type ℓ where
 
   β² : ∀ x y -> β x y ∙ β y x ≡ refl
   ⬡ : ∀ x y z -> α x y z ∙ β x (y ⊗ z) ∙ α y z x
-     ≡ ap (_⊗ z) (β x y) ∙ α y x z ∙ ap (y ⊗_) (β x z) 
+     ≡ ap (_⊗ z) (β x y) ∙ α y x z ∙ ap (y ⊗_) (β x z)
 
   trunc : isGroupoid (FreeSMon A)
 

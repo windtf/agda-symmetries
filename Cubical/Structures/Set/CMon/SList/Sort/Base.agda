@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --safe --exact-split -WnoUnsupportedIndexedMatch #-}
+{-# OPTIONS -WnoUnsupportedIndexedMatch #-}
 
 module Cubical.Structures.Set.CMon.SList.Sort.Base where
 
@@ -11,13 +11,13 @@ open import Cubical.Data.Maybe as Maybe
 open import Cubical.Data.Empty as ⊥
 open import Cubical.Induction.WellFounded
 open import Cubical.Relation.Binary
-open import Cubical.Relation.Binary.Order 
+open import Cubical.Relation.Binary.Order
 open import Cubical.Relation.Nullary
 open import Cubical.Relation.Nullary.HLevels
 open import Cubical.Data.List
 open import Cubical.HITs.PropositionalTruncation as P
 import Cubical.Data.List as L
-open import Cubical.Functions.Logic as L hiding (¬_; ⊥) 
+open import Cubical.Functions.Logic as L hiding (¬_; ⊥)
 
 import Cubical.Structures.Set.Mon.Desc as M
 import Cubical.Structures.Set.CMon.Desc as M
@@ -137,7 +137,7 @@ module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
             (sort-∈* b (x ∷* x ∷* []*) (subst (b ∈_) (sym p) (L.inr (L.inl refl))))
 
     sort-choice : ∀ x y -> (sort (x ∷* y ∷* []*) ≡ x ∷ y ∷ []) ⊔′ (sort (x ∷* y ∷* []*) ≡ y ∷ x ∷ [])
-    sort-choice x y with sort (x ∷* y ∷* []*) | inspect sort (x ∷* y ∷* []*) 
+    sort-choice x y with sort (x ∷* y ∷* []*) | inspect sort (x ∷* y ∷* []*)
     ... | []                | [ p ]ᵢ = ⊥.rec (snotz (sym (sort-length≡ (x ∷* y ∷* []*)) ∙ congS L.length p))
     ... | x₁ ∷ []           | [ p ]ᵢ = ⊥.rec (snotz (injSuc (sym (sort-length≡ (x ∷* y ∷* []*)) ∙ congS L.length p)))
     ... | x₁ ∷ x₂ ∷ x₃ ∷ xs | [ p ]ᵢ = ⊥.rec (znots (injSuc (injSuc (sym (sort-length≡ (x ∷* y ∷* []*)) ∙ congS L.length p))))

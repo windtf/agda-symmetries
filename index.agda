@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
-
 module index where
 
 -- an exhaustive list of all modules:

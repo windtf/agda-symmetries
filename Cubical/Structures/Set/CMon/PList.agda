@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 -- Definition taken from https://drops.dagstuhl.de/opus/volltexte/2023/18395/pdf/LIPIcs-ITP-2023-20.pdf
 module Cubical.Structures.Set.CMon.PList where
 
@@ -20,7 +18,7 @@ open import Cubical.Structures.Set.CMon.QFreeMon
 
 data Perm {ℓ : Level} {A : Type ℓ} : List A -> List A -> Type ℓ where
   perm-refl : ∀ {xs} -> Perm xs xs
-  perm-swap : ∀ {x y xs ys zs} -> Perm (xs ++ x ∷ y ∷ ys) zs -> Perm (xs ++ y ∷ x ∷ ys) zs 
+  perm-swap : ∀ {x y xs ys zs} -> Perm (xs ++ x ∷ y ∷ ys) zs -> Perm (xs ++ y ∷ x ∷ ys) zs
 
 private
   variable

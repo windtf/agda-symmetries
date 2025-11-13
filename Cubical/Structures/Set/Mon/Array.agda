@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.Mon.Array where
 
 open import Cubical.Foundations.Everything
@@ -231,7 +229,7 @@ assocr-then-∸ k n m o p q = ∸-<-lemma (n + m) o k (subst (k <_) (+-assoc n m
         ≡⟨ congS (⊎.rec as (⊎.rec bs cs ∘ finSplit n o)) (finSplit-beta-inr k k<m+n+o m≤k (∸-<-lemma m (n + o) k k<m+n+o m≤k))  ⟩
           ⊎.rec as (⊎.rec bs cs ∘ finSplit n o) (inr (k ∸ m , ∸-<-lemma m (n + o) k k<m+n+o m≤k))
         ≡⟨ ⊎-inr-beta (Fin m) as (⊎.rec bs cs ∘ finSplit n o) (k ∸ m , ∸-<-lemma m (n + o) k k<m+n+o m≤k) ⟩
-          ⊎.rec bs cs (finSplit n o (k ∸ m , ∸-<-lemma m (n + o) k k<m+n+o m≤k))  
+          ⊎.rec bs cs (finSplit n o (k ∸ m , ∸-<-lemma m (n + o) k k<m+n+o m≤k))
         ≡⟨ congS (⊎.rec bs cs) (finSplit-beta-inl (k ∸ m) (∸-<-lemma m n k k<m+n m≤k) (∸-<-lemma m (n + o) k k<m+n+o m≤k)) ⟩
           ⊎.rec bs cs (inl (k ∸ m , ∸-<-lemma m n k k<m+n m≤k))
         ≡⟨ ⊎-inl-beta (Fin o) bs cs (k ∸ m , ∸-<-lemma m n k k<m+n m≤k) ⟩
@@ -259,7 +257,7 @@ n+m≤k→m≤k∸n n m k p = subst (_≤ k ∸ n) (∸+ m n) (≤-∸-≤ (n + 
           ⊎.rec as bs (finSplit n m (k , k<n+m))
         ≡⟨ sym (⊕-assocr-left-beta as bs cs k k<n+m k<n+m+o) ⟩
           ⊎.rec as (⊎.rec bs cs ∘ finSplit m o) (finSplit n (m + o) (k , k<n+m+o))
-        ∎) 
+        ∎)
         (\n+m≤k ->
           ⊎.rec (⊎.rec as bs ∘ finSplit n m) cs (finSplit (n + m) o (k , subst (k <_) (+-assoc n m o) k<n+m+o))
         ≡⟨ congS (⊎.rec (⊎.rec as bs ∘ finSplit n m) cs) (finSplit-beta-inr k (subst (k <_) (+-assoc n m o) k<n+m+o) n+m≤k (assocr-then-∸ k n m o k<n+m+o n+m≤k)) ⟩
@@ -276,15 +274,15 @@ n+m≤k→m≤k∸n n m k p = subst (_≤ k ∸ n) (∸+ m n) (≤-∸-≤ (n + 
           ⊎.rec as (⊎.rec bs cs ∘ finSplit m o) (inr (k ∸ n , ∸-<-lemma n (m + o) k k<n+m+o (m+n≤k→m≤k m n k n+m≤k)))
         ≡⟨ sym (congS (⊎.rec as (⊎.rec bs cs ∘ finSplit m o)) (finSplit-beta-inr k k<n+m+o (m+n≤k→m≤k m n k n+m≤k) (∸-<-lemma n (m + o) k k<n+m+o (m+n≤k→m≤k m n k n+m≤k)))) ⟩
           ⊎.rec as (⊎.rec bs cs ∘ finSplit m o) (finSplit n (m + o) (k , k<n+m+o))
-        ∎) 
+        ∎)
   (k ≤? (n + m))
 
 η+fsuc : ∀ {n} (xs : Fin (suc n) -> A) -> η (xs fzero) ⊕ (n , xs ∘ fsuc) ≡ (suc n , xs)
-η+fsuc {n = n} xs = Array≡ refl λ k k<sucn -> ⊎.rec 
+η+fsuc {n = n} xs = Array≡ refl λ k k<sucn -> ⊎.rec
   (λ k<1 ->
       ⊎.rec (λ _ -> xs fzero) _ (finSplit 1 n (k , _))
     ≡⟨ congS (⊎.rec _ _) (finSplit-beta-inl k k<1 _) ⟩
-      xs fzero  
+      xs fzero
     ≡⟨ congS xs (Σ≡Prop (λ _ -> isProp≤) (sym (≤0→≡0 (pred-≤-pred k<1)))) ⟩
       xs (k , k<sucn) ∎
   )
@@ -434,7 +432,7 @@ arrayIsoToList {A = A} = iso (uncurry tabulate) from tabulate-lookup from∘to
   from∘to : ∀ xs -> from (uncurry tabulate xs) ≡ xs
   from∘to (n , xs) = ΣPathP (length-tabulate n xs , lookup-tabulate n xs)
 
-array≡List : ∀ {ℓ} -> Array {ℓ = ℓ} ≡ List 
+array≡List : ∀ {ℓ} -> Array {ℓ = ℓ} ≡ List
 array≡List = funExt λ _ -> isoToPath arrayIsoToList
 
 import Cubical.Structures.Set.Mon.List as LM

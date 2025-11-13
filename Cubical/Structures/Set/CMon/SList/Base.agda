@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.CMon.SList.Base where
 
 open import Cubical.Foundations.Everything
@@ -38,7 +36,7 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
   𝔛 = < SList A , slist-α >
 
   module _ (f : A -> 𝔜 .car) where
-    _♯ : SList A -> 𝔜 .car    
+    _♯ : SList A -> 𝔜 .car
     _♯ = Elim.f 𝔜.e
       (λ x xs -> (f x) 𝔜.⊕ xs)
       (λ a b xs i ->
@@ -77,7 +75,7 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
         _ ≡⟨ cong (g [ x ] 𝔜.⊕_) p ⟩
         _ ∎
       )
-  
+
     slistEquivLemma-β : (g : structHom 𝔛 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ [_])
     slistEquivLemma-β g = structHom≡ 𝔛 𝔜 g (♯-isMonHom (g .fst ∘ [_])) isSet𝔜 (funExt (slistEquivLemma g))
 

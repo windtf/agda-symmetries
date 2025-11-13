@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.CMon.Free where
 
 open import Cubical.Foundations.Everything
@@ -42,7 +40,7 @@ module elimFreeCMonSet {p n : Level} {A : Type n} (P : FreeCMon A -> Type p)
                                PathP (λ i → P (assocr m n o i)) ((m* ⊕* n*) ⊕* o*) (m* ⊕* (n* ⊕* o*)))
                     (comm* : {m n : FreeCMon A}
                                (m* : P m) ->
-                               (n* : P n) ->  
+                               (n* : P n) ->
                                PathP (λ i → P (comm m n i)) (m* ⊕* n*) (n* ⊕* m*))
                     (trunc* : {xs : FreeCMon A} -> isSet (P xs))
                     where

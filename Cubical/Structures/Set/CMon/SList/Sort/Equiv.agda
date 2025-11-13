@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --exact-split -WnoUnsupportedIndexedMatch #-}
+{-# OPTIONS -WnoUnsupportedIndexedMatch #-}
 
 module Cubical.Structures.Set.CMon.SList.Sort.Equiv where
 
@@ -11,14 +11,14 @@ open import Cubical.Data.Maybe as Maybe
 open import Cubical.Data.Empty as ⊥
 open import Cubical.Induction.WellFounded
 open import Cubical.Relation.Binary
-open import Cubical.Relation.Binary.Order 
+open import Cubical.Relation.Binary.Order
 open import Cubical.Relation.Nullary
 open import Cubical.Relation.Nullary.HLevels
 open import Cubical.Data.List
 open import Cubical.HITs.PropositionalTruncation as P
 open import Cubical.Functions.Embedding
 import Cubical.Data.List as L
-open import Cubical.Functions.Logic as L hiding (¬_; ⊥) 
+open import Cubical.Functions.Logic as L hiding (¬_; ⊥)
 
 open import Cubical.Structures.Prelude
 import Cubical.Structures.Set.Mon.Desc as M
@@ -71,7 +71,7 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   order→sort : HasDecOrder -> HasSortSectionAndIsDiscrete
   order→sort (_≤_ , isToset , isDec) =
     (sort _≤_ isToset isDec , subst (λ isSetA' -> Sort.is-sort-section isSetA' (sort _≤_ isToset isDec)) (isPropIsSet _ _) (Order→Sort.sort-is-sort-section _≤_ isToset isDec)) , isDiscreteA _≤_ isToset isDec
-  
+
   order→im-cut : HasDecOrder -> HasHeadLeastSectionAndIsDiscrete
   order→im-cut p = let ((s , s-is-sort) , r) = order→sort p in (s , IsSortSection→IsHeadLeastSection s s-is-sort) , r
 
@@ -104,8 +104,8 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
 
     iso-≤ : ∀ x y -> Iso (x ≤ y) (x ≤* y)
     iso-≤ x y = iso (iso-to x y) (iso-from x y) (λ p -> is-prop-valued ≤*-isToset x y _ p) (λ p -> is-prop-valued isToset x y _ p)
-    ≤-≡ : _≤_ ≡ _≤*_  
-    ≤-≡ = funExt λ x -> funExt λ y -> isoToPath (iso-≤ x y) 
+    ≤-≡ : _≤_ ≡ _≤*_
+    ≤-≡ = funExt λ x -> funExt λ y -> isoToPath (iso-≤ x y)
 
   sort→order→sort : ∀ x -> order→sort (sort→order x) ≡ x
   sort→order→sort ((s , s-is-section , s-is-sort) , discA) =
@@ -149,7 +149,7 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
       z∷zs-sorted : s (list→slist (z ∷ zs)) ≡ z ∷ zs
       z∷zs-sorted = sort-unique s s-is-section (z ∷ zs) (s-is-sort .snd y (z ∷ zs) ∣ _ , q ∣₁)
 
-      induction : Sorted* (s (list→slist (z ∷ zs))) -> Sorted* (y ∷ z ∷ zs)  
+      induction : Sorted* (s (list→slist (z ∷ zs))) -> Sorted* (y ∷ z ∷ zs)
       induction IH =
         sorted-cons y z zs
           (is-sorted→≤ s s-is-section y z (s-is-sort .fst y z _ ∣ _ , q ∣₁ (L.inr (L.inl refl))))

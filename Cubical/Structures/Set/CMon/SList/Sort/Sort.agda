@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split -WnoUnsupportedIndexedMatch #-}
-
 module Cubical.Structures.Set.CMon.SList.Sort.Sort where
 
 open import Cubical.Foundations.Everything
@@ -11,13 +9,13 @@ open import Cubical.Data.Maybe as Maybe
 open import Cubical.Data.Empty as ⊥
 open import Cubical.Induction.WellFounded
 open import Cubical.Relation.Binary
-open import Cubical.Relation.Binary.Order 
+open import Cubical.Relation.Binary.Order
 open import Cubical.Relation.Nullary
 open import Cubical.Relation.Nullary.HLevels
 open import Cubical.Data.List
 open import Cubical.HITs.PropositionalTruncation as P
 import Cubical.Data.List as L
-open import Cubical.Functions.Logic as L hiding (¬_; ⊥) 
+open import Cubical.Functions.Logic as L hiding (¬_; ⊥)
 
 import Cubical.Structures.Set.Mon.Desc as M
 import Cubical.Structures.Set.CMon.Desc as M
@@ -51,7 +49,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
 
   private
     module 𝔖 = M.CMonSEq < SList A , slist-α > slist-sat
-  
+
   open Membership isSetA
   open Membership* isSetA
   open Sort isSetA sort
@@ -129,7 +127,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   is-sorted→≤ x y = P.rec (isSetMaybeA _ _) λ (xs , p) ->
     congS head-maybe (congS sort (sym (sym (sort≡ xs) ∙ congS list→slist p)) ∙ p)
 
-  ≤→is-sorted : ∀ x y -> x ≤ y -> is-sorted (x ∷ y ∷ []) 
+  ≤→is-sorted : ∀ x y -> x ≤ y -> is-sorted (x ∷ y ∷ [])
   ≤→is-sorted x y p = ∣ x ∷* y ∷* []* , proof ∣₁
     where
       proof : sort (x ∷* [ y ]*) ≡ x ∷ y ∷ []
@@ -183,14 +181,14 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   is-sorted↔≤ x y = isoToEquiv (iso (is-sorted→≤ x y) (≤→is-sorted x y)
     (λ p → isProp-≤ _ p)
     (λ p → squash₁ _ p))
-  
+
   module _ (sort-is-sort : im-cut) where
     trans-≤ : ∀ x y z -> x ≤ y -> y ≤ z -> x ≤ z
     trans-≤ x y z x≤y y≤z with least (x ∷* y ∷* z ∷* []*) | inspect least (x ∷* y ∷* z ∷* []*)
     ... | nothing | [ p ]ᵢ = ⊥.rec (snotz (congS S.length (least-nothing _ p)))
     ... | just u | [ p ]ᵢ =
       P.rec (isSetMaybeA _ _)
-        (⊎.rec case1 
+        (⊎.rec case1
           (P.rec (isSetMaybeA _ _)
             (⊎.rec case2 (case3 ∘ x∈[y]→x≡y _ _))
           )
@@ -227,6 +225,6 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
     IsToset.is-set ≤-isToset = isSetA
     IsToset.is-prop-valued ≤-isToset x y = isOfHLevelMaybe 0 isSetA _ _
     IsToset.is-refl ≤-isToset = refl-≤
-    IsToset.is-trans ≤-isToset = trans-≤ 
-    IsToset.is-antisym ≤-isToset = antisym-≤                
+    IsToset.is-trans ≤-isToset = trans-≤
+    IsToset.is-antisym ≤-isToset = antisym-≤
     IsToset.is-strongly-connected ≤-isToset = total-≤

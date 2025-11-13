@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
-
 module Cubical.Structures.Set.CMon.SList.Count where
 
 open import Cubical.Foundations.Everything

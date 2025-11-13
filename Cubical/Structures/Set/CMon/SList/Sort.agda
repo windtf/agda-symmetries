@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
-
 module Cubical.Structures.Set.CMon.SList.Sort where
 
 open import Cubical.Structures.Set.CMon.SList.Sort.Base public

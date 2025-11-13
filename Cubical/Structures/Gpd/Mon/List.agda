@@ -1,4 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
 module Cubical.Structures.Gpd.Mon.List where
 
 open import Cubical.Foundations.Everything hiding (str)

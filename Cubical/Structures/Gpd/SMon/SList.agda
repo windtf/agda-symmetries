@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-}
-
 module Cubical.Structures.Gpd.SMon.SList where
 
 open import Cubical.Foundations.Everything
@@ -118,5 +116,5 @@ isGpdSList as cs p q u v i j k ++ bs =
 -- ++-comm (hexagon– a b c as i) bs = {!!}
 -- ++-comm (hexagon↑ a b c as i j) bs = {!!}
 -- ++-comm (hexagon↓ a b c as i j) bs = {!!}
--- ++-comm (isGpdSList as cs p q u v i j k) bs = 
+-- ++-comm (isGpdSList as cs p q u v i j k) bs =
 --   {!!}

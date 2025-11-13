@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --exact-split -WnoUnsupportedIndexedMatch #-}
+{-# OPTIONS -WnoUnsupportedIndexedMatch #-}
 
 module Experiments.Naive where
 

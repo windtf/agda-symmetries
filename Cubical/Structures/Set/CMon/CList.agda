@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --safe --exact-split #-}
-
 module Cubical.Structures.Set.CMon.CList where
 
 open import Cubical.Foundations.Everything
@@ -94,7 +92,7 @@ swap a b cs = comm a b cs refl refl
 ++-∷ a = elimCListProp.f (λ as -> a ∷ as ≡ as ++ [ a ])
   refl
   (λ b {as} p -> swap a b as ∙ cong (b ∷_) p)
-  (isSetCList _ _) 
+  (isSetCList _ _)
 
 ++-comm : (as bs : CList A) -> as ++ bs ≡ bs ++ as
 ++-comm = elimCListProp.f _

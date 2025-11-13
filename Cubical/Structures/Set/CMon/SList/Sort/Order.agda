@@ -1,4 +1,4 @@
-{-# OPTIONS --cubical --safe --exact-split -WnoUnsupportedIndexedMatch #-}
+{-# OPTIONS -WnoUnsupportedIndexedMatch #-}
 
 module Cubical.Structures.Set.CMon.SList.Sort.Order where
 
@@ -11,13 +11,13 @@ open import Cubical.Data.Maybe as Maybe
 open import Cubical.Data.Empty as ⊥
 open import Cubical.Induction.WellFounded
 open import Cubical.Relation.Binary
-open import Cubical.Relation.Binary.Order 
+open import Cubical.Relation.Binary.Order
 open import Cubical.Relation.Nullary
 open import Cubical.Relation.Nullary.HLevels
 open import Cubical.Data.List
 open import Cubical.HITs.PropositionalTruncation as P
 import Cubical.Data.List as L
-open import Cubical.Functions.Logic as L hiding (¬_; ⊥) 
+open import Cubical.Functions.Logic as L hiding (¬_; ⊥)
 
 import Cubical.Structures.Set.Mon.Desc as M
 import Cubical.Structures.Set.CMon.Desc as M
@@ -195,7 +195,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
   is-sort' : (SList A -> List A) -> Type _
   is-sort' f = (∀ xs -> list→slist (f xs) ≡ xs) × (∀ xs -> ∥ Sorted (f xs) ∥₁)
 
-  tail-sorted' : ∀ {x xs} -> Sorted (x ∷ xs) -> Sorted xs 
+  tail-sorted' : ∀ {x xs} -> Sorted (x ∷ xs) -> Sorted xs
   tail-sorted' (sorted-one ._) = sorted-nil
   tail-sorted' (sorted-cons ._ _ _ _ p) = p
 
@@ -207,7 +207,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
         (λ z≡x -> subst (x ≤_) (sym z≡x) (is-refl x))
         (λ z∈ys -> is-trans x y z q (≤-tail z∈ys r))
       ) p
-  
+
   smallest-sorted : ∀ x xs -> (∀ y -> y ∈ xs -> x ≤ y) -> Sorted xs -> Sorted (x ∷ xs)
   smallest-sorted x .[] p sorted-nil =
     sorted-one x
@@ -273,7 +273,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
       remove1 isDiscreteA x (list→slist (x ∷ xs)) ≡⟨ congS (remove1 isDiscreteA x) p ⟩
       remove1 isDiscreteA x (list→slist (y ∷ ys)) ≡⟨ sym (remove1-≡-lemma isDiscreteA (list→slist ys) x≡y) ⟩
       list→slist ys ∎
-  
+
   unique-sort : ∀ f -> is-sort' f -> f ≡ sort
   unique-sort f (f-is-permute , f-is-sorted) = funExt λ xs ->
     P.rec2 (isOfHLevelList 0 is-set _ _)
@@ -383,7 +383,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
       where
       -- [1, 2, 3] sorted by sort -> [1, 3, 2] sorted by im-cut -> [3, 2] sorted by im-cut -> [3, 2] sorted by sort
       lemma1 : is-sorted sort (x ∷ x ∷ y ∷ []) -> is-sorted sort (y ∷ x ∷ [])
-      lemma1 = P.rec squash₁ λ (ys , q) -> im-cut→sorted y [ x ] (h-tail-sort x _ ∣ ys , congS swap2-3 q ∣₁) 
+      lemma1 = P.rec squash₁ λ (ys , q) -> im-cut→sorted y [ x ] (h-tail-sort x _ ∣ ys , congS swap2-3 q ∣₁)
       lemma2 : sort (x ∷* x ∷* [ y ]*) ≡ x ∷ x ∷ y ∷ []
       lemma2 =
         insert x (insert x [ y ]) ≡⟨ congS (insert x) (insert-β-1 x y [] x≤y) ⟩
@@ -415,6 +415,6 @@ module Order→Sort-Example where
     lemma x y = ∣ ⊎.rec ⊎.inl (_⊎_.inr ∘ <→≤) (splitℕ-≤ x y) ∣₁
 
   open Order→Sort _≤ℕ_ ≤ℕ-isToset ≤Dec
- 
+
   _ : sort (4 ∷* 6 ∷* 1 ∷* 2 ∷* []*) ≡ (1 ∷ 2 ∷ 4 ∷ 6 ∷ [])
   _ = refl

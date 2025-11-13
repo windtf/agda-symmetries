@@ -1,5 +1,3 @@
-{-# OPTIONS --cubical --exact-split #-} -- not safe
-
 module Cubical.Structures.Prelude.TODO where
 
 open import Agda.Primitive
