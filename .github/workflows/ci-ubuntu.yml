@@ -1,6 +1,4 @@
-## Adapted from the agda/agda-stdlib workflow
-
-name: Ubuntu build
+name: ci
 on:
   push:
     branches:
@@ -10,38 +8,6 @@ on:
     branches:
       - master
       - main
-
-########################################################################
-## CONFIGURATION
-##
-## See SETTINGS for the most important configuration variable: AGDA_BRANCH.
-## It has to be defined as a build step because it is potentially branch
-## dependent.
-##
-## As for the rest:
-##
-## Basically do not touch GHC_VERSION and CABAL_VERSION as long as
-## they aren't a problem in the build. If you have time to waste, it
-## could be worth investigating whether newer versions of ghc produce
-## more efficient Agda executable and could cut down the build time.
-## Just be aware that actions are flaky and small variations are to be
-## expected.
-##
-## The CABAL_INSTALL variable only passes `-O1` optimisations to ghc
-## because github actions cannot currently handle a build using `-O2`.
-## To be experimented with again in the future to see if things have
-## gotten better.
-##
-########################################################################
-
-########################################################################
-## SETTINGS
-##
-## AGDA_BRANCH picks the branch of Agda to use to build the library.
-## It doesn't really track the branch, so you have to drop caches to
-## get a new branch version if it changes. This will be fixed in the
-## next PR.
-########################################################################
 
 env:
   AGDA_BRANCH: v2.8.0
@@ -53,6 +19,7 @@ env:
     ~/.cabal/packages
     ~/.cabal/store
     ~/.cabal/bin
+    ~/.agda
 
 jobs:
   test:
@@ -60,16 +27,12 @@ jobs:
 
     steps:
       - name: Install cabal
-        uses: haskell/actions/setup@v2
+        uses: haskell-actions/setup@v2
         with:
           ghc-version: ${{ env.GHC_VERSION }}
           cabal-version: ${{ env.CABAL_VERSION }}
           cabal-update: true
 
-      # This caching step allows us to save a lot of building time by only
-      # rebuilding Agda, and re-checking unchanged library files if
-      # absolutely necessary i.e. if we change either the version of Agda,
-      # ghc, or cabal that we want to use for the build.
       - name: Restore external dependencies cache
         uses: actions/cache/restore@v3
         id: cache-external-restore
