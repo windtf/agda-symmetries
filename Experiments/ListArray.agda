@@ -1,6 +1,5 @@
 module Experiments.ListArray where
 
-open import Cubical.Foundations.Everything
 open import Cubical.Data.Sigma
 open import Cubical.Data.List renaming (_∷_ to _∷ₗ_)
 open import Cubical.Data.Fin
@@ -20,6 +19,9 @@ open import Cubical.Structures.Arity
 
 open import Cubical.Structures.Set.Mon.Array
 open import Cubical.Structures.Set.Mon.List
+
+open import Cubical.Foundations.Isomorphism
+open import Cubical.Foundations.Prelude
 
 open Iso
 

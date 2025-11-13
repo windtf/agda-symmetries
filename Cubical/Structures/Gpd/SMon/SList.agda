@@ -1,10 +1,11 @@
 module Cubical.Structures.Gpd.SMon.SList where
 
-open import Cubical.Foundations.Everything
 open import Cubical.Data.Sigma
 
 open import Cubical.Structures.Prelude
 open import Cubical.Structures.Prelude.TODO
+open import Cubical.Foundations.GroupoidLaws
+open import Cubical.Foundations.Path
 
 infixr 20 _∷_
 

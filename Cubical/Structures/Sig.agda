@@ -1,6 +1,7 @@
 module Cubical.Structures.Sig where
 
-open import Cubical.Foundations.Everything
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function 
 open import Cubical.Foundations.Equiv
 open import Cubical.Functions.Image
 open import Cubical.HITs.PropositionalTruncation as P

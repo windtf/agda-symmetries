@@ -2,7 +2,12 @@
 
 module Experiments.Naive where
 
-open import Cubical.Foundations.Everything
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function
+open import Cubical.Foundations.HLevels
+open import Cubical.Foundations.Isomorphism
+open import Cubical.Foundations.Equiv
+open import Cubical.Foundations.Path
 open import Cubical.Data.Sigma
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order renaming (_≤_ to _≤ℕ_; _<_ to _<ℕ_)
@@ -14,7 +19,8 @@ open import Cubical.Relation.Binary
 open import Cubical.Relation.Binary.Order
 open import Cubical.Relation.Nullary
 open import Cubical.Relation.Nullary.HLevels
-open import Cubical.Data.List
+open import Cubical.Data.List 
+open import Cubical.Data.List.Properties
 open import Cubical.HITs.PropositionalTruncation as P
 import Cubical.Data.List as L
 open import Cubical.Functions.Logic as L hiding (¬_; ⊥)
@@ -75,7 +81,7 @@ private module Test where
     where
     <→≤ : ∀ {n m} -> n <ℕ m -> n ≤ℕ m
     <→≤ (k , p) = suc k , sym (+-suc k _) ∙ p
-    lemma : BinaryRelation.isStronglyConnected _≤ℕ_
+    lemma : BinaryRelation.isTotal _≤ℕ_
     lemma x y = ∣ ⊎.rec ⊎.inl (_⊎_.inr ∘ <→≤) (splitℕ-≤ x y) ∣₁
 
   open Naive isSetℕ _≤ℕ_ ≤ℕ-isToset

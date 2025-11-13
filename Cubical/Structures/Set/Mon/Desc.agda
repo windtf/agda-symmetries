@@ -1,6 +1,8 @@
 module Cubical.Structures.Set.Mon.Desc where
 
-open import Cubical.Foundations.Everything
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function
+open import Cubical.Foundations.HLevels
 open import Cubical.Functions.Logic as L
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order

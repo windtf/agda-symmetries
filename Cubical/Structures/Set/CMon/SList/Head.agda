@@ -1,6 +1,5 @@
 module Cubical.Structures.Set.CMon.SList.Head where
 
-open import Cubical.Foundations.Everything
 open import Cubical.Data.Sigma
 open import Cubical.Data.Maybe
 open import Cubical.Data.Nat

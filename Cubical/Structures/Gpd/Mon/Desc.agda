@@ -1,6 +1,5 @@
 module Cubical.Structures.Gpd.Mon.Desc where
 
-open import Cubical.Foundations.Everything hiding (str)
 open import Cubical.Functions.Logic as L
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order

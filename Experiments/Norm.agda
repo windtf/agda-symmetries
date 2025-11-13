@@ -3,7 +3,9 @@ open import Agda.Primitive
 -- TODO: Fix levels in Free so this isn't necessary
 module Experiments.Norm {ℓ : Level} {A : Set ℓ} where
 
-open import Cubical.Foundations.Everything
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function
+open import Cubical.Foundations.HLevels
 open import Cubical.Functions.Embedding
 open import Cubical.Data.Sigma
 open import Cubical.Data.Fin

@@ -1,6 +1,5 @@
 module Cubical.Structures.Gpd.Mon.Free where
 
-open import Cubical.Foundations.Everything
 open import Cubical.Data.Sigma
 open import Cubical.Data.List
 open import Cubical.Data.Nat

@@ -4,7 +4,7 @@ open import Cubical.Foundations.Prelude public
 open import Cubical.Foundations.Equiv
 open import Cubical.Foundations.HLevels
 open import Cubical.Foundations.Function
-open import Cubical.Foundations.Everything
+open import Cubical.Foundations.Structure
 open import Cubical.Relation.Nullary.Base
 import Cubical.Data.Empty as ⊥
 import Cubical.HITs.PropositionalTruncation as P
@@ -64,13 +64,13 @@ module Toset {ℓ : Level} {A : Type ℓ} where
   ... | yes p | yes q = yes (tosetA .is-antisym x y p q)
   ... | yes p | no ¬q = no λ r -> ¬q (subst (_≤ x) r (tosetA .is-refl x))
   ... | no ¬p | yes q = no λ r -> ¬p (subst (x ≤_) r (tosetA .is-refl x))
-  ... | no ¬p | no ¬q = ⊥.rec (P.rec ⊥.isProp⊥ (⊎.rec ¬p ¬q) (tosetA .is-strongly-connected x y))
+  ... | no ¬p | no ¬q = ⊥.rec (P.rec ⊥.isProp⊥ (⊎.rec ¬p ¬q) (tosetA .is-total x y))
 
   toset-≰→≤ : (_≤_ : A -> A -> Type ℓ) -> IsToset (_≤_) -> ∀ x y -> ¬ (x ≤ y) -> (y ≤ x)
   toset-≰→≤ _≤_ tosetA x y ¬p =
     P.rec (tosetA .is-prop-valued y x)
           (⊎.rec (λ x≤y -> ⊥.rec (¬p x≤y)) (λ y≤x -> y≤x))
-          (tosetA .is-strongly-connected x y)
+          (tosetA .is-total x y)
 
   module Toset-⋀ (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ) (tosetA : IsToset _≤_) where
 
@@ -83,33 +83,33 @@ module Toset {ℓ : Level} {A : Type ℓ} where
              (λ b≤a -> ⊎.elim (λ a≤b -> tosetA .is-antisym b a b≤a a≤b) (λ _ -> refl))
 
     _⋀_ : A -> A -> A
-    a ⋀ b = P.rec→Set isSetA (⋀-f a b) (⋀-f-const a b) (tosetA .is-strongly-connected a b)
+    a ⋀ b = P.rec→Set isSetA (⋀-f a b) (⋀-f-const a b) (tosetA .is-total a b)
 
     ⋀-β₁ : ∀ {a b} -> a ≤ b -> (a ⋀ b) ≡ a
     ⋀-β₁ {a = a} {b = b} a≤b =
-      P.SetElim.helper isSetA (⋀-f a b) (⋀-f-const a b) (tosetA .is-strongly-connected a b) P.∣ inl a≤b ∣₁
+      P.SetElim.helper isSetA (⋀-f a b) (⋀-f-const a b) (tosetA .is-total a b) P.∣ inl a≤b ∣₁
 
     ⋀-β₂ : ∀ {a b} -> b ≤ a -> (a ⋀ b) ≡ b
     ⋀-β₂ {a = a} {b = b} b≤a =
-      P.SetElim.helper isSetA (⋀-f a b) (⋀-f-const a b) (tosetA .is-strongly-connected a b) P.∣ inr b≤a ∣₁
+      P.SetElim.helper isSetA (⋀-f a b) (⋀-f-const a b) (tosetA .is-total a b) P.∣ inr b≤a ∣₁
 
     ⋀-π₁ : ∀ {a b} -> (a ⋀ b) ≤ a
     ⋀-π₁ {a = a} {b = b} =
       P.rec (tosetA .is-prop-valued (a ⋀ b) a) (⊎.rec (λ a≤b -> subst (_≤ a) (sym (⋀-β₁ a≤b)) (tosetA .is-refl a))
                                                       (λ b≤a -> subst (_≤ a) (sym (⋀-β₂ b≤a)) b≤a))
-            (tosetA .is-strongly-connected a b)
+            (tosetA .is-total a b)
 
     ⋀-π₂ : ∀ {a b} -> (a ⋀ b) ≤ b
     ⋀-π₂ {a = a} {b = b} =
       P.rec (tosetA .is-prop-valued (a ⋀ b) b) (⊎.rec (λ a≤b -> subst (_≤ b) (sym (⋀-β₁ a≤b)) a≤b)
                                                       (λ b≤a -> subst (_≤ b) (sym (⋀-β₂ b≤a)) (tosetA .is-refl b)))
-            (tosetA .is-strongly-connected a b)
+            (tosetA .is-total a b)
 
     ⋀-η₁ : ∀ {a b} -> (a ⋀ b) ≡ a -> a ≤ b
     ⋀-η₁ {a = a} {b = b} =
       P.rec (isProp→ (tosetA .is-prop-valued a b))
             (⊎.rec (λ a≤b _ -> a≤b) (λ b≤a ϕ -> subst (_≤ b) ϕ ⋀-π₂))
-            (tosetA .is-strongly-connected a b)
+            (tosetA .is-total a b)
 
     ⋀-univ-fwd : ∀ {x a b} -> x ≤ (a ⋀ b) -> (x ≤ a) × (x ≤ b)
     ⋀-univ-fwd {x = x} {a = a} {b = b} ϕ =
@@ -120,7 +120,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
       P.rec (tosetA .is-prop-valued x (a ⋀ b))
             (⊎.rec (λ a≤b -> subst (x ≤_) (sym (⋀-β₁ a≤b)) ϕ)
                    (λ b≤a -> subst (x ≤_) (sym (⋀-β₂ b≤a)) ψ))
-            (tosetA .is-strongly-connected a b)
+            (tosetA .is-total a b)
 
     ⋀-univ : ∀ {x a b} -> (x ≤ (a ⋀ b)) ≃ (x ≤ a) × (x ≤ b)
     ⋀-univ = propBiimpl→Equiv (tosetA .is-prop-valued _ _) (isProp× (tosetA .is-prop-valued _ _) (tosetA .is-prop-valued _ _)) ⋀-univ-fwd ⋀-univ-bwd
@@ -143,7 +143,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
                                                                                   (invEquiv ⋀-univ))))
 
     ⋀-total : ∀ a b -> (a ⋀ b ≡ a) ⊔′ (b ⋀ a ≡ b)
-    ⋀-total a b = P.map (⊎.map ⋀-β₁ ⋀-β₁) (tosetA .is-strongly-connected a b)
+    ⋀-total a b = P.map (⊎.map ⋀-β₁ ⋀-β₁) (tosetA .is-total a b)
 
   module Toset-⋁ (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ) (tosetA : IsToset _≤_) where
 
@@ -155,32 +155,32 @@ module Toset {ℓ : Level} {A : Type ℓ} where
                             (λ b≤a -> ⊎.elim (λ a≤b -> tosetA .is-antisym a b a≤b b≤a) λ _ -> refl)
 
     _⋁_ : A -> A -> A
-    a ⋁ b = P.rec→Set isSetA (⋁-f a b) (⋁-f-const a b) (tosetA .is-strongly-connected a b)
+    a ⋁ b = P.rec→Set isSetA (⋁-f a b) (⋁-f-const a b) (tosetA .is-total a b)
 
     ⋁-β₁ : ∀ {a b} -> a ≤ b -> (a ⋁ b) ≡ b
-    ⋁-β₁ {a = a} {b = b} a≤b = P.SetElim.helper isSetA (⋁-f a b) (⋁-f-const a b) (tosetA .is-strongly-connected a b) P.∣ inl a≤b ∣₁
+    ⋁-β₁ {a = a} {b = b} a≤b = P.SetElim.helper isSetA (⋁-f a b) (⋁-f-const a b) (tosetA .is-total a b) P.∣ inl a≤b ∣₁
 
     ⋁-β₂ : ∀ {a b} -> b ≤ a -> (a ⋁ b) ≡ a
-    ⋁-β₂ {a = a} {b = b} b≤a = P.SetElim.helper isSetA (⋁-f a b) (⋁-f-const a b) (tosetA .is-strongly-connected a b) P.∣ inr b≤a ∣₁
+    ⋁-β₂ {a = a} {b = b} b≤a = P.SetElim.helper isSetA (⋁-f a b) (⋁-f-const a b) (tosetA .is-total a b) P.∣ inr b≤a ∣₁
 
     ⋁-π₁ : ∀ {a b} -> a ≤ (a ⋁ b)
     ⋁-π₁ {a = a} {b = b} = P.rec (tosetA .is-prop-valued a (a ⋁ b))
                                   (⊎.rec (λ a≤b -> subst (a ≤_) (sym (⋁-β₁ a≤b)) a≤b)
                                          (λ b≤a -> subst (a ≤_) (sym (⋁-β₂ b≤a)) (is-refl tosetA a)))
-                                  (tosetA .is-strongly-connected a b)
+                                  (tosetA .is-total a b)
 
     ⋁-π₂ : ∀ {a b} -> b ≤ (a ⋁ b)
     ⋁-π₂ {a = a} {b = b} = P.rec (tosetA .is-prop-valued b (a ⋁ b))
                                   (⊎.rec (λ a≤b -> subst (b ≤_) (sym (⋁-β₁ a≤b)) (is-refl tosetA b))
                                          (λ b≤a -> subst (b ≤_) (sym (⋁-β₂ b≤a)) b≤a))
-                                 (tosetA .is-strongly-connected a b)
+                                 (tosetA .is-total a b)
 
     ⋁-η₂ : ∀ {a b} -> (a ⋁ b) ≡ b -> a ≤ b
     ⋁-η₂ {a = a} {b = b} =
       P.rec (isProp→ (tosetA .is-prop-valued a b))
             (⊎.rec (λ a≤b _ -> a≤b)
                    (λ b≤a ϕ -> subst (a ≤_) ϕ ⋁-π₁))
-            (tosetA .is-strongly-connected a b)
+            (tosetA .is-total a b)
 
     ⋁-univ-fwd : ∀ {x a b} -> (a ⋁ b) ≤ x -> (a ≤ x) × (b ≤ x)
     ⋁-univ-fwd {x = x} {a = a} {b = b} ϕ =
@@ -191,7 +191,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
       P.rec (tosetA .is-prop-valued (a ⋁ b) x)
             (⊎.rec (λ a≤b -> subst (_≤ x) (sym (⋁-β₁ a≤b)) ψ)
                    (λ b≤a -> subst (_≤ x) (sym (⋁-β₂ b≤a)) ϕ))
-            (tosetA .is-strongly-connected a b)
+            (tosetA .is-total a b)
 
     ⋁-univ : ∀ {x a b} -> ((a ⋁ b) ≤ x) ≃ (a ≤ x) × (b ≤ x)
     ⋁-univ = propBiimpl→Equiv (tosetA .is-prop-valued _ _) (isProp× (tosetA .is-prop-valued _ _) (tosetA .is-prop-valued _ _)) ⋁-univ-fwd ⋁-univ-bwd
@@ -214,7 +214,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
                                                                                   (invEquiv ⋁-univ))))
 
     ⋁-total : ∀ a b -> (a ⋁ b ≡ b) ⊔′ (b ⋁ a ≡ a)
-    ⋁-total a b = P.map (⊎.map ⋁-β₁ ⋁-β₁) (tosetA .is-strongly-connected a b)
+    ⋁-total a b = P.map (⊎.map ⋁-β₁ ⋁-β₁) (tosetA .is-total a b)
 
   module ⋀-Toset (isSetA : isSet A) (_⋀_ : A -> A -> A)
                  (⋀-idem : ∀ a -> a ⋀ a ≡ a) (⋀-comm : ∀ a b -> a ⋀ b ≡ b ⋀ a)
@@ -229,7 +229,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
     tosetA .is-refl = ⋀-idem
     tosetA .is-trans a b c a∧b≡a b∧c≡b = congS (_⋀ c) (sym a∧b≡a) ∙ ⋀-assocr a b c ∙ congS (a ⋀_) b∧c≡b ∙ a∧b≡a
     tosetA .is-antisym a b a∧b≡a b∧a≡a = sym a∧b≡a ∙ ⋀-comm a b ∙ b∧a≡a
-    tosetA .is-strongly-connected = ⋀-total
+    tosetA .is-total = ⋀-total
 
   module Toset-⋀-Toset (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ) (tosetA : IsToset _≤_) where
 

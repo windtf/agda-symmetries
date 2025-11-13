@@ -2,7 +2,12 @@
 
 module Cubical.Structures.Set.CMon.SList.Sort.Order where
 
-open import Cubical.Foundations.Everything
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function
+open import Cubical.Foundations.HLevels
+open import Cubical.Foundations.Isomorphism
+open import Cubical.Foundations.Equiv
+open import Cubical.Foundations.Path
 open import Cubical.Data.Sigma
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order renaming (_≤_ to _≤ℕ_; _<_ to _<ℕ_)
@@ -14,7 +19,8 @@ open import Cubical.Relation.Binary
 open import Cubical.Relation.Binary.Order
 open import Cubical.Relation.Nullary
 open import Cubical.Relation.Nullary.HLevels
-open import Cubical.Data.List
+open import Cubical.Data.List hiding (tail)
+open import Cubical.Data.List.Properties hiding (tail)
 open import Cubical.HITs.PropositionalTruncation as P
 import Cubical.Data.List as L
 open import Cubical.Functions.Logic as L hiding (¬_; ⊥)
@@ -51,10 +57,10 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
   ... | yes p | yes q = yes (is-antisym x y p q)
   ... | yes p | no ¬q = no λ r -> ¬q (subst (_≤ x) r (is-refl x))
   ... | no ¬p | yes q = no λ r -> ¬p (subst (x ≤_) r (is-refl x))
-  ... | no ¬p | no ¬q = ⊥.rec $ P.rec isProp⊥ (⊎.rec ¬p ¬q) (is-strongly-connected x y)
+  ... | no ¬p | no ¬q = ⊥.rec $ P.rec isProp⊥ (⊎.rec ¬p ¬q) (is-total x y)
 
   A-is-loset : Loset _ _
-  A-is-loset = Toset→Loset (A , tosetstr _≤_ ≤-isToset) isDiscreteA
+  A-is-loset = Toset→Loset (A , tosetstr _≤_ ≤-isToset) _≤?_
 
   _<_ : A -> A -> Type ℓ
   _<_ = LosetStr._<_ (A-is-loset .snd)
@@ -105,7 +111,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
   private
     not-total-impossible : ∀ {x y} -> ¬(x ≤ y) -> ¬(y ≤ x) -> ⊥
     not-total-impossible {x} {y} p q =
-      P.rec isProp⊥ (⊎.rec p q) (is-strongly-connected x y)
+      P.rec isProp⊥ (⊎.rec p q) (is-total x y)
 
   insert-insert : ∀ x y xs -> insert x (insert y xs) ≡ insert y (insert x xs)
   insert-insert x y [] with x ≤? y | y ≤? x
@@ -234,7 +240,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
     IH : Sorted (insert x ys)
     IH = insert-is-sorted x ys (tail-sorted' p)
     y≤x : y ≤ x
-    y≤x = P.rec (is-prop-valued y x) (⊎.rec (idfun _) (⊥.rec ∘ ¬q)) (is-strongly-connected y x)
+    y≤x = P.rec (is-prop-valued y x) (⊎.rec (idfun _) (⊥.rec ∘ ¬q)) (is-total y x)
     lemma : ∀ zs -> Sorted (y ∷ zs) -> ∀ z -> z ∈ insert x zs → y ≤ z
     lemma zs p z r = P.rec (is-prop-valued y z)
       (⊎.rec (λ z≡x -> subst (y ≤_) (sym z≡x) y≤x) (λ z∈zs -> ≤-tail (L.inr z∈zs) p)) (insert-∈ zs r)
@@ -397,7 +403,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
   im-cut-tail-sort→isProp-A : im-cons im-cut-only -> isProp A
   im-cut-tail-sort→isProp-A h-tail-sort x y = P.rec (is-set _ _)
     (⊎.rec (im-cut-tail-sort→x≡y x y h-tail-sort) (sym ∘ (im-cut-tail-sort→x≡y y x h-tail-sort)))
-    (is-strongly-connected x y)
+    (is-total x y)
 
 module Order→Sort-Example where
 
@@ -411,7 +417,7 @@ module Order→Sort-Example where
     where
     <→≤ : ∀ {n m} -> n <ℕ m -> n ≤ℕ m
     <→≤ (k , p) = suc k , sym (+-suc k _) ∙ p
-    lemma : BinaryRelation.isStronglyConnected _≤ℕ_
+    lemma : BinaryRelation.isTotal _≤ℕ_
     lemma x y = ∣ ⊎.rec ⊎.inl (_⊎_.inr ∘ <→≤) (splitℕ-≤ x y) ∣₁
 
   open Order→Sort _≤ℕ_ ≤ℕ-isToset ≤Dec

@@ -1,7 +1,10 @@
 module Cubical.Structures.Free where
 
-open import Cubical.Foundations.Everything
 open import Cubical.Foundations.Equiv
+open import Cubical.Foundations.HLevels
+open import Cubical.Foundations.Function
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Isomorphism
 open import Cubical.Functions.Image
 open import Cubical.HITs.PropositionalTruncation as P
 open import Cubical.Data.Nat

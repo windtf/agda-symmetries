@@ -1,7 +1,10 @@
 module Cubical.Structures.Set.CMon.QFreeMon where
 
-open import Cubical.Core.Everything
-open import Cubical.Foundations.Everything
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function
+open import Cubical.Foundations.HLevels
+open import Cubical.Foundations.Equiv
+open import Cubical.Foundations.Isomorphism
 open import Cubical.HITs.PropositionalTruncation as P
 open import Cubical.HITs.SetQuotients as Q
 open import Cubical.Data.List as L

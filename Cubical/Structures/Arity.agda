@@ -1,7 +1,8 @@
 module Cubical.Structures.Arity where
 
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function
 import Cubical.Data.Empty as ⊥
-open import Cubical.Foundations.Everything
 open import Cubical.Data.Fin public renaming (Fin to Arity)
 open import Cubical.Data.Fin.Recursive public using (rec)
 open import Cubical.Data.Nat

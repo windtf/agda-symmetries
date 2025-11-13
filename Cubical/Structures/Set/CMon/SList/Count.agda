@@ -1,6 +1,5 @@
 module Cubical.Structures.Set.CMon.SList.Count where
 
-open import Cubical.Foundations.Everything
 open import Cubical.Data.Sigma
 open import Cubical.Data.Nat
 open import Cubical.Data.Nat.Order

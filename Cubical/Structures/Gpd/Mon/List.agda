@@ -1,6 +1,5 @@
 module Cubical.Structures.Gpd.Mon.List where
 
-open import Cubical.Foundations.Everything hiding (str)
 open import Cubical.Data.Sigma
 open import Cubical.Data.List
 open import Cubical.Data.Nat
@@ -16,11 +15,14 @@ open import Cubical.Structures.Tree
 open import Cubical.Structures.Eq
 open import Cubical.Structures.Arity
 open import Cubical.HITs.PropositionalTruncation as P
+open import Cubical.Foundations.Prelude
+open import Cubical.Foundations.Function
 
 open import Cubical.Structures.Prelude
 open import Cubical.Structures.Prelude.TODO
 import Cubical.Structures.Set.Mon.List as L
 open import Cubical.Structures.Gpd.Mon.Desc as L
+open import Cubical.Foundations.GroupoidLaws
 
 private
   variable
