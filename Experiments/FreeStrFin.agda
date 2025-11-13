@@ -1,6 +1,6 @@
 {-# OPTIONS --cubical --type-in-type #-}
 
-module _ where
+module Experiments.FreeStrFin where
 
 open import Cubical.Foundations.Everything
 open import Cubical.Foundations.Equiv
@@ -98,11 +98,11 @@ module Free1 (σ : Sig) (τ : EqSig) (ε : eqs σ τ) where
 
 module Free2 (σ : Sig) (τ : EqSig) (ε : eqs σ τ) where
 
-  mutual
-    data Free (X : Type) : Type where
-      η : X -> Free X
-      α : sig σ (Free X) -> Free X
-      sat : (Free X , α) ⊨ ε
+  -- mutual
+  --   data Free (X : Type) : Type where
+  --     η : X -> Free X
+  --     α : sig σ (Free X) -> Free X
+  --     sat : (Free X , α) ⊨ ε
 
     -- ext 𝔜 (sharp ϕ h ∘ ρ) (ε₁ e .snd) !=
     -- sharp ϕ h (ext (Free X , α) ρ (ε₁ e .snd))
