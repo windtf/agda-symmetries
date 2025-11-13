@@ -1,0 +1,145 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/Iosevka/6.0.0/iosevka/iosevka.min.css");
+
+.Agda {
+  font-family: "Iosevka Web", monospace;
+}
+
+.Agda .Comment {
+  color: #93a1a1;
+}
+
+.Agda .Background {
+  background: #fdf6e3;
+}
+
+.Agda .Markup {
+  color: #657b83;
+}
+
+.Agda .Keyword {
+  color: #cb4b16;
+}
+
+.Agda .String {
+  color: #2aa198;
+}
+
+.Agda .Number {
+  color: #6c71c4;
+}
+
+.Agda .Symbol {
+  color: #586e75;
+}
+
+.Agda .PrimitiveType {
+  color: #268bd2;
+}
+
+.Agda .Pragma {
+  color: #657b83;
+}
+
+.Agda .Hole {
+  background: #eee8d5;
+}
+
+.Agda .Bound {
+  color: #657b83;
+}
+
+.Agda .Generalizable {
+  color: #657b83;
+}
+
+.Agda .InductiveConstructor {
+  color: #859900;
+}
+
+.Agda .CoinductiveConstructor {
+  color: #b58900;
+}
+
+.Agda .Datatype {
+  color: #268bd2;
+}
+
+.Agda .Field {
+  color: #d33682;
+}
+
+.Agda .Function {
+  color: #268bd2;
+}
+
+.Agda .Macro {
+  color: #268bd2;
+}
+
+.Agda .Module {
+  color: #6c71c4;
+}
+
+.Agda .Postulate {
+  color: #268bd2;
+}
+
+.Agda .Primitive {
+  color: #268bd2;
+}
+
+.Agda .Record {
+  color: #268bd2;
+}
+
+.Agda .UnsolvedMeta {
+  color: #657b83;
+  background: #eee8d5;
+}
+
+.Agda .UnsolvedConstraint {
+  color: #657b83;
+  background: #eee8d5;
+}
+
+.Agda .TerminationProblem {
+  color: #fdf6e3;
+  background: #cb4b16;
+}
+
+.Agda .IncompletePattern {
+  color: #657b83;
+  background: #eee8d5;
+}
+
+.Agda .Error {
+  color: #dc322f;
+  text-decoration: underline;
+}
+
+.Agda .TypeChecks {
+  color: #657b83;
+  background: #eee8d5;
+}
+
+.Agda .Deadcode {
+  color: #fdf6e3;
+  background: #93a1a1;
+}
+
+.Agda .ShadowingInTelescope {
+  color: #fdf6e3;
+  background: #93a1a1;
+}
+
+.Agda a {
+  text-decoration: none;
+}
+
+.Agda a[href]:hover {
+  background-color: #eee8d5;
+}
+
+.Agda [href].hover-highlight {
+  background-color: #eee8d5;
+}

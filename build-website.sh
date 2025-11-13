@@ -22,4 +22,5 @@ cd ~/.agda/cubical
 git checkout $CUBICAL_VERSION
 
 cd -
-./agda --html --html-dir=public index.agda
+./agda --html --html-dir=public --highlight-occurrences index.agda
+cp Agda.css public/
