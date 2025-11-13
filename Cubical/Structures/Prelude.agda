@@ -184,9 +184,19 @@ module Toset {ℓ : Level} {A : Type ℓ} where
                    (λ b≤a ϕ -> subst (a ≤_) ϕ ⋁-π₁))
             (tosetA .is-strongly-connected a b)
 
-    -- ⋁-univ-fwd : ∀ {x a b} -> (a ⋁ b) ≤ x -> (a ≤ x) × (b ≤ x)
-    -- ⋁-univ-bwd : ∀ {x a b} -> (a ≤ x) × (b ≤ x) -> (a ⋁ b) ≤ x
-    -- ⋁-univ : ∀ {x a b} -> (a ⋁ b ≤ x) ≃ (a ≤ x) × (b ≤ x)
+    ⋁-univ-fwd : ∀ {x a b} -> (a ⋁ b) ≤ x -> (a ≤ x) × (b ≤ x)
+    ⋁-univ-fwd {x = x} {a = a} {b = b} ϕ =
+      tosetA .is-trans a (a ⋁ b) x ⋁-π₁ ϕ , tosetA .is-trans b (a ⋁ b) x ⋁-π₂ ϕ
+
+    ⋁-univ-bwd : ∀ {x a b} -> (a ≤ x) × (b ≤ x) -> (a ⋁ b) ≤ x
+    ⋁-univ-bwd {x = x} {a = a} {b = b} (ϕ , ψ) =
+      P.rec (tosetA .is-prop-valued (a ⋁ b) x)
+            (⊎.rec (λ a≤b -> subst (_≤ x) (sym (⋁-β₁ a≤b)) ψ)
+                   (λ b≤a -> subst (_≤ x) (sym (⋁-β₂ b≤a)) ϕ))
+            (tosetA .is-strongly-connected a b)
+
+    ⋁-univ : ∀ {x a b} -> ((a ⋁ b) ≤ x) ≃ (a ≤ x) × (b ≤ x)
+    ⋁-univ = propBiimpl→Equiv (tosetA .is-prop-valued _ _) (isProp× (tosetA .is-prop-valued _ _) (tosetA .is-prop-valued _ _)) ⋁-univ-fwd ⋁-univ-bwd
 
     ⋁-idem : ∀ a -> a ⋁ a ≡ a
     ⋁-idem a = ⋁-β₁ (tosetA .is-refl a)
@@ -194,10 +204,19 @@ module Toset {ℓ : Level} {A : Type ℓ} where
     よ-≡ : ∀ a b -> (∀ x -> a ≤ x ≃ b ≤ x) -> a ≡ b
     よ-≡ a b f = tosetA .is-antisym a b (invEq (f b) (tosetA .is-refl b)) (f a .fst (is-refl tosetA a))
 
-    postulate ⋁-comm : ∀ a b -> a ⋁ b ≡ b ⋁ a
+    ⋁-comm : ∀ a b -> a ⋁ b ≡ b ⋁ a
+    ⋁-comm a b = よ-≡ (a ⋁ b) (b ⋁ a) λ x -> compEquiv ⋁-univ (compEquiv Σ-swap-≃ (invEquiv ⋁-univ))
 
-    -- ⋁-assocr : ∀ a b c -> (a ⋁ b) ⋁ c ≡ a ⋁ (b ⋁ c)
-    -- ⋁-total : ∀ a b -> (a ⋁ b ≡ b) ⊔′ (b ⋁ a ≡ a)
+    ⋁-assocr : ∀ a b c -> (a ⋁ b) ⋁ c ≡ a ⋁ (b ⋁ c)
+    ⋁-assocr a b c =
+      よ-≡ ((a ⋁ b) ⋁ c) (a ⋁ (b ⋁ c))
+        λ x -> compEquiv ⋁-univ
+                         (compEquiv (Σ-cong-equiv ⋁-univ λ _ -> idEquiv (c ≤ x))
+                                    (compEquiv Σ-assoc-≃ (compEquiv (Σ-cong-equiv (idEquiv (a ≤ x)) λ _ -> invEquiv ⋁-univ)
+                                                                                  (invEquiv ⋁-univ))))
+
+    ⋁-total : ∀ a b -> (a ⋁ b ≡ b) ⊔′ (b ⋁ a ≡ a)
+    ⋁-total a b = P.map (⊎.map ⋁-β₁ ⋁-β₁) (tosetA .is-strongly-connected a b)
 
   module ⋀-Toset (isSetA : isSet A) (_⋀_ : A -> A -> A)
                  (⋀-idem : ∀ a -> a ⋀ a ≡ a) (⋀-comm : ∀ a b -> a ⋀ b ≡ b ⋀ a)
