@@ -360,4 +360,4 @@ theorem-39 = Sort↔Order.sort≃order
 
 ---------------------------------
 -- an exhaustive list of all modules:
-import Everything
+import everything

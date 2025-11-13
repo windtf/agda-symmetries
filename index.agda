@@ -57,4 +57,4 @@ import Experiments.Norm
 
 ---------------------------------
 -- an exhaustive list of all modules:
-import Everything
+import everything
