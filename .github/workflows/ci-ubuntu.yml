@@ -4,13 +4,13 @@ on:
     branches:
       - main
     paths-ignore:
-      - "papers/*"
+      - "papers/**"
       - "README.md"
   pull_request:
     branches:
       - main
     paths-ignore:
-      - "papers/*"
+      - "papers/**"
       - "README.md"
   workflow_dispatch:
 
