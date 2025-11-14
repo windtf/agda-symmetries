@@ -4,12 +4,8 @@
 \label{sec:universal-algebra}
 
 We first develop some basic notions from universal algebra and equational
-logic~\cite{birkhoffStructureAbstractAlgebras1935}.
-%
-Universal algebra is the abstract study of algebraic structures, which have (algebraic) operations and (universal)
-equations.
-%
-This gives us a vocabulary and framework to express our results in.
+logic~\cite{birkhoffStructureAbstractAlgebras1935},
+which gives us a vocabulary and framework to express our results in.
 %
 The point of view we take is the standard category-theoretic approach to universal algebra, which predates the Lawvere
 theory or abstract clone point of view.
@@ -27,7 +23,7 @@ We keep a running example of monoids in mind, while explaining and defining the 
     A signature, denoted $\sig$, is a (dependent) pair consisting of:
     \begin{itemize}
         \item a set of operations, $\op\colon \Set$,
-        \item an arity function for each symbol, $\ar\colon \op \to \Set$.
+        \item an arity function for each operation, $\ar\colon \op \to \Set$.
     \end{itemize}
 \end{definition}
 
@@ -45,16 +41,17 @@ We keep a running example of monoids in mind, while explaining and defining the 
 
 \noindent
 Every signature $\sig$ induces a signature functor $\Sig$ on $\Set$.
-
+\vc{inconsistent use of $\Set$ and $\UU$}
 \begin{definition}[Signature functor $\Sig \colon \Set \to \Set$]
     \label{def:signature-functor}
-    \begin{align*}
-        X           & \mapsto \dsum{o:\op}{X^{\ar(o)}} \\
-        X \xto{f} Y & \mapsto
+    \[
+        X \mapsto \dsum{o:\op}{X^{\ar(o)}}
+        \qquad
+        X \xto{f} Y \mapsto
         \dsum{o:\op}{X^{\ar(o)}}
         \xto{(o, \blank \comp f)}
         \dsum{o:\op}{Y^{\ar(o)}}
-    \end{align*}
+    \]
 \end{definition}
 
 \begin{example}
@@ -85,10 +82,11 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
 \begin{example}
     Concretely, an $\SigMon$-algebra has the type
     \[
-        \begin{aligned}
-            \alpha_{X} : \SigMon(X) \to X & \eqv (\unitt + (X \times X)) \to X            \\
-                                          & \eqv (\unitt \to X) \times (X \times X \to X)
-        \end{aligned}
+        \alpha_{X} : \SigMon(X) \to X
+        \quad\eqv\quad
+        (\unitt + (X \times X)) \to X
+        \quad\eqv\quad
+        (\unitt \to X) \times (X \times X \to X)
     \]
     which is the pair of functions interpreting the two operations.
     Natural numbers $\Nat$ with $(0, +)$ or $(1, \times)$ are examples of monoid structures.
@@ -183,8 +181,8 @@ Free algebra constructions are canonically equivalent.
     \(
     {\ext{F\fdot\eta_{X}} \comp \ext{G\fdot\eta_{X}}} =
     {\ext{(\ext{F\fdot\eta_{X}} \comp G\fdot\eta_{X})}} =
-    {\ext{F\fdot\eta_{X}}} =
-    {\idfunc_{\str{F}(X)}}
+        {\ext{F\fdot\eta_{X}}} =
+        {\idfunc_{\str{F}(X)}}
     \).
     % \vc{Mention SIP.}
 \end{proof}

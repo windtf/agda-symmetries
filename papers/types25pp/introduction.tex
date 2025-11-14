@@ -42,13 +42,12 @@ $\term{red} < \term{white} < \term{blue}$.
 \]
 What if we are avid enjoyers of vexillology who also want to consider other flags?
 We might ask: how many ways can we sort our unordered list of balls?
-We know that there are only $3! = 6$ permutations of
-$\{\term{red}, \term{white}, \term{blue}\}$, so there are only 6 possible orderings we can define.
+We know there are exactly $3! = 6$ permutations of
+$\{\term{red}, \term{white}, \term{blue}\}$, so there are 6 possible orderings we can define.
 In fact, there are exactly 6 such categories of tricolor flags
 (see~\href{https://en.wikipedia.org/wiki/List_of_flags_with_blue,_red,_and_white_stripes#Triband}{Wikipedia}).
 We have no allegiance to any of the countries presented by the flags, hypothetical or otherwise --
 this is purely a matter of combinatorics.
-
 \begin{center}
   \foreach \colorA/\colorB/\colorC in {red/white/blue, red/blue/white, white/red/blue, white/blue/red, blue/red/white, blue/white/red}{
       \begin{tikzpicture}[scale=0.5]
@@ -59,13 +58,12 @@ this is purely a matter of combinatorics.
       \end{tikzpicture}
     }
 \end{center}
-
 We posit that, because there are exactly 6 orderings, we can only define 6 \emph{extensionally correct} sorting functions.
 %
 Formally, there is a bijection between the set of orderings on a carrier set $A$ and the set of correct sorting
 functions on lists of $A$.
 %
-In fact, a sorting function can be correctly axiomatized just from the point of view of this bijection!
+In fact, a sorting function can be correctly axiomatized just from this point of view, which is our main contribution.
 
 % In more formal terms: let $A = \{\term{red}, \term{white}, \term{blue}\}$
 % let $\setord(A)$ be the set of orderings on $A$ and let
@@ -260,7 +258,7 @@ In fact, a sorting function can be correctly axiomatized just from the point of 
 % % the constructions of free commutative monoids very naturally.
 
 \paragraph*{Outline and Contributions}
-The paper is organized as follows:
+% The paper is organized as follows:
 \begin{myitemize}
   \item In~\cref{sec:notation}, we remark on the notation and type-theoretic conventions used in the paper.
   \item In~\cref{sec:universal-algebra}, we describe a formalization of universal algebra developed from the point of view
