@@ -18,54 +18,35 @@ env:
   AGDA_BRANCH: v2.8.0
   CUBICAL_BRANCH: v0.9
   GHC_VERSION: 9.10.2
-  CABAL_VERSION: 3.16.0.0
-  CABAL_INSTALL: cabal install --overwrite-policy=always --ghc-options='-O1 +RTS -M6G -RTS'
   CACHE_PATHS: |
-    ~/.cabal/packages
-    ~/.cabal/store
-    ~/.cabal/bin
-    ~/.agda
-    ~/cubical
+    ~/cubical/_build
+    ~/symmetries/_build
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install cabal
-        uses: haskell-actions/setup@v2
-        with:
-          ghc-version: ${{ env.GHC_VERSION }}
-          cabal-version: ${{ env.CABAL_VERSION }}
-          cabal-update: true
-
       - name: Restore external dependencies cache
         uses: actions/cache/restore@v3
         id: cache-external-restore
         with:
           path: ${{ env.CACHE_PATHS }}
-          key: ${{ runner.os }}-${{ env.GHC_VERSION }}-${{ env.CABAL_VERSION }}-${{ env.AGDA_BRANCH }}-${{ env.CUBICAL_BRANCH }}
+          key: ${{ runner.os }}-${{ env.AGDA_BRANCH }}-${{ env.CUBICAL_BRANCH }}
 
       ########################################################################
       ## INSTALLATION STEPS
       ########################################################################
 
       - name: Download and install Agda from github
-        if: steps.cache-external-restore.outputs.cache-hit != 'true'
         run: |
-          git clone https://github.com/agda/agda --branch ${{ env.AGDA_BRANCH }} --depth=1
-          cd agda
-          mkdir -p doc
-          touch doc/user-manual.pdf
-          ${{ env.CABAL_INSTALL }}
-          cd ..
-          rm -rf agda
-
-      - name: Put cabal programs in PATH
-        run: echo "~/.cabal/bin" >> $GITHUB_PATH
+          mkdir /tmp/agda/
+          cd /tmp/agda/
+          wget -O Agda.tar.xz https://github.com/agda/agda/releases/download/${{ env.AGDA_BRANCH }}/Agda-${{ env.AGDA_BRANCH }}-linux.tar.xz
+          tar -xf Agda.tar.xz
+          sudo cp agda /usr/local
 
       - name: Download and install the cubical library from github
-        if: steps.cache-external-restore.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/agda/cubical --branch ${{ env.CUBICAL_BRANCH }} --depth=1
           cd cubical
@@ -74,7 +55,6 @@ jobs:
           echo "$GITHUB_WORKSPACE/cubical/cubical.agda-lib" >> ~/.agda/libraries
 
       - name: Save external dependencies cache
-        if: steps.cache-external-restore.outputs.cache-hit != 'true'
         uses: actions/cache/save@v3
         id: cache-external-save
         with:
