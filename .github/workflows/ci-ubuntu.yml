@@ -58,7 +58,6 @@ jobs:
 
       - name: Save external dependencies cache
         uses: actions/cache/save@v3
-        id: cache-external-save
         with:
           path: ${{ env.CACHE_PATHS }}
           key: ${{ steps.cache-external-restore.outputs.cache-primary-key }}
@@ -83,7 +82,31 @@ jobs:
           chmod +x create-everything.sh
           ./create-everything.sh
 
-      - name: Test
+      - name: Build library
         run: |
           cd symmetries
           agda --build-library
+
+      - name: Save external dependencies cache
+        uses: actions/cache/save@v3
+        with:
+          path: ${{ env.CACHE_PATHS }}
+          key: ${{ steps.cache-external-restore.outputs.cache-primary-key }}
+
+      ########################################################################
+      ## HTML PAGE
+      ########################################################################
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build html
+        run: |
+          cd symmetries
+          agda --html --html-dir=public --highlight-occurrences index.agda
+          cp Agda.css public/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
