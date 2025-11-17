@@ -32,14 +32,14 @@ private
     ℓ : Level
     A : Type ℓ
 
-list→slist-Hom : structHom < L.List A , list-α > < SList A , slistAlpha >
+list→slist-Hom : structHom < L.List A , listΑ > < SList A , slistAlpha >
 list→slist-Hom = ListDef.Free.ext listDef trunc (M.cmonSatMon slistSat) [_]
 
 list→slist : L.List A -> SList A
 list→slist = list→slist-Hom .fst
 
 module Membership* {ℓ} {A : Type ℓ} (isSetA : isSet A) where
-  open SList.Free {A = A} isSetHProp (M.⊔-MonStr-CMonSEq ℓ)
+  open SList.Free {A = A} isSetHProp (M.⊔MonStrCMonSEq ℓ)
 
   よ : A -> A -> hProp ℓ
   よ x = λ y -> (x ≡ y) , isSetA x y

@@ -39,15 +39,15 @@ module MonStruct {ℓ} (𝔛 : MonStruct {ℓ}) where
   e : 𝔛 .car
   e = 𝔛 .alg (`e , lookup [])
 
-  e-eta : {i j : Arity 0 -> 𝔛 .car} -> 𝔛 .alg (`e , i) ≡ 𝔛 .alg (`e , j)
-  e-eta {i} = cong (\j -> 𝔛 .alg (`e , j)) (funExt λ z -> lookup [] z)
+  eEta : {i j : Arity 0 -> 𝔛 .car} -> 𝔛 .alg (`e , i) ≡ 𝔛 .alg (`e , j)
+  eEta {i} = cong (\j -> 𝔛 .alg (`e , j)) (funExt λ z -> lookup [] z)
 
   infixr 40 _⊕_
   _⊕_ : 𝔛 .car -> 𝔛 .car -> 𝔛 .car
   _⊕_ x y = 𝔛 .alg (`⊕ , lookup (x ∷ y ∷ []))
 
-  ⊕-eta : ∀ {ℓ} {A : Type ℓ} (i : Arity 2 -> A) (_♯ : A -> 𝔛 .car) -> 𝔛 .alg (`⊕ , (λ w -> i w ♯)) ≡ (i fzero ♯) ⊕ (i fone ♯)
-  ⊕-eta i _♯ = cong (λ z -> 𝔛 .alg (`⊕ , z)) (funExt lemma)
+  ⊕Eta : ∀ {ℓ} {A : Type ℓ} (i : Arity 2 -> A) (_♯ : A -> 𝔛 .car) -> 𝔛 .alg (`⊕ , (λ w -> i w ♯)) ≡ (i fzero ♯) ⊕ (i fone ♯)
+  ⊕Eta i _♯ = cong (λ z -> 𝔛 .alg (`⊕ , z)) (funExt lemma)
     where
     lemma : (x : Arity 2) -> (i x ♯) ≡ lookup ((i fzero ♯) ∷ (i fone ♯) ∷ []) x
     lemma (zero , p) = cong (_♯ ∘ i) (Σ≡Prop (λ _ -> isProp≤) refl)
@@ -92,7 +92,7 @@ module MonSEq {ℓ} (𝔛 : MonStruct {ℓ}) (ϕ : 𝔛 ⊨ MonSEq) where
       m ∎
     where
       lemma : (w : MonSig .arity `⊕) -> lookup (𝔛 .alg (`e , (λ num → ⊥.rec (¬Fin0 num))) ∷ m ∷ []) w ≡ sharp (finSig (MonSym , MonAr)) 𝔛 (lookup (m ∷ [])) (lookup (node (`e , (λ num → ⊥.rec (¬Fin0 num))) ∷ leaf fzero ∷ []) w)
-      lemma (zero , p) = sym e-eta
+      lemma (zero , p) = sym eEta
       lemma (suc zero , p) = refl
       lemma (suc (suc n) , p) = ⊥.rec (¬m+n<m {m = 2} p)
 
@@ -108,7 +108,7 @@ module MonSEq {ℓ} (𝔛 : MonStruct {ℓ}) (ϕ : 𝔛 ⊨ MonSEq) where
     where
       lemma : (x : MonSig .arity `⊕) -> lookup (m ∷ 𝔛 .alg (`e , (λ num → ⊥.rec (¬Fin0 num))) ∷ []) x ≡ sharp MonSig 𝔛 (lookup [ m ]) (lookup (leaf fzero ∷ node (`e , (λ num → ⊥.rec (¬Fin0 num))) ∷ []) x)
       lemma (zero , p) = refl
-      lemma (suc zero , p) = sym e-eta
+      lemma (suc zero , p) = sym eEta
       lemma (suc (suc n) , p) = ⊥.rec (¬m+n<m {m = 2} p)
 
   assocr : ∀ m n o -> (m ⊕ n) ⊕ o ≡ m ⊕ (n ⊕ o)

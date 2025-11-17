@@ -56,10 +56,10 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   open Toset
 
   IsHeadLeastSection : (SList A -> List A) -> Type _
-  IsHeadLeastSection s = is-section s × im-cut s
+  IsHeadLeastSection s = isSection s × imCut s
 
   IsSortSection : (SList A -> List A) -> Type _
-  IsSortSection s = is-section s × im-cut s × im-cons s
+  IsSortSection s = isSection s × imCut s × imCons s
 
   HasHeadLeastSectionAndIsDiscrete : Type _
   HasHeadLeastSectionAndIsDiscrete = (Σ _ IsHeadLeastSection) × (Discrete A)
@@ -68,106 +68,106 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   HasSortSectionAndIsDiscrete = (Σ _ IsSortSection) × (Discrete A)
 
   IsSortSection→IsHeadLeastSection : ∀ s -> IsSortSection s -> IsHeadLeastSection s
-  IsSortSection→IsHeadLeastSection s (section , im-cut , _) = section , im-cut
+  IsSortSection→IsHeadLeastSection s (section , imCut , _) = section , imCut
 
   order→sort : HasDecOrder -> HasSortSectionAndIsDiscrete
   order→sort (_≤_ , isToset , isDec) =
-    (sort _≤_ isToset isDec , subst (λ isSetA' -> Sort.is-sort-section isSetA' (sort _≤_ isToset isDec)) (isPropIsSet _ _) (Order→Sort.sort-is-sort-section _≤_ isToset isDec)) , isDiscreteA _≤_ isToset isDec
+    (sort _≤_ isToset isDec , subst (λ isSetA' -> Sort.isSortSection isSetA' (sort _≤_ isToset isDec)) (isPropIsSet _ _) (Order→Sort.sortIsSortSection _≤_ isToset isDec)) , isDiscreteA _≤_ isToset isDec
 
-  order→im-cut : HasDecOrder -> HasHeadLeastSectionAndIsDiscrete
-  order→im-cut p = let ((s , s-is-sort) , r) = order→sort p in (s , IsSortSection→IsHeadLeastSection s s-is-sort) , r
+  order→imCut : HasDecOrder -> HasHeadLeastSectionAndIsDiscrete
+  order→imCut p = let ((s , sIsSort) , r) = order→sort p in (s , IsSortSection→IsHeadLeastSection s sIsSort) , r
 
-  im-cut→order : HasHeadLeastSectionAndIsDiscrete -> HasDecOrder
-  im-cut→order ((s , s-is-section , s-is-sort) , discA) =
-    _≤_ s s-is-section , ≤-isToset s s-is-section s-is-sort , dec-≤ s s-is-section discA
+  imCut→order : HasHeadLeastSectionAndIsDiscrete -> HasDecOrder
+  imCut→order ((s , sIsSection , sIsSort) , discA) =
+    _≤_ s sIsSection , ≤IsToset s sIsSection sIsSort , dec≤ s sIsSection discA
 
   sort→order : HasSortSectionAndIsDiscrete -> HasDecOrder
-  sort→order ((s , s-is-sort) , r) = im-cut→order ((s , IsSortSection→IsHeadLeastSection s s-is-sort) , r)
+  sort→order ((s , sIsSort) , r) = imCut→order ((s , IsSortSection→IsHeadLeastSection s sIsSort) , r)
 
-  order→im-cut→order : ∀ x -> im-cut→order (order→im-cut x) ≡ x
-  order→im-cut→order (_≤_ , isToset , isDec) =
-    Σ≡Prop (λ _≤'_ -> isOfHLevelΣ 1 (isPropIsToset _) (λ p -> isPropΠ2 λ x y -> isPropDec (is-prop-valued p x y))) (sym ≤-≡)
+  order→imCut→order : ∀ x -> imCut→order (order→imCut x) ≡ x
+  order→imCut→order (_≤_ , isToset , isDec) =
+    Σ≡Prop (λ _≤'_ -> isOfHLevelΣ 1 (isPropIsToset _) (λ p -> isPropΠ2 λ x y -> isPropDec (is-prop-valued p x y))) (sym ≤≡)
     where
     _≤*_ : A -> A -> Type _
-    _≤*_ = im-cut→order (order→im-cut (_≤_ , isToset , isDec)) .fst
+    _≤*_ = imCut→order (order→imCut (_≤_ , isToset , isDec)) .fst
 
-    ≤*-isToset : IsToset _≤*_
-    ≤*-isToset = im-cut→order (order→im-cut (_≤_ , isToset , isDec)) .snd .fst
+    ≤*isToset : IsToset _≤*_
+    ≤*isToset = imCut→order (order→imCut (_≤_ , isToset , isDec)) .snd .fst
 
-    iso-to : ∀ x y -> x ≤ y -> x ≤* y
-    iso-to x y x≤y with isDec x y
+    isoTo : ∀ x y -> x ≤ y -> x ≤* y
+    isoTo x y x≤y with isDec x y
     ... | yes p = refl
     ... | no ¬p = ⊥.rec (¬p x≤y)
 
-    iso-from : ∀ x y -> x ≤* y -> x ≤ y
-    iso-from x y x≤y with isDec x y
+    isoFrom : ∀ x y -> x ≤* y -> x ≤ y
+    isoFrom x y x≤y with isDec x y
     ... | yes p = p
     ... | no ¬p = ⊥.rec (¬p (subst (_≤ y) (just-inj y x x≤y) (is-refl isToset y)))
 
-    iso-≤ : ∀ x y -> Iso (x ≤ y) (x ≤* y)
-    iso-≤ x y = iso (iso-to x y) (iso-from x y) (λ p -> is-prop-valued ≤*-isToset x y _ p) (λ p -> is-prop-valued isToset x y _ p)
-    ≤-≡ : _≤_ ≡ _≤*_
-    ≤-≡ = funExt λ x -> funExt λ y -> isoToPath (iso-≤ x y)
+    iso≤ : ∀ x y -> Iso (x ≤ y) (x ≤* y)
+    iso≤ x y = iso (isoTo x y) (isoFrom x y) (λ p -> is-prop-valued ≤*isToset x y _ p) (λ p -> is-prop-valued isToset x y _ p)
+    ≤≡ : _≤_ ≡ _≤*_
+    ≤≡ = funExt λ x -> funExt λ y -> isoToPath (iso≤ x y)
 
   sort→order→sort : ∀ x -> order→sort (sort→order x) ≡ x
-  sort→order→sort ((s , s-is-section , s-is-sort) , discA) =
+  sort→order→sort ((s , sIsSection , sIsSort) , discA) =
     Σ≡Prop (λ _ -> isPropDiscrete)
-    $ Σ≡Prop isProp-is-sort-section
+    $ Σ≡Prop isPropIsSortSection
     $ sym
-    $ funExt λ xs -> uniqueSort' _≤*_ ≤*-isToset ≤*-dec s xs (s-is-section , ∣_∣₁ ∘ s-is-sort')
+    $ funExt λ xs -> uniqueSort' _≤*_ ≤*isToset ≤*dec s xs (sIsSection , ∣_∣₁ ∘ sIsSort')
     where
     s' : SList A -> List A
-    s' = order→sort (sort→order ((s , s-is-section , s-is-sort) , discA)) .fst .fst
+    s' = order→sort (sort→order ((s , sIsSection , sIsSort) , discA)) .fst .fst
 
-    s'-is-sort-section : is-sort-section s'
-    s'-is-sort-section = order→sort (sort→order ((s , s-is-section , s-is-sort) , discA)) .fst .snd
+    s'IsSortSection : isSortSection s'
+    s'IsSortSection = order→sort (sort→order ((s , sIsSection , sIsSort) , discA)) .fst .snd
 
     _≤*_ : A -> A -> Type _
-    _≤*_ = _≤_ s s-is-section
+    _≤*_ = _≤_ s sIsSection
 
-    ≤*-isToset : IsToset _≤*_
-    ≤*-isToset = ≤-isToset s s-is-section (s-is-sort .fst)
+    ≤*isToset : IsToset _≤*_
+    ≤*isToset = ≤IsToset s sIsSection (sIsSort .fst)
 
-    ≤*-dec : ∀ x y -> Dec (x ≤* y)
-    ≤*-dec = dec-≤ s s-is-section discA
+    ≤*dec : ∀ x y -> Dec (x ≤* y)
+    ≤*dec = dec≤ s sIsSection discA
 
     Sorted* : List A -> Type _
-    Sorted* = Sorted _≤*_ ≤*-isToset ≤*-dec
+    Sorted* = Sorted _≤*_ ≤*isToset ≤*dec
 
-    s-is-sort'' : ∀ xs n -> n ≡ L.length (s xs) -> Sorted* (s xs)
-    s-is-sort'' xs n p with n | s xs | inspect s xs
+    sIsSort'' : ∀ xs n -> n ≡ L.length (s xs) -> Sorted* (s xs)
+    sIsSort'' xs n p with n | s xs | inspect s xs
     ... | zero  | []     | _ = sorted-nil
     ... | zero  | y ∷ ys | _ = ⊥.rec (znots p)
     ... | suc _ | []     | _ = ⊥.rec (snotz p)
     ... | suc _ | y ∷ [] | _ = sorted-one y
-    ... | suc m | y ∷ z ∷ zs | [ q ]ᵢ = induction (s-is-sort'' (list→slist (z ∷ zs)) m (injSuc p ∙ wit))
+    ... | suc m | y ∷ z ∷ zs | [ q ]ᵢ = induction (sIsSort'' (list→slist (z ∷ zs)) m (injSuc p ∙ wit))
       where
       wit : suc (L.length zs) ≡ L.length (s (list→slist (z ∷ zs)))
       wit = sym $
-        L.length (s (list→slist (z ∷ zs))) ≡⟨ sort-length≡ s s-is-section (list→slist (z ∷ zs)) ⟩
-        S.length (list→slist (z ∷ zs)) ≡⟨ sym (sort-length≡-α s s-is-section (z ∷ zs)) ⟩
+        L.length (s (list→slist (z ∷ zs))) ≡⟨ sortLength≡ s sIsSection (list→slist (z ∷ zs)) ⟩
+        S.length (list→slist (z ∷ zs)) ≡⟨ sym (sortLength≡α s sIsSection (z ∷ zs)) ⟩
         L.length (z ∷ zs) ∎
 
-      z∷zs-sorted : s (list→slist (z ∷ zs)) ≡ z ∷ zs
-      z∷zs-sorted = sort-unique s s-is-section (z ∷ zs) (s-is-sort .snd y (z ∷ zs) ∣ _ , q ∣₁)
+      z∷zsSorted : s (list→slist (z ∷ zs)) ≡ z ∷ zs
+      z∷zsSorted = sortUnique s sIsSection (z ∷ zs) (sIsSort .snd y (z ∷ zs) ∣ _ , q ∣₁)
 
       induction : Sorted* (s (list→slist (z ∷ zs))) -> Sorted* (y ∷ z ∷ zs)
       induction IH =
         sorted-cons y z zs
-          (is-sorted→≤ s s-is-section y z (s-is-sort .fst y z _ ∣ _ , q ∣₁ (L.inr (L.inl refl))))
-          (subst Sorted* z∷zs-sorted IH)
+          (isSorted→≤ s sIsSection y z (sIsSort .fst y z _ ∣ _ , q ∣₁ (L.inr (L.inl refl))))
+          (subst Sorted* z∷zsSorted IH)
 
-    s-is-sort' : ∀ xs -> Sorted* (s xs)
-    s-is-sort' xs = s-is-sort'' xs (L.length (s xs)) refl -- helps with termination checking
+    sIsSort' : ∀ xs -> Sorted* (s xs)
+    sIsSort' xs = sIsSort'' xs (L.length (s xs)) refl -- helps with termination checking
 
   -- without tail sort, we get an embedding
-  order⊂im-cut : isEmbedding order→im-cut
-  order⊂im-cut = injEmbedding (isSet× (isSetΣ (isSetΠ (λ _ -> isOfHLevelList 0 isSetA)) λ q -> isProp→isSet (isProp× (isProp-is-section q) (isProp-im-cut q))) (isProp→isSet isPropDiscrete))
-    (λ p -> sym (order→im-cut→order _) ∙ congS im-cut→order p ∙ order→im-cut→order _)
+  order⊂imCut : isEmbedding order→imCut
+  order⊂imCut = injEmbedding (isSet× (isSetΣ (isSetΠ (λ _ -> isOfHLevelList 0 isSetA)) λ q -> isProp→isSet (isProp× (isPropIsSection q) (isPropImCut q))) (isProp→isSet isPropDiscrete))
+    (λ p -> sym (order→imCut→order _) ∙ congS imCut→order p ∙ order→imCut→order _)
 
   -- with tail sort, we can construct a full equivalence
   sort↔order : Iso HasDecOrder HasSortSectionAndIsDiscrete
-  sort↔order = iso order→sort sort→order sort→order→sort order→im-cut→order
+  sort↔order = iso order→sort sort→order sort→order→sort order→imCut→order
 
   sort≃order : HasDecOrder ≃ HasSortSectionAndIsDiscrete
   sort≃order = isoToEquiv sort↔order

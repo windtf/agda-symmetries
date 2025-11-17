@@ -49,15 +49,15 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
     ♯IsMonHom : structHom 𝔏 𝔜
     fst ♯IsMonHom = _♯
-    snd ♯IsMonHom M.`e i = 𝔜.e-eta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
+    snd ♯IsMonHom M.`e i = 𝔜.eEta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
 
   private
     listEquivLemma : (g : structHom 𝔏 𝔜) -> (x : List A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
-    listEquivLemma (g , homMonWit) [] = sym (homMonWit M.`e (lookup [])) ∙ 𝔜.e-eta
+    listEquivLemma (g , homMonWit) [] = sym (homMonWit M.`e (lookup [])) ∙ 𝔜.eEta
     listEquivLemma (g , homMonWit) (x ∷ xs) =
       g (x ∷ xs) ≡⟨ sym (homMonWit M.`⊕ (lookup ([ x ] ∷ xs ∷ []))) ⟩
-      𝔜 .alg (M.`⊕ , (λ w -> g (lookup ((x ∷ []) ∷ xs ∷ []) w))) ≡⟨ 𝔜.⊕-eta (lookup ([ x ] ∷ xs ∷ [])) g ⟩
+      𝔜 .alg (M.`⊕ , (λ w -> g (lookup ((x ∷ []) ∷ xs ∷ []) w))) ≡⟨ 𝔜.⊕Eta (lookup ([ x ] ∷ xs ∷ [])) g ⟩
       g [ x ] 𝔜.⊕ g xs ≡⟨ cong (g [ x ] 𝔜.⊕_) (listEquivLemma (g , homMonWit) xs) ⟩
       _ ∎
 

@@ -31,8 +31,8 @@ private
     ℓ : Level
     A : Type ℓ
 
-listα : sig M.MonSig (List A) -> List A
-listα = L.listα
+listΑ : sig M.MonSig (List A) -> List A
+listΑ = L.listΑ
 
 private
   list▿ : (xs ys : List A)

@@ -53,14 +53,14 @@ Fin+-cong : {n m n' m' : ℕ} -> Iso (Fin n) (Fin n') -> Iso (Fin m) (Fin m') ->
 Fin+-cong {n} {m} {n'} {m'} σ τ =
   compIso (Fin≅Fin+Fin n m) (compIso (⊎Iso σ τ) (invIso (Fin≅Fin+Fin n' m')))
 
-⊎Iso-eta : {A B A' B' : Type ℓ} {C : Type ℓ'} (f : A' -> C) (g : B' -> C)
+⊎IsoEta : {A B A' B' : Type ℓ} {C : Type ℓ'} (f : A' -> C) (g : B' -> C)
         -> (σ : Iso A A') (τ : Iso B B')
         -> ⊎.rec (f ∘ σ .fun) (g ∘ τ .fun) ≡ ⊎.rec f g ∘ ⊎Iso σ τ .fun
-⊎Iso-eta f g σ τ = ⊎E (⊎.rec f g ∘ ⊎Iso σ τ .fun) refl refl
+⊎IsoEta f g σ τ = ⊎E (⊎.rec f g ∘ ⊎Iso σ τ .fun) refl refl
 
-⊎Swap-eta : {A B : Type ℓ} {C : Type ℓ'} (f : A -> C) (g : B -> C)
+⊎SwapEta : {A B : Type ℓ} {C : Type ℓ'} (f : A -> C) (g : B -> C)
         -> ⊎.rec f g ≡ ⊎.rec g f ∘ ⊎-swap-Iso .fun
-⊎Swap-eta f g = ⊎E (⊎.rec g f ∘ ⊎-swap-Iso .fun) refl refl
+⊎SwapEta f g = ⊎E (⊎.rec g f ∘ ⊎-swap-Iso .fun) refl refl
 
 cong≈ : {as bs cs ds : Array A} -> as ≈ bs -> cs ≈ ds -> (as ⊕ cs) ≈ (bs ⊕ ds)
 cong≈ {as = n , f} {bs = n' , f'} {m , g} {m' , g'} (σ , p) (τ , q) =
@@ -71,7 +71,7 @@ cong≈ {as = n , f} {bs = n' , f'} {m , g} {m' , g'} (σ , p) (τ , q) =
     combine n m (f' ∘ σ .fun) (g' ∘ τ .fun)
   ≡⟨⟩
     ⊎.rec (f' ∘ σ .fun) (g' ∘ τ .fun) ∘ finSplit n m
-  ≡⟨ congS (_∘ finSplit n m) (⊎Iso-eta f' g' σ τ) ⟩
+  ≡⟨ congS (_∘ finSplit n m) (⊎IsoEta f' g' σ τ) ⟩
     ⊎.rec f' g' ∘ ⊎Iso σ τ .fun ∘ finSplit n m
   ≡⟨⟩
     ⊎.rec f' g' ∘ idfun _ ∘ ⊎Iso σ τ .fun ∘ finSplit n m
@@ -95,7 +95,7 @@ comm≈ {as = n , f} {bs = m , g} =
       ⊎.rec g f ∘ (Fin≅Fin+Fin m n .fun ∘ Fin≅Fin+Fin m n .inv) ∘ ⊎-swap-Iso .fun ∘ Fin≅Fin+Fin n m .fun
     ≡⟨ congS (λ h -> ⊎.rec g f ∘ h ∘ ⊎-swap-Iso .fun ∘ Fin≅Fin+Fin n m .fun) (funExt (Fin≅Fin+Fin m n .rightInv)) ⟩
       ⊎.rec g f ∘ ⊎-swap-Iso .fun ∘ Fin≅Fin+Fin n m .fun
-    ≡⟨ congS (_∘ Fin≅Fin+Fin n m .fun) (sym (⊎Swap-eta f g)) ⟩
+    ≡⟨ congS (_∘ Fin≅Fin+Fin n m .fun) (sym (⊎SwapEta f g)) ⟩
       ⊎.rec f g ∘ Fin≅Fin+Fin n m .fun
     ∎)
 
@@ -214,7 +214,7 @@ module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : 
   f♯HomOplus : (as bs : Array A) -> f♯ (as ⊕ bs) ≡ f♯ as 𝔜.⊕ f♯ bs
   f♯HomOplus as bs =
     f♯ (as ⊕ bs) ≡⟨ sym ((f♯Hom .snd) M.`⊕ ⟪ as ⨾ bs ⟫) ⟩
-    𝔜 .alg (M.`⊕ , (λ w -> f♯ (⟪ as ⨾ bs ⟫ w))) ≡⟨ 𝔜.⊕-eta ⟪ as ⨾ bs ⟫ f♯ ⟩
+    𝔜 .alg (M.`⊕ , (λ w -> f♯ (⟪ as ⨾ bs ⟫ w))) ≡⟨ 𝔜.⊕Eta ⟪ as ⨾ bs ⟫ f♯ ⟩
     f♯ as 𝔜.⊕ f♯ bs ∎
 
   f♯Comm : (as bs : Array A) -> f♯ (as ⊕ bs) ≡ f♯ (bs ⊕ as)

@@ -85,17 +85,17 @@ module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
   module Section (sort≡ : isSection) where
     open Membership* isSetA
 
-    list→slistΗ : ∀ xs -> (x : A) -> list→slist xs ≡ [ x ]* -> xs ≡ [ x ]
-    list→slistΗ [] x p = ⊥.rec (znots (congS S.length p))
-    list→slistΗ (x ∷ []) y p = congS [_] ([-]-inj {ϕ = isSetA} p)
-    list→slistΗ (x ∷ y ∷ xs) z p = ⊥.rec (snotz (injSuc (congS S.length p)))
+    list→slistη : ∀ xs -> (x : A) -> list→slist xs ≡ [ x ]* -> xs ≡ [ x ]
+    list→slistη [] x p = ⊥.rec (znots (congS S.length p))
+    list→slistη (x ∷ []) y p = congS [_] ([_]Inj {ϕ = isSetA} p)
+    list→slistη (x ∷ y ∷ xs) z p = ⊥.rec (snotz (injSuc (congS S.length p)))
 
-    sortLength≡Α : ∀ (xs : List A) -> L.length xs ≡ S.length (list→slist xs)
-    sortLength≡Α [] = refl
-    sortLength≡Α (x ∷ xs) = congS suc (sortLength≡Α xs)
+    sortLength≡α : ∀ (xs : List A) -> L.length xs ≡ S.length (list→slist xs)
+    sortLength≡α [] = refl
+    sortLength≡α (x ∷ xs) = congS suc (sortLength≡α xs)
 
     sortLength≡ : ∀ xs -> L.length (sort xs) ≡ S.length xs
-    sortLength≡ xs = sortLength≡Α (sort xs) ∙ congS S.length (sort≡ xs)
+    sortLength≡ xs = sortLength≡α (sort xs) ∙ congS S.length (sort≡ xs)
 
     length0 : ∀ (xs : List A) -> L.length xs ≡ 0 -> xs ≡ []
     length0 [] p = refl
@@ -108,7 +108,7 @@ module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
     sort[]' = length0 (sort []*) (sortLength≡ []*)
 
     sort[-] : ∀ x -> sort [ x ]* ≡ [ x ]
-    sort[-] x = list→slistΗ (sort [ x ]*) x (sort≡ [ x ]*)
+    sort[-] x = list→slistη (sort [ x ]*) x (sort≡ [ x ]*)
 
     sort∈ : ∀ x xs -> x ∈* xs -> x ∈ sort xs
     sort∈ x xs p = ∈*→∈ x (sort xs) (subst (x ∈*_) (sym (sort≡ xs)) p)

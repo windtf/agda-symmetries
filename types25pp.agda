@@ -127,7 +127,7 @@ definition-19 = ArrayMon.Array
 
 -- Lemma 1. Zero-length arrays (0, f) are contractible.
 lemma-1 : _
-lemma-1 = ArrayMon.e-eta
+lemma-1 = ArrayMon.eEta
 
 -- Definition 20 (Concatenation). The concatenation operation ++, is defined below, where
 definition-20 : _
@@ -283,41 +283,41 @@ definition-34-b = Sort→Order._≤_
 
 -- Proposition 18. ≼𝑠 is reflexive, antisymmetric, and total
 proposition-18 : _
-proposition-18 = Sort→Order.≤-isToset
+proposition-18 = Sort→Order.≤IsToset
 
 -- Definition 35 (− ∈ im(𝑠)). The fiber of 𝑠 over 𝑥𝑠 : L( 𝐴) is given by fib𝑠 (𝑥𝑠) ≔
 -- Í( 𝑦𝑠 : M ( 𝐴) ) 𝑠(𝑦𝑠) = 𝑥𝑠. The image of 𝑠 is given by im(𝑠) ≔ Í( 𝑥𝑠 : L ( 𝐴) ) ∥fib𝑠 (𝑥𝑠)∥−1.
 -- Simplifying, we say that 𝑥𝑠 : L( 𝐴) is "in the image of 𝑠", or, 𝑥𝑠 ∈ im(𝑠), if there merely
 -- exists a 𝑦𝑠 : M ( 𝐴) such that 𝑠(𝑦𝑠) = 𝑥𝑠.
 definition-35 : _
-definition-35 = Sort.is-sorted
+definition-35 = Sort.isSorted
 
 -- Proposition 19. 𝑥 ≼𝑠 𝑦 iff [𝑥, 𝑦] ∈ im(𝑠)
 proposition-19 : _
-proposition-19 = Sort→Order.is-sorted↔≤
+proposition-19 = Sort→Order.isSorted↔≤
 
 -- Definition 36 (im-cut). A section 𝑠 satisfies im-cut iff for all 𝑥, 𝑦, 𝑥𝑠:
 -- 𝑦 ∈ 𝑥 :: 𝑥𝑠 ∧ 𝑥 :: 𝑥𝑠 ∈ im(𝑠) → [𝑥, 𝑦] ∈ im(𝑠) .
 definition-36 : _
-definition-36 = Sort.im-cut
+definition-36 = Sort.imCut
 
 -- Proposition 20. If 𝐴 has a total order ≤, insertion sort defined using ≤ satisfies im-cut.
 proposition-20 : _
-proposition-20 = Order→Sort.sort-im-cut
+proposition-20 = Order→Sort.sortImCut
 
 -- Proposition 21. If 𝑠 satisfies im-cut, ≼𝑠 is transitive.
 proposition-21 : _
-proposition-21 = Sort→Order.trans-≤
+proposition-21 = Sort→Order.trans≤
 
 -- Proposition 22. Assume 𝐴 has a decidable total order ≤, we can construct a section 𝑠 that
 -- satisfies im-cut, such that ≼𝑠 constructed from 𝑠 is equivalent to ≤
 proposition-22 : _
-proposition-22 = Sort↔Order.order→im-cut→order
+proposition-22 = Sort↔Order.order→imCut→order
 
 -- Definition 37 (im-cons). A section 𝑠 satisfies im-cons iff for all 𝑥, 𝑥𝑠,
 -- 𝑥 :: 𝑥𝑠 ∈ im(𝑠) → 𝑥𝑠 ∈ im(𝑠)
 definition-37 : _
-definition-37 = Sort.im-cons
+definition-37 = Sort.imCons
 
 -- Lemma 6. Given a total order ≤, for any 𝑥𝑠, 𝑦𝑠 : L( 𝐴), 𝑞(𝑥𝑠) = 𝑞(𝑦𝑠) ∧ Sorted≤ (𝑥𝑠) ∧
 -- Sorted≤ (𝑦𝑠) → 𝑥𝑠 = 𝑦𝑠.

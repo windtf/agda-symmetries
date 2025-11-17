@@ -105,17 +105,17 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
     ♯IsMonHom : structHom 𝔉 𝔜
     fst ♯IsMonHom = _♯
-    snd ♯IsMonHom M.`e i = 𝔜.e-eta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯
+    snd ♯IsMonHom M.`e i = 𝔜.eEta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯
 
   private
     freeMonEquivLemma : (g : structHom 𝔉 𝔜) -> (x : FreeMon A) -> g .fst x ≡ ((g .fst ∘ η) ♯) x
     freeMonEquivLemma (g , homMonWit) = elimFreeMonProp.f (λ x -> g x ≡ ((g ∘ η) ♯) x)
       (λ _ -> refl)
-      (sym (homMonWit M.`e (lookup [])) ∙ 𝔜.e-eta)
+      (sym (homMonWit M.`e (lookup [])) ∙ 𝔜.eEta)
       (λ {m} {n} p q ->
         g (m ⊕ n) ≡⟨ sym (homMonWit M.`⊕ (lookup (m ∷ n ∷ []))) ⟩
-        𝔜 .alg (M.`⊕ , (λ w -> g (lookup (m ∷ n ∷ []) w))) ≡⟨ 𝔜.⊕-eta (lookup (m ∷ n ∷ [])) g ⟩
+        𝔜 .alg (M.`⊕ , (λ w -> g (lookup (m ∷ n ∷ []) w))) ≡⟨ 𝔜.⊕Eta (lookup (m ∷ n ∷ [])) g ⟩
         g m 𝔜.⊕ g n ≡⟨ cong₂ 𝔜._⊕_ p q ⟩
         _ ∎
       )

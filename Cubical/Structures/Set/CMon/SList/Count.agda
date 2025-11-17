@@ -50,4 +50,4 @@ module Count* {ℓ} {A : Type ℓ} (discA : Discrete A) where
   x∈*[] x = refl
 
   x∈*x∷xs : ∀ x xs -> x ∈* (x ∷ xs) ≡ 1 + x ∈* xs
-  x∈*x∷xs x xs = ♯∷ (よ x) x xs ∙ congS (_+ (x ∈* xs)) (よΒ x)
+  x∈*x∷xs x xs = ♯-∷ (よ x) x xs ∙ congS (_+ (x ∈* xs)) (よΒ x)

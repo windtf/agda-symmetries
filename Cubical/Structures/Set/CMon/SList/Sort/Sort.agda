@@ -88,14 +88,12 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   _≤_ : A -> A -> Type _
   x ≤ y = least (x ∷* y ∷* []*) ≡ just x
 
-  isProp≤ : ∀ {a} {b} -> isProp (a ≤ b)
-  isProp≤  = isSetMaybeA _ _
 
   ≤Prop : ∀ x y -> hProp _
-  ≤Prop x y = (x ≤ y) , isProp≤
+  ≤Prop x y = (x ≤ y) , isSetMaybeA _ _
 
   refl≤ : ∀ x -> x ≤ x
-  refl≤ x = P.rec isProp≤ (⊎.rec (idfun _) (idfun _)) (leastChoice x x)
+  refl≤ x = P.rec (isSetMaybeA _ _) (⊎.rec (idfun _) (idfun _)) (leastChoice x x)
 
   antisym≤ : ∀ x y -> x ≤ y -> y ≤ x -> x ≡ y
   antisym≤ x y p q = P.rec (isSetA x y)
@@ -183,7 +181,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
 
   isSorted↔≤ : ∀ x y -> isSorted (x ∷ y ∷ []) ≃ (x ≤ y)
   isSorted↔≤ x y = isoToEquiv (iso (isSorted→≤ x y) (≤→isSorted x y)
-    (λ p → isProp≤ _ p)
+    (λ p → isSetMaybeA _ _ _ p)
     (λ p → squash₁ _ p))
 
   module _ (sortIsSort : imCut) where

@@ -33,7 +33,7 @@ private
 
 module Head {ℓ} {A : Type ℓ} (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ) (tosetA : IsToset _≤_) where
 
-  open Toset.Toset-⋀ isSetA _≤_ tosetA
+  open Toset.Toset⋀ isSetA _≤_ tosetA
 
   _⊕_ : Maybe A -> Maybe A -> Maybe A
   nothing ⊕ b = b
@@ -51,12 +51,12 @@ module Head {ℓ} {A : Type ℓ} (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ)
   ⊕AssocR nothing y z = refl
   ⊕AssocR (just x) nothing z = refl
   ⊕AssocR (just x) (just y) nothing = refl
-  ⊕AssocR (just x) (just y) (just z) = congS just (⋀-assocr x y z)
+  ⊕AssocR (just x) (just y) (just z) = congS just (⋀AssocR x y z)
 
   ⊕-comm : ∀ x y -> x ⊕ y ≡ y ⊕ x
   ⊕-comm nothing y = sym (⊕-unitr y)
   ⊕-comm (just x) nothing = refl
-  ⊕-comm (just x) (just y) = congS just (⋀-comm x y)
+  ⊕-comm (just x) (just y) = congS just (⋀Comm x y)
 
   Maybe-MonStr : M.MonStruct
   car Maybe-MonStr = Maybe A

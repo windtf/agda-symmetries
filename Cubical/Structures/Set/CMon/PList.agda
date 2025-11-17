@@ -70,7 +70,7 @@ module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} {isSet𝔜 : 
   f♯Append : ∀ xs ys -> f♯ (xs ++ ys) ≡ f♯ xs 𝔜.⊕ f♯ ys
   f♯Append xs ys =
     f♯ (xs ++ ys) ≡⟨ sym ((f♯Hom .snd) M.`⊕ (lookup (xs ∷ ys ∷ []))) ⟩
-    𝔜 .alg (M.`⊕ , (λ w -> f♯ (lookup (xs ∷ ys ∷ []) w))) ≡⟨ 𝔜.⊕-eta (lookup (xs ∷ ys ∷ [])) f♯ ⟩
+    𝔜 .alg (M.`⊕ , (λ w -> f♯ (lookup (xs ∷ ys ∷ []) w))) ≡⟨ 𝔜.⊕Eta (lookup (xs ∷ ys ∷ [])) f♯ ⟩
     _ ∎
 
   f♯Swap : ∀ {x y : A} (xs ys : List A) -> f♯ (xs ++ x ∷ y ∷ ys) ≡ f♯ (xs ++ y ∷ x ∷ ys)

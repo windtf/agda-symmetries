@@ -65,15 +65,15 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     ♯IsMonHom : structHom 𝔛 𝔜
     fst ♯IsMonHom = _♯
     snd ♯IsMonHom M.`e i = 𝔜.eEta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯ ∙ sym (♯⊕ (i fzero) (i fone))
 
   private
     slistEquivLemma : (g : structHom 𝔛 𝔜) -> (x : SList A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
     slistEquivLemma (g , homMonWit) = ElimProp.f (isSet𝔜 _ _)
-      (sym (homMonWit M.`e (lookup L.[])) ∙ 𝔜.e-eta)
+      (sym (homMonWit M.`e (lookup L.[])) ∙ 𝔜.eEta)
       (λ x {xs} p ->
         g (x ∷ xs) ≡⟨ sym (homMonWit M.`⊕ (lookup ([ x ] L.∷ xs L.∷ L.[]))) ⟩
-        _ ≡⟨ 𝔜.⊕-eta (lookup ([ x ] L.∷ xs L.∷ L.[])) g ⟩
+        _ ≡⟨ 𝔜.⊕Eta (lookup ([ x ] L.∷ xs L.∷ L.[])) g ⟩
         _ ≡⟨ cong (g [ x ] 𝔜.⊕_) p ⟩
         _ ∎
       )
@@ -88,10 +88,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 module SListDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
 slistSat : ∀ {n} {X : Type n} -> < SList X , slistAlpha > ⊨ M.CMonSEq
-slistSat (M.`mon M.`unitl) ρ = unitl++ (ρ fzero)
-slistSat (M.`mon M.`unitr) ρ = unitr++ (ρ fzero)
-slistSat (M.`mon M.`assocr) ρ = sym (assoc++ (ρ fzero) (ρ fone) (ρ ftwo))
-slistSat M.`comm ρ = comm++ (ρ fzero) (ρ fone)
+slistSat (M.`mon M.`unitl) ρ = unitl-++ (ρ fzero)
+slistSat (M.`mon M.`unitr) ρ = unitr-++ (ρ fzero)
+slistSat (M.`mon M.`assocr) ρ = sym (assoc-++ (ρ fzero) (ρ fone) (ρ ftwo))
+slistSat M.`comm ρ = comm-++ (ρ fzero) (ρ fone)
 
 slistDef : ∀ {ℓ ℓ'} -> SListDef.Free ℓ ℓ' 2
 F.Definition.Free.F slistDef = SList

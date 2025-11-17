@@ -48,14 +48,14 @@ private
 module Naive {ℓ} {A : Type ℓ} (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ) (tosetA : IsToset _≤_) where
 
   open IsToset
-  open Toset-⋀ isSetA _≤_ tosetA
-  open Toset-⋁ isSetA _≤_ tosetA
+  open Toset⋀ isSetA _≤_ tosetA
+  open Toset⋁ isSetA _≤_ tosetA
 
   i : A -> A -> List A
   i a b = (a ⋀ b) ∷ (a ⋁ b) ∷ []
 
   i-comm : ∀ a b -> i a b ≡ i b a
-  i-comm a b j = ⋀-comm a b j ∷ ⋁-comm a b j ∷ []
+  i-comm a b j = ⋀Comm a b j ∷ ⋁Comm a b j ∷ []
 
   isSetListA : isSet (List A)
   isSetListA = isOfHLevelList 0 isSetA

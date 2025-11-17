@@ -62,7 +62,7 @@ isSing xs = Σ _ (isSingPred xs)
 Sing : Type ℓ → Type ℓ
 Sing A = Σ (SList A) isSing
 
-[_]-isSing : (a : A) → isSing [ a ]
+[_]IsSing : (a : A) → isSing [ a ]
 [ a ]IsSing = a , refl
 
 sing=isProp : ∀ {x y : A} → isProp ([ x ] ≡ [ y ])
@@ -135,7 +135,7 @@ module _ {ϕ : isSet A} where
   lenOneEqv xs = propBiimpl→Equiv (isSetℕ _ _) (isSingProp xs) (lenOneOut xs) (λ χ → cong length (sym (χ .snd)))
 
   lenOneSetEqv : lenOne A ≃ A
-  lenOneSetEqv = isoToEquiv (iso head g head-β g-f)
+  lenOneSetEqv = isoToEquiv (iso head g headΒ g-f)
     where g : A → lenOne A
           g a = [ a ] , refl
           g-f : (as : lenOne A) → g (head as) ≡ as

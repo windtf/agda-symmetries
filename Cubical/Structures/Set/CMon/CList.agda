@@ -139,16 +139,16 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
     ♯IsMonHom : structHom 𝔛 𝔜
     fst ♯IsMonHom = _♯
-    snd ♯IsMonHom M.`e i = 𝔜.e-eta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
+    snd ♯IsMonHom M.`e i = 𝔜.eEta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
 
   private
     clistEquivLemma : (g : structHom 𝔛 𝔜) -> (x : CList A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
     clistEquivLemma (g , homMonWit) = elimCListProp.f _
-      (sym (homMonWit M.`e (lookup L.[])) ∙ 𝔜.e-eta)
+      (sym (homMonWit M.`e (lookup L.[])) ∙ 𝔜.eEta)
       (λ x {xs} p ->
         g (x ∷ xs) ≡⟨ sym (homMonWit M.`⊕ (lookup ([ x ] L.∷ xs L.∷ L.[]))) ⟩
-        _ ≡⟨ 𝔜.⊕-eta (lookup ([ x ] L.∷ xs L.∷ L.[])) g ⟩
+        _ ≡⟨ 𝔜.⊕Eta (lookup ([ x ] L.∷ xs L.∷ L.[])) g ⟩
         _ ≡⟨ cong (g [ x ] 𝔜.⊕_) p ⟩
         _ ∎
       )

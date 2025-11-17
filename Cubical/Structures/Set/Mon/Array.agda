@@ -172,8 +172,8 @@ finAbsurd = ⊥.rec ∘ ¬Fin0
 e : Array A
 e = 0 , finAbsurd
 
-e-eta : ∀ (xs ys : Array A) -> xs .fst ≡ 0 -> ys .fst ≡ 0 -> xs ≡ ys
-e-eta (n , xs) (m , ys) p q = ΣPathP (p ∙ sym q , toPathP (funExt lemma))
+eEta : ∀ (xs ys : Array A) -> xs .fst ≡ 0 -> ys .fst ≡ 0 -> xs ≡ ys
+eEta (n , xs) (m , ys) p q = ΣPathP (p ∙ sym q , toPathP (funExt lemma))
   where
   lemma : _
   lemma x = ⊥.rec (¬Fin0 (subst Fin q x))
@@ -359,7 +359,7 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
     ♯Distr : ∀ n xs m ys -> ((n , xs) ⊕ (m , ys)) ♯ ≡ ((n , xs) ♯) 𝔜.⊕ ((m , ys) ♯)
     ♯Distr zero xs m ys =
-      ((zero , xs) ⊕ (m , ys)) ♯ ≡⟨ cong (λ z -> (z ⊕ (m , ys)) ♯) (e-eta (zero , xs) e refl refl) ⟩
+      ((zero , xs) ⊕ (m , ys)) ♯ ≡⟨ cong (λ z -> (z ⊕ (m , ys)) ♯) (eEta (zero , xs) e refl refl) ⟩
       (e ⊕ (m , ys)) ♯ ≡⟨ cong _♯ (⊕-unitl (m , ys)) ⟩
       (m , ys) ♯ ≡⟨ sym (𝔜.unitl _) ⟩
       𝔜.e 𝔜.⊕ ((m , ys) ♯) ∎
@@ -383,20 +383,20 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
     ♯IsMonHom : structHom 𝔄 𝔜
     fst ♯IsMonHom = _♯
-    snd ♯IsMonHom M.`e i = 𝔜.e-eta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯⊕ (i fzero) (i fone))
+    snd ♯IsMonHom M.`e i = 𝔜.eEta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯ ∙ sym (♯⊕ (i fzero) (i fone))
 
   private
     arrayEquivLemma : (g : structHom 𝔄 𝔜) (n : ℕ) (xs : Fin n -> A) -> g .fst (n , xs) ≡ ((g .fst ∘ η) ♯) (n , xs)
     arrayEquivLemma (g , homMonWit) zero xs =
-      g (0 , xs) ≡⟨ cong g (e-eta _ _ refl refl) ⟩
-      g e ≡⟨ sym (homMonWit M.`e (lookup [])) ∙ 𝔜.e-eta ⟩
+      g (0 , xs) ≡⟨ cong g (eEta _ _ refl refl) ⟩
+      g e ≡⟨ sym (homMonWit M.`e (lookup [])) ∙ 𝔜.eEta ⟩
       𝔜.e ≡⟨⟩
       ((g ∘ η) ♯) (zero , xs) ∎
     arrayEquivLemma (g , homMonWit) (suc n) xs =
       g (suc n , xs) ≡⟨ cong g (sym (η+fsuc xs)) ⟩
       g (η (xs fzero) ⊕ (n , xs ∘ fsuc)) ≡⟨ sym (homMonWit M.`⊕ (lookup (η (xs fzero) ∷ₗ (n , xs ∘ fsuc) ∷ₗ []))) ⟩
-      _ ≡⟨ 𝔜.⊕-eta (lookup ((η (xs fzero)) ∷ₗ (n , xs ∘ fsuc) ∷ₗ [])) g ⟩
+      _ ≡⟨ 𝔜.⊕Eta (lookup ((η (xs fzero)) ∷ₗ (n , xs ∘ fsuc) ∷ₗ [])) g ⟩
       g (η (xs fzero)) 𝔜.⊕ g (n , xs ∘ fsuc) ≡⟨ cong (g (η (xs fzero)) 𝔜.⊕_) (arrayEquivLemma (g , homMonWit) n (xs ∘ fsuc)) ⟩
       g (η (xs fzero)) 𝔜.⊕ ((g ∘ η) ♯) (n , xs ∘ fsuc) ∎
 
@@ -459,7 +459,7 @@ private
   arrayIsoToList++ : ∀ {ℓ} {A : Type ℓ} n -> (f : Fin n -> A) (ys : Array A)
                   -> arrayIsoToList .fun (n , f) ++ arrayIsoToList .fun ys ≡ arrayIsoToList .fun ((n , f) ⊕ ys)
   arrayIsoToList++ zero f ys = congS (arrayIsoToList .fun) $ sym $
-    (zero , f) ⊕ ys ≡⟨ congS (_⊕ ys) (e-eta (zero , f) e refl refl) ⟩
+    (zero , f) ⊕ ys ≡⟨ congS (_⊕ ys) (eEta (zero , f) e refl refl) ⟩
     e ⊕ ys ≡⟨ ⊕-unitl ys ⟩
     ys ∎
   arrayIsoToList++ (suc n) f ys =
@@ -490,5 +490,5 @@ module _ {ℓ} {A : Type ℓ} where
       arrayIsoToList .fun (i fzero) ++ arrayIsoToList .fun (i fone)
     ≡⟨ arrayIsoToList++ (fst (i fzero)) (snd (i fzero)) (i fone) ⟩
       arrayIsoToList .fun (i fzero ⊕ i fone)
-    ≡⟨ congS (arrayIsoToList .fun) (sym (𝔄.⊕-eta i (idfun _))) ⟩
+    ≡⟨ congS (arrayIsoToList .fun) (sym (𝔄.⊕Eta i (idfun _))) ⟩
       arrayIsoToList .fun (i fzero ⊕ i fone) ∎

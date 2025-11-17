@@ -44,13 +44,13 @@ module MonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 want : List ℕ
 want = 5 ∷ₗ 9 ∷ₗ 2 ∷ₗ []
 
-to-list : structHom < Array ℕ , arrayA > < List ℕ , list-α >
+to-list : structHom < Array ℕ , arrayA > < List ℕ , listΑ >
 to-list = MonDef.Free.ext arrayDef (isOfHLevelList 0 isSetℕ) listSat [_]
 
 _ : to-list .fst an-array ≡ want
 _ = refl
 
-to-list' : structHom < Array ℕ , MonDef.Free.α (arrayDef' {ℓ' = ℓ-zero}) > < List ℕ , list-α >
+to-list' : structHom < Array ℕ , MonDef.Free.α (arrayDef' {ℓ' = ℓ-zero}) > < List ℕ , listΑ >
 to-list' = MonDef.Free.ext arrayDef' (isOfHLevelList 0 isSetℕ) listSat [_]
 
 _ : to-list' .fst an-array ≡ want
