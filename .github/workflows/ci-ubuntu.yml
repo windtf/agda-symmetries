@@ -19,8 +19,8 @@ env:
   CUBICAL_BRANCH: v0.9
   GHC_VERSION: 9.10.2
   CACHE_PATHS: |
-    ~/cubical/_build
-    ~/symmetries/_build
+    ${{ github.workspace }}/cubical/_build
+    ${{ github.workspace }}/symmetries/_build
 
 jobs:
   test:
