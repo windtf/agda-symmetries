@@ -46,7 +46,7 @@ module _ {ℓ} {A B : Type ℓ} where
   f-η (inl x) = [ x ] , []
   f-η (inr x) = [] , [ x ]
 
-  f-hom : structHom < SList (A ⊎ B) , slist-α > < (SList A × SList B) , slist×-α >
+  f-hom : structHom < SList (A ⊎ B) , slistAlpha > < (SList A × SList B) , slist×-α >
   f-hom = ext slistDef isSetSList× slist×-sat f-η
 
   f : SList (A ⊎ B) -> SList A × SList B
@@ -85,14 +85,14 @@ module _ {ℓ} {A B : Type ℓ} where
       g (as , bs) ++ g (cs , ds)
     ∎
 
-  g-hom : structHom < (SList A × SList B) , slist×-α > < SList (A ⊎ B) , slist-α >
+  g-hom : structHom < (SList A × SList B) , slist×-α > < SList (A ⊎ B) , slistAlpha >
   g-hom = g , g-is-hom
     where
-    g-is-hom : structIsHom < SList A × SList B , slist×-α > < SList (A ⊎ B) , slist-α > g
+    g-is-hom : structIsHom < SList A × SList B , slist×-α > < SList (A ⊎ B) , slistAlpha > g
     g-is-hom M.`e i = refl
     g-is-hom M.`⊕ i = g-++ (i fzero) (i fone)
 
-  module _ {ℓ} {X : Type ℓ} (h : structHom < SList X , slist-α > < SList X , slist-α >) (h-η : ∀ x -> h .fst [ x ] ≡ [ x ]) where
+  module _ {ℓ} {X : Type ℓ} (h : structHom < SList X , slistAlpha > < SList X , slistAlpha >) (h-η : ∀ x -> h .fst [ x ] ≡ [ x ]) where
     univ-htpy : ∀ xs -> h .fst xs ≡ xs
     univ-htpy xs = h~η♯ xs ∙ η♯~id xs
       where
@@ -103,10 +103,10 @@ module _ {ℓ} {A B : Type ℓ} where
         x ∷ h .fst xs ≡⟨ congS (x ∷_) p ⟩
         x ∷ ext slistDef trunc slistSat [_] .fst xs ∎
       η♯~id : ∀ xs -> ext slistDef trunc slistSat [_] .fst xs ≡ xs
-      η♯~id xs = congS (λ h -> h .fst xs) (ext-β slistDef trunc slistSat (idHom < SList X , slist-α >))
+      η♯~id xs = congS (λ h -> h .fst xs) (ext-β slistDef trunc slistSat (idHom < SList X , slistAlpha >))
 
   g-f : ∀ xs -> g (f xs) ≡ xs
-  g-f = univ-htpy (structHom∘ _ _ < SList (A ⊎ B) , slist-α > g-hom f-hom) lemma
+  g-f = univ-htpy (structHom∘ _ _ < SList (A ⊎ B) , slistAlpha > g-hom f-hom) lemma
     where
     lemma : ∀ x -> g (f [ x ]) ≡ [ x ]
     lemma (inl x) = refl

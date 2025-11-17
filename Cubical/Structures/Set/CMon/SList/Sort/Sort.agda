@@ -52,7 +52,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   isSetListA = isOfHLevelList 0 isSetA
 
   private
-    module 𝔖 = M.CMonSEq < SList A , slist-α > slistSat
+    module 𝔖 = M.CMonSEq < SList A , slistAlpha > slistSat
 
   open Membership isSetA
   open Membership* isSetA

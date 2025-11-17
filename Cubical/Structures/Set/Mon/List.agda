@@ -47,10 +47,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       ♯-++ [] ys = sym (𝔜.unitl (ys ♯))
       ♯-++ (x ∷ xs) ys = cong (f x 𝔜.⊕_) (♯-++ xs ys) ∙ sym (𝔜.assocr (f x) (xs ♯) (ys ♯))
 
-    ♯-isMonHom : structHom 𝔏 𝔜
-    fst ♯-isMonHom = _♯
-    snd ♯-isMonHom M.`e i = 𝔜.e-eta
-    snd ♯-isMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+    ♯IsMonHom : structHom 𝔏 𝔜
+    fst ♯IsMonHom = _♯
+    snd ♯IsMonHom M.`e i = 𝔜.e-eta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
 
   private
     listEquivLemma : (g : structHom 𝔏 𝔜) -> (x : List A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
@@ -61,26 +61,26 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       g [ x ] 𝔜.⊕ g xs ≡⟨ cong (g [ x ] 𝔜.⊕_) (listEquivLemma (g , homMonWit) xs) ⟩
       _ ∎
 
-    listEquivLemma-β : (g : structHom 𝔏 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ [_])
-    listEquivLemma-β g = structHom≡ 𝔏 𝔜 g (♯-isMonHom (g .fst ∘ [_])) isSet𝔜 (funExt (listEquivLemma g))
+    listEquivLemmaβ : (g : structHom 𝔏 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ [_])
+    listEquivLemmaβ g = structHom≡ 𝔏 𝔜 g (♯IsMonHom (g .fst ∘ [_])) isSet𝔜 (funExt (listEquivLemma g))
 
   listEquiv : structHom 𝔏 𝔜 ≃ (A -> 𝔜 .car)
   listEquiv =
-    isoToEquiv (iso (λ g -> g .fst ∘ [_]) ♯-isMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ listEquivLemma-β))
+    isoToEquiv (iso (λ g -> g .fst ∘ [_]) ♯IsMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ listEquivLemmaβ))
 
 module Foldr {A : Type ℓ} {B : Type ℓ} {isSetB : isSet B} where
 
-  Endo-α : M.MonStruct
-  car Endo-α = B -> B
-  alg Endo-α (M.`e , _) = idfun B
-  alg Endo-α (M.`⊕ , ρ) = ρ fone ∘ ρ fzero
+  EndoAlpha : M.MonStruct
+  car EndoAlpha = B -> B
+  alg EndoAlpha (M.`e , _) = idfun B
+  alg EndoAlpha (M.`⊕ , ρ) = ρ fone ∘ ρ fzero
 
-  Endo-sat : Endo-α ⊨ M.MonSEq
-  Endo-sat M.`unitl ρ = refl
-  Endo-sat M.`unitr ρ = refl
-  Endo-sat M.`assocr ρ = refl
+  EndoSat : EndoAlpha ⊨ M.MonSEq
+  EndoSat M.`unitl ρ = refl
+  EndoSat M.`unitr ρ = refl
+  EndoSat M.`assocr ρ = refl
 
-  open Free {A = A} (isSet→ isSetB) Endo-sat
+  open Free {A = A} (isSet→ isSetB) EndoSat
 
   foldr' : (A -> B -> B) -> List A -> B -> B
   foldr' f = (f ♯)
@@ -99,8 +99,8 @@ F.Definition.Free.α listDef = list-α
 F.Definition.Free.sat listDef = listSat
 F.Definition.Free.isFree listDef isSet𝔜 satMon = (Free.listEquiv isSet𝔜 satMon) .snd
 
-list-⊥ : (List ⊥.⊥) ≃ Unit
-list-⊥ = isoToEquiv (iso (λ _ -> tt) (λ _ -> []) (λ _ -> isPropUnit _ _) lemma)
+listBot : (List ⊥.⊥) ≃ Unit
+listBot = isoToEquiv (iso (λ _ -> tt) (λ _ -> []) (λ _ -> isPropUnit _ _) lemma)
   where
   lemma : ∀ xs -> [] ≡ xs
   lemma [] = refl
@@ -157,18 +157,18 @@ module Head {ℓ} {A : Type ℓ} where
   ⊕-assocr nothing y z = refl
   ⊕-assocr (just x) y z = refl
 
-  Maybe-MonStr : M.MonStruct
-  car Maybe-MonStr = Maybe A
-  alg Maybe-MonStr (M.`e , _) = nothing
-  alg Maybe-MonStr (M.`⊕ , i) = i fzero ⊕ i fone
+  MaybeMonStr : M.MonStruct
+  car MaybeMonStr = Maybe A
+  alg MaybeMonStr (M.`e , _) = nothing
+  alg MaybeMonStr (M.`⊕ , i) = i fzero ⊕ i fone
 
-  Maybe-MonStr-MonSEq : Maybe-MonStr ⊨ M.MonSEq
-  Maybe-MonStr-MonSEq M.`unitl ρ = ⊕-unitl (ρ fzero)
-  Maybe-MonStr-MonSEq M.`unitr ρ = ⊕-unitr (ρ fzero)
-  Maybe-MonStr-MonSEq M.`assocr ρ = ⊕-assocr (ρ fzero) (ρ fone) (ρ ftwo)
+  MaybeMonStrMonSEq : MaybeMonStr ⊨ M.MonSEq
+  MaybeMonStrMonSEq M.`unitl ρ = ⊕-unitl (ρ fzero)
+  MaybeMonStrMonSEq M.`unitr ρ = ⊕-unitr (ρ fzero)
+  MaybeMonStrMonSEq M.`assocr ρ = ⊕-assocr (ρ fzero) (ρ fone) (ρ ftwo)
 
   module _ (isSetA : isSet A) where
-    open Free {A = A} (isOfHLevelMaybe 0 isSetA) Maybe-MonStr-MonSEq
+    open Free {A = A} (isOfHLevelMaybe 0 isSetA) MaybeMonStrMonSEq
 
     head : List A -> Maybe A
     head = just ♯

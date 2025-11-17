@@ -79,15 +79,15 @@ module elimFreeCMonProp {p n : Level} {A : Type n} (P : FreeCMon A -> Type p)
         comm* : {m n : FreeCMon A} (m* : P m) (n* : P n) -> PathP (λ i → P (comm m n i)) (m* ⊕* n*) (n* ⊕* m*)
         comm* {m} {n} m* n* = toPathP (trunc* (transp (λ i -> P (comm m n i)) i0 (m* ⊕* n*)) (n* ⊕* m*))
 
-freeCMon-α : ∀ {ℓ} {X : Type ℓ} -> sig M.MonSig (FreeCMon X) -> FreeCMon X
-freeCMon-α (M.`e , _) = e
-freeCMon-α (M.`⊕ , i) = i fzero ⊕ i fone
+freeCMonAlpha : ∀ {ℓ} {X : Type ℓ} -> sig M.MonSig (FreeCMon X) -> FreeCMon X
+freeCMonAlpha (M.`e , _) = e
+freeCMonAlpha (M.`⊕ , i) = i fzero ⊕ i fone
 
 module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-cmon : 𝔜 ⊨ M.CMonSEq) where
   module 𝔜 = M.CMonSEq 𝔜 𝔜-cmon
 
   𝔉 : struct x M.MonSig
-  𝔉 = < FreeCMon A , freeCMon-α >
+  𝔉 = < FreeCMon A , freeCMonAlpha >
 
   module _ (f : A -> 𝔜 .car) where
     _♯ : FreeCMon A -> 𝔜 .car
@@ -100,10 +100,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     comm m n i ♯ = 𝔜.comm (m ♯) (n ♯) i
     (trunc m n p q i j) ♯ = isSet𝔜 (m ♯) (n ♯) (cong _♯ p) (cong _♯ q) i j
 
-    ♯-isMonHom : structHom 𝔉 𝔜
-    fst ♯-isMonHom = _♯
-    snd ♯-isMonHom M.`e i = 𝔜.e-eta
-    snd ♯-isMonHom M.`⊕ i = 𝔜.⊕-eta i _♯
+    ♯IsMonHom : structHom 𝔉 𝔜
+    fst ♯IsMonHom = _♯
+    snd ♯IsMonHom M.`e i = 𝔜.e-eta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯
 
   private
     freeCMonEquivLemma : (g : structHom 𝔉 𝔜) -> (x : FreeCMon A) -> g .fst x ≡ ((g .fst ∘ η) ♯) x
@@ -118,16 +118,16 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       )
       (isSet𝔜 _ _)
 
-    freeCMonEquivLemma-β : (g : structHom 𝔉 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ η)
-    freeCMonEquivLemma-β g = structHom≡ 𝔉 𝔜 g (♯-isMonHom (g .fst ∘ η)) isSet𝔜 (funExt (freeCMonEquivLemma g))
+    freeCMonEquivLemmaβ : (g : structHom 𝔉 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ η)
+    freeCMonEquivLemmaβ g = structHom≡ 𝔉 𝔜 g (♯IsMonHom (g .fst ∘ η)) isSet𝔜 (funExt (freeCMonEquivLemma g))
 
   freeCMonEquiv : structHom 𝔉 𝔜 ≃ (A -> 𝔜 .car)
   freeCMonEquiv =
-    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯-isMonHom (λ _ -> refl) (sym ∘ freeCMonEquivLemma-β))
+    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯IsMonHom (λ _ -> refl) (sym ∘ freeCMonEquivLemmaβ))
 
 module FreeCMonDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
-freeCMonSat : ∀ {n} {X : Type n} -> < FreeCMon X , freeCMon-α > ⊨ M.CMonSEq
+freeCMonSat : ∀ {n} {X : Type n} -> < FreeCMon X , freeCMonAlpha > ⊨ M.CMonSEq
 freeCMonSat (M.`mon M.`unitl) ρ = unitl (ρ fzero)
 freeCMonSat (M.`mon M.`unitr) ρ = unitr (ρ fzero)
 freeCMonSat (M.`mon M.`assocr) ρ = assocr (ρ fzero) (ρ fone) (ρ ftwo)
@@ -136,6 +136,6 @@ freeCMonSat M.`comm ρ = comm (ρ fzero) (ρ fone)
 freeMonDef : ∀ {ℓ ℓ'} -> FreeCMonDef.Free ℓ ℓ' 2
 F.Definition.Free.F freeMonDef = FreeCMon
 F.Definition.Free.η freeMonDef = η
-F.Definition.Free.α freeMonDef = freeCMon-α
+F.Definition.Free.α freeMonDef = freeCMonAlpha
 F.Definition.Free.sat freeMonDef = freeCMonSat
 F.Definition.Free.isFree freeMonDef isSet𝔜 satMon = (Free.freeCMonEquiv isSet𝔜 satMon) .snd

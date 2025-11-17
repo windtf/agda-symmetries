@@ -27,15 +27,15 @@ private
     ℓ : Level
     A : Type ℓ
 
-slist-α : ∀ {n : Level} {X : Type n} -> sig M.MonSig (SList X) -> SList X
-slist-α (M.`e , i) = []
-slist-α (M.`⊕ , i) = i fzero ++ i fone
+slistAlpha : ∀ {n : Level} {X : Type n} -> sig M.MonSig (SList X) -> SList X
+slistAlpha (M.`e , i) = []
+slistAlpha (M.`⊕ , i) = i fzero ++ i fone
 
 module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-cmon : 𝔜 ⊨ M.CMonSEq) where
   module 𝔜 = M.CMonSEq 𝔜 𝔜-cmon
 
   𝔛 : M.CMonStruct
-  𝔛 = < SList A , slist-α >
+  𝔛 = < SList A , slistAlpha >
 
   module _ (f : A -> 𝔜 .car) where
     _♯ : SList A -> 𝔜 .car
@@ -62,10 +62,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     ♯-∷ : ∀ x xs -> (x ∷ xs) ♯ ≡ (f x) 𝔜.⊕ (xs ♯)
     ♯-∷ x xs = ♯-++ [ x ] xs ∙ congS (𝔜._⊕ (xs ♯)) (𝔜.unitr (f x))
 
-    ♯-isMonHom : structHom 𝔛 𝔜
-    fst ♯-isMonHom = _♯
-    snd ♯-isMonHom M.`e i = 𝔜.e-eta
-    snd ♯-isMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+    ♯IsMonHom : structHom 𝔛 𝔜
+    fst ♯IsMonHom = _♯
+    snd ♯IsMonHom M.`e i = 𝔜.e-eta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
 
   private
     slistEquivLemma : (g : structHom 𝔛 𝔜) -> (x : SList A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
@@ -78,16 +78,16 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
         _ ∎
       )
 
-    slistEquivLemma-β : (g : structHom 𝔛 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ [_])
-    slistEquivLemma-β g = structHom≡ 𝔛 𝔜 g (♯-isMonHom (g .fst ∘ [_])) isSet𝔜 (funExt (slistEquivLemma g))
+    slistEquivLemmaβ : (g : structHom 𝔛 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ [_])
+    slistEquivLemmaβ g = structHom≡ 𝔛 𝔜 g (♯IsMonHom (g .fst ∘ [_])) isSet𝔜 (funExt (slistEquivLemma g))
 
   slistMonEquiv : structHom 𝔛 𝔜 ≃ (A -> 𝔜 .car)
   slistMonEquiv =
-    isoToEquiv (iso (λ g -> g .fst ∘ [_]) ♯-isMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ slistEquivLemma-β))
+    isoToEquiv (iso (λ g -> g .fst ∘ [_]) ♯IsMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ slistEquivLemmaβ))
 
 module SListDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
-slistSat : ∀ {n} {X : Type n} -> < SList X , slist-α > ⊨ M.CMonSEq
+slistSat : ∀ {n} {X : Type n} -> < SList X , slistAlpha > ⊨ M.CMonSEq
 slistSat (M.`mon M.`unitl) ρ = unitl-++ (ρ fzero)
 slistSat (M.`mon M.`unitr) ρ = unitr-++ (ρ fzero)
 slistSat (M.`mon M.`assocr) ρ = sym (assoc-++ (ρ fzero) (ρ fone) (ρ ftwo))
@@ -96,6 +96,6 @@ slistSat M.`comm ρ = comm-++ (ρ fzero) (ρ fone)
 slistDef : ∀ {ℓ ℓ'} -> SListDef.Free ℓ ℓ' 2
 F.Definition.Free.F slistDef = SList
 F.Definition.Free.η slistDef = [_]
-F.Definition.Free.α slistDef = slist-α
+F.Definition.Free.α slistDef = slistAlpha
 F.Definition.Free.sat slistDef = slistSat
 F.Definition.Free.isFree slistDef isSet𝔜 satMon = (Free.slistMonEquiv isSet𝔜 satMon) .snd

@@ -28,8 +28,8 @@ module _ {ℓ} {P : Type ℓ} (isPropP : isProp P) where
     isPropDec (no ¬p) (yes q) = ⊥.rec (¬p q)
     isPropDec (no ¬p) (no ¬q) = congS no (isProp→ ⊥.isProp⊥ ¬p ¬q)
 
-  decRec-yes : {A : Type ℓ} {y : P -> A} {n : ¬ P -> A} (p : P) (d : Dec P) -> decRec y n d ≡ y p
-  decRec-yes {A = A} {y = y} {n = n} p = decElim (λ q -> congS y (isPropP q p)) λ ¬p -> ⊥.rec (¬p p)
+  decRecYes : {A : Type ℓ} {y : P -> A} {n : ¬ P -> A} (p : P) (d : Dec P) -> decRec y n d ≡ y p
+  decRecYes {A = A} {y = y} {n = n} p = decElim (λ q -> congS y (isPropP q p)) λ ¬p -> ⊥.rec (¬p p)
 
-  decRec-no : {A : Type ℓ} {y : P -> A} {n : ¬ P -> A} (¬p : ¬ P) (d : Dec P) -> decRec y n d ≡ n ¬p
-  decRec-no {A = A} {y = y} {n = n} ¬p = decElim (λ p -> ⊥.rec (¬p p)) (λ ¬q -> congS n (isProp→ ⊥.isProp⊥ ¬q ¬p))
+  decRecNo : {A : Type ℓ} {y : P -> A} {n : ¬ P -> A} (¬p : ¬ P) (d : Dec P) -> decRec y n d ≡ n ¬p
+  decRecNo {A = A} {y = y} {n = n} ¬p = decElim (λ p -> ⊥.rec (¬p p)) (λ ¬q -> congS n (isProp→ ⊥.isProp⊥ ¬q ¬p))

@@ -32,7 +32,7 @@ private
     ℓ : Level
     A : Type ℓ
 
-list→slist-Hom : structHom < L.List A , list-α > < SList A , slist-α >
+list→slist-Hom : structHom < L.List A , list-α > < SList A , slistAlpha >
 list→slist-Hom = ListDef.Free.ext listDef trunc (M.cmonSatMon slistSat) [_]
 
 list→slist : L.List A -> SList A

@@ -82,11 +82,11 @@ lenOneCons x xs p =
   let q = lenOneDown x xs p
   in transport (λ i → isSing (x ∷ q i)) [ x ]-isSing
 
-lenTwo-⊥ : (x y : A) (xs : SList A) → (length (y ∷ x ∷ xs) ≡ 1) ≃ ⊥
-lenTwo-⊥ x y xs = (λ p → E.rec (snotz (injSuc p))) , record { equiv-proof = E.elim }
+lenTwoBot : (x y : A) (xs : SList A) → (length (y ∷ x ∷ xs) ≡ 1) ≃ ⊥
+lenTwoBot x y xs = (λ p → E.rec (snotz (injSuc p))) , record { equiv-proof = E.elim }
 
-isContrlenTwo-⊥→X : (X : Type ℓ) (x y : A) (xs : SList A) → isContr (length (y ∷ x ∷ xs) ≡ 1 → X)
-isContrlenTwo-⊥→X X x y xs = subst (λ Z → isContr (Z → X)) (sym (ua (lenTwo-⊥ x y xs))) (isContr⊥→A {A = X})
+isContrlenTwoBotToX : (X : Type ℓ) (x y : A) (xs : SList A) → isContr (length (y ∷ x ∷ xs) ≡ 1 → X)
+isContrlenTwoBotToX X x y xs = subst (λ Z → isContr (Z → X)) (sym (ua (lenTwoBot x y xs))) (isContr⊥→A {A = X})
 
 lenOneSwap : {A : Type ℓ} (x y : A) (xs : SList A)
             → PathP (λ i → length (SList.swap x y xs i) ≡ 1 → isSing (SList.swap x y xs i))
@@ -94,7 +94,7 @@ lenOneSwap : {A : Type ℓ} (x y : A) (xs : SList A)
                     (λ p → lenOneCons y (x ∷ xs) p)
 lenOneSwap {A = A} x y xs =
   transport (sym (PathP≡Path (λ i → length (SList.swap x y xs i) ≡ 1 → isSing (SList.swap x y xs i)) _ _))
-            (isContr→isProp (isContrlenTwo-⊥→X _ x y xs) _ _)
+            (isContr→isProp (isContrlenTwoBotToX _ x y xs) _ _)
 
 lenOne : Type ℓ → Type _
 lenOne A = Σ (SList A) (λ xs → length xs ≡ 1)
@@ -134,8 +134,8 @@ module _ {ϕ : isSet A} where
   lenOneEqv : (xs : SList A) → (length xs ≡ 1) ≃ (isSing xs)
   lenOneEqv xs = propBiimpl→Equiv (isSetℕ _ _) (isSingProp xs) (lenOneOut xs) (λ χ → cong length (sym (χ .snd)))
 
-  lenOne-set-eqv : lenOne A ≃ A
-  lenOne-set-eqv = isoToEquiv (iso head g head-β g-f)
+  lenOneSetEqv : lenOne A ≃ A
+  lenOneSetEqv = isoToEquiv (iso head g head-β g-f)
     where g : A → lenOne A
           g a = [ a ] , refl
           g-f : (as : lenOne A) → g (head as) ≡ as
@@ -143,8 +143,8 @@ module _ {ϕ : isSet A} where
             let (a , ψ) = lenOneOut as ϕ
             in Σ≡Prop (λ xs → isSetℕ _ _) {u = ([ a ] , refl)} {v = (as , ϕ)} ψ
 
-  sing-set-eqv : Sing A ≃ A
-  sing-set-eqv = isoToEquiv (iso f (λ a → [ a ] , [ a ]-isSing) (λ _ → refl) ret)
+  singSetEqv : Sing A ≃ A
+  singSetEqv = isoToEquiv (iso f (λ a → [ a ] , [ a ]-isSing) (λ _ → refl) ret)
     where f : Sing A → A
           f s = s .snd .fst
           ret : (s : Sing A) → ([ f s ] , f s , refl) ≡ s

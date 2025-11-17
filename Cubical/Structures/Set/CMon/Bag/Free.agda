@@ -203,25 +203,25 @@ module _ {n} (σ : Iso (Fin (suc n)) (Fin (suc n))) where
 module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-cmon : 𝔜 ⊨ M.CMonSEq) (f : A -> 𝔜 .car) where
   module 𝔜 = M.CMonSEq 𝔜 𝔜-cmon
 
-  f♯-hom = ArrayDef.Free.ext arrayDef isSet𝔜 (M.cmonSatMon 𝔜-cmon) f
+  f♯Hom = ArrayDef.Free.ext arrayDef isSet𝔜 (M.cmonSatMon 𝔜-cmon) f
 
   f♯ : Array A -> 𝔜 .car
-  f♯ = f♯-hom .fst
+  f♯ = f♯Hom .fst
 
-  f♯-η : (a : A) -> f♯ (η a) ≡ f a
-  f♯-η a i = ArrayDef.Free.ext-η arrayDef isSet𝔜 (M.cmonSatMon 𝔜-cmon) f i a
+  f♯Eta : (a : A) -> f♯ (η a) ≡ f a
+  f♯Eta a i = ArrayDef.Free.ext-η arrayDef isSet𝔜 (M.cmonSatMon 𝔜-cmon) f i a
 
-  f♯-hom-⊕ : (as bs : Array A) -> f♯ (as ⊕ bs) ≡ f♯ as 𝔜.⊕ f♯ bs
-  f♯-hom-⊕ as bs =
-    f♯ (as ⊕ bs) ≡⟨ sym ((f♯-hom .snd) M.`⊕ ⟪ as ⨾ bs ⟫) ⟩
+  f♯HomOplus : (as bs : Array A) -> f♯ (as ⊕ bs) ≡ f♯ as 𝔜.⊕ f♯ bs
+  f♯HomOplus as bs =
+    f♯ (as ⊕ bs) ≡⟨ sym ((f♯Hom .snd) M.`⊕ ⟪ as ⨾ bs ⟫) ⟩
     𝔜 .alg (M.`⊕ , (λ w -> f♯ (⟪ as ⨾ bs ⟫ w))) ≡⟨ 𝔜.⊕-eta ⟪ as ⨾ bs ⟫ f♯ ⟩
     f♯ as 𝔜.⊕ f♯ bs ∎
 
-  f♯-comm : (as bs : Array A) -> f♯ (as ⊕ bs) ≡ f♯ (bs ⊕ as)
-  f♯-comm as bs =
-    f♯ (as ⊕ bs) ≡⟨ f♯-hom-⊕ as bs ⟩
+  f♯Comm : (as bs : Array A) -> f♯ (as ⊕ bs) ≡ f♯ (bs ⊕ as)
+  f♯Comm as bs =
+    f♯ (as ⊕ bs) ≡⟨ f♯HomOplus as bs ⟩
     f♯ as 𝔜.⊕ f♯ bs ≡⟨ 𝔜.comm (f♯ as) (f♯ bs) ⟩
-    f♯ bs 𝔜.⊕ f♯ as ≡⟨ sym (f♯-hom-⊕ bs as) ⟩
+    f♯ bs 𝔜.⊕ f♯ as ≡⟨ sym (f♯HomOplus bs as) ⟩
     f♯ (bs ⊕ as) ∎
 
   swapAutToAut : ∀ {n} (zs : Fin (suc (suc n)) -> A) (σ : Iso (Fin (suc (suc n))) (Fin (suc (suc n))))
@@ -231,7 +231,7 @@ module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : 
     ≡⟨ congS f♯ lemma-α ⟩
       f♯ (((m ∸ cutoff) , (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff _ ∘ inr))
         ⊕ (cutoff , (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff _ ∘ inl)))
-    ≡⟨ f♯-comm ((m ∸ cutoff) , (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff _ ∘ inr)) _ ⟩
+    ≡⟨ f♯Comm ((m ∸ cutoff) , (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff _ ∘ inr)) _ ⟩
       f♯ ((cutoff , (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff _ ∘ inl))
         ⊕ ((m ∸ cutoff) , (zs ∘ σ .fun ∘ finSubst cutoff+- ∘ finCombine cutoff _ ∘ inr)))
     ≡⟨ congS f♯ lemma-β ⟩
@@ -343,16 +343,16 @@ module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : 
                    (Array≡ {f = zs ∘ τ .fun ∘ fsuc} refl \k k≤n ->
                            congS (zs ∘ τ .fun ∘ fsuc) (Fin-fst-≡ refl) ∙ congS zs (punchOutZero≡fsuc τ τ-0≡0 (k , k≤n))) ⟩
             f (zs fzero) 𝔜.⊕ f♯ (suc n , zs ∘ fsuc ∘ punchOutZero τ τ-0≡0 .fun)
-          ≡⟨ cong₂ 𝔜._⊕_ (sym (f♯-η (zs fzero))) IH ⟩
+          ≡⟨ cong₂ 𝔜._⊕_ (sym (f♯Eta (zs fzero))) IH ⟩
             f♯ (η (zs fzero)) 𝔜.⊕ f♯ (suc n , zs ∘ fsuc)
-          ≡⟨ sym (f♯-hom-⊕ (η (zs fzero)) (suc n , zs ∘ fsuc)) ⟩
+          ≡⟨ sym (f♯HomOplus (η (zs fzero)) (suc n , zs ∘ fsuc)) ⟩
             f♯ (η (zs fzero) ⊕ (suc n , zs ∘ fsuc))
           ≡⟨ congS f♯ (η+fsuc zs) ⟩
             f♯ (suc (suc n) , zs)
           ∎
 
-  ≈-resp-♯ : {as bs : Array A} -> as ≈ bs -> f♯ as ≡ f♯ bs
-  ≈-resp-♯ {as = n , g} {bs = m , h} (σ , p) =
+  ≈Respf♯ : {as bs : Array A} -> as ≈ bs -> f♯ as ≡ f♯ bs
+  ≈Respf♯ {as = n , g} {bs = m , h} (σ , p) =
       f♯ (n , g)
     ≡⟨ congS (λ z -> f♯ (n , z)) p ⟩
       f♯ (n , h ∘ σ .fun)
@@ -377,7 +377,7 @@ module _ {ℓ} (A : Type ℓ) where
   P.isEquivRel.transitive (R.isEquivRel isPermRelPerm) _ _ cs = trans≈ {cs = cs}
   R.isCongruence isPermRelPerm {as} {bs} {cs} {ds} p q = cong≈ p q
   R.isCommutative isPermRelPerm = comm≈
-  R.resp-♯ isPermRelPerm {isSet𝔜 = isSet𝔜} 𝔜-cmon f p = ≈-resp-♯ isSet𝔜 𝔜-cmon f p
+  R.respSharp isPermRelPerm {isSet𝔜 = isSet𝔜} 𝔜-cmon f p = ≈Respf♯ isSet𝔜 𝔜-cmon f p
 
   PermRel : PermRelation arrayDef A
   PermRel = _≈_ , isPermRelPerm

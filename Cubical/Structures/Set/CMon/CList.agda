@@ -101,15 +101,15 @@ swap a b cs = comm a b cs refl refl
   (λ a {as} p bs -> cong (a ∷_) (p bs) ∙ cong (_++ as) (++-∷ a bs) ∙ ++-assocr bs [ a ] as)
   (isPropΠ λ _ -> isSetCList _ _)
 
-clist-α : ∀ {n : Level} {X : Type n} -> sig M.MonSig (CList X) -> CList X
-clist-α (M.`e , i) = []
-clist-α (M.`⊕ , i) = i fzero ++ i fone
+clistAlpha : ∀ {n : Level} {X : Type n} -> sig M.MonSig (CList X) -> CList X
+clistAlpha (M.`e , i) = []
+clistAlpha (M.`⊕ , i) = i fzero ++ i fone
 
 module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-cmon : 𝔜 ⊨ M.CMonSEq) where
   module 𝔜 = M.CMonSEq 𝔜 𝔜-cmon
 
   𝔛 : M.CMonStruct
-  𝔛 = < CList A , clist-α >
+  𝔛 = < CList A , clistAlpha >
 
   module _ (f : A -> 𝔜 .car) where
     _♯ : CList A -> 𝔜 .car
@@ -137,10 +137,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
         )
         (isPropΠ λ _ -> isSet𝔜 _ _)
 
-    ♯-isMonHom : structHom 𝔛 𝔜
-    fst ♯-isMonHom = _♯
-    snd ♯-isMonHom M.`e i = 𝔜.e-eta
-    snd ♯-isMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+    ♯IsMonHom : structHom 𝔛 𝔜
+    fst ♯IsMonHom = _♯
+    snd ♯IsMonHom M.`e i = 𝔜.e-eta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
 
   private
     clistEquivLemma : (g : structHom 𝔛 𝔜) -> (x : CList A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
@@ -154,16 +154,16 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       )
       (isSet𝔜 _ _)
 
-    clistEquivLemma-β : (g : structHom 𝔛 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ [_])
-    clistEquivLemma-β g = structHom≡ 𝔛 𝔜 g (♯-isMonHom (g .fst ∘ [_])) isSet𝔜 (funExt (clistEquivLemma g))
+    clistEquivLemmaβ : (g : structHom 𝔛 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ [_])
+    clistEquivLemmaβ g = structHom≡ 𝔛 𝔜 g (♯IsMonHom (g .fst ∘ [_])) isSet𝔜 (funExt (clistEquivLemma g))
 
   clistMonEquiv : structHom 𝔛 𝔜 ≃ (A -> 𝔜 .car)
   clistMonEquiv =
-    isoToEquiv (iso (λ g -> g .fst ∘ [_]) ♯-isMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ clistEquivLemma-β))
+    isoToEquiv (iso (λ g -> g .fst ∘ [_]) ♯IsMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ clistEquivLemmaβ))
 
 module CListDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
-clistSat : ∀ {n} {X : Type n} -> < CList X , clist-α > ⊨ M.CMonSEq
+clistSat : ∀ {n} {X : Type n} -> < CList X , clistAlpha > ⊨ M.CMonSEq
 clistSat (M.`mon M.`unitl) ρ = ++-unitl (ρ fzero)
 clistSat (M.`mon M.`unitr) ρ = ++-unitr (ρ fzero)
 clistSat (M.`mon M.`assocr) ρ = ++-assocr (ρ fzero) (ρ fone) (ρ ftwo)
@@ -172,6 +172,6 @@ clistSat M.`comm ρ = ++-comm (ρ fzero) (ρ fone)
 clistDef : ∀ {ℓ ℓ'} -> CListDef.Free ℓ ℓ' 2
 F.Definition.Free.F clistDef = CList
 F.Definition.Free.η clistDef = [_]
-F.Definition.Free.α clistDef = clist-α
+F.Definition.Free.α clistDef = clistAlpha
 F.Definition.Free.sat clistDef = clistSat
 F.Definition.Free.isFree clistDef isSet𝔜 satMon = (Free.clistMonEquiv isSet𝔜 satMon) .snd
