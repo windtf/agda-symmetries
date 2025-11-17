@@ -6,14 +6,13 @@ rearranging elements of a list according to a specified total order on the under
 As mathematical functions, they are functions on lists that perform combinatorial operations on the representation of the input list.
 In this paper, we study sorting algorithms conceptually as abstract sorting functions.
 
-There is a canonical surjection
-from the free monoid on a set (lists of elements)
+There is a canonical surjection from the free monoid on a set (lists of elements)
 to the free commutative monoid on the same set (multisets of elements).
 We show that sorting functions determine a section (right inverse) to this surjection satisfying two axioms,
 that do not presuppose a total order on the underlying set.
-We show that there is an equivalence between (decidable) total orders on the underlying set and correct sorting functions.
+Then, we establish an equivalence between (decidable) total orders on the underlying set and correct sorting functions.
 
 The first part of the paper develops concepts from universal algebra from the point of view of functorial signatures,
-and gives various constructions of free monoids and free commutative monoids in type theory,
-which are used to develop the second part of the paper about the axiomatization of sorting functions.
+and gives constructions of free monoids and free commutative monoids in (univalent) type theory.
+Using these constructions, the second part of the paper develops the axiomatization of sorting functions.
 The paper uses informal mathematical language, and comes with an accompanying formalization in Cubical Agda.
