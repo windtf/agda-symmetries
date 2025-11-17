@@ -17,7 +17,6 @@ on:
 env:
   AGDA_BRANCH: v2.8.0
   CUBICAL_BRANCH: v0.9
-  GHC_VERSION: 9.10.2
 
 jobs:
   typecheck:
@@ -27,6 +26,7 @@ jobs:
       - name: Cache Agda artifacts
         uses: actions/cache@v4
         with:
+          key: ${{ env.AGDA_BRANCH }}-${{ env.CUBICAL_BRANCH }}
           path: |
             /tmp/cubical/_build
             /tmp/symmetries/_build
