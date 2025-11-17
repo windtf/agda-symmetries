@@ -38,9 +38,9 @@ module _ {ℓ} {A B : Type ℓ} where
 
   slist×-sat : < (SList A × SList B) , slist×-α > ⊨ M.CMonSEq
   slist×-sat (M.`mon M.`unitl) ρ = refl
-  slist×-sat (M.`mon M.`unitr) ρ = ≡-× (slist-sat (M.`mon M.`unitr) (fst ∘ ρ)) ((slist-sat (M.`mon M.`unitr) (snd ∘ ρ)))
-  slist×-sat (M.`mon M.`assocr) ρ = ≡-× (slist-sat (M.`mon M.`assocr) (fst ∘ ρ)) ((slist-sat (M.`mon M.`assocr) (snd ∘ ρ)))
-  slist×-sat M.`comm ρ = ≡-× (slist-sat M.`comm (fst ∘ ρ)) ((slist-sat M.`comm (snd ∘ ρ)))
+  slist×-sat (M.`mon M.`unitr) ρ = ≡-× (slistSat (M.`mon M.`unitr) (fst ∘ ρ)) ((slistSat (M.`mon M.`unitr) (snd ∘ ρ)))
+  slist×-sat (M.`mon M.`assocr) ρ = ≡-× (slistSat (M.`mon M.`assocr) (fst ∘ ρ)) ((slistSat (M.`mon M.`assocr) (snd ∘ ρ)))
+  slist×-sat M.`comm ρ = ≡-× (slistSat M.`comm (fst ∘ ρ)) ((slistSat M.`comm (snd ∘ ρ)))
 
   f-η : A ⊎ B -> SList A × SList B
   f-η (inl x) = [ x ] , []
@@ -53,10 +53,10 @@ module _ {ℓ} {A B : Type ℓ} where
   f = f-hom .fst
 
   mmap : ∀ {X Y : Type ℓ} -> (X -> Y) -> SList X -> SList Y
-  mmap f = ext slistDef trunc slist-sat ([_] ∘ f) .fst
+  mmap f = ext slistDef trunc slistSat ([_] ∘ f) .fst
 
   mmap-++ : ∀ {X Y : Type ℓ} -> ∀ f xs ys -> mmap {X = X} {Y = Y} f (xs ++ ys) ≡ mmap f xs ++ mmap f ys
-  mmap-++ f xs ys = sym (ext slistDef trunc slist-sat ([_] ∘ f) .snd M.`⊕ ⟪ xs ⨾ ys ⟫)
+  mmap-++ f xs ys = sym (ext slistDef trunc slistSat ([_] ∘ f) .snd M.`⊕ ⟪ xs ⨾ ys ⟫)
 
   mmap-∷ : ∀ {X Y : Type ℓ} -> ∀ f x xs -> mmap {X = X} {Y = Y} f (x ∷ xs) ≡ f x ∷ mmap f xs
   mmap-∷ f x xs = mmap-++ f [ x ] xs
@@ -96,14 +96,14 @@ module _ {ℓ} {A B : Type ℓ} where
     univ-htpy : ∀ xs -> h .fst xs ≡ xs
     univ-htpy xs = h~η♯ xs ∙ η♯~id xs
       where
-      h~η♯ : ∀ xs -> h .fst xs ≡ ext slistDef trunc slist-sat [_] .fst xs
+      h~η♯ : ∀ xs -> h .fst xs ≡ ext slistDef trunc slistSat [_] .fst xs
       h~η♯ = ElimProp.f (trunc _ _) (sym (h .snd M.`e ⟪⟫)) λ x {xs} p ->
         h .fst (x ∷ xs) ≡⟨ sym (h .snd M.`⊕ ⟪ [ x ] ⨾ xs ⟫) ⟩
         h .fst [ x ] ++ h .fst xs ≡⟨ congS (_++ h .fst xs) (h-η x) ⟩
         x ∷ h .fst xs ≡⟨ congS (x ∷_) p ⟩
-        x ∷ ext slistDef trunc slist-sat [_] .fst xs ∎
-      η♯~id : ∀ xs -> ext slistDef trunc slist-sat [_] .fst xs ≡ xs
-      η♯~id xs = congS (λ h -> h .fst xs) (ext-β slistDef trunc slist-sat (idHom < SList X , slist-α >))
+        x ∷ ext slistDef trunc slistSat [_] .fst xs ∎
+      η♯~id : ∀ xs -> ext slistDef trunc slistSat [_] .fst xs ≡ xs
+      η♯~id xs = congS (λ h -> h .fst xs) (ext-β slistDef trunc slistSat (idHom < SList X , slist-α >))
 
   g-f : ∀ xs -> g (f xs) ≡ xs
   g-f = univ-htpy (structHom∘ _ _ < SList (A ⊎ B) , slist-α > g-hom f-hom) lemma

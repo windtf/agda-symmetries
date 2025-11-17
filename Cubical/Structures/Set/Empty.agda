@@ -28,8 +28,8 @@ emptyHomDegen _ = Σ-contractSnd λ _ -> isContrΠ⊥
 
 module EmptyDef = F.Definition emptySig emptyEqSig emptySEq
 
-empty-sat : ∀ (A : Type ℓ) -> < A , empty-α A > ⊨ emptySEq
-empty-sat _ eqn ρ = ⊥.rec eqn
+emptySat : ∀ (A : Type ℓ) -> < A , empty-α A > ⊨ emptySEq
+emptySat _ eqn ρ = ⊥.rec eqn
 
 treeEmpty≃  : Tree emptySig A ≃ A
 treeEmpty≃ = isoToEquiv (iso from leaf (λ _ -> refl) leaf∘from)
@@ -44,7 +44,7 @@ treeDef : ∀ {ℓ ℓ'} -> EmptyDef.Free ℓ ℓ' 2
 F.Definition.Free.F treeDef = Tree emptySig
 F.Definition.Free.η treeDef = leaf
 F.Definition.Free.α treeDef = empty-α (Tree emptySig _)
-F.Definition.Free.sat treeDef = empty-sat (Tree emptySig _)
+F.Definition.Free.sat treeDef = emptySat (Tree emptySig _)
 F.Definition.Free.isFree (treeDef {ℓ = ℓ}) {X = A} {𝔜 = 𝔜} H ϕ = lemma .snd
   where
   𝔗 : struct ℓ emptySig
@@ -60,5 +60,5 @@ anyDef : ∀ {ℓ ℓ'} -> EmptyDef.Free ℓ ℓ' 2
 F.Definition.Free.F anyDef A = A
 F.Definition.Free.η anyDef a = a
 F.Definition.Free.α anyDef = empty-α _
-F.Definition.Free.sat anyDef = empty-sat _
+F.Definition.Free.sat anyDef = emptySat _
 F.Definition.Free.isFree anyDef {𝔜 = 𝔜} _ _ = emptyHomDegen 𝔜 .snd

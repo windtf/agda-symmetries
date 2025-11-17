@@ -130,14 +130,14 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
 module FreeMonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 
-freeMon-sat : ∀ {n} {X : Type n} -> < FreeMon X , freeMon-α > ⊨ M.MonSEq
-freeMon-sat M.`unitl ρ = unitl (ρ fzero)
-freeMon-sat M.`unitr ρ = unitr (ρ fzero)
-freeMon-sat M.`assocr ρ = assocr (ρ fzero) (ρ fone) (ρ ftwo)
+freeMonSat : ∀ {n} {X : Type n} -> < FreeMon X , freeMon-α > ⊨ M.MonSEq
+freeMonSat M.`unitl ρ = unitl (ρ fzero)
+freeMonSat M.`unitr ρ = unitr (ρ fzero)
+freeMonSat M.`assocr ρ = assocr (ρ fzero) (ρ fone) (ρ ftwo)
 
 freeMonDef : ∀ {ℓ ℓ'} -> FreeMonDef.Free ℓ ℓ' 2
 F.Definition.Free.F freeMonDef = FreeMon
 F.Definition.Free.η freeMonDef = η
 F.Definition.Free.α freeMonDef = freeMon-α
-F.Definition.Free.sat freeMonDef = freeMon-sat
+F.Definition.Free.sat freeMonDef = freeMonSat
 F.Definition.Free.isFree freeMonDef isSet𝔜 satMon = (Free.freeMonEquiv isSet𝔜 satMon) .snd

@@ -63,14 +63,14 @@ private
       ap (_++ ys) (++-unit-r (x ∷ xs))
     ∎
 
-list-str : MonStr (List A)
-𝟙 list-str = []
-_⊗_ list-str = _++_
-Λ list-str = idp
-ρ list-str = ++-unit-r
-α list-str = ++-assoc
-▿ list-str = list-▿
-⬠ list-str = TODO -- pentagon coherence for lists
+listStr : MonStr (List A)
+𝟙 listStr = []
+_⊗_ listStr = _++_
+Λ listStr = idp
+ρ listStr = ++-unit-r
+α listStr = ++-assoc
+▿ listStr = list-▿
+⬠ listStr = TODO -- pentagon coherence for lists
 
 module Free {x y : Level} {A : Type x} (𝔜 : MonGpd y) where
 

@@ -44,9 +44,9 @@ module IsoToCList {ℓ} (A : Type ℓ) where
   open import Cubical.HITs.SetQuotients as Q
   open BagDef.Free
 
-  module 𝔄 = M.MonSEq < Array A , array-α > array-sat
+  module 𝔄 = M.MonSEq < Array A , array-α > arraySat
   module 𝔅 = M.CMonSEq < Bag A , bagFreeDef .α > (bagFreeDef .sat)
-  module ℭ = M.CMonSEq < CList A , clist-α > clist-sat
+  module ℭ = M.CMonSEq < CList A , clist-α > clistSat
 
   abstract -- needed so Agda wouldn't get stuck
     fromCListHom : structHom < CList A , clist-α > < Bag A , bagFreeDef .α >
@@ -72,7 +72,7 @@ module IsoToCList {ℓ} (A : Type ℓ) where
       (ext-η clistDef squash/ (bagFreeDef .sat) (BagDef.Free.η bagFreeDef))
 
   ListToCListHom : structHom < List A , list-α > < CList A , clist-α >
-  ListToCListHom = ListDef.Free.ext listDef isSetCList (M.cmonSatMon clist-sat) CL.[_]
+  ListToCListHom = ListDef.Free.ext listDef isSetCList (M.cmonSatMon clistSat) CL.[_]
 
   ListToCList : List A -> CList A
   ListToCList = ListToCListHom .fst

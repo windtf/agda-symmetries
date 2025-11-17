@@ -42,9 +42,9 @@ private
     ℓ : Level
     A : Type ℓ
 
-head-maybe : List A -> Maybe A
-head-maybe [] = nothing
-head-maybe (x ∷ xs) = just x
+headMaybe : List A -> Maybe A
+headMaybe [] = nothing
+headMaybe (x ∷ xs) = just x
 
 module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
   open Membership isSetA

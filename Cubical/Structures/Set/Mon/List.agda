@@ -87,16 +87,16 @@ module Foldr {A : Type ℓ} {B : Type ℓ} {isSetB : isSet B} where
 
 module ListDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 
-list-sat : ∀ {n} {X : Type n} -> < List X , list-α > ⊨ M.MonSEq
-list-sat M.`unitl ρ = refl
-list-sat M.`unitr ρ = ++-unit-r (ρ fzero)
-list-sat M.`assocr ρ = ++-assoc (ρ fzero) (ρ fone) (ρ ftwo)
+listSat : ∀ {n} {X : Type n} -> < List X , list-α > ⊨ M.MonSEq
+listSat M.`unitl ρ = refl
+listSat M.`unitr ρ = ++-unit-r (ρ fzero)
+listSat M.`assocr ρ = ++-assoc (ρ fzero) (ρ fone) (ρ ftwo)
 
 listDef : ∀ {ℓ ℓ'} -> ListDef.Free ℓ ℓ' 2
 F.Definition.Free.F listDef = List
 F.Definition.Free.η listDef = [_]
 F.Definition.Free.α listDef = list-α
-F.Definition.Free.sat listDef = list-sat
+F.Definition.Free.sat listDef = listSat
 F.Definition.Free.isFree listDef isSet𝔜 satMon = (Free.listEquiv isSet𝔜 satMon) .snd
 
 list-⊥ : (List ⊥.⊥) ≃ Unit

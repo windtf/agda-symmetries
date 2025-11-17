@@ -60,7 +60,7 @@ module Naive {ℓ} {A : Type ℓ} (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ
   isSetListA : isSet (List A)
   isSetListA = isOfHLevelList 0 isSetA
 
-  module FreeList = L.Free {A = A} isSetListA list-sat
+  module FreeList = L.Free {A = A} isSetListA listSat
 
   f : A -> List A -> List A
   f a = i a FreeList.♯

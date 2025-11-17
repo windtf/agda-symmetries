@@ -409,31 +409,31 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
 module ArrayDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 
-array-str : ∀ {n} (A : Type n) -> struct n M.MonSig
-array-str A = < Array A , array-α >
+arrayStr : ∀ {n} (A : Type n) -> struct n M.MonSig
+arrayStr A = < Array A , array-α >
 
-array-sat : ∀ {n} {X : Type n} -> array-str X ⊨ M.MonSEq
-array-sat M.`unitl ρ = ⊕-unitl (ρ fzero)
-array-sat M.`unitr ρ = ⊕-unitr (ρ fzero)
-array-sat M.`assocr ρ = ⊕-assocr (ρ fzero) (ρ fone) (ρ ftwo)
+arraySat : ∀ {n} {X : Type n} -> arrayStr X ⊨ M.MonSEq
+arraySat M.`unitl ρ = ⊕-unitl (ρ fzero)
+arraySat M.`unitr ρ = ⊕-unitr (ρ fzero)
+arraySat M.`assocr ρ = ⊕-assocr (ρ fzero) (ρ fone) (ρ ftwo)
 
 arrayDef : ∀ {ℓ ℓ'} -> ArrayDef.Free ℓ ℓ' 2
 F.Definition.Free.F arrayDef = Array
 F.Definition.Free.η arrayDef = η
 F.Definition.Free.α arrayDef = array-α
-F.Definition.Free.sat arrayDef = array-sat
+F.Definition.Free.sat arrayDef = arraySat
 F.Definition.Free.isFree arrayDef isSet𝔜 satMon = (Free.arrayEquiv isSet𝔜 satMon) .snd
 
 -- direct proof of isomorphism between Array and List
 -- without using the universal property of Array as a free monoid
 arrayIsoToList : ∀ {ℓ} {A : Type ℓ} -> Iso (Array A) (List A)
-arrayIsoToList {A = A} = iso (uncurry tabulate) from tabulate-lookup from∘to
+arrayIsoToList {A = A} = iso (uncurry tabulate) from tabulateLookup from∘to
   where
   from : List A -> Array A
   from xs = length xs , lookup xs
 
   from∘to : ∀ xs -> from (uncurry tabulate xs) ≡ xs
-  from∘to (n , xs) = ΣPathP (length-tabulate n xs , lookup-tabulate n xs)
+  from∘to (n , xs) = ΣPathP (lengthTabulate n xs , lookupTabulate n xs)
 
 array≡List : ∀ {ℓ} -> Array {ℓ = ℓ} ≡ List
 array≡List = funExt λ _ -> isoToPath arrayIsoToList
@@ -482,7 +482,7 @@ private
 module _ {ℓ} {A : Type ℓ} where
   open ArrayDef.Free
   private
-    module 𝔄 = M.MonSEq < Array A , array-α > array-sat
+    module 𝔄 = M.MonSEq < Array A , array-α > arraySat
 
   arrayIsoToListHom : structIsHom < Array A , array-α > < List A , LM.list-α > (arrayIsoToList .fun)
   arrayIsoToListHom M.`e i = refl

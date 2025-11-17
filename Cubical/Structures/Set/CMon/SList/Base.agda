@@ -87,15 +87,15 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 
 module SListDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
-slist-sat : ∀ {n} {X : Type n} -> < SList X , slist-α > ⊨ M.CMonSEq
-slist-sat (M.`mon M.`unitl) ρ = unitl-++ (ρ fzero)
-slist-sat (M.`mon M.`unitr) ρ = unitr-++ (ρ fzero)
-slist-sat (M.`mon M.`assocr) ρ = sym (assoc-++ (ρ fzero) (ρ fone) (ρ ftwo))
-slist-sat M.`comm ρ = comm-++ (ρ fzero) (ρ fone)
+slistSat : ∀ {n} {X : Type n} -> < SList X , slist-α > ⊨ M.CMonSEq
+slistSat (M.`mon M.`unitl) ρ = unitl-++ (ρ fzero)
+slistSat (M.`mon M.`unitr) ρ = unitr-++ (ρ fzero)
+slistSat (M.`mon M.`assocr) ρ = sym (assoc-++ (ρ fzero) (ρ fone) (ρ ftwo))
+slistSat M.`comm ρ = comm-++ (ρ fzero) (ρ fone)
 
 slistDef : ∀ {ℓ ℓ'} -> SListDef.Free ℓ ℓ' 2
 F.Definition.Free.F slistDef = SList
 F.Definition.Free.η slistDef = [_]
 F.Definition.Free.α slistDef = slist-α
-F.Definition.Free.sat slistDef = slist-sat
+F.Definition.Free.sat slistDef = slistSat
 F.Definition.Free.isFree slistDef isSet𝔜 satMon = (Free.slistMonEquiv isSet𝔜 satMon) .snd

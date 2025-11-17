@@ -52,7 +52,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   isSetListA = isOfHLevelList 0 isSetA
 
   private
-    module 𝔖 = M.CMonSEq < SList A , slist-α > slist-sat
+    module 𝔖 = M.CMonSEq < SList A , slist-α > slistSat
 
   open Membership isSetA
   open Membership* isSetA
@@ -60,7 +60,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   open Sort.Section isSetA sort sort≡
 
   least : SList A -> Maybe A
-  least xs = head-maybe (sort xs)
+  least xs = headMaybe (sort xs)
 
   least-nothing : ∀ xs -> least xs ≡ nothing -> xs ≡ []*
   least-nothing xs p with sort xs | inspect sort xs
@@ -81,8 +81,8 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   least-choice : ∀ x y -> (least (x ∷* [ y ]*) ≡ just x) ⊔′ (least (x ∷* [ y ]*) ≡ just y)
   least-choice x y = P.rec squash₁
     (⊎.rec
-      (L.inl ∘ congS head-maybe)
-      (L.inr ∘ congS head-maybe))
+      (L.inl ∘ congS headMaybe)
+      (L.inr ∘ congS headMaybe))
     (sort-choice x y)
 
   _≤_ : A -> A -> Type _
@@ -129,7 +129,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
 
   is-sorted→≤ : ∀ x y -> is-sorted (x ∷ y ∷ []) -> x ≤ y
   is-sorted→≤ x y = P.rec (isSetMaybeA _ _) λ (xs , p) ->
-    congS head-maybe (congS sort (sym (sym (sort≡ xs) ∙ congS list→slist p)) ∙ p)
+    congS headMaybe (congS sort (sym (sym (sort≡ xs) ∙ congS list→slist p)) ∙ p)
 
   ≤→is-sorted : ∀ x y -> x ≤ y -> is-sorted (x ∷ y ∷ [])
   ≤→is-sorted x y p = ∣ x ∷* y ∷* []* , proof ∣₁
