@@ -55,9 +55,9 @@ permMovehead : (x : A) (xs : List A) {ys : List A} -> Perm (x ∷ xs ++ ys) (xs 
 permMovehead x [] = permRefl
 permMovehead x (y ∷ xs) = permSwap {xs = []} (permCons (permMovehead x xs))
 
-⊕-commₚ : (xs ys : List A) -> Perm (xs ++ ys) (ys ++ xs)
-⊕-commₚ xs [] = permSubst (++-unit-r xs)
-⊕-commₚ xs (y ∷ ys) = permSym (permMovehead y xs {ys = ys}) ∙ₚ permCons (⊕-commₚ xs ys)
+⊕Commₚ : (xs ys : List A) -> Perm (xs ++ ys) (ys ++ xs)
+⊕Commₚ xs [] = permSubst (++-unit-r xs)
+⊕Commₚ xs (y ∷ ys) = permSym (permMovehead y xs {ys = ys}) ∙ₚ permCons (⊕Commₚ xs ys)
 
 module _ {ℓA ℓB} {A : Type ℓA} {𝔜 : struct ℓB M.MonSig} {isSet𝔜 : isSet (𝔜 .car)} (𝔜-cmon : 𝔜 ⊨ M.CMonSEq) (f : A -> 𝔜 .car) where
   module 𝔜 = M.CMonSEq 𝔜 𝔜-cmon
@@ -102,7 +102,7 @@ module _ {ℓ} (A : Type ℓ) where
   P.isEquivRel.symmetric (isEquivRel isPermRelPerm) _ _ = permSym
   P.isEquivRel.transitive (isEquivRel isPermRelPerm) _ _ _ = _∙ₚ_
   isCongruence isPermRelPerm {a} {b} {c} {d} p q = permPrepend a q ∙ₚ permAppend p d
-  isCommutative isPermRelPerm {a} {b} = ⊕-commₚ a b
+  isCommutative isPermRelPerm {a} {b} = ⊕Commₚ a b
   respSharp isPermRelPerm {isSet𝔜 = isSet𝔜} 𝔜-cmon f p = permRespf♯ {isSet𝔜 = isSet𝔜} 𝔜-cmon f p
 
   PermRel : PermRelation LM.listDef A

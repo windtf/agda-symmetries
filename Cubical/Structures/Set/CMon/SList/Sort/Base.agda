@@ -49,86 +49,86 @@ headMaybe (x ∷ xs) = just x
 module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
   open Membership isSetA
 
-  is-sorted : List A -> Type _
-  is-sorted list = ∥ fiber sort list ∥₁
+  isSorted : List A -> Type _
+  isSorted list = ∥ fiber sort list ∥₁
 
-  is-section : Type _
-  is-section = ∀ xs -> list→slist (sort xs) ≡ xs
+  isSection : Type _
+  isSection = ∀ xs -> list→slist (sort xs) ≡ xs
 
-  isProp-is-section : isProp is-section
-  isProp-is-section = isPropΠ (λ _ -> trunc _ _)
+  isPropIsSection : isProp isSection
+  isPropIsSection = isPropΠ (λ _ -> trunc _ _)
 
-  im-cut : Type _
-  im-cut = ∀ x y xs -> is-sorted (x ∷ xs) -> y ∈ (x ∷ xs) -> is-sorted (x ∷ y ∷ [])
+  imCut : Type _
+  imCut = ∀ x y xs -> isSorted (x ∷ xs) -> y ∈ (x ∷ xs) -> isSorted (x ∷ y ∷ [])
 
-  im-cons : Type _
-  im-cons = ∀ x xs -> is-sorted (x ∷ xs) -> is-sorted xs
+  imCons : Type _
+  imCons = ∀ x xs -> isSorted (x ∷ xs) -> isSorted xs
 
-  is-sort : Type _
-  is-sort = im-cut × im-cons
+  isSort : Type _
+  isSort = imCut × imCons
 
-  isProp-im-cut : isProp im-cut
-  isProp-im-cut = isPropΠ5 λ _ _ _ _ _ -> squash₁
+  isPropImCut : isProp imCut
+  isPropImCut = isPropΠ5 λ _ _ _ _ _ -> squash₁
 
-  isProp-im-cons : isProp im-cons
-  isProp-im-cons = isPropΠ3 (λ _ _ _ -> squash₁)
+  isPropImCons : isProp imCons
+  isPropImCons = isPropΠ3 (λ _ _ _ -> squash₁)
 
-  isProp-is-sort : isProp is-sort
-  isProp-is-sort = isProp× isProp-im-cut isProp-im-cons
+  isPropIsSort : isProp isSort
+  isPropIsSort = isProp× isPropImCut isPropImCons
 
-  is-sort-section : Type _
-  is-sort-section = is-section × is-sort
+  isSortSection : Type _
+  isSortSection = isSection × isSort
 
-  isProp-is-sort-section : isProp is-sort-section
-  isProp-is-sort-section = isOfHLevelΣ 1 isProp-is-section (λ _ -> isProp-is-sort)
+  isPropIsSortSection : isProp isSortSection
+  isPropIsSortSection = isOfHLevelΣ 1 isPropIsSection (λ _ -> isPropIsSort)
 
-  module Section (sort≡ : is-section) where
+  module Section (sort≡ : isSection) where
     open Membership* isSetA
 
-    list→slist-η : ∀ xs -> (x : A) -> list→slist xs ≡ [ x ]* -> xs ≡ [ x ]
-    list→slist-η [] x p = ⊥.rec (znots (congS S.length p))
-    list→slist-η (x ∷ []) y p = congS [_] ([-]-inj {ϕ = isSetA} p)
-    list→slist-η (x ∷ y ∷ xs) z p = ⊥.rec (snotz (injSuc (congS S.length p)))
+    list→slistΗ : ∀ xs -> (x : A) -> list→slist xs ≡ [ x ]* -> xs ≡ [ x ]
+    list→slistΗ [] x p = ⊥.rec (znots (congS S.length p))
+    list→slistΗ (x ∷ []) y p = congS [_] ([-]-inj {ϕ = isSetA} p)
+    list→slistΗ (x ∷ y ∷ xs) z p = ⊥.rec (snotz (injSuc (congS S.length p)))
 
-    sort-length≡-α : ∀ (xs : List A) -> L.length xs ≡ S.length (list→slist xs)
-    sort-length≡-α [] = refl
-    sort-length≡-α (x ∷ xs) = congS suc (sort-length≡-α xs)
+    sortLength≡Α : ∀ (xs : List A) -> L.length xs ≡ S.length (list→slist xs)
+    sortLength≡Α [] = refl
+    sortLength≡Α (x ∷ xs) = congS suc (sortLength≡Α xs)
 
-    sort-length≡ : ∀ xs -> L.length (sort xs) ≡ S.length xs
-    sort-length≡ xs = sort-length≡-α (sort xs) ∙ congS S.length (sort≡ xs)
+    sortLength≡ : ∀ xs -> L.length (sort xs) ≡ S.length xs
+    sortLength≡ xs = sortLength≡Α (sort xs) ∙ congS S.length (sort≡ xs)
 
-    length-0 : ∀ (xs : List A) -> L.length xs ≡ 0 -> xs ≡ []
-    length-0 [] p = refl
-    length-0 (x ∷ xs) p = ⊥.rec (snotz p)
+    length0 : ∀ (xs : List A) -> L.length xs ≡ 0 -> xs ≡ []
+    length0 [] p = refl
+    length0 (x ∷ xs) p = ⊥.rec (snotz p)
 
-    sort-[] : ∀ xs -> sort xs ≡ [] -> xs ≡ []*
-    sort-[] xs p = sym (sort≡ xs) ∙ congS list→slist p
+    sort[] : ∀ xs -> sort xs ≡ [] -> xs ≡ []*
+    sort[] xs p = sym (sort≡ xs) ∙ congS list→slist p
 
-    sort-[]' : sort []* ≡ []
-    sort-[]' = length-0 (sort []*) (sort-length≡ []*)
+    sort[]' : sort []* ≡ []
+    sort[]' = length0 (sort []*) (sortLength≡ []*)
 
-    sort-[-] : ∀ x -> sort [ x ]* ≡ [ x ]
-    sort-[-] x = list→slist-η (sort [ x ]*) x (sort≡ [ x ]*)
+    sort[-] : ∀ x -> sort [ x ]* ≡ [ x ]
+    sort[-] x = list→slistΗ (sort [ x ]*) x (sort≡ [ x ]*)
 
-    sort-∈ : ∀ x xs -> x ∈* xs -> x ∈ sort xs
-    sort-∈ x xs p = ∈*→∈ x (sort xs) (subst (x ∈*_) (sym (sort≡ xs)) p)
+    sort∈ : ∀ x xs -> x ∈* xs -> x ∈ sort xs
+    sort∈ x xs p = ∈*→∈ x (sort xs) (subst (x ∈*_) (sym (sort≡ xs)) p)
 
-    sort-∈* : ∀ x xs -> x ∈ sort xs -> x ∈* xs
-    sort-∈* x xs p = subst (x ∈*_) (sort≡ xs) (∈→∈* x (sort xs) p)
+    sort∈* : ∀ x xs -> x ∈ sort xs -> x ∈* xs
+    sort∈* x xs p = subst (x ∈*_) (sort≡ xs) (∈→∈* x (sort xs) p)
 
-    sort-unique : ∀ xs -> is-sorted xs -> sort (list→slist xs) ≡ xs
-    sort-unique xs = P.rec (isOfHLevelList 0 isSetA _ xs) λ (ys , p) ->
+    sortUnique : ∀ xs -> isSorted xs -> sort (list→slist xs) ≡ xs
+    sortUnique xs = P.rec (isOfHLevelList 0 isSetA _ xs) λ (ys , p) ->
       sym (congS sort (sym (sort≡ ys) ∙ congS list→slist p)) ∙ p
 
-    sort-choice-lemma : ∀ x -> sort (x ∷* x ∷* []*) ≡ x ∷ x ∷ []
-    sort-choice-lemma x with sort (x ∷* x ∷* []*) | inspect sort (x ∷* x ∷* []*)
-    ... | []                | [ p ]ᵢ = ⊥.rec (snotz (sym (sort-length≡ (x ∷* x ∷* []*)) ∙ congS L.length p))
-    ... | x₁ ∷ []           | [ p ]ᵢ = ⊥.rec (snotz (injSuc (sym (sort-length≡ (x ∷* x ∷* []*)) ∙ congS L.length p)))
-    ... | x₁ ∷ x₂ ∷ x₃ ∷ xs | [ p ]ᵢ = ⊥.rec (znots (injSuc (injSuc (sym (sort-length≡ (x ∷* x ∷* []*)) ∙ congS L.length p))))
+    sortChoiceLemma : ∀ x -> sort (x ∷* x ∷* []*) ≡ x ∷ x ∷ []
+    sortChoiceLemma x with sort (x ∷* x ∷* []*) | inspect sort (x ∷* x ∷* []*)
+    ... | []                | [ p ]ᵢ = ⊥.rec (snotz (sym (sortLength≡ (x ∷* x ∷* []*)) ∙ congS L.length p))
+    ... | x₁ ∷ []           | [ p ]ᵢ = ⊥.rec (snotz (injSuc (sym (sortLength≡ (x ∷* x ∷* []*)) ∙ congS L.length p)))
+    ... | x₁ ∷ x₂ ∷ x₃ ∷ xs | [ p ]ᵢ = ⊥.rec (znots (injSuc (injSuc (sym (sortLength≡ (x ∷* x ∷* []*)) ∙ congS L.length p))))
     ... | a ∷ b ∷ [] | [ p ]ᵢ =
       P.rec (isOfHLevelList 0 isSetA _ _)
         (⊎.rec lemma1 (lemma1 ∘ x∈[y]→x≡y a x))
-        (sort-∈* a (x ∷* x ∷* []*) (subst (a ∈_) (sym p) (x∈xs a [ b ])))
+        (sort∈* a (x ∷* x ∷* []*) (subst (a ∈_) (sym p) (x∈xs a [ b ])))
       where
       lemma2 : a ≡ x -> b ≡ x -> a ∷ b ∷ [] ≡ x ∷ x ∷ []
       lemma2 q r = cong₂ (λ u v -> u ∷ v ∷ []) q r
@@ -136,32 +136,32 @@ module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
       lemma1 q =
           P.rec (isOfHLevelList 0 isSetA _ _)
             (⊎.rec (lemma2 q) (lemma2 q ∘ x∈[y]→x≡y b x))
-            (sort-∈* b (x ∷* x ∷* []*) (subst (b ∈_) (sym p) (L.inr (L.inl refl))))
+            (sort∈* b (x ∷* x ∷* []*) (subst (b ∈_) (sym p) (L.inr (L.inl refl))))
 
-    sort-choice : ∀ x y -> (sort (x ∷* y ∷* []*) ≡ x ∷ y ∷ []) ⊔′ (sort (x ∷* y ∷* []*) ≡ y ∷ x ∷ [])
-    sort-choice x y with sort (x ∷* y ∷* []*) | inspect sort (x ∷* y ∷* []*)
-    ... | []                | [ p ]ᵢ = ⊥.rec (snotz (sym (sort-length≡ (x ∷* y ∷* []*)) ∙ congS L.length p))
-    ... | x₁ ∷ []           | [ p ]ᵢ = ⊥.rec (snotz (injSuc (sym (sort-length≡ (x ∷* y ∷* []*)) ∙ congS L.length p)))
-    ... | x₁ ∷ x₂ ∷ x₃ ∷ xs | [ p ]ᵢ = ⊥.rec (znots (injSuc (injSuc (sym (sort-length≡ (x ∷* y ∷* []*)) ∙ congS L.length p))))
+    sortChoice : ∀ x y -> (sort (x ∷* y ∷* []*) ≡ x ∷ y ∷ []) ⊔′ (sort (x ∷* y ∷* []*) ≡ y ∷ x ∷ [])
+    sortChoice x y with sort (x ∷* y ∷* []*) | inspect sort (x ∷* y ∷* []*)
+    ... | []                | [ p ]ᵢ = ⊥.rec (snotz (sym (sortLength≡ (x ∷* y ∷* []*)) ∙ congS L.length p))
+    ... | x₁ ∷ []           | [ p ]ᵢ = ⊥.rec (snotz (injSuc (sym (sortLength≡ (x ∷* y ∷* []*)) ∙ congS L.length p)))
+    ... | x₁ ∷ x₂ ∷ x₃ ∷ xs | [ p ]ᵢ = ⊥.rec (znots (injSuc (injSuc (sym (sortLength≡ (x ∷* y ∷* []*)) ∙ congS L.length p))))
     ... | a ∷ b ∷ [] | [ p ]ᵢ =
       P.rec squash₁
         (⊎.rec
           (λ x≡a -> P.rec squash₁
             (⊎.rec
-              (λ y≡a -> L.inl (sym p ∙ subst (λ u -> sort (x ∷* [ u ]*) ≡ x ∷ u ∷ []) (x≡a ∙ sym y≡a) (sort-choice-lemma x)))
+              (λ y≡a -> L.inl (sym p ∙ subst (λ u -> sort (x ∷* [ u ]*) ≡ x ∷ u ∷ []) (x≡a ∙ sym y≡a) (sortChoiceLemma x)))
               (λ y∈[b] -> L.inl (cong₂ (λ u v → u ∷ v ∷ []) (sym x≡a) (sym (x∈[y]→x≡y y b y∈[b]))))
             )
-            (subst (y ∈_) p (sort-∈ y (x ∷* y ∷* []*) (L.inr (L.inl refl))))
+            (subst (y ∈_) p (sort∈ y (x ∷* y ∷* []*) (L.inr (L.inl refl))))
           )
           (λ x∈[b] -> P.rec squash₁
             (⊎.rec
               (λ y≡a -> L.inr (cong₂ (λ u v → u ∷ v ∷ []) (sym y≡a) (sym (x∈[y]→x≡y x b x∈[b]))))
               (λ y∈[b] ->
                 let x≡y = (x∈[y]→x≡y x b x∈[b]) ∙ sym (x∈[y]→x≡y y b y∈[b])
-                in L.inl (sym p ∙ subst (λ u -> sort (x ∷* [ u ]*) ≡ x ∷ u ∷ []) x≡y (sort-choice-lemma x))
+                in L.inl (sym p ∙ subst (λ u -> sort (x ∷* [ u ]*) ≡ x ∷ u ∷ []) x≡y (sortChoiceLemma x))
               )
             )
-            (subst (y ∈_) p (sort-∈ y (x ∷* y ∷* []*) (L.inr (L.inl refl))))
+            (subst (y ∈_) p (sort∈ y (x ∷* y ∷* []*) (L.inr (L.inl refl))))
           )
         )
-        (subst (x ∈_) p (sort-∈ x (x ∷* y ∷* []*) (L.inl refl)))
+        (subst (x ∈_) p (sort∈ x (x ∷* y ∷* []*) (L.inl refl)))

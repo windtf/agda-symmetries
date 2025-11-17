@@ -74,14 +74,14 @@ _++_ : CList A -> CList A -> CList A
 comm a b cs p q i ++ bs = comm a b (cs ++ bs) (cong (_++ bs) p) (cong (_++ bs) q) i
 isSetCList a b p q i j ++ bs = isSetCList (a ++ bs) (b ++ bs) (cong (_++ bs) p) (cong (_++ bs) q) i j
 
-++-unitl : (as : CList A) -> [] ++ as ≡ as
-++-unitl as = refl
+++Unitl : (as : CList A) -> [] ++ as ≡ as
+++Unitl as = refl
 
-++-unitr : (as : CList A) -> as ++ [] ≡ as
-++-unitr = elimCListProp.f _ refl (λ a p -> cong (a ∷_) p) (isSetCList _ _)
+++Unitr : (as : CList A) -> as ++ [] ≡ as
+++Unitr = elimCListProp.f _ refl (λ a p -> cong (a ∷_) p) (isSetCList _ _)
 
-++-assocr : (as bs cs : CList A) -> (as ++ bs) ++ cs ≡ as ++ (bs ++ cs)
-++-assocr = elimCListProp.f _
+++AssocR : (as bs cs : CList A) -> (as ++ bs) ++ cs ≡ as ++ (bs ++ cs)
+++AssocR = elimCListProp.f _
   (λ _ _ -> refl)
   (λ x p bs cs -> cong (x ∷_) (p bs cs))
   (isPropΠ λ _ -> isPropΠ λ _ -> isSetCList _ _)
@@ -89,16 +89,16 @@ isSetCList a b p q i j ++ bs = isSetCList (a ++ bs) (b ++ bs) (cong (_++ bs) p) 
 swap : (a b : A) (cs : CList A) -> a ∷ b ∷ cs ≡ b ∷ a ∷ cs
 swap a b cs = comm a b cs refl refl
 
-++-∷ : (a : A) (as : CList A) -> a ∷ as ≡ as ++ [ a ]
-++-∷ a = elimCListProp.f (λ as -> a ∷ as ≡ as ++ [ a ])
+++∷ : (a : A) (as : CList A) -> a ∷ as ≡ as ++ [ a ]
+++∷ a = elimCListProp.f (λ as -> a ∷ as ≡ as ++ [ a ])
   refl
   (λ b {as} p -> swap a b as ∙ cong (b ∷_) p)
   (isSetCList _ _)
 
-++-comm : (as bs : CList A) -> as ++ bs ≡ bs ++ as
-++-comm = elimCListProp.f _
-  (sym ∘ ++-unitr)
-  (λ a {as} p bs -> cong (a ∷_) (p bs) ∙ cong (_++ as) (++-∷ a bs) ∙ ++-assocr bs [ a ] as)
+++Comm : (as bs : CList A) -> as ++ bs ≡ bs ++ as
+++Comm = elimCListProp.f _
+  (sym ∘ ++Unitr)
+  (λ a {as} p bs -> cong (a ∷_) (p bs) ∙ cong (_++ as) (++∷ a bs) ∙ ++AssocR bs [ a ] as)
   (isPropΠ λ _ -> isSetCList _ _)
 
 clistAlpha : ∀ {n : Level} {X : Type n} -> sig M.MonSig (CList X) -> CList X
@@ -127,8 +127,8 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       isSet𝔜
 
     private
-      ♯-++ : ∀ xs ys -> (xs ++ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
-      ♯-++ = elimCListProp.f _
+      ♯++ : ∀ xs ys -> (xs ++ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
+      ♯++ = elimCListProp.f _
         (λ ys -> sym (𝔜.unitl (ys ♯)))
         (λ a {xs} p ys ->
           f a 𝔜.⊕ ((xs ++ ys) ♯) ≡⟨ cong (f a 𝔜.⊕_) (p ys) ⟩
@@ -140,7 +140,7 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     ♯IsMonHom : structHom 𝔛 𝔜
     fst ♯IsMonHom = _♯
     snd ♯IsMonHom M.`e i = 𝔜.e-eta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
 
   private
     clistEquivLemma : (g : structHom 𝔛 𝔜) -> (x : CList A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
@@ -164,10 +164,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 module CListDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
 clistSat : ∀ {n} {X : Type n} -> < CList X , clistAlpha > ⊨ M.CMonSEq
-clistSat (M.`mon M.`unitl) ρ = ++-unitl (ρ fzero)
-clistSat (M.`mon M.`unitr) ρ = ++-unitr (ρ fzero)
-clistSat (M.`mon M.`assocr) ρ = ++-assocr (ρ fzero) (ρ fone) (ρ ftwo)
-clistSat M.`comm ρ = ++-comm (ρ fzero) (ρ fone)
+clistSat (M.`mon M.`unitl) ρ = ++Unitl (ρ fzero)
+clistSat (M.`mon M.`unitr) ρ = ++Unitr (ρ fzero)
+clistSat (M.`mon M.`assocr) ρ = ++AssocR (ρ fzero) (ρ fone) (ρ ftwo)
+clistSat M.`comm ρ = ++Comm (ρ fzero) (ρ fone)
 
 clistDef : ∀ {ℓ ℓ'} -> CListDef.Free ℓ ℓ' 2
 F.Definition.Free.F clistDef = CList

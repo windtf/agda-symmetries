@@ -41,10 +41,10 @@ module _  {f a x : Level} {σ : Sig f a} (𝔛 : struct x σ) where
 
 module _  {f a x y z : Level} {σ : Sig f a} (𝔛 : struct x σ) (𝔜 : struct y σ) (ℨ : struct z σ) where
   structHom∘ : (g : structHom 𝔜 ℨ) -> (h : structHom 𝔛 𝔜) -> structHom 𝔛 ℨ
-  structHom∘ (g-f , g-hom) (h-f , h-hom) = g-f ∘ h-f , lemma-α
+  structHom∘ (g-f , g-hom) (h-f , h-hom) = g-f ∘ h-f , lemmaΑ
     where
-    lemma-α : structIsHom 𝔛 ℨ (g-f ∘ h-f)
-    lemma-α eqn i =
+    lemmaΑ : structIsHom 𝔛 ℨ (g-f ∘ h-f)
+    lemmaΑ eqn i =
       ℨ .alg (eqn , g-f ∘ h-f ∘ i) ≡⟨ g-hom eqn (h-f ∘ i) ⟩
       g-f (𝔜 .alg (eqn , h-f ∘ i)) ≡⟨ cong g-f (h-hom eqn i) ⟩
       _ ∎

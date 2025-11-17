@@ -121,29 +121,29 @@ module _  {f a : Level} (σ : Sig f a) {x y} {X : Type x} (𝔜 : struct y σ) w
   eval : (X -> 𝔜 .car) -> structHom 𝔛 𝔜
   eval h = sharp h , λ _ _ -> refl
 
-  sharp-eta : (g : structHom 𝔛 𝔜) -> (tr : Tree σ X) -> g .fst tr ≡ sharp (g .fst ∘ leaf) tr
-  sharp-eta g (leaf x) = refl
-  sharp-eta (g-f , g-hom) (node x) =
+  sharpEta : (g : structHom 𝔛 𝔜) -> (tr : Tree σ X) -> g .fst tr ≡ sharp (g .fst ∘ leaf) tr
+  sharpEta g (leaf x) = refl
+  sharpEta (g-f , g-hom) (node x) =
     g-f (node x) ≡⟨ sym (g-hom (x .fst) (x .snd)) ⟩
-    𝔜 .alg (x .fst , (λ y → g-f (x .snd y))) ≡⟨ cong (λ z → 𝔜 .alg (x .fst , z)) (funExt λ y -> sharp-eta ((g-f , g-hom)) (x .snd y)) ⟩
+    𝔜 .alg (x .fst , (λ y → g-f (x .snd y))) ≡⟨ cong (λ z → 𝔜 .alg (x .fst , z)) (funExt λ y -> sharpEta ((g-f , g-hom)) (x .snd y)) ⟩
     𝔜 .alg (x .fst , (λ y → sharp (g-f ∘ leaf) (x .snd y)))
     ∎
 
-  sharp-hom-eta : isSet (𝔜 .car) -> (g : structHom 𝔛 𝔜) -> g ≡ eval (g .fst ∘ leaf)
-  sharp-hom-eta p g = structHom≡ 𝔛 𝔜 g (eval (g .fst ∘ leaf)) p (funExt (sharp-eta g))
+  sharpHomEta : isSet (𝔜 .car) -> (g : structHom 𝔛 𝔜) -> g ≡ eval (g .fst ∘ leaf)
+  sharpHomEta p g = structHom≡ 𝔛 𝔜 g (eval (g .fst ∘ leaf)) p (funExt (sharpEta g))
 
   trEquiv : isSet (𝔜 .car) -> structHom 𝔛 𝔜 ≃ (X -> 𝔜 .car)
-  trEquiv isSetY = isoToEquiv (iso (\g -> g .fst ∘ leaf) eval (\_ -> refl) (sym ∘ sharp-hom-eta isSetY))
+  trEquiv isSetY = isoToEquiv (iso (\g -> g .fst ∘ leaf) eval (\_ -> refl) (sym ∘ sharpHomEta isSetY))
 
   trIsEquiv : isSet (𝔜 .car) -> isEquiv (\g -> g .fst ∘ leaf)
   trIsEquiv = snd ∘ trEquiv
 
 module _ {f a : Level} (σ : Sig f a) {x y z} {X : Type x} {Y : Type y} (ℨ : struct z σ) where
-  sharp-∘ : (f : X -> Tree σ Y) (g : Y -> ℨ .car)
+  sharp∘ : (f : X -> Tree σ Y) (g : Y -> ℨ .car)
          -> (t : Tree σ X)
          -> sharp σ ℨ (sharp σ ℨ g ∘ f) t ≡ sharp σ ℨ g (sharp σ (algTr σ Y) f t)
-  sharp-∘ f g (leaf x) = refl
-  sharp-∘ f g (node n) = congS (\p -> ℨ .alg (n .fst , p)) (funExt (sharp-∘ f g ∘ n .snd))
+  sharp∘ f g (leaf x) = refl
+  sharp∘ f g (node n) = congS (\p -> ℨ .alg (n .fst , p)) (funExt (sharp∘ f g ∘ n .snd))
 
 module _  {f a : Level} (σ : Sig f a) {x y} {X : Type x} {Y : Type y} where
 

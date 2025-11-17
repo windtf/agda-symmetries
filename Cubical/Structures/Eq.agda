@@ -93,10 +93,10 @@ module _ {f a e n s : Level} {σ : Sig f a} {ε : EqSig e n} where
   nsat {𝔛 = 𝔛} {ℯ = ℯ} H V 𝓋 =
     funExt \{ (eqn , v) ->
       sharp σ 𝔛 𝓋 (sharp σ (algTr σ V) (leaf ∘ v) (ℯ eqn .fst))
-    ≡⟨ sym (sharp-∘ σ 𝔛 (leaf ∘ v) 𝓋 (ℯ eqn .fst)) ⟩
+    ≡⟨ sym (sharp∘ σ 𝔛 (leaf ∘ v) 𝓋 (ℯ eqn .fst)) ⟩
       sharp σ 𝔛 (𝓋 ∘ v) (ℯ eqn .fst)
     ≡⟨ H eqn (𝓋 ∘ v) ⟩
       sharp σ 𝔛 (𝓋 ∘ v) (ℯ eqn .snd)
-    ≡⟨ sharp-∘ σ 𝔛 (leaf ∘ v) 𝓋 (ℯ eqn .snd) ⟩
+    ≡⟨ sharp∘ σ 𝔛 (leaf ∘ v) 𝓋 (ℯ eqn .snd) ⟩
       sharp σ 𝔛 𝓋 (sharp σ (algTr σ V) (leaf ∘ v) (ℯ eqn .snd))
     ∎ }

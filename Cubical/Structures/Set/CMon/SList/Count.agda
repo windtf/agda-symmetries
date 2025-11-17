@@ -30,13 +30,13 @@ private
     A : Type ℓ
 
 module Count* {ℓ} {A : Type ℓ} (discA : Discrete A) where
-  open SList.Free {A = A} isSetℕ M.ℕ-CMonStr-MonSEq
+  open SList.Free {A = A} isSetℕ M.ℕCMonStrMonSEq
 
   よ : A -> A -> ℕ
   よ x = λ y -> decElim (λ x≡y -> 1) (λ x≠y -> 0) (discA x y)
 
-  よ-β : ∀ x -> よ x x ≡ 1
-  よ-β x  with discA x x
+  よΒ : ∀ x -> よ x x ≡ 1
+  よΒ x  with discA x x
   ... | yes p = refl
   ... | no ¬p = ⊥.rec (¬p refl)
 
@@ -50,4 +50,4 @@ module Count* {ℓ} {A : Type ℓ} (discA : Discrete A) where
   x∈*[] x = refl
 
   x∈*x∷xs : ∀ x xs -> x ∈* (x ∷ xs) ≡ 1 + x ∈* xs
-  x∈*x∷xs x xs = ♯-∷ (よ x) x xs ∙ congS (_+ (x ∈* xs)) (よ-β x)
+  x∈*x∷xs x xs = ♯∷ (よ x) x xs ∙ congS (_+ (x ∈* xs)) (よΒ x)

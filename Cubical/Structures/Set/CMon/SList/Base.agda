@@ -31,8 +31,8 @@ slistAlpha : ∀ {n : Level} {X : Type n} -> sig M.MonSig (SList X) -> SList X
 slistAlpha (M.`e , i) = []
 slistAlpha (M.`⊕ , i) = i fzero ++ i fone
 
-module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-cmon : 𝔜 ⊨ M.CMonSEq) where
-  module 𝔜 = M.CMonSEq 𝔜 𝔜-cmon
+module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜Cmon : 𝔜 ⊨ M.CMonSEq) where
+  module 𝔜 = M.CMonSEq 𝔜 𝔜Cmon
 
   𝔛 : M.CMonStruct
   𝔛 = < SList A , slistAlpha >
@@ -50,8 +50,8 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       (λ _ -> isSet𝔜)
 
     -- export these for computation
-    ♯-++ : ∀ xs ys -> (xs ++ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
-    ♯-++ = ElimProp.f (isPropΠ λ _ -> isSet𝔜 _ _)
+    ♯⊕ : ∀ xs ys -> (xs ++ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
+    ♯⊕ = ElimProp.f (isPropΠ λ _ -> isSet𝔜 _ _)
       (λ ys -> sym (𝔜.unitl (ys ♯)))
       (λ a {xs} p ys ->
         f a 𝔜.⊕ ((xs ++ ys) ♯) ≡⟨ cong (f a 𝔜.⊕_) (p ys) ⟩
@@ -60,12 +60,12 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       ∎)
 
     ♯-∷ : ∀ x xs -> (x ∷ xs) ♯ ≡ (f x) 𝔜.⊕ (xs ♯)
-    ♯-∷ x xs = ♯-++ [ x ] xs ∙ congS (𝔜._⊕ (xs ♯)) (𝔜.unitr (f x))
+    ♯-∷ x xs = ♯⊕ [ x ] xs ∙ congS (𝔜._⊕ (xs ♯)) (𝔜.unitr (f x))
 
     ♯IsMonHom : structHom 𝔛 𝔜
     fst ♯IsMonHom = _♯
-    snd ♯IsMonHom M.`e i = 𝔜.e-eta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+    snd ♯IsMonHom M.`e i = 𝔜.eEta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
 
   private
     slistEquivLemma : (g : structHom 𝔛 𝔜) -> (x : SList A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
@@ -88,10 +88,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
 module SListDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
 slistSat : ∀ {n} {X : Type n} -> < SList X , slistAlpha > ⊨ M.CMonSEq
-slistSat (M.`mon M.`unitl) ρ = unitl-++ (ρ fzero)
-slistSat (M.`mon M.`unitr) ρ = unitr-++ (ρ fzero)
-slistSat (M.`mon M.`assocr) ρ = sym (assoc-++ (ρ fzero) (ρ fone) (ρ ftwo))
-slistSat M.`comm ρ = comm-++ (ρ fzero) (ρ fone)
+slistSat (M.`mon M.`unitl) ρ = unitl++ (ρ fzero)
+slistSat (M.`mon M.`unitr) ρ = unitr++ (ρ fzero)
+slistSat (M.`mon M.`assocr) ρ = sym (assoc++ (ρ fzero) (ρ fone) (ρ ftwo))
+slistSat M.`comm ρ = comm++ (ρ fzero) (ρ fone)
 
 slistDef : ∀ {ℓ ℓ'} -> SListDef.Free ℓ ℓ' 2
 F.Definition.Free.F slistDef = SList

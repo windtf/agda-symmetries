@@ -44,7 +44,7 @@ module IsoToCList {ℓ} (A : Type ℓ) where
   open import Cubical.HITs.SetQuotients as Q
   open BagDef.Free
 
-  module 𝔄 = M.MonSEq < Array A , array-α > arraySat
+  module 𝔄 = M.MonSEq < Array A , arrayΑ > arraySat
   module 𝔅 = M.CMonSEq < Bag A , bagFreeDef .α > (bagFreeDef .sat)
   module ℭ = M.CMonSEq < CList A , clistAlpha > clistSat
 
@@ -71,14 +71,14 @@ module IsoToCList {ℓ} (A : Type ℓ) where
     fromCListEta x = congS (λ f -> f x)
       (ext-η clistDef squash/ (bagFreeDef .sat) (BagDef.Free.η bagFreeDef))
 
-  ListToCListHom : structHom < List A , list-α > < CList A , clistAlpha >
+  ListToCListHom : structHom < List A , listΑ > < CList A , clistAlpha >
   ListToCListHom = ListDef.Free.ext listDef isSetCList (M.cmonSatMon clistSat) CL.[_]
 
   ListToCList : List A -> CList A
   ListToCList = ListToCListHom .fst
 
-  ArrayToCListHom : structHom < Array A , array-α > < CList A , clistAlpha >
-  ArrayToCListHom = structHom∘ < Array A , array-α > < List A , list-α > < CList A , clistAlpha >
+  ArrayToCListHom : structHom < Array A , arrayΑ > < CList A , clistAlpha >
+  ArrayToCListHom = structHom∘ < Array A , arrayΑ > < List A , listΑ > < CList A , clistAlpha >
     ListToCListHom ((arrayIsoToList .fun) , arrayIsoToListHom)
 
   ArrayToCList : Array A -> CList A

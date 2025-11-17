@@ -31,14 +31,14 @@ private
     ℓ : Level
     A : Type ℓ
 
-list-α : sig M.MonSig (List A) -> List A
-list-α = L.list-α
+listα : sig M.MonSig (List A) -> List A
+listα = L.listα
 
 private
-  list-▿ : (xs ys : List A)
+  list▿ : (xs ys : List A)
          → ++-assoc xs [] ys ∙ ap (xs ++_) (idp ys)
           ≡ ap (_++ ys) (++-unit-r xs)
-  list-▿ [] ys =
+  list▿ [] ys =
       ++-assoc [] [] ys ∙ ap ([] ++_) (idp ys)
     ≡⟨⟩
       refl ∙ refl
@@ -47,7 +47,7 @@ private
     ≡⟨⟩
       ap (_++ ys) (++-unit-r [])
     ∎
-  list-▿ (x ∷ xs) ys =
+  list▿ (x ∷ xs) ys =
       ++-assoc (x ∷ xs) [] ys ∙ ap ((x ∷ xs) ++_) (idp ys)
     ≡⟨⟩
       ap (x ∷_) (++-assoc xs [] ys) ∙ idp (x ∷ xs ++ ys)
@@ -55,7 +55,7 @@ private
       ap (x ∷_) (++-assoc xs [] ys)
     ≡⟨ ap (ap (x ∷_)) (rUnit (++-assoc xs [] ys)) ⟩
       ap (x ∷_) (++-assoc xs [] ys ∙ ap (xs ++_) (idp ys))
-    ≡⟨ ap (ap (x ∷_)) (list-▿ xs ys) ⟩
+    ≡⟨ ap (ap (x ∷_)) (list▿ xs ys) ⟩
       ap (x ∷_) (ap (_++ ys) (++-unit-r xs))
     ≡⟨⟩
       ap (_++ ys) (ap (x ∷_) (++-unit-r xs))
@@ -69,7 +69,7 @@ _⊗_ listStr = _++_
 Λ listStr = idp
 ρ listStr = ++-unit-r
 α listStr = ++-assoc
-▿ listStr = list-▿
+▿ listStr = list▿
 ⬠ listStr = TODO -- pentagon coherence for lists
 
 module Free {x y : Level} {A : Type x} (𝔜 : MonGpd y) where

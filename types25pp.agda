@@ -144,7 +144,7 @@ lemma-2 = ArrayMon.η+fsuc
 -- Lemma 3 (Array split). For any array (S(n), f) and (m, g),
 -- (n + m, (f ⊕ g) ∘ S) = (n, f ∘ S) ++ (m, g).
 lemma-3 : _
-lemma-3 = ArrayMon.⊕-split
+lemma-3 = ArrayMon.⊕Split
 
 -- Definition 21 (Universal extension). Given a monoid 𝔛, and a map f : A → X, we define
 -- f ♯ : Array(A) → X, by induction on the length of the array:

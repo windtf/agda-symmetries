@@ -56,11 +56,11 @@ Fin+-cong {n} {m} {n'} {m'} σ τ =
 ⊎Iso-eta : {A B A' B' : Type ℓ} {C : Type ℓ'} (f : A' -> C) (g : B' -> C)
         -> (σ : Iso A A') (τ : Iso B B')
         -> ⊎.rec (f ∘ σ .fun) (g ∘ τ .fun) ≡ ⊎.rec f g ∘ ⊎Iso σ τ .fun
-⊎Iso-eta f g σ τ = ⊎-eta (⊎.rec f g ∘ ⊎Iso σ τ .fun) refl refl
+⊎Iso-eta f g σ τ = ⊎E (⊎.rec f g ∘ ⊎Iso σ τ .fun) refl refl
 
 ⊎Swap-eta : {A B : Type ℓ} {C : Type ℓ'} (f : A -> C) (g : B -> C)
         -> ⊎.rec f g ≡ ⊎.rec g f ∘ ⊎-swap-Iso .fun
-⊎Swap-eta f g = ⊎-eta (⊎.rec g f ∘ ⊎-swap-Iso .fun) refl refl
+⊎Swap-eta f g = ⊎E (⊎.rec g f ∘ ⊎-swap-Iso .fun) refl refl
 
 cong≈ : {as bs cs ds : Array A} -> as ≈ bs -> cs ≈ ds -> (as ⊕ cs) ≈ (bs ⊕ ds)
 cong≈ {as = n , f} {bs = n' , f'} {m , g} {m' , g'} (σ , p) (τ , q) =

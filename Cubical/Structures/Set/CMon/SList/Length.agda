@@ -38,8 +38,8 @@ disjConsNil p = disjNilCons (sym p)
 length : SList A → ℕ
 length = Elim.f 0 (λ _ n -> suc n) (λ _ _ _ -> refl) (λ _ -> isSetℕ)
 
-length-++ : (x y : SList A) → length (x ++ y) ≡ length x + length y
-length-++ x y = ElimProp.f {B = λ xs → length (xs ++ y) ≡ length xs + length y}
+length++ : (x y : SList A) → length (x ++ y) ≡ length x + length y
+length++ x y = ElimProp.f {B = λ xs → length (xs ++ y) ≡ length xs + length y}
   (isSetℕ _ _) refl (λ a p -> cong suc p) x
 
 lenZeroOut : (xs : SList A) → length xs ≡ 0 → [] ≡ xs
@@ -63,16 +63,16 @@ Sing : Type ℓ → Type ℓ
 Sing A = Σ (SList A) isSing
 
 [_]-isSing : (a : A) → isSing [ a ]
-[ a ]-isSing = a , refl
+[ a ]IsSing = a , refl
 
 sing=isProp : ∀ {x y : A} → isProp ([ x ] ≡ [ y ])
 sing=isProp {x = x} {y = y} = trunc [ x ] [ y ]
 
-sing=-in : ∀ {x y : A} → x ≡ y → [ x ] ≡ [ y ]
-sing=-in p i = [ p i ]
+singEqIn : ∀ {x y : A} → x ≡ y → [ x ] ≡ [ y ]
+singEqIn p i = [ p i ]
 
-sing=isContr : ∀ {x y : A} → x ≡ y → isContr ([ x ] ≡ [ y ])
-sing=isContr p = sing=-in p , sing=isProp (sing=-in p)
+singEqIsContr : ∀ {x y : A} → x ≡ y → isContr ([ x ] ≡ [ y ])
+singEqIsContr p = singEqIn p , sing=isProp (singEqIn p)
 
 lenOneDown : (x : A) (xs : SList A) → length (x ∷ xs) ≡ 1 → [] ≡ xs
 lenOneDown x xs p = lenZeroOut xs (injSuc p)
@@ -80,7 +80,7 @@ lenOneDown x xs p = lenZeroOut xs (injSuc p)
 lenOneCons : (x : A) (xs : SList A) → length (x ∷ xs) ≡ 1 → isSing (x ∷ xs)
 lenOneCons x xs p =
   let q = lenOneDown x xs p
-  in transport (λ i → isSing (x ∷ q i)) [ x ]-isSing
+  in transport (λ i → isSing (x ∷ q i)) [ x ]IsSing
 
 lenTwoBot : (x y : A) (xs : SList A) → (length (y ∷ x ∷ xs) ≡ 1) ≃ ⊥
 lenTwoBot x y xs = (λ p → E.rec (snotz (injSuc p))) , record { equiv-proof = E.elim }
@@ -114,22 +114,22 @@ module _ {ϕ : isSet A} where
   head (xs , p) = lenOneOut xs p .fst
 
   -- not definitional due to lack of regularity
-  head-β : (a : A) → head ([ a ] , refl) ≡ a
-  head-β a i = transp (λ _ → A) i a
+  headΒ : (a : A) → head ([ a ] , refl) ≡ a
+  headΒ a i = transp (λ _ → A) i a
 
   lenOnePath : (a b : A) → Type _
   lenOnePath a b = Path (lenOne A) ([ a ] , refl) ([ b ] , refl)
 
-  lenOnePath-in : {a b : A} → [ a ] ≡ [ b ] → lenOnePath a b
-  lenOnePath-in = Σ≡Prop (λ xs → isSetℕ _ _)
+  lenOnePathIn : {a b : A} → [ a ] ≡ [ b ] → lenOnePath a b
+  lenOnePathIn = Σ≡Prop (λ xs → isSetℕ _ _)
 
-  [-]-inj : {a b : A} → [ a ] ≡ [ b ] → a ≡ b
-  [-]-inj {a = a} {b = b} p = aux (lenOnePath-in p)
+  [_]Inj : {a b : A} → [ a ] ≡ [ b ] → a ≡ b
+  [_]Inj {a = a} {b = b} p = aux (lenOnePathIn p)
     where aux : lenOnePath a b → a ≡ b
-          aux p = sym (head-β a) ∙ cong head p ∙ head-β b
+          aux p = sym (headΒ a) ∙ cong head p ∙ headΒ b
 
   isSingProp : (xs : SList A) → isProp (isSing xs)
-  isSingProp xs (a , ψ) (b , ξ) = Σ≡Prop (isSingPredProp xs) ([-]-inj (ψ ∙ sym ξ))
+  isSingProp xs (a , ψ) (b , ξ) = Σ≡Prop (isSingPredProp xs) ([_]Inj (ψ ∙ sym ξ))
 
   lenOneEqv : (xs : SList A) → (length xs ≡ 1) ≃ (isSing xs)
   lenOneEqv xs = propBiimpl→Equiv (isSetℕ _ _) (isSingProp xs) (lenOneOut xs) (λ χ → cong length (sym (χ .snd)))
@@ -144,7 +144,7 @@ module _ {ϕ : isSet A} where
             in Σ≡Prop (λ xs → isSetℕ _ _) {u = ([ a ] , refl)} {v = (as , ϕ)} ψ
 
   singSetEqv : Sing A ≃ A
-  singSetEqv = isoToEquiv (iso f (λ a → [ a ] , [ a ]-isSing) (λ _ → refl) ret)
+  singSetEqv = isoToEquiv (iso f (λ a → [ a ] , [ a ]IsSing) (λ _ → refl) ret)
     where f : Sing A → A
           f s = s .snd .fst
           ret : (s : Sing A) → ([ f s ] , f s , refl) ≡ s

@@ -47,11 +47,11 @@ module Head {ℓ} {A : Type ℓ} (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ)
   ⊕-unitr nothing = refl
   ⊕-unitr (just x) = refl
 
-  ⊕-assocr : ∀ x y z -> (x ⊕ y) ⊕ z ≡ x ⊕ (y ⊕ z)
-  ⊕-assocr nothing y z = refl
-  ⊕-assocr (just x) nothing z = refl
-  ⊕-assocr (just x) (just y) nothing = refl
-  ⊕-assocr (just x) (just y) (just z) = congS just (⋀-assocr x y z)
+  ⊕AssocR : ∀ x y z -> (x ⊕ y) ⊕ z ≡ x ⊕ (y ⊕ z)
+  ⊕AssocR nothing y z = refl
+  ⊕AssocR (just x) nothing z = refl
+  ⊕AssocR (just x) (just y) nothing = refl
+  ⊕AssocR (just x) (just y) (just z) = congS just (⋀-assocr x y z)
 
   ⊕-comm : ∀ x y -> x ⊕ y ≡ y ⊕ x
   ⊕-comm nothing y = sym (⊕-unitr y)
@@ -66,7 +66,7 @@ module Head {ℓ} {A : Type ℓ} (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ)
   Maybe-MonStr-MonSEq : Maybe-MonStr ⊨ M.MonSEq
   Maybe-MonStr-MonSEq M.`unitl ρ = ⊕-unitl (ρ fzero)
   Maybe-MonStr-MonSEq M.`unitr ρ = ⊕-unitr (ρ fzero)
-  Maybe-MonStr-MonSEq M.`assocr ρ = ⊕-assocr (ρ fzero) (ρ fone) (ρ ftwo)
+  Maybe-MonStr-MonSEq M.`assocr ρ = ⊕AssocR (ρ fzero) (ρ fone) (ρ ftwo)
 
   Maybe-MonStr-CMonSEq : Maybe-MonStr ⊨ M.CMonSEq
   Maybe-MonStr-CMonSEq (M.`mon eqn) ρ = Maybe-MonStr-MonSEq eqn ρ

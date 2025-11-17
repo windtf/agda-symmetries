@@ -27,12 +27,12 @@ private
     ℓ : Level
     A B : Type ℓ
 
-list-α : sig M.MonSig (List A) -> List A
-list-α (M.`e , i) = []
-list-α (M.`⊕ , i) = i fzero ++ i fone
+listΑ : sig M.MonSig (List A) -> List A
+listΑ (M.`e , i) = []
+listΑ (M.`⊕ , i) = i fzero ++ i fone
 
 𝔏 : {a : Level} {A : Type a} -> M.MonStruct
-𝔏 {A = A} = < List A , list-α >
+𝔏 {A = A} = < List A , listΑ >
 
 module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-monoid : 𝔜 ⊨ M.MonSEq) where
   module 𝔜 = M.MonSEq 𝔜 𝔜-monoid
@@ -43,14 +43,14 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     (x ∷ xs) ♯ = f x 𝔜.⊕ (xs ♯)
 
     private
-      ♯-++ : ∀ xs ys -> (xs ++ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
-      ♯-++ [] ys = sym (𝔜.unitl (ys ♯))
-      ♯-++ (x ∷ xs) ys = cong (f x 𝔜.⊕_) (♯-++ xs ys) ∙ sym (𝔜.assocr (f x) (xs ♯) (ys ♯))
+      ♯++ : ∀ xs ys -> (xs ++ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
+      ♯++ [] ys = sym (𝔜.unitl (ys ♯))
+      ♯++ (x ∷ xs) ys = cong (f x 𝔜.⊕_) (♯++ xs ys) ∙ sym (𝔜.assocr (f x) (xs ♯) (ys ♯))
 
     ♯IsMonHom : structHom 𝔏 𝔜
     fst ♯IsMonHom = _♯
     snd ♯IsMonHom M.`e i = 𝔜.e-eta
-    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
 
   private
     listEquivLemma : (g : structHom 𝔏 𝔜) -> (x : List A) -> g .fst x ≡ ((g .fst ∘ [_]) ♯) x
@@ -87,7 +87,7 @@ module Foldr {A : Type ℓ} {B : Type ℓ} {isSetB : isSet B} where
 
 module ListDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 
-listSat : ∀ {n} {X : Type n} -> < List X , list-α > ⊨ M.MonSEq
+listSat : ∀ {n} {X : Type n} -> < List X , listΑ > ⊨ M.MonSEq
 listSat M.`unitl ρ = refl
 listSat M.`unitr ρ = ++-unit-r (ρ fzero)
 listSat M.`assocr ρ = ++-assoc (ρ fzero) (ρ fone) (ρ ftwo)
@@ -95,7 +95,7 @@ listSat M.`assocr ρ = ++-assoc (ρ fzero) (ρ fone) (ρ ftwo)
 listDef : ∀ {ℓ ℓ'} -> ListDef.Free ℓ ℓ' 2
 F.Definition.Free.F listDef = List
 F.Definition.Free.η listDef = [_]
-F.Definition.Free.α listDef = list-α
+F.Definition.Free.α listDef = listΑ
 F.Definition.Free.sat listDef = listSat
 F.Definition.Free.isFree listDef isSet𝔜 satMon = (Free.listEquiv isSet𝔜 satMon) .snd
 
@@ -153,9 +153,9 @@ module Head {ℓ} {A : Type ℓ} where
   ⊕-unitr nothing = refl
   ⊕-unitr (just x) = refl
 
-  ⊕-assocr : ∀ x y z -> (x ⊕ y) ⊕ z ≡ x ⊕ (y ⊕ z)
-  ⊕-assocr nothing y z = refl
-  ⊕-assocr (just x) y z = refl
+  ⊕AssocR : ∀ x y z -> (x ⊕ y) ⊕ z ≡ x ⊕ (y ⊕ z)
+  ⊕AssocR nothing y z = refl
+  ⊕AssocR (just x) y z = refl
 
   MaybeMonStr : M.MonStruct
   car MaybeMonStr = Maybe A
@@ -165,7 +165,7 @@ module Head {ℓ} {A : Type ℓ} where
   MaybeMonStrMonSEq : MaybeMonStr ⊨ M.MonSEq
   MaybeMonStrMonSEq M.`unitl ρ = ⊕-unitl (ρ fzero)
   MaybeMonStrMonSEq M.`unitr ρ = ⊕-unitr (ρ fzero)
-  MaybeMonStrMonSEq M.`assocr ρ = ⊕-assocr (ρ fzero) (ρ fone) (ρ ftwo)
+  MaybeMonStrMonSEq M.`assocr ρ = ⊕AssocR (ρ fzero) (ρ fone) (ρ ftwo)
 
   module _ (isSetA : isSet A) where
     open Free {A = A} (isOfHLevelMaybe 0 isSetA) MaybeMonStrMonSEq

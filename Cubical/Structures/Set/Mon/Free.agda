@@ -83,15 +83,15 @@ module elimFreeMonProp {p n : Level} {A : Type n} (P : FreeMon A -> Type p)
         assocr* {m} {n} {o} m* n* o* =
           toPathP (trunc* (transp (λ i -> P (assocr m n o i)) i0 ((m* ⊕* n*) ⊕* o*)) (m* ⊕* (n* ⊕* o*)))
 
-freeMon-α : ∀ {n : Level} {X : Type n} -> sig M.MonSig (FreeMon X) -> FreeMon X
-freeMon-α (M.`e , i) = e
-freeMon-α (M.`⊕ , i) = i fzero ⊕ i fone
+freeMonΑ : ∀ {n : Level} {X : Type n} -> sig M.MonSig (FreeMon X) -> FreeMon X
+freeMonΑ (M.`e , i) = e
+freeMonΑ (M.`⊕ , i) = i fzero ⊕ i fone
 
 module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-monoid : 𝔜 ⊨ M.MonSEq) where
   module 𝔜 = M.MonSEq 𝔜 𝔜-monoid
 
   𝔉 : struct x M.MonSig
-  𝔉 = < FreeMon A , freeMon-α >
+  𝔉 = < FreeMon A , freeMonΑ >
 
   module _ (f : A -> 𝔜 .car) where
     _♯ : FreeMon A -> 𝔜 .car
@@ -121,16 +121,16 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       )
       (isSet𝔜 _ _)
 
-    freeMonEquivLemma-β : (g : structHom 𝔉 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ η)
-    freeMonEquivLemma-β g = structHom≡ 𝔉 𝔜 g (♯IsMonHom (g .fst ∘ η)) isSet𝔜 (funExt (freeMonEquivLemma g))
+    freeMonEquivLemmaΒ : (g : structHom 𝔉 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ η)
+    freeMonEquivLemmaΒ g = structHom≡ 𝔉 𝔜 g (♯IsMonHom (g .fst ∘ η)) isSet𝔜 (funExt (freeMonEquivLemma g))
 
   freeMonEquiv : structHom 𝔉 𝔜 ≃ (A -> 𝔜 .car)
   freeMonEquiv =
-    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯IsMonHom (λ _ -> refl) (sym ∘ freeMonEquivLemma-β))
+    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯IsMonHom (λ _ -> refl) (sym ∘ freeMonEquivLemmaΒ))
 
 module FreeMonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 
-freeMonSat : ∀ {n} {X : Type n} -> < FreeMon X , freeMon-α > ⊨ M.MonSEq
+freeMonSat : ∀ {n} {X : Type n} -> < FreeMon X , freeMonΑ > ⊨ M.MonSEq
 freeMonSat M.`unitl ρ = unitl (ρ fzero)
 freeMonSat M.`unitr ρ = unitr (ρ fzero)
 freeMonSat M.`assocr ρ = assocr (ρ fzero) (ρ fone) (ρ ftwo)
@@ -138,6 +138,6 @@ freeMonSat M.`assocr ρ = assocr (ρ fzero) (ρ fone) (ρ ftwo)
 freeMonDef : ∀ {ℓ ℓ'} -> FreeMonDef.Free ℓ ℓ' 2
 F.Definition.Free.F freeMonDef = FreeMon
 F.Definition.Free.η freeMonDef = η
-F.Definition.Free.α freeMonDef = freeMon-α
+F.Definition.Free.α freeMonDef = freeMonΑ
 F.Definition.Free.sat freeMonDef = freeMonSat
 F.Definition.Free.isFree freeMonDef isSet𝔜 satMon = (Free.freeMonEquiv isSet𝔜 satMon) .snd

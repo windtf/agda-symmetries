@@ -87,17 +87,17 @@ module CMonSEq {ℓ} (𝔛 : CMonStruct {ℓ}) (ϕ : 𝔛 ⊨ CMonSEq) where
       lemma2 (suc zero , p) = refl
       lemma2 (suc (suc n) , p) = ⊥.rec (¬m+n<m {m = 2} p)
 
-ℕ-CMonStr : CMonStruct
-ℕ-CMonStr = M.ℕ-MonStr
+ℕCMonStr : CMonStruct
+ℕCMonStr = M.ℕ-MonStr
 
-ℕ-CMonStr-MonSEq : ℕ-CMonStr ⊨ CMonSEq
-ℕ-CMonStr-MonSEq (`mon eqn) ρ = M.ℕ-MonStr-MonSEq eqn ρ
-ℕ-CMonStr-MonSEq `comm ρ = +-comm (ρ fzero) (ρ fone)
+ℕCMonStrMonSEq : ℕCMonStr ⊨ CMonSEq
+ℕCMonStrMonSEq (`mon eqn) ρ = M.ℕ-MonStr-MonSEq eqn ρ
+ℕCMonStrMonSEq `comm ρ = +-comm (ρ fzero) (ρ fone)
 
-⊔-MonStr-CMonSEq : (ℓ : Level) -> M.⊔-MonStr ℓ ⊨ CMonSEq
-⊔-MonStr-CMonSEq ℓ (`mon eqn) ρ = M.⊔-MonStr-MonSEq ℓ eqn ρ
-⊔-MonStr-CMonSEq ℓ `comm ρ = ⊔-comm (ρ fzero) (ρ fone)
+⊔MonStrCMonSEq : (ℓ : Level) -> M.⊔-MonStr ℓ ⊨ CMonSEq
+⊔MonStrCMonSEq ℓ (`mon eqn) ρ = M.⊔-MonStr-MonSEq ℓ eqn ρ
+⊔MonStrCMonSEq ℓ `comm ρ = ⊔-comm (ρ fzero) (ρ fone)
 
-⊓-MonStr-CMonSEq : (ℓ : Level) -> M.⊓-MonStr ℓ ⊨ CMonSEq
-⊓-MonStr-CMonSEq ℓ (`mon eqn) ρ = M.⊓-MonStr-MonSEq ℓ eqn ρ
-⊓-MonStr-CMonSEq ℓ `comm ρ = ⊓-comm (ρ fzero) (ρ fone)
+⊓MonStrCMonSEq : (ℓ : Level) -> M.⊓-MonStr ℓ ⊨ CMonSEq
+⊓MonStrCMonSEq ℓ (`mon eqn) ρ = M.⊓-MonStr-MonSEq ℓ eqn ρ
+⊓MonStrCMonSEq ℓ `comm ρ = ⊓-comm (ρ fzero) (ρ fone)

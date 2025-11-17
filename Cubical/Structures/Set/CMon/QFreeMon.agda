@@ -47,10 +47,10 @@ module _ {ℓ ℓ' : Level} (freeMon : Free ℓ ℓ' 2) where
                   -> a ⊕ c ≈ b ⊕ d
       isCommutative : {a b : ℱ A}
                    -> a ⊕ b ≈ b ⊕ a
-      respSharp : {a b : ℱ A} {𝔜 : struct ℓ' M.MonSig} {isSet𝔜 : isSet (𝔜 .car)} (𝔜-cmon : 𝔜 ⊨ M.CMonSEq)
+      respSharp : {a b : ℱ A} {𝔜 : struct ℓ' M.MonSig} {isSet𝔜 : isSet (𝔜 .car)} (𝔜Cmon : 𝔜 ⊨ M.CMonSEq)
             -> (f : A -> 𝔜 .car)
             -> a ≈ b
-            -> let f♯ = ext freeMon isSet𝔜 (M.cmonSatMon 𝔜-cmon) f .fst in f♯ a ≡ f♯ b
+            -> let f♯ = ext freeMon isSet𝔜 (M.cmonSatMon 𝔜Cmon) f .fst in f♯ a ≡ f♯ b
 
     refl≈ = isEquivRel .R.isEquivRel.reflexive
     trans≈ = isEquivRel .R.isEquivRel.transitive
@@ -94,18 +94,18 @@ module QFreeMon {ℓr ℓB} {freeMon : Free ℓr ℓB 2} (A : Type ℓr) ((R , i
     (\a b c r -> eq/ (a ⊕ c) (b ⊕ c) (cong≈ r (refl≈ c)))
     (\a b c r -> eq/ (a ⊕ b) (a ⊕ c) (cong≈ (refl≈ a) r))
 
-  ⊕-unitl : (a : 𝒬) -> e/ ⊕/ a ≡ a
-  ⊕-unitl = Q.elimProp
+  ⊕Unitl : (a : 𝒬) -> e/ ⊕/ a ≡ a
+  ⊕Unitl = Q.elimProp
     (\_ -> squash/ _ _)
     (\a -> eq/ (e ⊕ a) a (subst≈-right (𝔉.unitl a) (refl≈ (e ⊕ a))))
 
-  ⊕-unitr : (a : 𝒬) -> a ⊕/ e/ ≡ a
-  ⊕-unitr = Q.elimProp
+  ⊕Unitr : (a : 𝒬) -> a ⊕/ e/ ≡ a
+  ⊕Unitr = Q.elimProp
     (\_ -> squash/ _ _)
     (\a -> eq/ (a ⊕ e) a (subst≈-right (𝔉.unitr a) (refl≈ (a ⊕ e))))
 
-  ⊕-assocr : (a b c : 𝒬) -> (a ⊕/ b) ⊕/ c ≡ a ⊕/ (b ⊕/ c)
-  ⊕-assocr = Q.elimProp
+  ⊕Assocr : (a b c : 𝒬) -> (a ⊕/ b) ⊕/ c ≡ a ⊕/ (b ⊕/ c)
+  ⊕Assocr = Q.elimProp
     (\_ -> isPropΠ (\_ -> isPropΠ (\_ -> squash/ _ _)))
     (\a -> elimProp
       (\_ -> isPropΠ (\_ -> squash/ _ _))
@@ -113,8 +113,8 @@ module QFreeMon {ℓr ℓB} {freeMon : Free ℓr ℓB 2} (A : Type ℓr) ((R , i
         (\_ -> squash/ _ _)
         (\c -> eq/ ((a ⊕ b) ⊕ c) (a ⊕ (b ⊕ c)) (subst≈-right (𝔉.assocr a b c) (refl≈ ((a ⊕ b) ⊕ c))))))
 
-  ⊕-comm : (a b : 𝒬) -> a ⊕/ b ≡ b ⊕/ a
-  ⊕-comm = elimProp
+  ⊕Comm : (a b : 𝒬) -> a ⊕/ b ≡ b ⊕/ a
+  ⊕Comm = elimProp
     (\_ -> isPropΠ (\_ -> squash/ _ _))
     (\a -> elimProp
       (\_ -> squash/ _ _)
@@ -125,10 +125,10 @@ module QFreeMon {ℓr ℓB} {freeMon : Free ℓr ℓB 2} (A : Type ℓr) ((R , i
   qFreeMonAlpha (M.`⊕ , i) = i fzero ⊕/ i fone
 
   qFreeMonSat : < 𝒬 , qFreeMonAlpha > ⊨ M.CMonSEq
-  qFreeMonSat (M.`mon M.`unitl) ρ = ⊕-unitl (ρ fzero)
-  qFreeMonSat (M.`mon M.`unitr) ρ = ⊕-unitr (ρ fzero)
-  qFreeMonSat (M.`mon M.`assocr) ρ = ⊕-assocr (ρ fzero) (ρ fone) (ρ ftwo)
-  qFreeMonSat M.`comm ρ = ⊕-comm (ρ fzero) (ρ fone)
+  qFreeMonSat (M.`mon M.`unitl) ρ = ⊕Unitl (ρ fzero)
+  qFreeMonSat (M.`mon M.`unitr) ρ = ⊕Unitr (ρ fzero)
+  qFreeMonSat (M.`mon M.`assocr) ρ = ⊕Assocr (ρ fzero) (ρ fone) (ρ ftwo)
+  qFreeMonSat M.`comm ρ = ⊕Comm (ρ fzero) (ρ fone)
 
   private
     𝔛 : M.CMonStruct
@@ -138,42 +138,42 @@ module QFreeMon {ℓr ℓB} {freeMon : Free ℓr ℓB 2} (A : Type ℓr) ((R , i
 
   [_]IsMonHom : structHom 𝔉 𝔛
   fst [_]IsMonHom = Q.[_]
-  snd [_]IsMonHom M.`e i = cong _/_.[_] 𝔉.e-eta
+  snd [_]IsMonHom M.`e i = cong _/_.[_] 𝔉.eEta
   snd [_]IsMonHom M.`⊕ i =
-    𝔛 .alg (M.`⊕ , (λ x -> Q.[ i x ])) ≡⟨ 𝔛.⊕-eta i Q.[_] ⟩
+    𝔛 .alg (M.`⊕ , (λ x -> Q.[ i x ])) ≡⟨ 𝔛.⊕Eta i Q.[_] ⟩
     Q.[ freeMon .α (M.`⊕ , _) ] ≡⟨ cong (λ z -> Q.[_] {R = _≈_} (freeMon .α (M.`⊕ , z))) (lookup2≡i i) ⟩
     Q.[ freeMon .α (M.`⊕ , i) ] ∎
 
-  module IsFree {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜-cmon : 𝔜 ⊨ M.CMonSEq) where
-    module 𝔜 = M.CMonSEq 𝔜 𝔜-cmon
+  module IsFree {𝔜 : struct ℓB M.MonSig} (isSet𝔜 : isSet (𝔜 .car)) (𝔜Cmon : 𝔜 ⊨ M.CMonSEq) where
+    module 𝔜 = M.CMonSEq 𝔜 𝔜Cmon
 
     module _ (f : A -> 𝔜 .car) where
       f♯ : structHom 𝔉 𝔜
-      f♯ = ext (freeMon) isSet𝔜 (M.cmonSatMon 𝔜-cmon) f
+      f♯ = ext (freeMon) isSet𝔜 (M.cmonSatMon 𝔜Cmon) f
 
       _♯ : 𝒬 -> 𝔜 .car
-      _♯ = Q.rec isSet𝔜 (f♯ .fst) (\_ _ -> respSharp 𝔜-cmon f)
+      _♯ = Q.rec isSet𝔜 (f♯ .fst) (\_ _ -> respSharp 𝔜Cmon f)
 
       private
-        ♯-++ : ∀ xs ys -> (xs ⊕/ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
-        ♯-++ =
+        ♯++ : ∀ xs ys -> (xs ⊕/ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
+        ♯++ =
           elimProp (λ _ -> isPropΠ λ _ -> isSet𝔜 _ _) λ xs ->
             elimProp (λ _ -> isSet𝔜 _ _) λ ys ->
               f♯ .fst (xs ⊕ ys) ≡⟨ sym (f♯ .snd M.`⊕ (lookup (xs ∷ ys ∷ []))) ⟩
-              _ ≡⟨ 𝔜.⊕-eta (lookup (xs ∷ ys ∷ [])) (f♯ .fst) ⟩
+              _ ≡⟨ 𝔜.⊕Eta (lookup (xs ∷ ys ∷ [])) (f♯ .fst) ⟩
               _ ∎
 
       ♯IsMonHom : structHom 𝔛 𝔜
       fst ♯IsMonHom = _♯
-      snd ♯IsMonHom M.`e i = 𝔜.e-eta ∙ f♯ .snd M.`e (lookup [])
-      snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+      snd ♯IsMonHom M.`e i = 𝔜.eEta ∙ f♯ .snd M.`e (lookup [])
+      snd ♯IsMonHom M.`⊕ i = 𝔜.⊕Eta i _♯ ∙ sym (♯++ (i fzero) (i fone))
 
     private
       qFreeMonEquivLemma : (g : structHom 𝔛 𝔜) (x : 𝔛 .car) -> g .fst x ≡ ((g .fst ∘ η/) ♯) x
       qFreeMonEquivLemma g = elimProp (λ _ -> isSet𝔜 _ _) λ x i -> lemma (~ i) x
         where
         lemma : (f♯ (((g .fst) ∘ Q.[_]) ∘ freeMon .η)) .fst ≡ (g .fst) ∘ Q.[_]
-        lemma = cong fst (ext-β (freeMon) isSet𝔜 (M.cmonSatMon 𝔜-cmon) (structHom∘ 𝔉 𝔛 𝔜 g [_]IsMonHom))
+        lemma = cong fst (ext-β (freeMon) isSet𝔜 (M.cmonSatMon 𝔜Cmon) (structHom∘ 𝔉 𝔛 𝔜 g [_]IsMonHom))
 
     qFreeMonEquiv : structHom 𝔛 𝔜 ≃ (A -> 𝔜 .car)
     qFreeMonEquiv =
@@ -181,7 +181,7 @@ module QFreeMon {ℓr ℓB} {freeMon : Free ℓr ℓB 2} (A : Type ℓr) ((R , i
         ( iso
           (λ g -> g .fst ∘ η/)
           ♯IsMonHom
-          (ext-η (freeMon) isSet𝔜 (M.cmonSatMon 𝔜-cmon))
+          (ext-η (freeMon) isSet𝔜 (M.cmonSatMon 𝔜Cmon))
           (λ g -> sym (structHom≡ 𝔛 𝔜 g (♯IsMonHom (g .fst ∘ η/)) isSet𝔜 (funExt (qFreeMonEquivLemma g))))
         )
 
@@ -192,4 +192,4 @@ F (qFreeMonDef R) A = QFreeMon.𝒬 A R
 η (qFreeMonDef R) = QFreeMon.η/ _ R
 α (qFreeMonDef R) = QFreeMon.qFreeMonAlpha _ R
 sat (qFreeMonDef R) = QFreeMon.qFreeMonSat _ R
-isFree (qFreeMonDef R) isSet𝔜 𝔜-cmon = (QFreeMon.IsFree.qFreeMonEquiv _ R isSet𝔜 𝔜-cmon) .snd
+isFree (qFreeMonDef R) isSet𝔜 𝔜Cmon = (QFreeMon.IsFree.qFreeMonEquiv _ R isSet𝔜 𝔜Cmon) .snd
