@@ -381,10 +381,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     ♯-++ : ∀ xs ys -> (xs ⊕ ys) ♯ ≡ (xs ♯) 𝔜.⊕ (ys ♯)
     ♯-++ (n , xs) (m , ys) = ♯-++^ n xs m ys
 
-    ♯-isMonHom : structHom 𝔄 𝔜
-    fst ♯-isMonHom = _♯
-    snd ♯-isMonHom M.`e i = 𝔜.e-eta
-    snd ♯-isMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
+    ♯IsMonHom : structHom 𝔄 𝔜
+    fst ♯IsMonHom = _♯
+    snd ♯IsMonHom M.`e i = 𝔜.e-eta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯ ∙ sym (♯-++ (i fzero) (i fone))
 
   private
     arrayEquivLemma : (g : structHom 𝔄 𝔜) (n : ℕ) (xs : Fin n -> A) -> g .fst (n , xs) ≡ ((g .fst ∘ η) ♯) (n , xs)
@@ -400,12 +400,12 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       g (η (xs fzero)) 𝔜.⊕ g (n , xs ∘ fsuc) ≡⟨ cong (g (η (xs fzero)) 𝔜.⊕_) (arrayEquivLemma (g , homMonWit) n (xs ∘ fsuc)) ⟩
       g (η (xs fzero)) 𝔜.⊕ ((g ∘ η) ♯) (n , xs ∘ fsuc) ∎
 
-    arrayEquivLemma-β : (g : structHom 𝔄 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ η)
-    arrayEquivLemma-β g = structHom≡ 𝔄 𝔜 g (♯-isMonHom (g .fst ∘ η)) isSet𝔜 (funExt λ (n , p) -> arrayEquivLemma g n p)
+    arrayEquivLemma-β : (g : structHom 𝔄 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ η)
+    arrayEquivLemma-β g = structHom≡ 𝔄 𝔜 g (♯IsMonHom (g .fst ∘ η)) isSet𝔜 (funExt λ (n , p) -> arrayEquivLemma g n p)
 
   arrayEquiv : structHom 𝔄 𝔜 ≃ (A -> 𝔜 .car)
   arrayEquiv =
-    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯-isMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ arrayEquivLemma-β))
+    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯IsMonHom (λ g -> funExt (𝔜.unitr ∘ g)) (sym ∘ arrayEquivLemma-β))
 
 module ArrayDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 

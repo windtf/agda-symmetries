@@ -242,26 +242,26 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
       (⊎.rec (λ z≡x -> subst (y ≤_) (sym z≡x) y≤x) (λ z∈zs -> ≤-tail (L.inr z∈zs) p)) (insert-∈ zs r)
 
   -- TODO: refactor this since Sorted is a prop
-  sort-is-sorted' : ∀ xs -> ∥ Sorted (sort xs) ∥₁
-  sort-is-sorted' = ElimProp.f squash₁ ∣ sorted-nil ∣₁
+  sortIsSorted' : ∀ xs -> ∥ Sorted (sort xs) ∥₁
+  sortIsSorted' = ElimProp.f squash₁ ∣ sorted-nil ∣₁
     λ x -> P.rec squash₁ λ p -> ∣ (insert-is-sorted x _ p) ∣₁
 
-  sort-is-sorted : ∀ xs -> Sorted (sort xs)
-  sort-is-sorted xs = P.rec (isPropSorted (sort xs)) (idfun _) (sort-is-sorted' xs)
+  sortIsSorted : ∀ xs -> Sorted (sort xs)
+  sortIsSorted xs = P.rec (isPropSorted (sort xs)) (idfun _) (sortIsSorted' xs)
 
-  sort-is-sorted'' : ∀ xs -> is-sorted sort xs -> ∥ Sorted xs ∥₁
-  sort-is-sorted'' xs = P.rec squash₁ λ (ys , p) ->
-    P.map (subst Sorted p) (sort-is-sorted' ys)
+  sortIsSorted'' : ∀ xs -> is-sorted sort xs -> ∥ Sorted xs ∥₁
+  sortIsSorted'' xs = P.rec squash₁ λ (ys , p) ->
+    P.map (subst Sorted p) (sortIsSorted' ys)
 
   -- Step 1. show both sort xs and sort->order->sort xs give sorted list
   -- Step 2. apply this lemma
   -- Step 3. get sort->order->sort = sort
-  unique-sorted-xs : ∀ xs ys -> list→slist xs ≡ list→slist ys -> Sorted xs -> Sorted ys -> xs ≡ ys
-  unique-sorted-xs [] [] p xs-sorted ys-sorted = refl
-  unique-sorted-xs [] (y ∷ ys) p xs-sorted ys-sorted = ⊥.rec (znots (congS S.length p))
-  unique-sorted-xs (x ∷ xs) [] p xs-sorted ys-sorted = ⊥.rec (snotz (congS S.length p))
-  unique-sorted-xs (x ∷ xs) (y ∷ ys) p xs-sorted ys-sorted =
-    cong₂ _∷_ x≡y (unique-sorted-xs xs ys xs≡ys (tail-sorted' xs-sorted) (tail-sorted' ys-sorted))
+  uniqueSorted : ∀ xs ys -> list→slist xs ≡ list→slist ys -> Sorted xs -> Sorted ys -> xs ≡ ys
+  uniqueSorted [] [] p xs-sorted ys-sorted = refl
+  uniqueSorted [] (y ∷ ys) p xs-sorted ys-sorted = ⊥.rec (znots (congS S.length p))
+  uniqueSorted (x ∷ xs) [] p xs-sorted ys-sorted = ⊥.rec (snotz (congS S.length p))
+  uniqueSorted (x ∷ xs) (y ∷ ys) p xs-sorted ys-sorted =
+    cong₂ _∷_ x≡y (uniqueSorted xs ys xs≡ys (tail-sorted' xs-sorted) (tail-sorted' ys-sorted))
     where
     x≤y : x ≤ y
     x≤y = ≤-tail (∈*→∈ y (x ∷ xs) (subst (y ∈*_) (sym p) (L.inl refl))) xs-sorted
@@ -276,15 +276,15 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
       remove1 isDiscreteA x (list→slist (y ∷ ys)) ≡⟨ sym (remove1-≡-lemma isDiscreteA (list→slist ys) x≡y) ⟩
       list→slist ys ∎
 
-  unique-sort : ∀ f -> is-sort' f -> f ≡ sort
-  unique-sort f (f-is-permute , f-is-sorted) = funExt λ xs ->
+  uniqueSort : ∀ f -> is-sort' f -> f ≡ sort
+  uniqueSort f (f-is-permute , f-is-sorted) = funExt λ xs ->
     P.rec2 (isOfHLevelList 0 is-set _ _)
-      (unique-sorted-xs (f xs) (sort xs) (f-is-permute xs ∙ sym (sort-is-permute xs)))
+      (uniqueSorted (f xs) (sort xs) (f-is-permute xs ∙ sym (sort-is-permute xs)))
       (f-is-sorted xs)
-      (sort-is-sorted' xs)
+      (sortIsSorted' xs)
 
-  unique-sort' : ∀ f xs -> is-sort' f -> f xs ≡ sort xs
-  unique-sort' f xs p = congS (λ g -> g xs) (unique-sort f p)
+  uniqueSort' : ∀ f xs -> is-sort' f -> f xs ≡ sort xs
+  uniqueSort' f xs p = congS (λ g -> g xs) (uniqueSort f p)
 
   private
     sort→order-lemma : ∀ x y xs -> is-sorted sort (x ∷ y ∷ xs) -> x ≤ y
@@ -377,7 +377,7 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
     is-sorted→≤ : ∀ {x y} -> is-sorted sort (x ∷ y ∷ []) -> x ≤ y
     is-sorted→≤ {x} {y} p = P.rec (is-prop-valued x y)
       (≤-tail {ys = y ∷ []} (L.inr (L.inl refl)))
-      (sort-is-sorted'' (x ∷ y ∷ []) p)
+      (sortIsSorted'' (x ∷ y ∷ []) p)
 
     im-cut-tail-sort→x≡y : ∀ x y -> im-cons im-cut-only -> x ≤ y -> x ≡ y
     im-cut-tail-sort→x≡y x y h-tail-sort x≤y =

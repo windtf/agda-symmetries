@@ -106,7 +106,7 @@ import Cubical.Structures.Set.Mon.List as ListMon
 
 -- Proposition 3. (−)♯ lifts a function f : A → X to a monoid homomorphism f ♯ : List(A) → 𝔛.
 proposition-3 : _
-proposition-3 = ListMon.Free.♯-isMonHom
+proposition-3 = ListMon.Free.♯IsMonHom
 
 -- Proposition 4 (Universal property for List). (List(A), ηA) is the free monoid on A
 proposition-4 : _
@@ -135,7 +135,7 @@ definition-20 = ArrayMon._⊕_
 
 -- Proposition 5 (Array(A), ++) is a monoid.
 proposition-5 : _
-proposition-5 = ArrayMon.array-sat
+proposition-5 = ArrayMon.arraySat
 
 -- Lemma 2 (Array cons). Any array (S(n), f) is equal to ηA(f(0)) ++ (n, f ∘ S).
 lemma-2 : _
@@ -155,7 +155,7 @@ definition-21 = ArrayMon.Free._♯
 
 -- Proposition 6. (−)♯ lifts a function f : A → X to a monoid homomorphism f ♯ : Array(A) → 𝔛.
 proposition-6 : _
-proposition-6 = ArrayMon.Free.♯-isMonHom
+proposition-6 = ArrayMon.Free.♯IsMonHom
 
 -- Proposition 7 (Universal property for Array). (Array(A), ηA) is the free monoid on A
 proposition-7 : _
@@ -322,18 +322,18 @@ definition-37 = Sort.im-cons
 -- Lemma 6. Given a total order ≤, for any 𝑥𝑠, 𝑦𝑠 : L( 𝐴), 𝑞(𝑥𝑠) = 𝑞(𝑦𝑠) ∧ Sorted≤ (𝑥𝑠) ∧
 -- Sorted≤ (𝑦𝑠) → 𝑥𝑠 = 𝑦𝑠.
 lemma-6 : _
-lemma-6 = Order→Sort.unique-sorted-xs
+lemma-6 = Order→Sort.uniqueSorted
 
 -- Proposition 23. Given a total order ≤, if a section 𝑠 always produces sorted list, i.e.
 -- ∀𝑥𝑠. Sorted≤ (𝑠(𝑥𝑠)), 𝑠 is equal to insertion sort by ≤.
 proposition-23 : _
-proposition-23 = Order→Sort.unique-sort
+proposition-23 = Order→Sort.uniqueSort
 
 -- Proposition 24. Given a section 𝑠 that satisfies im-cut and im-cons, and ≼𝑠 the order
 -- derived from 𝑠, then for all 𝑥𝑠 : M ( 𝐴), it holds that Sorted≼𝑠 (𝑠(𝑥𝑠)). Equivalently, for all lists
 -- 𝑥𝑠 : L( 𝐴), it holds that 𝑥𝑠 ∈ im(𝑠) iff Sorted≼𝑠 (𝑥𝑠).
 proposition-24 : _
-proposition-24 = Order→Sort.sort-is-sorted
+proposition-24 = Order→Sort.sortIsSorted
 
 -- Lemma 7. Given a decidable total order ≤ on 𝐴, we can construct a section 𝑡≤ satisfying
 -- im-cut and im-cons, such that, for the order ≼𝑠 derived from 𝑠, we have 𝑡≼𝑠 = 𝑠

@@ -103,10 +103,10 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
     (assocr m n o i) ♯ = 𝔜.assocr (m ♯) (n ♯) (o ♯) i
     (trunc m n p q i j) ♯ = isSet𝔜 (m ♯) (n ♯) (cong _♯ p) (cong _♯ q) i j
 
-    ♯-isMonHom : structHom 𝔉 𝔜
-    fst ♯-isMonHom = _♯
-    snd ♯-isMonHom M.`e i = 𝔜.e-eta
-    snd ♯-isMonHom M.`⊕ i = 𝔜.⊕-eta i _♯
+    ♯IsMonHom : structHom 𝔉 𝔜
+    fst ♯IsMonHom = _♯
+    snd ♯IsMonHom M.`e i = 𝔜.e-eta
+    snd ♯IsMonHom M.`⊕ i = 𝔜.⊕-eta i _♯
 
   private
     freeMonEquivLemma : (g : structHom 𝔉 𝔜) -> (x : FreeMon A) -> g .fst x ≡ ((g .fst ∘ η) ♯) x
@@ -121,12 +121,12 @@ module Free {x y : Level} {A : Type x} {𝔜 : struct y M.MonSig} (isSet𝔜 : i
       )
       (isSet𝔜 _ _)
 
-    freeMonEquivLemma-β : (g : structHom 𝔉 𝔜) -> g ≡ ♯-isMonHom (g .fst ∘ η)
-    freeMonEquivLemma-β g = structHom≡ 𝔉 𝔜 g (♯-isMonHom (g .fst ∘ η)) isSet𝔜 (funExt (freeMonEquivLemma g))
+    freeMonEquivLemma-β : (g : structHom 𝔉 𝔜) -> g ≡ ♯IsMonHom (g .fst ∘ η)
+    freeMonEquivLemma-β g = structHom≡ 𝔉 𝔜 g (♯IsMonHom (g .fst ∘ η)) isSet𝔜 (funExt (freeMonEquivLemma g))
 
   freeMonEquiv : structHom 𝔉 𝔜 ≃ (A -> 𝔜 .car)
   freeMonEquiv =
-    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯-isMonHom (λ _ -> refl) (sym ∘ freeMonEquivLemma-β))
+    isoToEquiv (iso (λ g -> g .fst ∘ η) ♯IsMonHom (λ _ -> refl) (sym ∘ freeMonEquivLemma-β))
 
 module FreeMonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
 

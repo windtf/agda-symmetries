@@ -114,7 +114,7 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
     Σ≡Prop (λ _ -> isPropDiscrete)
     $ Σ≡Prop isProp-is-sort-section
     $ sym
-    $ funExt λ xs -> unique-sort' _≤*_ ≤*-isToset ≤*-dec s xs (s-is-section , ∣_∣₁ ∘ s-is-sort')
+    $ funExt λ xs -> uniqueSort' _≤*_ ≤*-isToset ≤*-dec s xs (s-is-section , ∣_∣₁ ∘ s-is-sort')
     where
     s' : SList A -> List A
     s' = order→sort (sort→order ((s , s-is-section , s-is-sort) , discA)) .fst .fst
