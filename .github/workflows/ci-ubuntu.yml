@@ -44,9 +44,9 @@ jobs:
           cd /tmp/agda/
           wget -O Agda.tar.xz https://github.com/agda/agda/releases/download/${{ env.AGDA_BRANCH }}/Agda-${{ env.AGDA_BRANCH }}-linux.tar.xz
           tar -xf Agda.tar.xz
-          sudo cp agda /usr/local
-          chmod +x /usr/local/agda
-          agda --version
+          chmod +x ./agda
+          ./agda --version
+          pwd >> $GITHUB_PATH
 
       - name: Download and install the cubical library from github
         run: |
