@@ -27,14 +27,18 @@ jobs:
       - name: Cache Agda artifacts
         uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-${{ env.AGDA_BRANCH }}-${{ env.CUBICAL_BRANCH }}
           path: |
-            ${{ github.workspace }}/cubical/_build
-            ${{ github.workspace }}/symmetries/_build
+            /tmp/cubical/_build
+            /tmp/symmetries/_build
 
       ########################################################################
       ## INSTALLATION STEPS
       ########################################################################
+
+      - name: Set up cache folders
+        run: |
+          mkdir -p /tmp/cubical/
+          mkdir -p /tmp/symmetries/
 
       - name: Download and install Agda from github
         run: |
@@ -50,7 +54,9 @@ jobs:
         run: |
           git clone https://github.com/agda/cubical --branch ${{ env.CUBICAL_BRANCH }} --depth=1
           cd cubical
+          [ -d /tmp/cubical/_build ] && cp -r /tmp/cubical/_build .
           agda --build-library
+          cp -r _build /tmp/cubical/
           mkdir -p ~/.agda
           echo "$GITHUB_WORKSPACE/cubical/cubical.agda-lib" >> ~/.agda/libraries
 
@@ -77,7 +83,9 @@ jobs:
       - name: Build library
         run: |
           cd symmetries
+          [ -d /tmp/symmetries/_build ] && cp -r /tmp/symmetries/_build .
           agda --build-library
+          cp -r _build /tmp/symmetries/
 
       ########################################################################
       ## HTML PAGE
