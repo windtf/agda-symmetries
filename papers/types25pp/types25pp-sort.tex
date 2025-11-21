@@ -3,10 +3,13 @@
 \RequirePackage{currfile}
 \ifcurrfilename{arxiv-sort.tex}%
 {%
-  \pdfoutput=1
-  \hideLIPIcs
+\pdfoutput=1
+\hideLIPIcs
+\usepackage[appendix=inline,bibliography=common]{apxproof}
 }%
-{}
+{%
+\usepackage[appendix=append,bibliography=common]{apxproof}
+}
 
 \bibliographystyle{plainurl} % the mandatory bibstyle
 
