@@ -40,7 +40,7 @@ This is exactly a \emph{permutation relation}!
 % $(\str{F}(A), i, \mult)$ quotiented by a permutation relation $({F(A) / \approx}, e, \concat)$
 % would be the free commutative monoid on $A$.
 
-\begin{definition}[Permutation relation]
+\begin{definition}[\alink{definition}{Permutation relation}]
     \label{def:permutation-relation}
     \leavevmode
     A binary relation on a free monoid $F(A)$ is a permutation relation iff it:
@@ -57,7 +57,7 @@ Let $q : F(A) \twoheadrightarrow \quot{F(A)}{\approx}$ be the quotient (inclusio
 The generators map is given by $q \comp \eta_A$, the identity element is $q(e)$,
 and the $\mult$ operation is lifted to the quotient by congruence.
 
-\begin{propositionrep}
+\begin{propositionrep}[\alink{proposition}{}]
     $(\quot{\str{F}(A)}{\approx}, \mult, q(e))$ is a commutative monoid.
 \end{propositionrep}
 \begin{proof}
@@ -74,7 +74,7 @@ As a consequence, there is at most one permutation relation on $F(A)$.
 For clarity, we will use $\exthat{(\blank)}$ to denote the extension operation of $F(A)$,
 and $\ext{(\blank)}$ for the extension operation of $\quot{F(A)}{\approx}$.
 
-\begin{definition}
+\begin{definition}[\alink{definition}{}]
     Given a commutative monoid $\str{X}$ and a map $f : A \to X$,
     we define
     $\ext{f} : \quot{\str{F}(A)}{\approx} \; \to \str{X}$ as follows:
@@ -82,7 +82,7 @@ and $\ext{(\blank)}$ for the extension operation of $\quot{F(A)}{\approx}$.
     to $\quot{\str{F}(A)}{\approx} \to \str{X}$, which is allowed since $\approx$ respects $\ext{(\blank)}$.
 \end{definition}
 
-\begin{propositionrep}[Universal property for $\quot{\str{F}(A)}{\approx}$]
+\begin{propositionrep}[\alink{proposition}{Universal property for $\quot{\str{F}(A)}{\approx}$}]
     \label{prop:qfreemon}
     \leavevmode
     $(\quot{\str{F}(A)}{\approx}, \eta_A : {A \xto{\eta_A} \str{F}(A) \xto{q} \quot{\str{F}(A)}{\approx}})$
@@ -122,7 +122,7 @@ We give a direct proof of its universal property using our generalisation.
 
 Of course, there are many permutation relations in the literature, we consider
 the one which swaps any two adjacent elements somewhere in the middle of the list.
-\begin{definition}[PList]
+\begin{definition}[\alink{definition}{PList}]
     \leavevmode
     \begin{code}
 data Perm (A : UU) : List A -> List A -> UU where
@@ -139,7 +139,7 @@ PList A = List A quot Perm
 By~\cref{cmon:qfreemon}, it suffices to show $\Perm(A)$ satisfies the axioms of permutation relation
 to show $\PList(A)$ is the free commutative monoid.
 
-\begin{propositionrep}
+\begin{propositionrep}[\alink{proposition}{}]
     \label{plist:sharp-sat}
     Let $\str{X}$ be a commutative monoid, and $f : A \to X$.
     For $x,y : A$ and $xs,ys : \PList(A)$,
@@ -286,7 +286,7 @@ is the free commutative monoid by equivalence to the other HIT constructions.
 %
 We give a direct proof of its universal property instead, using the technology we have developed.
 
-\begin{definition}[Bag]
+\begin{definition}[\alink{definition}{Bag}]
     \label{def:bag}
     \leavevmode
     \begin{code}
@@ -308,7 +308,7 @@ We have already given a proof of $\Array$ being the free monoid in~\cref{mon:arr
 By~\cref{cmon:qfreemon} it suffices to show $\approx$ satisfies the axioms of permutation relations to show that $\Bag$
 is the free commutative monoid.
 
-\begin{propositionrep}
+\begin{propositionrep}[\alink{proposition}{}]
     $\approx$ is a equivalence relation.
 \end{propositionrep}
 \begin{proof}
@@ -318,7 +318,8 @@ is the free commutative monoid.
     therefore $\approx$ is transitive.
 \end{proof}
 
-\begin{proposition}\label{bag:cong}
+\begin{proposition}[\alink{proposition}{}]
+    \label{bag:cong}
     $\approx$ is congruent wrt to $\concat$.
 \end{proposition}
 
@@ -341,7 +342,8 @@ is the free commutative monoid.
     \]
 \end{proof}
 
-\begin{proposition}\label{bag:comm}
+\begin{proposition}[\alink{proposition}{}]
+    \label{bag:comm}
     $\approx$ is commutative.
 \end{proposition}
 
@@ -363,7 +365,7 @@ is the free commutative monoid.
     \]
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     $\approx$ respects $\ext{(\blank)}$ for arrays.
 \end{proposition}
 \noindent
@@ -374,7 +376,8 @@ borrowed from~\cite{mozlerCubicalAgdaSimple2021} and
 developed further
 in~\cite{choudhurySymmetriesReversibleProgramming2022} for studying permutation codes.
 
-\begin{lemma}\label{bag:tau}
+\begin{lemma}[\alink{lemma}{}]
+    \label{bag:tau}
     Given $\phi\colon \Fin[S(n)]\xto{\sim}\Fin[S(n)]$, there is a permutation $\tau\colon \Fin[S(n)]\xto{\sim}\Fin[S(n)]$
     such that $\tau(0) = 0$, and $\ext{f}(S(n), i \circ \phi) = \ext{f}(S(n), i \circ \tau)$.
 \end{lemma}
@@ -409,7 +412,8 @@ in~\cite{choudhurySymmetriesReversibleProgramming2022} for studying permutation 
 
 \end{proof}
 
-\begin{lemma}\label{bag:punch}
+\begin{lemma}[\alink{lemma}{}]
+    \label{bag:punch}
     Given $\tau\colon \Fin[S(n)]\xto{\sim}\Fin[S(n)]$ where $\tau(0) = 0$,
     there is a $\psi : \Fin[n] \xto{\sim} \Fin[n]$ such that $\tau \circ S = S \circ \psi$.
 \end{lemma}
@@ -435,7 +439,8 @@ in~\cite{choudhurySymmetriesReversibleProgramming2022} for studying permutation 
     \]
 \end{proof}
 
-\begin{theorem}[Permutation invariance]\label{bag:perm-sat}
+\begin{theorem}[\alink{theorem}{Permutation invariance}]
+    \label{bag:perm-sat}
     For all $\phi\colon \Fin[n]\xto{\sim}\Fin[n]$, $\ext{f}(n, i) \id \ext{f}(n, i \circ \phi)$.
 \end{theorem}
 

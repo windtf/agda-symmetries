@@ -4,7 +4,7 @@
 \label{sec:total-orders}
 
 First, we recall the axioms of a total order $\leq$ on a set $A$.
-\begin{definition}[Total order]
+\begin{definition}[\alink{definition}{Total order}]
     \label{def:total-order}
     A total order on a set $A$ is a relation $\leq : A \to A \to \hProp$ that satisfies:
     \begin{itemize}
@@ -23,7 +23,7 @@ First, we recall the axioms of a total order $\leq$ on a set $A$.
 This strengthens the strong-connectedness axiom,
 where we have either $x \leq y$ or $y \leq x$ merely as a proposition,
 but decidability allows us to actually compute if $x \leq y$ is true.
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{prop:decidable-total-order}
     In a decidable total order, it holds that ${\forall x, y}, \ps{x \leq y} + \ps{y \leq x}$.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
@@ -31,7 +31,7 @@ but decidability allows us to actually compute if $x \leq y$ is true.
 %
 \noindent
 An equivalent way to define a total order is using a binary meet operation (without starting from an ordering relation).
-\begin{definition}[Meet semi-lattice]
+\begin{definition}[\alink{definition}{Meet semi-lattice}]
     \label{def:meet-semi-lattice}
     A meet semi-lattice is a set $A$ with a binary operation $\blank\meet\blank : A \to A \to A$ that is:
     \begin{itemize}
@@ -49,7 +49,7 @@ An equivalent way to define a total order is using a binary meet operation (with
     \end{itemize}
 \end{definition}
 
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{prop:total-order-meet-semi-lattice}
     A total order $\leq$ on a set $A$ is equivalent to a strongly-connected meet semi-lattice structure on $A$.
     Further, a decidable total order on $A$ induces a total meet semi-lattice structure on $A$.
@@ -71,7 +71,7 @@ An equivalent way to define a total order is using a binary meet operation (with
 \end{proofsketch}
 
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
-\begin{definition}[$\term{head}$]
+\begin{definition}[\alink{definition}{$\term{head}$}]
     \label{def:head-free-commutative-monoid}
     Assume a total order $\leq$ on a set $A$.
     We define a commutative monoid structure on $1 + A$,
@@ -141,8 +141,9 @@ that is exactly the extensional view of a sorting algorithm,
 and the implications of its existence is that $A$ can be ordered, or sorted.
 
 \subsubsection{Section from Order}
+\label{sec:sort-section-from-order}
 
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     Assume a decidable total order on $A$. There is a sort function $s: \MM(A) \to \LL(A)$
     which constructs a section to $q : \LL(A) \twoheadrightarrow \MM(A)$
 \end{proposition}
@@ -162,6 +163,7 @@ and the implications of its existence is that $A$ can be ordered, or sorted.
 This is not surprising\ldots we want to go the other way.
 
 \subsubsection{Order from Section}
+\label{sec:sort-order-from-section}
 
 The previous section allowed us to construct a section -- how do we know this is a \emph{correct} sort function?
 %
@@ -170,7 +172,7 @@ At this point we ask: if we can construct a section from order, can we construct
 Indeed, just by the virtue of $s$ being a section,
 we can (almost) construct a total-ordering relation on the carrier set!
 
-\begin{definition}
+\begin{definition}[\alink{definition}{$\term{least}$}]
     \label{def:least}
     Given a section $s$, we define:
     \[
@@ -191,7 +193,7 @@ because $s$ preserves length, and the second element is forced to be $y$.
 %     $\leqs$ is decidable iff $A$ has decidable equality.
 % \end{proposition}
 
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{sort:almost-total}
     $\leqs$ is reflexive, antisymmetric, and total.
 \end{proposition}
@@ -231,7 +233,7 @@ We will enforce this by imposing additional constraints on the \emph{image} of $
     \end{proof}
 \end{toappendix}
 
-\begin{definition}[$\blank\in\im{s}$]
+\begin{definition}[\alink{definition}{$\blank\in\im{s}$}]
     \label{def:in-image}
     The fiber of $s$ over~$xs : \LL(A)$ is given by $\fib_{s}(xs) \defeq \dsum{ys : \MM(A)}{s(ys) = xs}$.
     %
@@ -246,13 +248,13 @@ therefore $\inimage{xs}$ would imply $xs$ is a correctly $s$-``sorted'' list.
 %
 First, we note that the 2-element case is correct.
 %
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{sort:sort-to-order}
     $x \leqs y$ \; iff \; $\inimage{[x, y]}$.
 \end{proposition}
 %
 \noindent Then, we state the first axiom on $s$.
-\begin{definition}[$\isheadleast$]
+\begin{definition}[\alink{definition}{$\isheadleast$}]
     \label{sort:head-least}
     A section $s$ satisfies $\isheadleast$ iff for all $x, y, xs$:
     \[
@@ -267,13 +269,13 @@ to make the axiom look like a logical ``cut'' rule.
 Informally, it says that the head of an $s$-``sorted'' list
 is the least element of the list.
 
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{prop:order-to-sort-head-least}
     If $A$ has a total order $\leq$,
     insertion sort defined using $\leq$ satisfies $\isheadleast$.
 \end{proposition}
 
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{sort:trans}
     If $s$ satisfies $\isheadleast$, $\leqs$ is transitive.
 \end{proposition}
@@ -296,6 +298,7 @@ is the least element of the list.
 \end{proof}
 
 \subsubsection{Embedding orders into sections}
+\label{sec:sort-embedding}
 
 Following from \cref{sort:almost-total,sort:trans},
 and \cref{prop:order-to-sort-head-least},
@@ -306,7 +309,8 @@ constructed by sorting with $\leq$.
 %
 This constitutes an embedding of decidable total orders into sections satisfying $\isheadleast$.
 
-\begin{proposition}\label{sort:o2s2o}
+\begin{proposition}[\alink{proposition}{}]
+    \label{sort:o2s2o}
     Assume $A$ has a decidable total order $\leq$, we can construct a section $s$ that
     satisfies $\isheadleast$, such that $\leqs$ constructed from $s$ is equivalent
     to $\leq$.
@@ -355,7 +359,7 @@ We then introduce our second axiom of sorting.
     \end{proof}
 \end{toappendix}
 
-\begin{definition}[$\istailsort$]
+\begin{definition}[\alink{definition}{$\istailsort$}]
     \label{def:tail-sort}
     A section $s$ satisfies $\istailsort$ iff
     for all $x, xs$,
@@ -384,7 +388,7 @@ data Sorted ($\leq$ : A -> A -> UU) : List A -> UU where
 \end{code}
 Note that $\term{Sorted}_{\leq}(xs)$ is a proposition for every $xs$,
 and forces the list $xs$ to be permuted in a unique way.
-\begin{lemma}
+\begin{lemma}[\alink{lemma}{}]
     Given a total order $\leq$, for any $xs, ys : \LL(A)$,
     $q(xs) = q(ys) \land \term{Sorted}_{\leq}(xs) \land \term{Sorted}_{\leq}(ys) \to xs = ys$.
 \end{lemma}
@@ -393,7 +397,8 @@ Insertion sort by $\leq$ always produces lists that satisfy $\term{Sorted}_{\leq
 Functions that also produce lists satisfying $\term{Sorted}_{\leq}$ are equal to insertion sort
 by function extensionality.
 
-\begin{proposition}\label{sort:sort-uniq}
+\begin{proposition}[\alink{proposition}{}]
+    \label{sort:sort-uniq}
     Given a total order $\leq$,
     if a section $s$ always produces sorted list, i.e. $\forall xs.\,\term{Sorted}_{\leq}(s(xs))$,
     $s$ is equal to insertion sort by $\leq$.
@@ -401,7 +406,8 @@ by function extensionality.
 \noindent
 Finally, this gives us correctness of our axioms.
 
-\begin{proposition}\label{sort:well-behave-sorts}
+\begin{proposition}[\alink{proposition}{}]
+    \label{sort:well-behave-sorts}
     Given a section $s$ that satisfies $\isheadleast$ and $\istailsort$,
     and $\leqs$ the order derived from $s$, then for all $xs : \MM(A)$,
     it holds that $\term{Sorted}_{\leqs}(s(xs))$.
@@ -422,7 +428,8 @@ Finally, this gives us correctness of our axioms.
     inductively prove $\term{Sorted}_{\leqs}(y \cons ys)$.
 \end{proof}
 
-\begin{lemma}\label{sort:s2o2s}
+\begin{lemma}[\alink{lemma}{}]
+    \label{sort:s2o2s}
     Given a decidable total order $\leq$ on $A$, we can construct
     a section $t_\leq$ satisfying $\isheadleast$ and $\istailsort$,
     such that, for the order $\leqs$ derived from $s$,
@@ -436,7 +443,8 @@ Finally, this gives us correctness of our axioms.
     By ~\cref{sort:sort-uniq} and ~\cref{sort:well-behave-sorts}, $s = t_{\leqs}$.
 \end{proof}
 
-\begin{proposition}\label{sort:decord-to-deceq}
+\begin{proposition}[\alink{proposition}{}]
+    \label{sort:decord-to-deceq}
     Assume $A$ has a decidable total order $\leq$,
     then $A$ has decidable equality.
 \end{proposition}
@@ -457,7 +465,7 @@ Finally, this gives us correctness of our axioms.
 \end{proof}
 \noindent
 We can now state and prove our main theorem.
-\begin{definition}[Sorting function]
+\begin{definition}[\alink{definition}{Sorting function}]
     \leavevmode
     A sorting function is a section $s : \MM(A) \to \LL(A)$ to
     the canonical surjection $q : \LL(A) \twoheadrightarrow \MM(A)$ satisfying two axioms:
@@ -472,7 +480,8 @@ We can now state and prove our main theorem.
               \).
     \end{itemize}
 \end{definition}
-\begin{theorem}\label{sort:main}
+\begin{theorem}[\alink{theorem}{}]
+    \label{sort:main}
     Let $\term{DecTotOrd}(A)$ be the set of decidable total orders on $A$,
     $\term{Sort}(A)$ be the set of sorting functions with carrier set $A$,
     and $\term{Discrete}(A)$ be a predicate which states $A$ has decidable equality.
@@ -499,7 +508,7 @@ The sorting axioms we have come up with are abstract properties of functions.
 As a sanity check, we can verify that the colloquial correctness specification of a sorting function (starting from a
 total order) matches our axioms. We consider the correctness criterion developed in~\cite{alexandruIntrinsicallyCorrectSorting2023}.
 %
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{prop:sort-correctness}
     Assume a decidable total order $\leq$ on $A$.
     %

@@ -18,7 +18,8 @@ We keep a running example of monoids in mind, while explaining and defining the 
 \subsection{Algebras}
 \label{sec:universal-algebra:algebras}
 
-\begin{definition}[Signature]\label{algebra:signature}
+\begin{definition}[\alink{definition}{Signature}]
+    \label{algebra:signature}
     \label{def:signature}
     A signature, denoted $\sig$, is a (dependent) pair consisting of:
     \begin{itemize}
@@ -42,7 +43,7 @@ We keep a running example of monoids in mind, while explaining and defining the 
 \noindent
 Every signature $\sig$ induces a signature functor $\Sig$ on $\Set$.
 \vc{inconsistent use of $\Set$ and $\UU$}
-\begin{definition}[Signature functor $\Sig \colon \Set \to \Set$]
+\begin{definition}[\alink{definition}{Signature functor} $\Sig \colon \Set \to \Set$]
     \label{def:signature-functor}
     \[
         X \mapsto \dsum{o:\op}{X^{\ar(o)}}
@@ -71,7 +72,8 @@ Formally, these two pieces of data are an algebra for the $\Sig$ functor.
 %
 We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the model-theoretic notational convention.
 
-\begin{definition}[Structure]\label{algebra:struct}
+\begin{definition}[\alink{definition}{Structure}]
+    \label{algebra:struct}
     A $\sig$-structure $\str{X}$ is an $\Sig$-algebra, that is, a pair consisting of:
     \begin{itemize}
         \item a carrier set $X$, and
@@ -92,7 +94,7 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
     Natural numbers $\Nat$ with $(0, +)$ or $(1, \times)$ are examples of monoid structures.
 \end{example}
 
-\begin{definition}[Homomorphism]
+\begin{definition}[\alink{definition}{$\sig$-Homomorphism}]
     A homomorphism between two $\sig$-structures $\str{X}$ and $\str{Y}$ is a morphism of $\Sig$-algebras,
     that is, a map $f : X \to Y$ such that:
     \[
@@ -134,7 +136,7 @@ also known as the term algebra (or the \emph{absolutely free} algebra without eq
 %
 We rephrase this in more concrete terms.
 
-\begin{definition}[Free Algebras]
+\begin{definition}[\alink{definition}{Free Algebras}]
     \label{def:free-algebras}
     A free $\sig$-algebra construction consists of the following data:
     \begin{itemize}
@@ -156,7 +158,7 @@ the carrier set, which is the property of \emph{freeness}.
 %
 The inverse operation to post-composition with $\eta_X$ is the \emph{universal extension} of a function to a homomorphism,
 %
-\begin{definition}[Universal extension]
+\begin{definition}[\alink{definition}{Universal extension}]
     \label{def:universal-extension}
     The universal extension of a function $f : X \to Y$ to a homomorphism out of the free $\sig$-algebra on $X$ is written
     as $\ext{f} : \str{F}(X) \to \str{Y}$.
@@ -166,7 +168,7 @@ The inverse operation to post-composition with $\eta_X$ is the \emph{universal e
 \end{definition}
 \noindent
 Free algebra constructions are canonically equivalent.
-\begin{propositionrep}
+\begin{propositionrep}[\alink{proposition}{}]
     \label{lem:free-algebras-unique}
     Suppose $\str{F}(X)$ and $\str{G}(X)$ are both free $\sig$-algebras on $X$.
     %
@@ -226,7 +228,7 @@ In type theory, \emph{free} constructions are often given by inductive types,
 where the constructors are the pieces of data that freely generate the structure,
 and the type-theoretic induction principle enforces the category-theoretic universal property.
 
-\begin{definition}[Construction of Free Algebras]
+\begin{definition}[\alink{definition}{Construction of Free $\sig$-algebras}]
     \label{algebra:tree}
     \label{def:free-algebra-construction}
     The free $\sig$-algebra on a type $X$ is given by the inductive type:
@@ -275,7 +277,7 @@ marked by the operations in $\sig$.
 %     % \todo{Expand the signature functor and show how this produces binary trees.}
 % \end{example}
 
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}]
     \label{prop:free-algebra-construction-is}
     \inline{(Tree(X),leaf)} is the free $\sig$-algebra on~$X$. %% for any set $X$.
 \end{proposition}
@@ -322,7 +324,8 @@ For example, by associativity, these two trees of $(\Nat, +)$ should be identifi
 %
 To impose equations on the operations, we adopt the point of view of equational logic.
 
-\begin{definition}[Equational Signature]
+\begin{definition}[\alink{definition}{Equational Signature}]
+    \label{def:equational-signature}
     An equational signature, denoted $\eqsig$, is a (dependent) pair consisting of:
     \begin{itemize}
         \item a set of names for equations, $\eqop : \Set$,
@@ -342,7 +345,7 @@ To impose equations on the operations, we adopt the point of view of equational 
 \end{example}
 
 Just like the signature functor~\cref{def:signature-functor}, this produces an equational signature functor on $\Set$.
-\begin{definition}[Eq. Signature Functor $\EqSig \colon \Set \to \Set$]
+\begin{definition}[\alink{definition}{Eq. Signature Functor} $\EqSig \colon \Set \to \Set$]
     \label{def:equational-signature-functor}
     \begin{align*}
         X           & \mapsto \dsum{e:\eqop}{X^{\eqfv(e)}} \\
@@ -357,7 +360,7 @@ To build equations out of this signature,
 we use the $\sig$-operations and construct trees for the left and right-hand sides of each equation using the
 free variables available -- a system of equations.
 %
-\begin{definition}[System of Equations]
+\begin{definition}[\alink{definition}{System of Equations}]
     A system of equations over a signature $(\sig,\eqsig)$, is a pair of natural transformations:
     \[
         \eqleft, \eqright \colon \EqSig \natto \str{F}_{\sig} \enspace.
@@ -452,7 +455,7 @@ that is by construction, a homomorphism from $\str{F}(V)$ to $\str{X}$.
 %
 To satisfy an equation, these two evaluations should agree.
 %
-\begin{definition}[$\str{X} \entails T$]
+\begin{definition}[\alink{definition}{Satisfaction} $\str{X} \entails T$]
     A $\sig$-structure $\str{X}$ satisfies the system of equations $T_{(\sig,\eqsig)}$ if for every set $V$,
     and every assignment $\rho : V \to X$, $\ext{\rho}$ is a (co)fork:
     % https://q.uiver.app/#q=WzAsMyxbMiwwLCJcXHN0cntGfShWKSJdLFs0LDAsIlxcc3Rye1h9Il0sWzAsMCwiXFxFcVNpZyhWKSJdLFswLDEsIlxcZXh0e1xccmhvfSJdLFsyLDAsIlxcZXFsZWZ0X3tWfSIsMCx7Im9mZnNldCI6LTN9XSxbMiwwLCJcXGVxcmlnaHRfe1Z9IiwyLHsib2Zmc2V0IjozfV1d

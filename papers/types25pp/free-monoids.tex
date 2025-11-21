@@ -23,7 +23,7 @@ and are the most common representation of free monoids in programming languages.
 In category theory, these correspond to Kelly's notion of algebraically-free
 monoids~\cite{kellyUnifiedTreatmentTransfinite1980}.
 %
-\begin{definition}[Lists]
+\begin{definition}[\alink{definition}{Lists}]
     \label{def:lists}
     \leavevmode
     \begin{code}
@@ -58,7 +58,7 @@ and the monoid operation $\doubleplus$ is given by concatenation.
     \end{definition}
 \end{toappendix}
 
-\begin{propositionrep}
+\begin{propositionrep}[\alink{proposition}{}]
     $\ext{(\blank)}$ lifts a function $f : A \to X$ to a monoid homomorphism $\ext{f} : \List(A) \to \mathfrak{X}$.
 \end{propositionrep}
 
@@ -88,7 +88,7 @@ and the monoid operation $\doubleplus$ is given by concatenation.
     Therefore, $\ext{(\blank)}$ does correctly lift a function to a monoid homomorphism.
 \end{proof}
 
-\begin{propositionrep}[Universal property for List]
+\begin{propositionrep}[\alink{proposition}{Universal property for List}]
     $(\List(A),\eta_A)$ is the free monoid on $A$.
 \end{propositionrep}
 
@@ -140,7 +140,7 @@ and a lookup (or index) function $\Fin[n] \to A$, mapping each index to an eleme
 In type theory, this is also often understood as a container~\cite{abbottCategoriesContainers2003},
 where $\Nat$ is the type of shapes, and $\Fin$ is the type (family) of positions.
 
-\begin{definition}[Arrays]
+\begin{definition}[\alink{definition}{Arrays}]
     \label{def:arrays}
     \leavevmode
     \begin{code}
@@ -157,7 +157,7 @@ The (universal) generators map is the singleton: $\eta_A(a) = (1, \lambda\{ 0 \m
 the identity element is $(0, \lambda\{\})$
 and the monoid operation $\doubleplus$ is array concatenation.
 %
-\begin{lemmarep}
+\begin{lemmarep}[\alink{lemma}{}]
     \label{array:zero-is-id}
     Zero-length arrays $(0, f)$ are contractible.
 \end{lemmarep}
@@ -183,7 +183,7 @@ and the monoid operation $\doubleplus$ is array concatenation.
     \end{align*}
 \end{definition}
 
-\begin{propositionrep}%[Monoid laws]
+\begin{propositionrep}[\alink{proposition}{}]
     $(\Array(A), \doubleplus)$ is a monoid.
 \end{propositionrep}
 
@@ -261,7 +261,8 @@ and the monoid operation $\doubleplus$ is array concatenation.
 
 For brevity, we write $S$ for the successor function on natural numbers.
 
-\begin{lemmarep}[Array cons]\label{array:eta-suc}
+\begin{lemmarep}[\alink{lemma}{Array cons}]
+    \label{array:eta-suc}
     Any array $(S(n), f)$ is equal to $\eta_A (f(0)) \doubleplus (n, f \comp S)$.
 \end{lemmarep}
 
@@ -288,7 +289,8 @@ For brevity, we write $S$ for the successor function on natural numbers.
     Thus, in both cases, $(\lambda\{ 0 \mapsto f(0) \} \oplus (f \comp S)) = f$.
 \end{proof}
 
-\begin{lemmarep}[Array split]\label{array:split}
+\begin{lemmarep}[\alink{lemma}{Array split}]
+    \label{array:split}
     For any array $(S(n), f)$ and $(m, g)$,
     \[
         (n + m, (f \oplus g) \comp S) = (n, f \comp S) \doubleplus (m, g)
@@ -320,7 +322,7 @@ dropping the first element of $xs$ then concatenating with $ys$.
     and $((f \comp S) \oplus g)(k)$ reduces to $g(k - n)$ by definition, therefore they are equal.
 \end{proof}
 
-\begin{definition}[Universal extension]
+\begin{definition}[\alink{definition}{Universal extension}]
     Given a monoid $\mathfrak{X}$, and a map $f : A \to X$,
     we define $\ext{f} : \Array(A) \to X$, by induction on the length of the array:
     \begin{align*}
@@ -329,7 +331,7 @@ dropping the first element of $xs$ then concatenating with $ys$.
     \end{align*}
 \end{definition}
 
-\begin{propositionrep}
+\begin{propositionrep}[\alink{proposition}{}]
     $\ext{(\blank)}$ lifts a function $f : A \to X$ to a monoid homomorphism $\ext{f} : \Array(A) \to \mathfrak{X}$.
 \end{propositionrep}
 
@@ -360,7 +362,7 @@ dropping the first element of $xs$ then concatenating with $ys$.
     Therefore, $\ext{(\blank)}$ does correctly lift a function to a monoid homomorphism.
 \end{proof}
 
-\begin{propositionrep}[Universal property for Array]
+\begin{propositionrep}[\alink{proposition}{Universal property for Array}]
     \label{array:univ}
     \leavevmode
     $(\Array(A),\eta_A)$ is the free monoid on $A$.
