@@ -250,7 +250,7 @@ definition-29 = SList.Membership*.∈*Prop
 -- where the monoid structure on 1 + 𝐴 has unit 𝑒 ≔ inl(★) : 1 + 𝐴, and multiplication picks the
 -- leftmost element that is define
 definition-30 : _
-definition-30 = ListMon.Head.head
+definition-30 = ListMon.Head.Set.head
 
 open import Cubical.Relation.Binary.Order
 open import Cubical.Structures.Set.CMon.SList.Sort.Base

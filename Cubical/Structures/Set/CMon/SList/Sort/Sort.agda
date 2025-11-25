@@ -58,6 +58,7 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   open Membership* isSetA
   open Sort isSetA sort
   open Sort.Section isSetA sort sort≡
+  open Head.Set isSetA renaming (head to headMaybe)
 
   least : SList A -> Maybe A
   least xs = headMaybe (sort xs)

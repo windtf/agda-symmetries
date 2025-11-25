@@ -167,7 +167,7 @@ module Head {ℓ} {A : Type ℓ} where
   MaybeMonStrMonSEq M.`unitr ρ = ⊕-unitr (ρ fzero)
   MaybeMonStrMonSEq M.`assocr ρ = ⊕AssocR (ρ fzero) (ρ fone) (ρ ftwo)
 
-  module _ (isSetA : isSet A) where
+  module Set (isSetA : isSet A) where
     open Free {A = A} (isOfHLevelMaybe 0 isSetA) MaybeMonStrMonSEq
 
     head : List A -> Maybe A

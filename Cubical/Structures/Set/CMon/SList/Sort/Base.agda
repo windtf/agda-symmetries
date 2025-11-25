@@ -42,10 +42,6 @@ private
     ℓ : Level
     A : Type ℓ
 
-headMaybe : List A -> Maybe A
-headMaybe [] = nothing
-headMaybe (x ∷ xs) = just x
-
 module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
   open Membership isSetA
 
