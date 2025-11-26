@@ -4,17 +4,20 @@ open import Cubical.Foundations.Equiv
 open import Cubical.Foundations.Function
 open import Cubical.Foundations.HLevels
 open import Cubical.Foundations.Isomorphism
+open import Cubical.Foundations.Univalence
 open import Cubical.Foundations.Path
 open import Cubical.Foundations.Prelude
 open import Cubical.Foundations.Structure
-open import Cubical.Relation.Nullary.Base
+open import Cubical.Relation.Nullary
+open import Cubical.Data.Unit
+import Cubical.Functions.Logic as L
 import Cubical.Data.Empty as ⊥
 import Cubical.HITs.PropositionalTruncation as P
 
 private
   variable
     ℓ : Level
-    A : Type ℓ
+    A B : Type ℓ
 
 module Toset {ℓ : Level} {A : Type ℓ} where
   open import Cubical.Relation.Binary.Order
@@ -25,22 +28,69 @@ module Toset {ℓ : Level} {A : Type ℓ} where
   IsDecOrder : (A -> A -> Type ℓ) -> Type _
   IsDecOrder _≤_ = IsToset _≤_ × (∀ x y -> Dec (x ≤ y))
 
-  IsDecStrictOrder : (A -> A -> Type ℓ) -> Type _
-  IsDecStrictOrder _>_ = IsLoset _>_ × (∀ x y -> Dec (x > y))
+  isPropIsDecOrder : ∀ R -> isProp (IsDecOrder R)
+  isPropIsDecOrder R =
+    isOfHLevelΣ 1 (isPropIsToset R) λ isToset -> isPropΠ2 λ x y -> isPropDec (IsToset.is-prop-valued isToset x y)
+
+  IsDecLinearOrder : (A -> A -> Type ℓ) -> Type _
+  IsDecLinearOrder _>_ = IsLoset _>_ × (∀ x y -> Dec (x > y))
+
+  isPropIsDecLinearOrder : ∀ R -> isProp (IsDecLinearOrder R)
+  isPropIsDecLinearOrder R =
+    isOfHLevelΣ 1 (isPropIsLoset R) λ isLoset -> isPropΠ2 λ x y -> isPropDec (IsLoset.is-prop-valued isLoset x y)
 
   HasDecOrder : Type _
   HasDecOrder = Σ _ IsDecOrder
 
-  HasDecStrictOrder : Type _
-  HasDecStrictOrder = Σ _ IsDecStrictOrder
-  
-  HasDecOrder→HasDecStrictOrder : HasDecOrder -> HasDecStrictOrder
-  HasDecOrder→HasDecStrictOrder (_ , isOrd , isDec) =
-    _ , isToset→isLosetIrreflKernel isOrd isDec , isTosetDecidable→isLosetDecidable isOrd isDec
+  HasDecLinearOrder : Type _
+  HasDecLinearOrder = Σ _ IsDecLinearOrder
 
-  HasDecStrictOrder→HasDecOrder : HasDecStrictOrder -> HasDecOrder
-  HasDecStrictOrder→HasDecOrder (_ , isOrd , isDec) =
-    _ , isLoset→isTosetReflClosure isOrd isDec , isLosetDecidable→isTosetDecidable isOrd isDec
+  HasDecOrder≃HasDecLinearOrder : HasDecOrder ≃ HasDecLinearOrder
+  HasDecOrder≃HasDecLinearOrder = isoToEquiv (iso fwd inv sec ret)
+    where
+    fwd : _
+    fwd (_ , isOrd , isDec) =
+      _ , isToset→isLosetIrreflKernel isOrd isDec , isTosetDecidable→isLosetDecidable isOrd isDec
+    inv : _
+    inv (_ , isOrd , isDec) =
+      _ , isLoset→isTosetReflClosure isOrd isDec , isLosetDecidable→isTosetDecidable isOrd isDec
+    ireflRefl : ∀ {A B : Type ℓ} -> (A -> ¬ B) -> (A ⊎ B) × (¬ B) ≡ A
+    ireflRefl {A = A} {B = B} a→¬b = ua (isoToEquiv (iso fwd' inv' (λ b -> refl) ret'))
+      where
+      fwd' : (A ⊎ B) × (¬ B) -> A
+      fwd' (inl x , notB) = x
+      fwd' (inr x , notB) = ⊥.rec (notB x)
+      inv' : A → (A ⊎ B) × (¬ B)
+      inv' x = inl x , a→¬b x
+      ret' : retract fwd' inv'
+      ret' (inl x , notB) = Σ≡Prop (λ _ -> isProp¬ _) refl
+      ret' (inr x , notB) = ⊥.rec (notB x)
+    sec : _
+    sec (R , isOrd , isDec) = Σ≡Prop isPropIsDecLinearOrder
+      (funExt λ a -> funExt λ b -> ireflRefl λ rab a≡b →
+        IsLoset.is-irrefl isOrd a (subst (R a) (sym a≡b) rab))
+    ret : _
+    ret (R , isOrd , isDec) = Σ≡Prop isPropIsDecOrder
+      (funExt λ a -> funExt λ b -> ua (isoToEquiv
+        (iso (fwd' a b) (inv' a b) (sec' a b) (rec' a b))))
+      where
+      fwd' : ∀ a b -> ((R a b) × (¬ a ≡ b)) ⊎ (a ≡ b) -> R a b
+      fwd' a b = rec fst λ a≡b -> subst (R a) a≡b (IsToset.is-refl isOrd a)
+      inv' : ∀ a b -> R a b -> ((R a b) × (¬ a ≡ b)) ⊎ (a ≡ b)
+      inv' a b rab with isTosetDecidable→Discrete isOrd isDec a b
+      ... | yes a≡b = inr a≡b
+      ... | no ¬a≡b = inl (rab , ¬a≡b)
+      sec' : ∀ a b -> section (fwd' a b) (inv' a b)
+      sec' a b rab with isTosetDecidable→Discrete isOrd isDec a b
+      ... | yes p = IsToset.is-prop-valued isOrd a b _ rab
+      ... | no ¬p = refl
+      rec' : ∀ a b -> retract (fwd' a b) (inv' a b)
+      rec' a b (inl (rab , ¬a≡b)) with isTosetDecidable→Discrete isOrd isDec a b
+      ... | yes p = ⊥.rec (¬a≡b p)
+      ... | no ¬p = congS (λ x -> (inl (rab , x))) (isProp¬ _ _ _)
+      rec' a b (inr a≡b) with isTosetDecidable→Discrete isOrd isDec a b
+      ... | yes p = congS inr (IsToset.is-set isOrd a b p a≡b)
+      ... | no ¬p = ⊥.rec (¬p a≡b)
 
   open IsToset
   decOrd→disc : (_≤_ : A -> A -> Type ℓ) -> IsDecOrder (_≤_) -> Discrete A
