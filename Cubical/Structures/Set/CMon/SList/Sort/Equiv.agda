@@ -175,4 +175,8 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   sort≃order : HasDecOrder ≃ HasSortSectionAndIsDiscrete
   sort≃order = isoToEquiv sort↔order
 
+  -- version for linear order (a strongly connected strict order)
+  sort≃linear-order : HasDecLinearOrder ≃ HasSortSectionAndIsDiscrete
+  sort≃linear-order = compEquiv (invEquiv HasDecOrder≃HasDecLinearOrder) sort≃order
+
   -- module AnyFree (𝔐 : MDef.Free ℓ ℓ 2) (𝔏 : LDef.Free ℓ ℓ 2) where
