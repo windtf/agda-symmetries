@@ -25,8 +25,22 @@ module Toset {ℓ : Level} {A : Type ℓ} where
   IsDecOrder : (A -> A -> Type ℓ) -> Type _
   IsDecOrder _≤_ = IsToset _≤_ × (∀ x y -> Dec (x ≤ y))
 
+  IsDecStrictOrder : (A -> A -> Type ℓ) -> Type _
+  IsDecStrictOrder _>_ = IsLoset _>_ × (∀ x y -> Dec (x > y))
+
   HasDecOrder : Type _
   HasDecOrder = Σ _ IsDecOrder
+
+  HasDecStrictOrder : Type _
+  HasDecStrictOrder = Σ _ IsDecStrictOrder
+  
+  HasDecOrder→HasDecStrictOrder : HasDecOrder -> HasDecStrictOrder
+  HasDecOrder→HasDecStrictOrder (_ , isOrd , isDec) =
+    _ , isToset→isLosetIrreflKernel isOrd isDec , isTosetDecidable→isLosetDecidable isOrd isDec
+
+  HasDecStrictOrder→HasDecOrder : HasDecStrictOrder -> HasDecOrder
+  HasDecStrictOrder→HasDecOrder (_ , isOrd , isDec) =
+    _ , isLoset→isTosetReflClosure isOrd isDec , isLosetDecidable→isTosetDecidable isOrd isDec
 
   open IsToset
   decOrd→disc : (_≤_ : A -> A -> Type ℓ) -> IsDecOrder (_≤_) -> Discrete A

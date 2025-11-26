@@ -47,6 +47,9 @@ private
     ℓ : Level
     A : Type ℓ
 
+module MDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
+module LDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
+
 module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   open Sort isSetA
   open Sort.Section isSetA
@@ -65,7 +68,7 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   HasHeadLeastSectionAndIsDiscrete = (Σ _ IsHeadLeastSection) × (Discrete A)
 
   HasSortSectionAndIsDiscrete : Type _
-  HasSortSectionAndIsDiscrete = (Σ _ IsSortSection) × (Discrete A)
+  HasSortSectionAndIsDiscrete = (Σ (SList A -> List A) IsSortSection) × (Discrete A)
 
   IsSortSection→IsHeadLeastSection : ∀ s -> IsSortSection s -> IsHeadLeastSection s
   IsSortSection→IsHeadLeastSection s (section , imCut , _) = section , imCut
@@ -171,3 +174,5 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
 
   sort≃order : HasDecOrder ≃ HasSortSectionAndIsDiscrete
   sort≃order = isoToEquiv sort↔order
+
+  -- module AnyFree (𝔐 : MDef.Free ℓ ℓ 2) (𝔏 : LDef.Free ℓ ℓ 2) where
