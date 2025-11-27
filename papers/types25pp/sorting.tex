@@ -463,6 +463,22 @@ Finally, this gives us correctness of our axioms.
               $x \leq y$ or $y \leq x$, which leads to a contradiction.
     \end{itemize}
 \end{proof}
+
+\begin{proposition}[\alink{proposition}{}]
+    \label{sort:declord-to-deceq}
+    Assume $A$ has a decidable strict total order $<$,
+    then $A$ has decidable equality.
+\end{proposition}
+\begin{proof}
+    We decide if $x < y$ and $y < x$, and by cases:
+    \begin{itemize}
+        \item
+              if $\neg(x < y)$ and $\neg(y < x)$: by strict connectedness, $x = y$.
+        \item
+              if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
+    \end{itemize}
+\end{proof}
+
 \noindent
 We can now state and prove our main theorem.
 \begin{definition}[\alink{definition}{Sorting function}]
@@ -500,6 +516,24 @@ We can now state and prove our main theorem.
     and by~\cref{sort:s2o2s} we have $o2s \comp s2o \id \idfunc$,
     giving an isomorphism, hence an equivalence.
 \end{proof}
+
+\begin{corollary}[\alink{corollary}{}]
+    \label{sort:linear-order}
+    Let $\term{DecLinOrd}(A)$ be the set of decidable strict linear orders on $A$,
+    There is a map $l2s \colon \term{DecLinOrd}(A) \to \term{Sort}(A) \times \term{Discrete}(A)$,
+    which is an equivalence.
+\end{corollary}
+\begin{proof}
+    Given a decidable total order $\leq$ on $A$, by~\cref{sort:decord-to-deceq},
+    we can construct a decidable strict linear order $<$ on $A$ by
+    $x < y \defeq x \leq y \land x \neq y$. Vice versa, by~\cref{sort:declord-to-deceq}
+    given a decidable strict linear order $<$ on $A$,
+    we can construct a decidable total order $\leq$ on $A$ by
+    $x \leq y \defeq x < y \lor x = y$. Thus, we have an equivalence
+    $\term{DecLinOrd}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
+    by transitivity.
+\end{proof}
+
 
 \subsubsection*{Remarks}
 
