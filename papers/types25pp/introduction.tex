@@ -263,25 +263,25 @@ In fact, a sorting function can be correctly axiomatized just from this point of
   \item In~\cref{sec:universal-algebra}, we describe a formalization of universal algebra developed from the point of view
         of functorial signatures, the definition and universal property of free algebras,
         and algebras satisfying an equational theory.
-  \item In~\cref{sec:monoids}, we give various constructions of free monoids, and their proofs of universal property.
-        Then, in~\cref{sec:commutative-monoids}, we add symmetry to each representation of free monoids,
+  \item In~\cref{sec:monoids}, we give constructions of free monoids, and proofs of their universal property.
+        Following this, in~\cref{sec:commutative-monoids}, we add symmetry to each representation of free monoids,
         and extend the proofs of universal property from free monoids to free commutative monoids.
-        These constructions are well-known, but we formalize them conceptually by performing formal combinatorial operations.
-  \item In \cref{sec:application}, we build on the constructions of the previous sections and study sorting functions.
-        The main result in this section is to connect total orders, sorting, and symmetry,
+        These are standard constructions that we formalize conceptually by formal combinatorics.
+  \item In \cref{sec:application}, we build on the previous constructions and study sorting functions.
+        The main result connects total orders, sorting, and symmetry,
         by proving an equivalence between decidable total orders on a carrier set $A$,
         and correct sorting functions on lists of $A$.
-  \item All the work in this paper is formalized in Cubical Agda, which is discussed in~\cref{sec:formalization}.
+  \item All the results of this paper are formalized in Cubical Agda, which is discussed in~\cref{sec:formalization}.
         The accompanying code is available as supplementary material.
-  \item \Cref{sec:discussion} discusses related and future work.
+  \item Finally, \cref{sec:discussion} discusses related and future work.
 \end{myitemize}
 
 \noindent
-The three main parts of the paper can be read independently.
+The three main parts of the paper may be read independently.
 %
-Readers interested in the formalization of universal algebra can start from~\cref{sec:universal-algebra}.
+Readers interested in the formalization of universal algebra may start from~\cref{sec:universal-algebra}.
 %
-Readers interested in the constructions of free monoids and free commutative monoids can skip ahead
+Readers interested in the constructions of free monoids and free commutative monoids may skip ahead
 to~\cref{sec:monoids,sec:commutative-monoids}.
 %
 If the reader already believes in the existence of free algebras for monoids and commutative monoids,
