@@ -55,10 +55,10 @@ Every signature $\sig$ induces a signature functor $\Sig$ on $\Set$.
 
 \begin{example}
     The signature functor for monoids, $\SigMon$, assigns to a carrier set $X$,
-    the sets of inputs for each operation.
+    the set of inputs for each operation.
     %
     Expanding the dependent product on $\Fin[2]$, we obtain a coproduct of sets:
-    $\SigMon(X) \eqv X^{\Fin[0]} + X^{\Fin[2]} \eqv \unitt + (X \times X)$.
+    $\SigMon(X) \eqv X^{\Fin[0]} + X^{\Fin[2]} \eqv \unitt + X \times X$.
 \end{example}
 
 A $\sig$-structure is given by a carrier set, with functions interpreting each operation symbol.
@@ -66,7 +66,7 @@ A $\sig$-structure is given by a carrier set, with functions interpreting each o
 The signature functor applied to a carrier set gives the inputs to each operation,
 and the output is simply a map back to the carrier set.
 %
-Formally, these two pieces of data are an algebra for the $\Sig$ functor.
+These two pieces of data constitute an algebra for the $\Sig$ functor.
 %
 We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the model-theoretic notational convention.
 
@@ -82,7 +82,7 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
     \[
         \alpha_{X} : \SigMon(X) \to X
         \quad\eqv\quad
-        (\unitt + (X \times X)) \to X
+        (\unitt + X \times X) \to X
         \quad\eqv\quad
         (\unitt \to X) \times (X \times X \to X)
     \]
@@ -91,8 +91,8 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
 \end{example}
 
 \begin{definition}[\alink{definition}{$\sig$-Homomorphism}]
-    A homomorphism between two $\sig$-structures $\str{X}$ and $\str{Y}$ is a morphism of $\Sig$-algebras,
-    that is, a map $f : X \to Y$ such that:
+    A homomorphism between $\sig$-structures $\str{X}$ and $\str{Y}$ is a morphism of $\Sig$-algebras,
+    that is, a map $f : X \to Y$ making the following diagram commute:
     \[
         \begin{tikzcd}
             \Sig(X) \arrow[r, "\alpha_{X}"] \arrow[d, "\Sig(f)"']
@@ -104,9 +104,9 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
 \end{definition}
 
 \begin{example}
-    Given two monoids \(\str{X}\) and \(\str{Y}\), the top half of the diagram is:
+    Given two monoids \(\str{X}\) and \(\str{Y}\), the top half denotes:
     \({\unitt + (X \times X) \xto{\alpha_{X}} X \xto{f} Y}\), which applies \(f\) to the output of each operation,
-    and the bottom half is:
+    and the bottom half denotes the map:
     \({\unitt + (X \times X) \xto{\SigMon(f)} \unitt + (Y \times Y) \xto{\alpha_{Y}} Y}\).
     % Commutativity of the diagram says that these two maps are equal.
     %
@@ -122,8 +122,8 @@ given by the obvious definitions of identity and composition of the underlying f
 \subsection{Free Algebras}
 \label{sec:universal-algebra:free-algebras}
 
-The category $\sigAlg$ is a category of structured sets and structure-preserving maps,
-which is an example of a concrete category, that admits a forgetful functor $U : \sigAlg \to \Set$,
+The concrete category $\sigAlg$ of structured sets and structure-preserving maps
+admits a forgetful functor $U : \sigAlg \to \Set$.
 %
 In our notation, $U(\str{X})$ is simply $X$, a fact we exploit to simplify our notation, and formalization.
 %
@@ -134,7 +134,7 @@ We rephrase this in more concrete terms.
 
 \begin{definition}[\alink{definition}{Free Algebras}]
     \label{def:free-algebras}
-    A free $\sig$-algebra construction consists of the following data:
+    A free $\sig$-algebra construction consists of the following:
     \begin{itemize}
         \item a set $F(X)$, for every set $X$,
         \item a $\sig$-structure on $F(X)$, written as $\str{F}(X)$,
@@ -145,14 +145,14 @@ We rephrase this in more concrete terms.
               is an equivalence.
     \end{itemize}
 \end{definition}
-Concretely,
-we are asking for a bijection between the set of homomorphisms from the free algebra to any other algebra,
+In other words,
+we ask for a bijection between the set of homomorphisms out of the free algebra to any other algebra,
 and the set of functions from the carrier set of the free algebra to the carrier set of the other algebra.
 %
-In other words, there should be no more data in homomorphisms out of the free algebra than there is in functions out of
+There should be no more data in homomorphisms out of the free algebra than there is in functions out of
 the carrier set, which is the property of \emph{freeness}.
 %
-The inverse operation to post-composition with $\eta_X$ is the \emph{universal extension} of a function to a homomorphism,
+The inverse operation to post-composing with $\eta_X$ extends a function to a homomorphism.
 %
 \begin{definition}[\alink{definition}{Universal extension}]
     \label{def:universal-extension}
@@ -166,9 +166,9 @@ The inverse operation to post-composition with $\eta_X$ is the \emph{universal e
 Free algebra constructions are canonically equivalent.
 \begin{propositionrep}[\alink{proposition}{}]
     \label{lem:free-algebras-unique}
-    Suppose $\str{F}(X)$ and $\str{G}(X)$ are both free $\sig$-algebras on $X$.
+    If $\str{F}(X)$ and $\str{G}(X)$ are free $\sig$-algebras on $X$,
     %
-    Then $\str{F}(X) \eqv \str{G}(X)$, natural in $X$.
+    then $\str{F}(X) \eqv \str{G}(X)$ in $\sigAlg$, naturally in $X$, via the canonical extensions.
 \end{propositionrep}
 \begin{proof}
     By extending $\eta_X$ for each free construction,
@@ -218,7 +218,7 @@ Free algebra constructions are canonically equivalent.
         $\str{F}(\unitt) \to \unitt$ is contractible because $\unitt$ is terminal in $\Set$.
     \end{proof}
 \end{toappendix}
-So far, we've only discussed abstract properties of free algebras, but not actually given a construction.
+We have discussed specifications of free algebras, but not actually given a construction.
 %
 In type theory, \emph{free} constructions are often given by inductive types,
 where the constructors are the pieces of data that freely generate the structure,
@@ -234,10 +234,10 @@ and the type-theoretic induction principle enforces the category-theoretic unive
         \term{node} & \colon F_\sig(\type{Tree}(X)) \to \type{Tree}(X)
     \end{align*}
 \end{definition}
-The constructors \inline{leaf} and \inline{node} are, abstractly,
+The constructors \inline{leaf} and \inline{node} are
 the generators for the universal map, and the algebra map, respectively.
 %
-Concretely, this is the type of abstract syntax trees for terms in the signature $\sig$
+Together, they describe the type of abstract syntax trees for terms in the signature $\sig$
 -- the leaves are the free variables, and the nodes are the branching operations of the tree,
 marked by the operations in $\sig$.
 
@@ -279,52 +279,54 @@ marked by the operations in $\sig$.
 \subsection{Equations}
 \label{sec:universal-algebra:equations}
 
-The algebraic framework of universal algebra we have described so far only captures operations, not equations.
+The algebraic framework described so far only captures operations, not equations.
 %
 These algebras are \emph{lawless} (or \emph{wild} or \emph{absolutely free}) --
-saying the $\SigMon$-algebras are monoids, or $\str{F}_{\sigMon}$-algebras are free monoids is not justified.
-%
-For example, by associativity, these two trees of $(\Nat, +)$ should be identified as equal.
-%% but they're not.
-\begin{center}
-    \scalebox{0.7}{
-        % https://q.uiver.app/#q=WzAsNixbMiwyLCIrIl0sWzIsMywiNCJdLFszLDEsIisiXSxbMiwwLCIxIl0sWzQsMCwiMSJdLFswLDAsIjIiXSxbMCwxXSxbMiwwXSxbMywyXSxbNCwyXSxbNSwwXV0=
-        \begin{tikzcd}[ampersand replacement=\&,cramped]
-            2 \&\& 1 \&\& 1 \\
-            \&\&\& {+} \\
-            \&\& {+} \\
-            \&\&
-            \arrow[no head, from=3-3, to=4-3]
-            \arrow[from=2-4, to=3-3]
-            \arrow[from=1-3, to=2-4]
-            \arrow[from=1-5, to=2-4]
-            \arrow[from=1-1, to=3-3]
-        \end{tikzcd}
-        \hspace{2em}
-        % https://q.uiver.app/#q=WzAsNixbMiwyLCIrIl0sWzIsM10sWzIsMCwiMSJdLFs0LDAsIjEiXSxbMCwwLCIyIl0sWzEsMSwiKyJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywwXSxbNCw1XSxbMiw1XSxbNSwwXV0=
-        \begin{tikzcd}[ampersand replacement=\&,cramped]
-            2 \&\& 1 \&\& 1 \\
-            \& {+} \\
-            \&\& {+} \\
-            \&\& {}
-            \arrow[no head, from=3-3, to=4-3]
-            \arrow[from=1-5, to=3-3]
-            \arrow[from=1-1, to=2-2]
-            \arrow[from=1-3, to=2-2]
-            \arrow[from=2-2, to=3-3]
-        \end{tikzcd}
-    }
-\end{center}
+$\SigMon$-algebras are premonoids rather than monoids,
+and $\str{F}_{\sigMon}$-algebras are free premonoids, not free monoids,
+they are missing unit and associativity laws.
+\begin{toappendix}
+    For example, by associativity, these two trees of $(\Nat, +)$ should be identified as equal.
+    \begin{center}
+        \scalebox{0.7}{
+            % https://q.uiver.app/#q=WzAsNixbMiwyLCIrIl0sWzIsMywiNCJdLFszLDEsIisiXSxbMiwwLCIxIl0sWzQsMCwiMSJdLFswLDAsIjIiXSxbMCwxXSxbMiwwXSxbMywyXSxbNCwyXSxbNSwwXV0=
+            \begin{tikzcd}[ampersand replacement=\&,cramped]
+                2 \&\& 1 \&\& 1 \\
+                \&\&\& {+} \\
+                \&\& {+} \\
+                \&\&
+                \arrow[no head, from=3-3, to=4-3]
+                \arrow[from=2-4, to=3-3]
+                \arrow[from=1-3, to=2-4]
+                \arrow[from=1-5, to=2-4]
+                \arrow[from=1-1, to=3-3]
+            \end{tikzcd}
+            \hspace{2em}
+            % https://q.uiver.app/#q=WzAsNixbMiwyLCIrIl0sWzIsM10sWzIsMCwiMSJdLFs0LDAsIjEiXSxbMCwwLCIyIl0sWzEsMSwiKyJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywwXSxbNCw1XSxbMiw1XSxbNSwwXV0=
+            \begin{tikzcd}[ampersand replacement=\&,cramped]
+                2 \&\& 1 \&\& 1 \\
+                \& {+} \\
+                \&\& {+} \\
+                \&\& {}
+                \arrow[no head, from=3-3, to=4-3]
+                \arrow[from=1-5, to=3-3]
+                \arrow[from=1-1, to=2-2]
+                \arrow[from=1-3, to=2-2]
+                \arrow[from=2-2, to=3-3]
+            \end{tikzcd}
+        }
+    \end{center}
+\end{toappendix}
 %
 To impose equations on the operations, we adopt the point of view of equational logic.
-
+%
 \begin{definition}[\alink{definition}{Equational Signature}]
     \label{def:equational-signature}
     An equational signature, denoted $\eqsig$, is a (dependent) pair consisting of:
     a set of names for equations, $\eqop : \Set$, and
     an arity of free variables for each equation, $\eqfv : \eqop \to \Set$.
 \end{definition}
-
+%
 \begin{example}
     The equational signature for monoids $\eqsigMon$ is:
     $(\Fin[3],\lambda \{0 \mapsto \Fin[1] ; 1 \mapsto \Fin[1] ; 2 \mapsto \Fin[3] \})$.
@@ -335,8 +337,8 @@ To impose equations on the operations, we adopt the point of view of equational 
     The two unit laws use one free variable,
     and the associativity law uses three free variables.
 \end{example}
-
-Just like ~\cref{def:signature-functor}, this produces an equational signature functor on $\Set$.
+%
+Similar to the term signature functor in~\cref{def:signature-functor}, this produces an equational signature functor on $\Set$.
 \begin{definition}[\alink{definition}{Eq. Signature Functor} $\EqSig \colon \Set \to \Set$]
     \label{def:equational-signature-functor}
     \begin{gather*}
@@ -351,14 +353,14 @@ Just like ~\cref{def:signature-functor}, this produces an equational signature f
 
 To build equations out of this,
 we use the $\sig$-operations and construct trees for the left and right-hand sides of each equation using the
-free variables available -- a system of equations.
+free variables available.
 %
 \begin{definition}[\alink{definition}{System of Equations}]
-    A system of equations over a signature $(\sig,\eqsig)$, is a pair of natural transformations:
+    A system of equations over a signature $(\sig,\eqsig)$ is a pair of natural transformations:
     \[
         \eqleft, \eqright \colon \EqSig \natto \str{F}_{\sig} \enspace.
     \]
-    Concretely, for any set (of variables) $V$,
+    For any set (of variables) $V$,
     this gives a pair of functions $\eqleft_{V}, \eqright_{V}\colon \EqSig(V) \to \str{F}_{\sig}(V)$,
     and naturality ensures correctness of renaming.
 \end{definition}
@@ -383,7 +385,7 @@ free variables available -- a system of equations.
             \arrow[no head, from=1-1, to=3-1]
         \end{tikzcd}
     \end{center}
-
+    %
     Given $x\colon V$, $\eqleft_{V}(\term{unitr}, (x)),\,\eqright_{V}(\term{unitr}, (x))$
     are defined as:
     \begin{center}
@@ -403,7 +405,7 @@ free variables available -- a system of equations.
             \arrow[no head, from=1-1, to=3-1]
         \end{tikzcd}
     \end{center}
-
+    %
     Given $x, y, z : V$, $\eqleft_{V}(\term{assocr}, (x,y,z)),\,\eqright_{V}(\term{assocr}, (x,y,z))$
     are defined as:
     \begin{center}
@@ -436,11 +438,11 @@ free variables available -- a system of equations.
         }
     \end{center}
 \end{example}
-Finally, we have to say how a given $\sig$-structure $\str{X}$
+Finally, we say how a given $\sig$-structure $\str{X}$
 \emph{satisfies} the system of equations $T_{(\sig,\eqsig)}$.
 %
-We need to assign a value to each free variable in the equation,
-picking them out of the carrier set, which is the valuation function $\rho : V \to X$.
+We need to assign a value to each free variable in the equation
+in the carrier set, using a valuation function $\rho : V \to X$.
 %
 Given such an assignment, we evaluate the left and right trees of the equation,
 by extending $\rho\,$ with~\cref{def:universal-extension},
@@ -459,11 +461,11 @@ To satisfy an equation, these two evaluations should agree.
             \arrow["{\eqright_{V}}"', shift right=3, from=1-1, to=1-3]
         \end{tikzcd}\]
 \end{definition}
-
-There is a full subcategory of $\sigAlg$ which is the variety of algebras satisfying these equations.
+%
+The variety of algebras satisfying a given system of equations is a full subcategory of $\sigAlg$.
 %
 Constructions of free objects for any arbitrary variety requires non-constructive
-principles~\cite[\S~7, pg.142]{blassWordsFreeAlgebras1983},
+principles~\cite[\S~7, pg.142]{blassWordsFreeAlgebras1983} --
 in particular, the arity sets need to be projective, so we do not give the general construction.
 %
 The non-constructive principles can be avoided if we limit ourselves to specific constructions
@@ -473,3 +475,4 @@ Of course, HoTT/UF offers an alternative by allowing higher generators for equat
 \cite{univalentfoundationsprogramHomotopyTypeTheory2013}.
 %
 We do not develop the framework further, since we have enough tools to develop the next sections.
+\todo{revise}
