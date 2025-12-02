@@ -3,14 +3,14 @@
 \section{Constructions of Free Commutative Monoids}
 \label{sec:commutative-monoids}
 
-The next step is to add commutativity to each construction of free monoids.
+The next step is to add commutativity to the monoid multiplication in each construction of free monoids.
 %
 Informally, adding commutativity to free monoids turns ``ordered lists'' to ``unordered lists'',
 where the ordering is the one imposed by the position or index of the elements in the list.
 %
 This is crucial to our goal of studying sorting,
 as we will study sorting as a function mapping back unordered lists to ordered lists,
-which is later in~\cref{sec:sorting}.
+later in~\cref{sec:sorting}.
 
 It is known that finite multisets are (free) commutative monoids,
 under the operation of multiset union: $xs \cup ys = ys \cup xs$.
@@ -27,15 +27,15 @@ where $[a, a, b, c] \neq [b, a, c, a]$ (justifying the list notation).
 Instead of constructing free commutative monoids directly,
 the first construction we study is to take \emph{any} free monoid and quotient by \emph{symmetries}.
 %
-Specific instances of this construction are given in~\cref{cmon:plist,cmon:bag}.
+The constructions in~\cref{cmon:plist,cmon:bag} are specific instances of this recipe.
 
-From the universal algebraic perspective developed in~\cref{sec:universal-algebra},
-this means to extend the equational theory of a given algebraic signature with symmetries.
+From the perspective of universal algebra and equational logic developed in~\cref{sec:universal-algebra},
+we work in the signature of monoids, but extend the equational theory of monoids with commutativity.
 %
 If $(\str{F}(A), \eta)$ is a free monoid construction satisfying its universal property,
-then we'd like to quotient $F(A)$ by an \emph{appropriate} symmetry relation $\approx$.
+then we quotient $F(A)$ by an \emph{appropriate} symmetry relation $\approx$.
 %
-This is exactly a \emph{permutation relation}.
+This is precisely a \emph{permutation relation}.
 
 % $(\str{F}(A), i, \mult)$ quotiented by a permutation relation $({F(A) / \approx}, e, \concat)$
 % would be the free commutative monoid on $A$.
@@ -44,6 +44,7 @@ This is exactly a \emph{permutation relation}.
     \label{def:permutation-relation}
     \leavevmode
     A binary relation on a free monoid $F(A)$ is a permutation relation iff it:
+    \todo{define $\mult$?}
     \begin{itemize}
         \item is reflexive, symmetric, transitive (an equivalence),
         \item is a congruence wrt $\mult$: $a \approx b \to c \approx d \to a \mult c \approx b \mult d$,
