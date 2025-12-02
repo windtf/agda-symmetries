@@ -17,7 +17,7 @@ which is used in~\cref{sec:application}.
 \subsection{Lists}
 \label{mon:lists}
 
-Cons-lists (or sequences) are simple inductive datatypes, well-known to functional programmers,
+Cons-lists are simple inductive datatypes, well-known to functional programmers,
 and are the most common representation of free monoids in programming languages.
 %
 In category theory, these correspond to Kelly's notion of algebraically-free
@@ -129,20 +129,20 @@ and the monoid operation $\doubleplus$ is given by concatenation.
 
 An alternate (non-inductive) representation of the free monoid on a carrier set,
 or alphabet $A$, is $A^{\ast}$,
-the set of all finite words or strings or sequences of characters \emph{drawn} from $A$,
+the set of all finite strings or sequences of characters \emph{drawn} from $A$,
 which was known in category theory from~\cite{dubucFreeMonoids1974}.
 %
 In computer science, we think of this as an \emph{array},
 which is a pair of a natural number $n$, denoting the length of the array,
-and a lookup (or index) function $\Fin[n] \to A$, mapping each index to an element of $A$.
+and a lookup (or index) function $\Fin[n] \to A$, mapping indices to elements of $A$.
 %
 In type theory, this is also often understood as a container~\cite{abbottCategoriesContainers2003},
-where $\Nat$ is the type of shapes, and $\Fin$ is the type (family) of positions.
+where $\Nat$ is the type of shapes, and $\Fin$ is the type family of positions.
 
 \begin{definition}[\alink{definition}{Arrays}]
     \label{def:arrays}
     \[
-        \Array(A) \defeq \sum_{n : \Nat} (\Fin[n] \to A)
+        \Array(A) \defeq (n : \Nat) \times (\Fin[n] \to A)
     \]
 \end{definition}
 %
