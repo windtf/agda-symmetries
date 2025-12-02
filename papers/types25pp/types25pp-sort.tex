@@ -2,15 +2,13 @@
 
 \RequirePackage{currfile}
 \newcommand{\ifarxiv}[2]{%
-  \ifthenelse{\equal{\currfilename}{arxiv-sort.tex}}{#1}{#2}%
+  \ifcurrfilename{arxiv-sort.tex}{#1}{#2}%
 }
-\ifarxiv%
-{%
+\ifarxiv{%
 \pdfoutput=1
 \hideLIPIcs
 \usepackage[appendix=inline,bibliography=common]{apxproof}
-}%
-{%
+}{%
 \usepackage[appendix=append,bibliography=common]{apxproof}
 }
 

@@ -19,9 +19,8 @@ types25pp-sort.pdf: $(SOURCES)
 	$(LATEXMK) types25pp-sort.tex
 
 arxiv-sort.tex: types25pp-sort.tex
-	cp -f $< $@
+	cp -f $< $@ || true
 
-arxiv-sort.pdf: ENGINE = -pdf
 arxiv-sort.pdf: $(SOURCES)
 	$(LATEXMK) arxiv-sort.tex
 
