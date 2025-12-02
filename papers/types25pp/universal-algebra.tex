@@ -21,11 +21,9 @@ We keep a running example of monoids in mind, while explaining and defining the 
 \begin{definition}[\alink{definition}{Signature}]
     \label{algebra:signature}
     \label{def:signature}
-    A signature, denoted $\sig$, is a (dependent) pair consisting of:
-    \begin{itemize}
-        \item a set of operations, $\op\colon \Set$,
-        \item an arity function for each operation, $\ar\colon \op \to \Set$.
-    \end{itemize}
+    A signature, denoted $\sig$, is a (dependent) pair consisting of
+    a set of operations, $\op\colon \Set$, and
+    an arity function for each operation, $\ar\colon \op \to \Set$.
 \end{definition}
 
 \begin{example}
@@ -74,11 +72,9 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
 
 \begin{definition}[\alink{definition}{Structure}]
     \label{algebra:struct}
-    A $\sig$-structure $\str{X}$ is an $\Sig$-algebra, that is, a pair consisting of:
-    \begin{itemize}
-        \item a carrier set $X$, and
-        \item an algebra map $\alpha_{X}\colon \Sig(X) \to X$.
-    \end{itemize}
+    A $\sig$-structure $\str{X}$ is an $\Sig$-algebra, that is, a pair consisting of
+    a carrier set $X$, and
+    an algebra map $\alpha_{X}\colon \Sig(X) \to X$.
 \end{definition}
 
 \begin{example}
@@ -149,7 +145,7 @@ We rephrase this in more concrete terms.
               is an equivalence.
     \end{itemize}
 \end{definition}
-More concretely,
+Concretely,
 we are asking for a bijection between the set of homomorphisms from the free algebra to any other algebra,
 and the set of functions from the carrier set of the free algebra to the carrier set of the other algebra.
 %
@@ -222,7 +218,7 @@ Free algebra constructions are canonically equivalent.
         $\str{F}(\unitt) \to \unitt$ is contractible because $\unitt$ is terminal in $\Set$.
     \end{proof}
 \end{toappendix}
-So far, we've only discussed abstract properties of free algebras, but not actually given a construction!
+So far, we've only discussed abstract properties of free algebras, but not actually given a construction.
 %
 In type theory, \emph{free} constructions are often given by inductive types,
 where the constructors are the pieces of data that freely generate the structure,
@@ -325,10 +321,8 @@ To impose equations on the operations, we adopt the point of view of equational 
 \begin{definition}[\alink{definition}{Equational Signature}]
     \label{def:equational-signature}
     An equational signature, denoted $\eqsig$, is a (dependent) pair consisting of:
-    \begin{itemize}
-        \item a set of names for equations, $\eqop : \Set$,
-        \item an arity of free variables for each equation, $\eqfv : \eqop \to \Set$.
-    \end{itemize}
+    a set of names for equations, $\eqop : \Set$, and
+    an arity of free variables for each equation, $\eqfv : \eqop \to \Set$.
 \end{definition}
 
 \begin{example}
@@ -342,7 +336,7 @@ To impose equations on the operations, we adopt the point of view of equational 
     and the associativity law uses three free variables.
 \end{example}
 
-Just like the signature functor~\cref{def:signature-functor}, this produces an equational signature functor on $\Set$.
+Just like ~\cref{def:signature-functor}, this produces an equational signature functor on $\Set$.
 \begin{definition}[\alink{definition}{Eq. Signature Functor} $\EqSig \colon \Set \to \Set$]
     \label{def:equational-signature-functor}
     \begin{gather*}
@@ -355,7 +349,7 @@ Just like the signature functor~\cref{def:signature-functor}, this produces an e
     \end{gather*}
 \end{definition}
 
-To build equations out of this signature,
+To build equations out of this,
 we use the $\sig$-operations and construct trees for the left and right-hand sides of each equation using the
 free variables available -- a system of equations.
 %
@@ -449,7 +443,7 @@ We need to assign a value to each free variable in the equation,
 picking them out of the carrier set, which is the valuation function $\rho : V \to X$.
 %
 Given such an assignment, we evaluate the left and right trees of the equation,
-by extending $\rho\,$ (using~\cref{def:universal-extension}),
+by extending $\rho\,$ with~\cref{def:universal-extension},
 that is by construction, a homomorphism from $\str{F}(V)$ to $\str{X}$.
 %
 To satisfy an equation, these two evaluations should agree.
