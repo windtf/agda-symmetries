@@ -161,7 +161,7 @@ to show $\PList(A)$ is the free commutative monoid.
     back to $\ext{f}((z \cons zs)\,\concat\,y \cons x \cons ys)$ by homomorphism properties of $\ext{f}$.
 \end{proof}
 
-\subsubsection*{Remarks}\label{plist:rep}
+\label{plist:rep}
 With this representation it is very easy to lift functions and properties defined on $\List$
 to $\PList$ since $\PList$ is a quotient of $\List$. The inductive nature of $\PList$ makes it
 very easy to define algorithms and proofs that are inductive in nature, e.g. defining insertion sort
@@ -250,7 +250,7 @@ data SList (A : UU) : UU where
     \end{proof}
 \end{toappendix}
 
-\subsubsection*{Remarks}\label{slist:rep}
+\label{slist:rep}
 Much like $\PList$ and $\List$, $\SList$ is inductively defined, therefore making it very intuitive to reason
 with when defining inductive operations or inductive proofs on $\SList$, however difficult to reason with
 when defining operations that involve arbitrary partitioning, for reasons similar to those given
@@ -466,7 +466,7 @@ in~\cite{choudhurySymmetriesReversibleProgramming2022} for studying permutation 
     \end{itemize}
 \end{proof}
 
-\subsubsection*{Remarks}\label{bag:rep}
+\label{bag:rep}
 
 Unlike $\PList$ and $\SList$, $\Bag$ and its underlying construction $\Array$ are not inductively defined,
 making it difficult to work with when trying to do induction on them. For example,
