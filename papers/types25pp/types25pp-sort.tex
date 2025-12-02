@@ -1,7 +1,10 @@
 \documentclass[a4paper,UKenglish,cleveref]{lipics-v2021}
 
 \RequirePackage{currfile}
-\ifcurrfilename{arxiv-sort.tex}%
+\newcommand{\ifarxiv}[2]{%
+  \ifthenelse{\equal{\currfilename}{arxiv-sort.tex}}{#1}{#2}%
+}
+\ifarxiv%
 {%
 \pdfoutput=1
 \hideLIPIcs
