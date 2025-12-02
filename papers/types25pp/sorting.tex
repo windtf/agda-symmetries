@@ -3,7 +3,8 @@
 \subsection{Total orders}
 \label{sec:total-orders}
 
-First, we recall the axioms of a total order $\leq$ on a set $A$.
+First, we recall the axioms of a total order $\leq$ on a set $A$. This is also known as a
+linear order.
 \begin{definition}[\alink{definition}{Total order}]
     \label{def:total-order}
     A total order on a set $A$ is a relation $\leq : A \to A \to \hProp$ that satisfies:
@@ -43,10 +44,11 @@ but decidability allows us to actually compute if $x \leq y$ is true.
               $x \leq y$ or $y \leq x$, which leads to a contradiction.
     \end{itemize}
 \end{proof}
-Alternatively, we can define an irreflexive linear order $<$ on $A$.
-\begin{definition}[\alink{definition}{Linear order}]
+We also recall the axioms of a strict total order $<$ on $A$. For clarity, we call this a
+a \emph{strict linear order} to distinguish it from the non-strict total order defined above.
+\begin{definition}[\alink{definition}{Strict linear order}]
     \label{def:linear-order}
-    A linear order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
+    A strict linear order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
     \begin{itemize}
         \item irreflexivity: $\neg(x < x)$,
         \item transitivity: if $x < y$ and $y < z$, then $x < z$,
@@ -54,8 +56,7 @@ Alternatively, we can define an irreflexive linear order $<$ on $A$.
         \item cotransitivity: $\forall x, y, z$, if $x < z$, then either $x < y$ or $y < z$.
         \item connectedness: $\forall x, y$, if $\neg(x < y)$ and $\neg(y < x)$, then $x = y$.
     \end{itemize}
-    Note that a strict order is simply a linear order without the connectedness axiom.
-    A \emph{decidable} linear order requires the $<$ relation to be decidable:
+    A \emph{decidable} strict linear order requires the $<$ relation to be decidable:
     \begin{itemize}
         \item decidability: $\forall x, y$, we have $x < y + \neg(x < y)$.
     \end{itemize}
@@ -63,7 +64,7 @@ Alternatively, we can define an irreflexive linear order $<$ on $A$.
 
 \begin{proposition}[\alink{proposition}{}]
     \label{prop:decidable-linear-order}
-    In a decidable linear order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
+    In a decidable strict linear order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
 \end{proposition}
 \begin{proof}
@@ -78,13 +79,13 @@ Alternatively, we can define an irreflexive linear order $<$ on $A$.
 
 \begin{proposition}[\alink{proposition}{}]
     \label{prop:dec-linear-total-order}
-    The set of decidable linear orders on $A$ and the set of decidable total orders on $A$ are equivalent.
+    The set of decidable strict linear orders on $A$ and the set of decidable total orders on $A$ are equivalent.
 \end{proposition}
 \begin{proofsketch}
     Given a decidable total order $\leq$ on $A$, by~\cref{prop:decidable-total-order},
-    we can map to a decidable linear order $<$ on $A$ by
+    we can map to a decidable strict linear order $<$ on $A$ by
     $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-linear-order}
-    given a decidable linear order $<$ on $A$,
+    given a decidable strict linear order $<$ on $A$,
     we can map to a decidable total order $\leq$ on $A$ by
     $x \leq y \defeq (x < y) + (x = y)$. We can then show that these maps are inverses
     of each other.
@@ -536,7 +537,7 @@ We can now state and prove our main theorem.
 
 \begin{corollary}[\alink{corollary}{}]
     \label{sort:linear-order}
-    Let $\term{DecLinOrd}(A)$ be the set of decidable linear orders on $A$,
+    Let $\term{DecLinOrd}(A)$ be the set of decidable strict linear orders on $A$,
     There is a map $l2s \colon \term{DecLinOrd}(A) \to \term{Sort}(A) \times \term{Discrete}(A)$,
     which is an equivalence.
 \end{corollary}
