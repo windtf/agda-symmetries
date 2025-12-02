@@ -410,7 +410,7 @@ Unfortunately, $\isheadleast$ is not enough to guarantee this.
     there cannot be a full equivalence.
 \end{proof}
 
-We then introduce our second axiom of sorting.
+Therefore, we need to introduce a second axiom of sorting.
 
 \begin{definition}[\alink{definition}{$\istailsort$}]
     \label{def:tail-sort}
@@ -433,27 +433,27 @@ In fact, the axioms we have introduced are equivalent to the standard inductive 
 found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
 
 \begin{code}
-data Sorted ($\leq$ : A -> A -> UU) : List A -> UU where
-  sorted-nil : Sorted []
-  sorted-$\eta$ : forall x -> Sorted [ x ]
+data IsSorted ($\leq$ : A -> A -> UU) : List A -> UU where
+  sorted-nil : IsSorted []
+  sorted-$\eta$ : forall x -> IsSorted [ x ]
   sorted-cons : forall x y zs -> x $\leq$ y
-     -> Sorted (y cons zs) -> Sorted (x cons y cons zs)
+     -> IsSorted (y cons zs) -> IsSorted (x cons y cons zs)
 \end{code}
-Note that $\term{Sorted}_{\leq}(xs)$ is a proposition for every $xs$,
+Note that $\term{IsSorted}_{\leq}(xs)$ is a proposition for every $xs$,
 and forces the list $xs$ to be permuted in a unique way.
 \begin{lemma}[\alink{lemma}{}]
     Given a total order $\leq$, for any $xs, ys : \LL(A)$,
-    $q(xs) = q(ys) \land \term{Sorted}_{\leq}(xs) \land \term{Sorted}_{\leq}(ys) \to xs = ys$.
+    $q(xs) = q(ys) \land \term{IsSorted}_{\leq}(xs) \land \term{IsSorted}_{\leq}(ys) \to xs = ys$.
 \end{lemma}
 
-Insertion sort by $\leq$ always produces lists that satisfy $\term{Sorted}_{\leq}$.
-Functions that also produce lists satisfying $\term{Sorted}_{\leq}$ are equal to insertion sort
+Insertion sort by $\leq$ always produces lists that satisfy $\term{IsSorted}_{\leq}$.
+Functions that also produce lists satisfying $\term{IsSorted}_{\leq}$ are equal to insertion sort
 by function extensionality.
 
 \begin{proposition}[\alink{proposition}{}]
     \label{sort:sort-uniq}
     Given a total order $\leq$,
-    if a section $s$ always produces sorted list, i.e. $\forall xs.\,\term{Sorted}_{\leq}(s(xs))$,
+    if a section $s$ always produces sorted list, i.e. $\forall xs.\,\term{IsSorted}_{\leq}(s(xs))$,
     $s$ is equal to insertion sort by $\leq$.
 \end{proposition}
 \noindent
@@ -463,11 +463,11 @@ Finally, this gives us correctness of our axioms.
     \label{sort:well-behave-sorts}
     Given a section $s$ that satisfies $\isheadleast$ and $\istailsort$,
     and $\leqs$ the order derived from $s$, then for all $xs : \MM(A)$,
-    it holds that $\term{Sorted}_{\leqs}(s(xs))$.
+    it holds that $\term{IsSorted}_{\leqs}(s(xs))$.
     %
     Equivalently, for all lists $xs : \LL(A)$,
     it holds that
-    $xs \in \im{s}$ iff $\term{Sorted}_{\leqs}(xs)$.
+    $xs \in \im{s}$ iff $\term{IsSorted}_{\leqs}(xs)$.
 \end{proposition}
 \begin{proof}
     We inspect the length of $xs : \MM(A)$.
@@ -475,10 +475,10 @@ Finally, this gives us correctness of our axioms.
     Otherwise, we proceed by induction:
     given a $xs : \MM(A)$ of length $\geq 2$, let $s(xs) = x \cons y \cons ys$.
     We need to show
-    $x \leqs y \land \term{Sorted}_{\leqs}(y \cons ys)$ to construct
-    $\term{Sorted}_{\leqs}(x \cons y \cons ys)$.
+    $x \leqs y \land \term{IsSorted}_{\leqs}(y \cons ys)$ to construct
+    $\term{IsSorted}_{\leqs}(x \cons y \cons ys)$.
     By $\isheadleast$, we have $x \leqs y$, and by $\istailsort$, we
-    inductively prove $\term{Sorted}_{\leqs}(y \cons ys)$.
+    inductively prove $\term{IsSorted}_{\leqs}(y \cons ys)$.
 \end{proof}
 
 \begin{lemma}[\alink{lemma}{}]
@@ -557,7 +557,7 @@ total order) matches our axioms. We consider the correctness criterion developed
     %
     A sorting algorithm is a map $\term{sort} : {\LL(A) \to \OLL(A)}$,
     that turns lists into ordered lists,
-    where $\OLL(A)$ is defined as $\dsum{xs : \LL(A)}{\term{Sorted}_{\leq}(xs)}$,
+    where $\OLL(A)$ is defined as $\dsum{xs : \LL(A)}{\term{IsSorted}_{\leq}(xs)}$,
     such that:
     % https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXExMKEEpIl0sWzIsMCwiXFxPTEwoQSkiXSxbMSwxLCJcXE1NKEEpIl0sWzAsMSwiXFx0ZXJte3NvcnR9Il0sWzAsMiwicSIsMl0sWzEsMiwicSBcXGNvbXAgXFxwaV8xIl1d
     \[\begin{tikzcd}
