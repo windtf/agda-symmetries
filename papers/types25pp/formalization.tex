@@ -17,29 +17,3 @@ The free algebra framework currently only works with sets.
 Due to issues of regularity, certain computations only hold propositionally,
 and the formalization requires proving auxiliary $\beta$ and $\eta$ computation rules in some places.
 We also note that the axioms of sorting in the formalization are named differently from the paper.
-We give a table of the Agda module names and their corresponding sections in the paper
-in~\cref{tab:formalised-results}.
-
-\begin{table*}
-    \centering
-    \begin{tabular}{lll}
-        \hline
-        \textbf{Module}                                 & \textbf{Description}   & \textbf{Reference}                         \\ \hline
-        \texttt{index}                                  & Index of all files     & N/A                                        \\
-        \texttt{Cubical.Structures.Free}                & Free algebras          & \cref{sec:universal-algebra:free-algebras} \\
-        \texttt{Cubical.Structures.Sig}                 & Algebraic signatures   & \cref{algebra:signature}                   \\
-        \texttt{Cubical.Structures.Str}                 & Algebraic structures   & \cref{algebra:struct}                      \\
-        \texttt{Cubical.Structures.Eq}                  & Equational theories    & \cref{sec:universal-algebra:equations}     \\
-        \texttt{Cubical.Structures.Tree}                & Trees                  & \cref{algebra:tree}                        \\
-        \texttt{Cubical.Structures.Set.Mon.List}        & Lists                  & \cref{mon:lists}                           \\
-        \texttt{Cubical.Structures.Set.Mon.Array}       & Arrays                 & \cref{mon:array}                           \\
-        \texttt{Cubical.Structures.Set.CMon.QFreeMon}   & Quotiented-free monoid & \cref{cmon:qfreemon}                       \\
-        \texttt{Cubical.Structures.Set.CMon.PList}      & Quotiented-list        & \cref{cmon:plist}                          \\
-        \texttt{Cubical.Structures.Set.CMon.SList}      & Swapped-list           & \cref{cmon:slist}                          \\
-        \texttt{Cubical.Structures.Set.CMon.Bag}        & Bag                    & \cref{cmon:bag}                            \\
-        \texttt{Cubical.Structures.Set.CMon.SList.Sort} & Sort functions         & \cref{sec:application}                     \\
-        \hline
-    \end{tabular}
-    \caption{Status of formalised results}
-    \label{tab:formalised-results}
-\end{table*}
