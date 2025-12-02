@@ -11,7 +11,7 @@ First, we recall the axioms of a total order $\leq$ on a set $A$.
         \item reflexivity: $x \leq x$,
         \item transitivity: if $x \leq y$ and $y \leq z$, then $x \leq z$,
         \item antisymmetry: if $x \leq y$ and $y \leq x$, then $x = y$,
-        \item strong-connectedness: $\forall x, y$, either $x \leq y$ or $y \leq x$.
+        \item totality: $\forall x, y$, either $x \leq y$ or $y \leq x$.
     \end{itemize}
     Note that \emph{either-or} means that this is a (truncated) logical disjunction.
     In the context of this paper, we want to make a distinction between ``decidable total order''
@@ -20,7 +20,7 @@ First, we recall the axioms of a total order $\leq$ on a set $A$.
         \item decidability: $\forall x, y$, we have $x \leq y + \neg(x \leq y)$.
     \end{itemize}
 \end{definition}
-This strengthens the strong-connectedness axiom,
+This strengthens the totality axiom,
 where we have either $x \leq y$ or $y \leq x$ merely as a proposition,
 but decidability allows us to actually compute if $x \leq y$ is true.
 \begin{proposition}[\alink{proposition}{}]
@@ -28,6 +28,68 @@ but decidability allows us to actually compute if $x \leq y$ is true.
     In a decidable total order, it holds that ${\forall x, y}, \ps{x \leq y} + \ps{y \leq x}$.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
 \end{proposition}
+\begin{proof}
+    We decide if $x \leq y$ and $y \leq x$, and by cases:
+    \begin{itemize}
+        \item
+              if $x \leq y$ and $y \leq x$: by antisymmetry, $x = y$.
+        \item
+              if $\neg(x \leq y)$ and $y \leq x$: assuming $x = y$, have $x \leq y$,
+              leading to contradiction by $\neg(x \leq y)$, hence $x \neq y$.
+        \item
+              if $x \leq y$ and $\neg(y \leq x)$: similar to the previous case.
+        \item
+              if $\neg(x \leq y)$ and $\neg(y \leq x)$: by totality, either
+              $x \leq y$ or $y \leq x$, which leads to a contradiction.
+    \end{itemize}
+\end{proof}
+Alternatively, we can define an irreflexive linear order $<$ on $A$.
+\begin{definition}[\alink{definition}{Linear order}]
+    \label{def:linear-order}
+    A linear order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
+    \begin{itemize}
+        \item irreflexivity: $\neg(x < x)$,
+        \item transitivity: if $x < y$ and $y < z$, then $x < z$,
+        \item asymmetry: if $x < y$, then $\neg(y < x)$,
+        \item cotransitivity: $\forall x, y, z$, if $x < z$, then either $x < y$ or $y < z$.
+        \item connectedness: $\forall x, y$, if $\neg(x < y)$ and $\neg(y < x)$, then $x = y$.
+    \end{itemize}
+    Note that a strict order is simply a linear order without the connectedness axiom.
+    A \emph{decidable} linear order requires the $<$ relation to be decidable:
+    \begin{itemize}
+        \item decidability: $\forall x, y$, we have $x < y + \neg(x < y)$.
+    \end{itemize}
+\end{definition}
+
+\begin{proposition}[\alink{proposition}{}]
+    \label{prop:decidable-linear-order}
+    In a decidable linear order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
+    Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
+\end{proposition}
+\begin{proof}
+    We decide if $x < y$ and $y < x$, and by cases:
+    \begin{itemize}
+        \item
+              if $\neg(x < y)$ and $\neg(y < x)$: by strict connectedness, $x = y$.
+        \item
+              if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
+    \end{itemize}
+\end{proof}
+
+\begin{proposition}[\alink{proposition}{}]
+    \label{prop:dec-linear-total-order}
+    The set of decidable linear orders on $A$ and the set of decidable total orders on $A$ are equivalent.
+\end{proposition}
+\begin{proofsketch}
+    Given a decidable total order $\leq$ on $A$, by~\cref{prop:decidable-total-order},
+    we can map to a decidable linear order $<$ on $A$ by
+    $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-linear-order}
+    given a decidable linear order $<$ on $A$,
+    we can map to a decidable total order $\leq$ on $A$ by
+    $x \leq y \defeq (x < y) + (x = y)$. We can then show that these maps are inverses
+    of each other.
+\end{proofsketch}
+
 %
 \noindent
 An equivalent way to define a total order is using a binary meet operation (without starting from an ordering relation).
@@ -39,7 +101,7 @@ An equivalent way to define a total order is using a binary meet operation (with
         \item associative: $(x \meet y) \meet z \id x \meet (y \meet z)$,
         \item commutative: $x \meet y \id y \meet x$.
     \end{itemize}
-    A \emph{strongly-connected} meet semi-lattice further satisfies:
+    A \emph{strongly-connected} meet semi-lattice further satisfies: \ww{Are the names right?}
     \begin{itemize}
         \item strong-connectedness: $\forall x, y$, either $x \meet y \id x$ or $x \meet y \id y$.
     \end{itemize}
@@ -443,42 +505,6 @@ Finally, this gives us correctness of our axioms.
     By ~\cref{sort:sort-uniq} and ~\cref{sort:well-behave-sorts}, $s = t_{\leqs}$.
 \end{proof}
 
-\begin{proposition}[\alink{proposition}{}]
-    \label{sort:decord-to-deceq}
-    Assume $A$ has a decidable total order $\leq$,
-    then $A$ has decidable equality.
-\end{proposition}
-\begin{proof}
-    We decide if $x \leq y$ and $y \leq x$, and by cases:
-    \begin{itemize}
-        \item
-              if $x \leq y$ and $y \leq x$: by antisymmetry, $x = y$.
-        \item
-              if $\neg(x \leq y)$ and $y \leq x$: assuming $x = y$, have $x \leq y$,
-              leading to contradiction by $\neg(x \leq y)$, hence $x \neq y$.
-        \item
-              if $x \leq y$ and $\neg(y \leq x)$: similar to the previous case.
-        \item
-              if $\neg(x \leq y)$ and $\neg(y \leq x)$: by totality, either
-              $x \leq y$ or $y \leq x$, which leads to a contradiction.
-    \end{itemize}
-\end{proof}
-
-\begin{proposition}[\alink{proposition}{}]
-    \label{sort:declord-to-deceq}
-    Assume $A$ has a decidable strict total order $<$,
-    then $A$ has decidable equality.
-\end{proposition}
-\begin{proof}
-    We decide if $x < y$ and $y < x$, and by cases:
-    \begin{itemize}
-        \item
-              if $\neg(x < y)$ and $\neg(y < x)$: by strict connectedness, $x = y$.
-        \item
-              if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
-    \end{itemize}
-\end{proof}
-
 \noindent
 We can now state and prove our main theorem.
 \begin{definition}[\alink{definition}{Sorting function}]
@@ -506,7 +532,7 @@ We can now state and prove our main theorem.
 \end{theorem}
 \begin{proof}
     $o2s$ is constructed by parameterizing insertion sort with $\leq$.
-    By~\cref{sort:decord-to-deceq}, $A$ is $\term{Discrete}$.
+    By~\cref{prop:decidable-total-order}, $A$ is $\term{Discrete}$.
     %
     The inverse $s2o(s)$ is constructed by~\cref{def:least}, which produces
     a total order by~\cref{sort:almost-total,sort:trans},
@@ -519,23 +545,15 @@ We can now state and prove our main theorem.
 
 \begin{corollary}[\alink{corollary}{}]
     \label{sort:linear-order}
-    Let $\term{DecLinOrd}(A)$ be the set of decidable strict linear orders on $A$,
+    Let $\term{DecLinOrd}(A)$ be the set of decidable linear orders on $A$,
     There is a map $l2s \colon \term{DecLinOrd}(A) \to \term{Sort}(A) \times \term{Discrete}(A)$,
     which is an equivalence.
 \end{corollary}
 \begin{proof}
-    Given a decidable total order $\leq$ on $A$, by~\cref{sort:decord-to-deceq},
-    we can construct a decidable strict linear order $<$ on $A$ by
-    $x < y \defeq x \leq y \land x \neq y$. Vice versa, by~\cref{sort:declord-to-deceq}
-    given a decidable strict linear order $<$ on $A$,
-    we can construct a decidable total order $\leq$ on $A$ by
-    $x \leq y \defeq x < y \lor x = y$. Thus, we have an equivalence
+    By~\cref{prop:dec-linear-total-order}, we have an equivalence
     $\term{DecLinOrd}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
-    by transitivity.
+    by equivalence transitivity.
 \end{proof}
-
-
-
 
 The sorting axioms we have come up with are abstract properties of functions.
 %
