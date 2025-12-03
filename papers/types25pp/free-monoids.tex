@@ -42,8 +42,8 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
         We define the concatenation operation $\doubleplus : \List(A) \to \List(A) \to \List(A)$,
         by recursion on the first argument:
         \begin{align*}
-            \nil \doubleplus ys         & = ys                          \\
-            (x \cons xs) \doubleplus ys & = x \cons (xs \doubleplus ys)
+            \nil \doubleplus \ys          & = \ys                           \\
+            (x \cons \xs) \doubleplus \ys & = x \cons (\xs \doubleplus \ys)
         \end{align*}
     \end{definition}
     The proof that $\doubleplus$ satisfies monoid laws is straightforward (see the formalization for details).
@@ -52,8 +52,8 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
         For any monoid $\str{X}$, and given a map $f : A \to X$,
         we define the extension $\ext{f} : \List(A) \to \mathfrak{X}$ by recursion on the list:
         \begin{align*}
-            \ext{f}(\nil)       & = e                       \\
-            \ext{f}(x \cons xs) & =  f(x) \mult \ext{f}(xs)
+            \ext{f}(\nil)        & = e                       \\
+            \ext{f}(x \cons \xs) & = f(x) \mult \ext{f}(\xs)
         \end{align*}
     \end{definition}
 
@@ -63,25 +63,25 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
 
     \begin{proof}
         To show that $\ext{f}$ is a monoid homomorphism,
-        we need to show $\ext{f}(xs \doubleplus ys) = \ext{f}(xs) \mult \ext{f}(ys)$.
-        We can do so by induction on $xs$.
+        we need to show $\ext{f}(\xs \doubleplus \ys) = \ext{f}(\xs) \mult \ext{f}(\ys)$.
+        We can do so by induction on $\xs$.
 
         Case $\nil$:
-        $\ext{f}(\nil \doubleplus ys) = \ext{f}(ys)$,
-        and $\ext{f}(\nil) \mult \ext{f}(ys) = e \mult \ext{f}(ys) = \ext{f}(ys)$
+        $\ext{f}(\nil \doubleplus \ys) = \ext{f}(\ys)$,
+        and $\ext{f}(\nil) \mult \ext{f}(\ys) = e \mult \ext{f}(\ys) = \ext{f}(\ys)$
         by definition of $\ext{(\blank)}$. Therefore, we have
-        $\ext{f}(\nil \doubleplus ys) = \ext{f}(\nil) \mult \ext{f}(ys)$.
+        $\ext{f}(\nil \doubleplus \ys) = \ext{f}(\nil) \mult \ext{f}(\ys)$.
 
-        Case $x \cons xs$:
+        Case $x \cons \xs$:
         \begin{align*}
-             & \ext{f}((x \cons xs) \doubleplus ys)                                                        \\
-             & = \ext{f}(([ x ] \doubleplus xs) \doubleplus ys) & \text{by definition of concatenation}    \\
-             & = \ext{f}([ x ] \doubleplus (xs \doubleplus ys)) & \text{by associativity}                  \\
-             & = \ext{f}(x \cons (xs \doubleplus ys))           & \text{by definition of concatenation}    \\
-             & = f(x) \mult \ext{f}(xs \doubleplus ys)          & \text{by definition of $\ext{(\blank)}$} \\
-             & = f(x) \mult (\ext{f}(xs) \mult \ext{f}(ys))     & \text{by induction}                      \\
-             & = (f(x) \mult \ext{f}(xs)) \mult \ext{f}(ys)     & \text{by associativity}                  \\
-             & = \ext{f}(x \cons xs) \mult \ext{f}(ys)          & \text{by definition of $\ext{(\blank)}$} \\
+             & \ext{f}((x \cons \xs) \doubleplus \ys)                                                        \\
+             & = \ext{f}(([ x ] \doubleplus \xs) \doubleplus \ys) & \text{by definition of concatenation}    \\
+             & = \ext{f}([ x ] \doubleplus (\xs \doubleplus \ys)) & \text{by associativity}                  \\
+             & = \ext{f}(x \cons (\xs \doubleplus \ ys))          & \text{by definition of concatenation}    \\
+             & = f(x) \mult \ext{f}(\xs \doubleplus \ys)          & \text{by definition of $\ext{(\blank)}$} \\
+             & = f(x) \mult (\ext{f}(\xs) \mult \ext{f}(\ys))     & \text{by induction}                      \\
+             & = (f(x) \mult \ext{f}(\xs)) \mult \ext{f}(\ys)     & \text{by associativity}                  \\
+             & = \ext{f}(x \cons \xs) \mult \ext{f}(\ys)          & \text{by definition of $\ext{(\blank)}$} \\
         \end{align*}
 
         Therefore, $\ext{(\blank)}$ does correctly lift a function to a monoid homomorphism.
@@ -100,20 +100,20 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
     and $(\blank \circ \eta_A) \comp \ext{(\blank)} = id$.
 
     To show $\ext{(\blank)}$ is the left inverse to $\blank \comp \eta_A$, we need to prove
-    for any monoid homomorphism $f : \List(A) \to \mathfrak{X}$, $\ext{(f \comp \eta_A)}(xs) = f(xs)$.
-    We can do so by induction on $xs$.
+    for any monoid homomorphism $f : \List(A) \to \mathfrak{X}$, $\ext{(f \comp \eta_A)}(\xs) = f(\xs)$.
+    We can do so by induction on $\xs$.
 
     Case $\nil$: $\ext{(f \comp \eta_A)}(\nil) = e$ by definition of the $\ext{(\blank)}$ operation,
     and $f(\nil) = e$ by homomorphism properties of $f$. Therefore, $\ext{(f \comp \eta_A)}(\nil) = f(\nil)$.
 
-    Case $x \cons xs$:
+    Case $x \cons \xs$:
     \begin{align*}
-         & \ext{(f \comp \eta_A)}(x \cons xs)                                                                \\
-         & = (f \comp \eta_A)(x) \mult \ext{(f \comp \eta_A)}(xs) & \text{by definition of $\ext{(\blank)}$} \\
-         & = (f \comp \eta_A)(x) \mult f(xs)                      & \text{by induction}                      \\
-         & = f([x]) \mult f(xs)                                   & \text{by definition of $\eta_A$}         \\
-         & = f([x] \doubleplus xs)                                & \text{by homomorphism properties of $f$} \\
-         & = f(x \cons xs)                                        & \text{by definition of concatenation}
+         & \ext{(f \comp \eta_A)}(x \cons \xs)                                                                \\
+         & = (f \comp \eta_A)(x) \mult \ext{(f \comp \eta_A)}(\xs) & \text{by definition of $\ext{(\blank)}$} \\
+         & = (f \comp \eta_A)(x) \mult f(\xs)                      & \text{by induction}                      \\
+         & = f([x]) \mult f(\xs)                                   & \text{by definition of $\eta_A$}         \\
+         & = f([x] \doubleplus \xs)                                & \text{by homomorphism properties of $f$} \\
+         & = f(x \cons \xs)                                        & \text{by definition of concatenation}
     \end{align*}
 
     By function extensionality, $\ext{(\blank)} \comp (\blank \circ \eta_A) = id$.
@@ -346,17 +346,17 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
 
     \begin{proof}
         To show that $\ext{f}$ is a monoid homomorphism,
-        we need to show $\ext{f}(xs \doubleplus ys) = \ext{f}(xs) \mult \ext{f}(ys)$.
-        We can do so by induction on $xs$.
+        we need to show $\ext{f}(\xs \doubleplus \ys) = \ext{f}(\xs) \mult \ext{f}(\ys)$.
+        We can do so by induction on $\xs$.
 
         Case $(0, g)$:
         We have $g = \lambda\{\}$ by~\cref{array:zero-is-id}.
-        $\ext{f}((0, \lambda\{\}) \doubleplus ys) = \ext{f}(ys)$ by left unit,
-        and $\ext{f}(0, \lambda\{\}) \mult \ext{f}(ys) = e \mult \ext{f}(ys) = \ext{f}(ys)$
+        $\ext{f}((0, \lambda\{\}) \doubleplus \ys) = \ext{f}(\ys)$ by left unit,
+        and $\ext{f}(0, \lambda\{\}) \mult \ext{f}(\ys) = e \mult \ext{f}(\ys) = \ext{f}(\ys)$
         by definition of $\ext{(\blank)}$. Therefore,
-        $\ext{f}((0, \lambda\{\}) \doubleplus ys) = \ext{f}(0, \lambda\{\}) \mult \ext{f}(ys)$.
+        $\ext{f}((0, \lambda\{\}) \doubleplus \ys) = \ext{f}(0, \lambda\{\}) \mult \ext{f}(\ys)$.
 
-        Case $(S(n), g)$: Let $ys$ be $(m, h)$.
+        Case $(S(n), g)$: Let $\ys$ be $(m, h)$.
         \begin{align*}
              & \ext{f}((S(n), g) \doubleplus (m, h))                                                                              \\
              & = \ext{f}(S(n + m), g \oplus h)                                 & \text{by definition of concatenation}            \\
@@ -382,8 +382,8 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
     We need to show that $\ext{(\blank)}$ is an inverse to ${(\blank) \comp \eta_A}$.
     $\ext{f} \comp \eta_A = f$ for all set functions $f : A \to X$ holds trivially.
     To show $\ext{(f \comp \eta_A)} = f$ for all homomorphisms $f : \Array(A) \to \mathfrak{X}$,
-    we need to show $\forall xs.\, \ext{(f \comp \eta_A)}(xs) = f(xs)$.
-    We use \cref{array:eta-suc,array:split} to do induction on $xs$,
+    we need to show $\forall \xs.\, \ext{(f \comp \eta_A)}(\xs) = f(\xs)$.
+    We use \cref{array:eta-suc,array:split} to do induction on $\xs$,
     similar to doing induction on the inductive datatype $\List(A)$.
 \end{proofsketch}
 %
@@ -395,8 +395,8 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
     and $(\blank \circ \eta_A) \comp \ext{(\blank)} = id$.
 
     To show $\ext{(\blank)}$ is the left inverse to $\blank \comp \eta_A$, we need to prove
-    for any monoid homomorphism $f : \Array(A) \to \mathfrak{X}$, $\ext{(f \comp \eta_A)}(xs) = f(xs)$.
-    We can do so by induction on $xs$.
+    for any monoid homomorphism $f : \Array(A) \to \mathfrak{X}$, $\ext{(f \comp \eta_A)}(\xs) = f(\xs)$.
+    We can do so by induction on $\xs$.
 
     Case $(0, g)$:
     By~\cref{array:zero-is-id} we have $g = \lambda\{\}$.
