@@ -70,7 +70,7 @@ jobs:
 
       # By default github actions do not pull the repo
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: symmetries
 
