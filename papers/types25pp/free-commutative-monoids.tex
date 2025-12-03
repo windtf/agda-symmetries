@@ -18,9 +18,13 @@ under the operation of multiset union: $\xs \cup \ys = \ys \cup \xs$.
 The order is ``forgotten'' in the sense that it doesn't matter how two multisets are union-ed together,
 such as, $\bag{a, a, b, c} = \bag{b, a, c, a}$ are equal as finite multisets
 (justifying the bag notation).
+Formally, $\bag{x,y,\dots}$ denotes $\eta_A(x) \mult \eta_A(y) \mult \dots : \MM(A)$.
+
 %
 This is unlike free monoids,
 where $[a, a, b, c] \neq [b, a, c, a]$ (justifying the list notation).
+Formally, $[x, y, \dots]$ denotes $\eta_A(x) \mult \eta_A(y) \mult \dots : \LL(A)$,
+and $x \cons xs$ to denote $\eta_A(x) \mult xs : \LL(A)$.
 
 \subsection{Free monoids with a quotient}\label{cmon:qfreemon}
 
@@ -177,7 +181,8 @@ two smaller $\PList$ of length $n$ and length $m$. The inductive nature of $\PLi
 we must iterate all $n$ elements before we can make such a partition, thus making $\PList$ unintuitive
 to work with when we want to reason with operations that involve arbitrary partitioning.
 \begin{toappendix}
-    Also, whenever we define a function on $\PList$ by pattern matching we would also need to show
+    \textbf{Formalization remarks:}
+    Whenever we define a function on $\PList$ by pattern matching we would also need to show
     the function respects $\Perm$, i.e. $\Perm \as\,\bs \to f(\as) = f(\bs)$. This can be annoying because
     of the many auxiliary variables in the constructor $\term{perm-swap}$, namely $\xs$, $\ys$, $\zs$.
     We need to show $f$ would respect a swap in the list anywhere between $\xs$ and $\ys$, which can
@@ -210,12 +215,6 @@ data SList (A : UU) : UU where
 \end{code}
 
 \begin{toappendix}
-    The $\term{trunc}$ constructor is necessary to truncate $\SList$ down to a set,
-    thereby ignoring any higher paths introduced by the $\term{swap}$ constructor.
-    This is opposed to $\List$, which does not need a $\term{trunc}$ constructor
-    because it does not have any path constructors, therefore it can be proven that $\List(A)$
-    is a set assuming $A$ is a set (see formalization).
-
     \begin{definition}[Concatenation]
         We define the concatenation operation $\concat : \SList(A) \to \SList(A) \to \SList(A)$
         recursively, where we also have to consider the (functorial) action on the $\term{swap}$ path using $\term{ap}$.
@@ -256,6 +255,13 @@ with when defining inductive operations or inductive proofs on $\SList$, however
 when defining operations that involve arbitrary partitioning, for reasons similar to those given
 in~\cref{plist:rep}.
 \begin{toappendix}
+    \textbf{Formalization remarks:}
+    The $\term{trunc}$ constructor is necessary to truncate $\SList$ down to a set,
+    thereby ignoring any higher paths introduced by the $\term{swap}$ constructor.
+    This is opposed to $\List$, which does not need a $\term{trunc}$ constructor
+    because it does not have any path constructors, therefore it can be proven that $\List(A)$
+    is a set assuming $A$ is a set.
+
     Unlike $\PList$ which is defined as a set quotient, this is defined as a HIT, therefore handling equalities
     between $\SList$ is much simpler than $\PList$. We would still need to prove a function $f$ respects
     the path constructor of $\SList$ when pattern matching, i.e. $f(x \cons y \cons \xs) = f(y \cons x \cons \xs)$.
@@ -480,7 +486,8 @@ in the proof of~\cref{bag:perm-sat}, we need to first construct a $\tau$ which s
 $\ext{f}(n, i \comp \sigma) = \ext{f}(n, i \comp \tau)$ before we can apply induction.
 
 \begin{toappendix}
-    On a more technical note, since $\Array$ and $\Bag$ are not simple data types, the definition of
+    \textbf{Formalization remarks:}
+    Since $\Array$ and $\Bag$ are not simple data types, the definition of
     the monoid operation on them $\concat$ are necessarily more complicated, and unlike $\List$, $\PList$
     and $\SList$, constructions of $\Array$ and $\Bag$ via $\concat$ often would not normalize into a
     very simple form, but would instead expand into giant trees of terms. This makes it such that when working
@@ -495,8 +502,4 @@ $\ext{f}(n, i \comp \sigma) = \ext{f}(n, i \comp \tau)$ before we can apply indu
     or perform operations on the partitions individually such as two individual permutation in~\cref{bag:cong}.
     This makes it such that when defining divide-and-conquer algorithms such as merge sort,
     $\Bag$ and $\Array$ are more natural to work with than $\List$, $\SList$, and $\PList$.
-
-    We use $\bag{x,y,\dots}$ to denote $\eta_A(x) \mult \eta_A(y) \mult \dots : \MM(A)$,
-    and $[x, y, \dots]$ to denote $\eta_A(x) \mult \eta_A(y) \mult \dots : \LL(A)$,
-    or $x \cons xs$ to denote $\eta_A(x) \mult xs : \LL(A)$.
 \end{toappendix}

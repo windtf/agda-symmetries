@@ -153,6 +153,8 @@ the carrier set, which is the property of \emph{freeness}.
 %
 The inverse operation to post-composing with $\eta_X$ extends a function to a homomorphism.
 %
+Note that the free algebra on the empty set~\(\str{F}(\emptyt)\) is inhabited by all the constant symbols in the signature.
+
 \begin{definition}[\alink{definition}{Universal extension}]
     \label{def:universal-extension}
     The universal extension of a function $f : X \to Y$ to a homomorphism out of the free $\sig$-algebra on $X$ is written
@@ -184,29 +186,27 @@ Free algebra constructions are canonically equivalent.
     % \vc{Mention SIP.}
 \end{proof}
 \begin{toappendix}
-    The free algebra construction automatically turns $F$ into an endofunctor on $\Set$,
-    where the action on functions is given by:
-    $X \xto{f} Y \mapsto F(X) \xto{\ext{(\eta_{Y} \comp f)}} F(Y)$.
-    %
-    Further, this gives a monad on $\Set$, with unit given by $\eta$,
-    and multiplication given by $\mu_{X} \defeq F(F(X)) \xto{\ext{\idfunc_{F(X)}}} F(X)$.
+    \begin{proposition}
+        The free algebra construction gives a monad on $\Set$.
+    \end{proposition}
+    \begin{proof}
+        $F$ is an endofunctor on $\Set$ where the action on functions is given by
+        $X \xto{f} Y \mapsto F(X) \xto{\ext{(\eta_{Y} \comp f)}} F(Y)$.
+        %
+        The monad unit is given by $\eta$,
+        and multiplication given by $\mu_{X} \defeq F(F(X)) \xto{\ext{\idfunc_{F(X)}}} F(X)$.
+    \end{proof}
 
-    The free algebra on the empty set~\(\str{F}(\emptyt)\) is inhabited by all the constant symbols in the signature.
-    %
-    We note a few important properties of free algebras on 0, 1, and coproducts.
     \begin{proposition}
         \label{prop:free-algebra-colimits}
         \leavevmode
+        The following properties of free algebras on 0, 1, and coproducts hold:
         \begin{itemize}
             \item $\sigAlg(\str{F}(\emptyt), \str{X})$ is contractible,
             \item if $\sig$ has one constant symbol, then $\str{F}(\emptyt)$ is contractible,
             \item the type of algebra structures on $\unitt$ is contractible,
             \item $\str{F}(X + Y)$ is the coproduct of $\str{F}(X)$ and $\str{F}(Y)$ in $\sigAlg$:
-                  \[
-                      \sigAlg(\str{F}(X + Y), \str{Z}) \eqv
-                      \sigAlg(\str{F}(X), \str{Z}) \times \sigAlg(\str{F}(Y), \str{Z})
-                      \enspace.
-                  \]
+                  $\sigAlg(\str{F}(X + Y), \str{Z}) \eqv \sigAlg(\str{F}(X), \str{Z}) \times \sigAlg(\str{F}(Y), \str{Z})$.
         \end{itemize}
     \end{proposition}
     \begin{proof}
