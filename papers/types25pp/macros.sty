@@ -100,8 +100,8 @@
 \newcommand{\Perm}{\term{Perm}}
 
 % apxproof
-\newtheoremrep{proposition}{Proposition}
-\newtheoremrep{lemma}{Lemma}
+\newtheoremrep{proposition}[theorem]{Proposition}
+\newtheoremrep{lemma}[theorem]{Lemma}
 
 % yoneda
 \DeclareFontFamily{U}{min}{}
@@ -135,8 +135,16 @@
 \newcommand{\otof}{\term{o2f}}
 
 %% artifact links
-\NewDocumentCommand{\alink}{mmO{\thetheorem}}{%
-  \href{https://symmetries.windtfw.com/types25pp.html\##1-#3}{%
-    \ifstrempty{#2}{\faCog}{\faCog~#2}%
+\makeatletter
+\NewDocumentCommand{\alink}{mmo}{%
+  \IfNoValueTF{#3}{%
+    \href{https://symmetries.windtfw.com/types25pp.html\##1-\@currentlabel}{%
+      \ifstrempty{#2}{\faCog}{\faCog~#2}%
+    }%
+  }{%
+    \href{https://symmetries.windtfw.com/types25pp.html\##1-#3}{%
+      \ifstrempty{#2}{\faCog}{\faCog~#2}%
+    }%
   }%
 }
+\makeatother
