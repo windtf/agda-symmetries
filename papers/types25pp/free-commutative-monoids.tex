@@ -47,7 +47,7 @@ This is precisely a \emph{permutation relation}.
 \begin{definition}[\alink{definition}{Permutation relation}]
     \label{def:permutation-relation}
     \leavevmode
-    A binary relation on a free monoid $(F(A), \mult)$ is a permutation relation iff it:
+    A binary relation on a free monoid $(F(A), e, \mult)$ is a permutation relation iff it:
     \begin{itemize}
         \item is reflexive, symmetric, transitive (an equivalence),
         \item is a congruence wrt $\mult$: $a \approx b \to c \approx d \to a \mult c \approx b \mult d$,
@@ -55,11 +55,14 @@ This is precisely a \emph{permutation relation}.
         \item respects $\ext{(\blank)}$: $\forall f, \, a \approx b \to \ext{f}(a) = \ext{f}(b)$.
     \end{itemize}
 \end{definition}
-
-Let $q : F(A) \twoheadrightarrow \quot{F(A)}{\approx}$ be the quotient map.
 %
-The generators map is given by $q \comp \eta_A$, the identity element is $q(e)$,
-and the $\mult$ operation is lifted to the quotient by congruence.
+Note that being a permutation relation is a proposition.
+We write $\quot{F(A)}{\approx}$ for the quotient of $F(A)$ by $\approx$,
+with the inclusion map $q: F(A) \twoheadrightarrow \quot{F(A)}{\approx}$.
+%
+The generators map into $\quot{F(A)}{\approx}$ is given by $q \comp \eta_A$,
+the identity element is $q(e)$,
+and the multiplication operation $\mult$ is lifted to the quotient by congruence.
 
 \begin{propositionrep}[\alink{proposition}{}]
     $(\quot{\str{F}(A)}{\approx}, \mult, q(e))$ is a commutative monoid.
@@ -72,25 +75,25 @@ and the $\mult$ operation is lifted to the quotient by congruence.
     Commutativity of $\concat$ follows from the commutativity requirement of $\approx$,
     therefore $(\quot{F(A)}{\approx}, \concat, q(i))$ forms a commutative monoid.
 \end{proof}
-\noindent
-As a consequence, there is at most one permutation relation on $F(A)$.
-
-For clarity, we will use $\exthat{(\blank)}$ to denote the extension operation of $F(A)$,
-and $\ext{(\blank)}$ for the extension operation of $\quot{F(A)}{\approx}$.
-
+%
+\begin{toappendix}
+    For clarity, we use $\exthat{(\blank)}$ to denote the extension operation of $F(A)$,
+    and $\ext{(\blank)}$ for the extension operation of $\quot{F(A)}{\approx}$.
+\end{toappendix}
+%
 \begin{definition}[\alink{definition}{}]
     Given a commutative monoid $\str{X}$ and a map $f : A \to X$,
-    we define
-    $\ext{f} : \quot{\str{F}(A)}{\approx} \; \to \str{X}$ as follows:
-    we first obtain $\exthat{f} : \str{F}(A) \to \str{X}$ by universal property of $F$, and lift it
-    to $\quot{\str{F}(A)}{\approx} \to \str{X}$, which is allowed since $\approx$ respects $\ext{(\blank)}$.
+    we define the extension operation as follows:
+    we first obtain $\exthat{f} : \str{F}(A) \to \str{X}$ by the universal property of $F$,
+    then lift it to $\ext{f} : \quot{\str{F}(A)}{\approx} \; \to \str{X}$,
+    by the properties of $\approx$ in~\cref{def:permutation-relation}.
 \end{definition}
 
 \begin{propositionrep}[\alink{proposition}{Universal property for $\quot{\str{F}(A)}{\approx}$}]
     \label{prop:qfreemon}
     \leavevmode
     $(\quot{\str{F}(A)}{\approx}, \eta_A : {A \xto{\eta_A} \str{F}(A) \xto{q} \quot{\str{F}(A)}{\approx}})$
-    is the free comm. monoid on $A$.
+    forms the free commutative monoid on $A$.
 \end{propositionrep}
 \begin{proof}
     To show that $\ext{(\blank)}$ is an inverse to $(\blank) \comp \eta_A$,
