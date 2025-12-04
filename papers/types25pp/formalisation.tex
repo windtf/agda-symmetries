@@ -1,0 +1,19 @@
+% !TEX root = types25pp-sort.tex
+
+\section{Formalisation}i
+\label{sec:formalisation}
+
+In this section, we discuss some aspects of the formalisation.
+The paper uses informal type theoretic language,
+and is accessible without understanding any details of the formalisation.
+However, the formalisation is done in Cubical Agda, which has a few differences and a few
+shortcomings due to proof engineering issues.
+
+For simplicity we omitted type levels in the paper,
+but our formalisation has many verbose uses of universe levels due to Agda's universe polymorphism.
+Similarly, h-levels were restricted to sets in the paper, but the formalisation is parameterized in many places for any
+h-level (to facilitate future generalizations).
+The free algebra framework currently only works with sets.
+Due to issues of regularity, certain computations only hold propositionally,
+and the formalisation requires proving auxiliary $\beta$ and $\eta$ computation rules in some places.
+We also note that the axioms of sorting in the formalisation are named differently from the paper.
