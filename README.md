@@ -1,4 +1,7 @@
-![agda build status](https://github.com/windtf/agda-symmetries/actions/workflows/ci-ubuntu.yml/badge.svg)
+[![website](https://img.shields.io/website?down_color=red&down_message=offline&label=website&up_color=green&up_message=online&url=https%3A%2F%2Fsymmetries.windtfw.com&logo=cloudflare&style=for-the-badge)](https://symmetries.windtfw.com/)
+[![build](https://img.shields.io/github/actions/workflow/status/windtf/agda-symmetries/ci-ubuntu.yml?logo=github&style=for-the-badge)](https://github.com/windtf/agda-symmetries/actions/workflows/ci-ubuntu.yml)
+[![dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen?logo=dependabot&style=for-the-badge)](https://github.com/windtf/agda-symmetries/security/dependabot)
+[![license](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://github.com/windtf/agda-symmetries/blob/main/LICENSE)
 
 This repository contains the source code, project time log, supervisor meeting minutes, status report,
 and dissertation of my individual project for the 4th year of my computing science BSc at the University of Glasgow.
@@ -37,4 +40,3 @@ With the exception of the `papers/` directory, all files in this project are
 licensed under the terms of the MIT License, see [LICENSE](LICENSE).
 
 All rights reserved for content under the `papers/` directory.
-i
