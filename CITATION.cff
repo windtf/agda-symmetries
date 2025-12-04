@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+title: agda-symmetries
+message: >-
+  Formalisation of free algebraic structures including free
+  monoids and free commutative monoids, and their
+  connections to sorting.
+type: software
+authors:
+  - given-names: Vikraman
+    family-names: Choudhury
+    email: vikraman.choudhury@strath.ac.uk
+    affiliation: University of Strathclyde
+    orcid: "https://orcid.org/0000-0003-2030-8056"
+  - given-names: Wind
+    family-names: Wong
+    orcid: "https://orcid.org/0009-0005-8306-7968"
+    affiliation: Vrije Universiteit Amsterdam
+    email: t.f.w.wong@vu.nl
+repository-code: "https://github.com/windtf/agda-symmetries"
+url: "https://symmetries.windtfw.com"
+keywords:
+  - agda
+  - cubical agda
+  - universal algebra
+  - free monoids
+  - free commutative monoids
+  - sorting
+license: MIT
