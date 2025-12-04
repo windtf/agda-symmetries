@@ -543,15 +543,15 @@ We can now state and prove our main theorem.
     which is an equivalence.
 \end{corollary}
 \begin{proof}
-    By~\cref{prop:dec-linear-total-order}, we have an equivalence
+    By~\cref{prop:decidable-total-order}, we have an equivalence
     $\term{DecLinOrd}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
     by equivalence transitivity.
 \end{proof}
-
+%
 The sorting axioms we have come up with are abstract properties of functions.
 %
 As a sanity check, we can verify that the colloquial correctness specification of a sorting function (starting from a
-total order) matches our axioms. We consider the correctness criterion developed in~\cite{alexandruIntrinsicallyCorrectSorting2023}.
+total order) matches our axioms. We use the correctness criterion developed in~\cite{alexandruIntrinsicallyCorrectSorting2023}.
 %
 \begin{proposition}[\alink{proposition}{}]
     \label{prop:sort-correctness}
