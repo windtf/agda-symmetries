@@ -126,7 +126,7 @@ In fact, a sorting function can be correctly axiomatized just from this point of
 %     identify what properties functions $f \in \Sort(A) \subset \setmtol(A)$ satisfy which separate
 %     them from other functions $g \in \setmtol(A)$. We identify two properties in~\cref{sec:sorting},
 %     giving us two axioms for sorting functions which do not assume a pre-existing total order. This distinguishes our approach
-%     from other formalizations of the correctness of sorting such as
+%     from other formalisations of the correctness of sorting such as
 %     \cite{appelVerifiedFunctionalAlgorithms2023}.
 %     \item Using the properties we have identified, we need to construct a full equivalence
 %     $\Sort(A) \simeq \Ord(A)$. Mapping orders to sorting functions is
@@ -146,7 +146,7 @@ In fact, a sorting function can be correctly axiomatized just from this point of
 % Homotopy Type Theory~\cite{univalentfoundationsprogramHomotopyTypeTheory2013},
 % without losing canonicity and computational content of the proofs. This means that proofs and functions
 % transported by univalence actually compute!
-% We give a table of our formalization in~\cref{sec:formalization}.
+% We give a table of our formalisation in~\cref{sec:formalisation}.
 
 % MOVE SOME OF THESE TO DISCUSSION AND OTHER SECTIONS
 
@@ -197,7 +197,7 @@ In fact, a sorting function can be correctly axiomatized just from this point of
 % \end{lstlisting}
 % $s1$ is a sort function only if $A$ is ordered by $a < c < b$.
 % In fact, this goes both ways!
-% If we write a correct sort function $s$, we will get a total order on $A$.
+% If we write a correct sort function $\ssection$, we will get a total order on $A$.
 % We gain our main insight: fixing a permutation on $\{a,b,c\}$ fixes an ordering on the elements which determines a correct sort function for lists of $A$.
 %
 % %% Now, suppose you have lists of elements of $A$, such as, $[(a,"foo"), (b, "bar"), (c, "baz")]$, and we want to sort this list using the first element of the tuple as the key -- in how many ways can we sort correctly?
@@ -207,8 +207,8 @@ In fact, a sorting function can be correctly axiomatized just from this point of
 % %% $\text{List} \, \mathbb{N} \to \text{List} \, \mathbb{N}$, which produces $[1,2,3,4]$
 % %% given the input $[2,3,1,4]$.
 % However, how do we formalize the correctness of this sort function?
-% The common formalization of a correct sort algorithm is to say a sort algorithm produces
-% an "orederd list", for example, one such formalization would be the definition
+% The common formalisation of a correct sort algorithm is to say a sort algorithm produces
+% an "orederd list", for example, one such formalisation would be the definition
 % from Verified Functional Algorithms \cite{appelVerifiedFunctionalAlgorithms2023}, translated into Agda.
 %
 % \begin{lstlisting}[language=Haskell]
@@ -218,7 +218,7 @@ In fact, a sorting function can be correctly axiomatized just from this point of
 %   sorted-cons : $\forall$ x y zs $\to$ x $\leq$ y $\to$ Sorted (y \cons zs) $\to$ Sorted (x \cons y \cons zs)
 % \end{lstlisting}
 %
-% This is a perfectly valid formalization of an ordered list! Empty lists and singleton lists
+% This is a perfectly valid formalisation of an ordered list! Empty lists and singleton lists
 % are ordered, and we can inductively construct an "orderness witness" by prepending a new element
 % to an ordered list, provided that the new element is less than the head of the old ordered list of
 % course.
@@ -260,7 +260,7 @@ In fact, a sorting function can be correctly axiomatized just from this point of
 \paragraph*{Outline and Contributions}
 % The paper is organized as follows:
 \begin{myitemize}
-  \item In~\cref{sec:universal-algebra}, we describe a formalization of universal algebra developed from the point of view
+  \item In~\cref{sec:universal-algebra}, we describe a formalisation of universal algebra developed from the point of view
         of functorial signatures, the definition and universal property of free algebras,
         and algebras satisfying an equational theory.
   \item In~\cref{sec:monoids}, we give constructions of free monoids, and proofs of their universal property.
@@ -271,14 +271,14 @@ In fact, a sorting function can be correctly axiomatized just from this point of
         The main result connects total orders, sorting, and symmetry,
         by proving an equivalence between decidable total orders on a carrier set $A$,
         and correct sorting functions on lists of $A$.
-  \item All the results of this paper are formalized in Cubical Agda, which is discussed in~\cref{sec:formalization}.
+  \item All the results of this paper are formalized in Cubical Agda, which is discussed in~\cref{sec:formalisation}.
         The accompanying code is available as supplementary material.
   \item Finally, \cref{sec:discussion} discusses related and future work.
 \end{myitemize}
 %
 The three main parts of the paper may be read independently.
 %
-Readers interested in the formalization of universal algebra may start from~\cref{sec:universal-algebra}.
+Readers interested in the formalisation of universal algebra may start from~\cref{sec:universal-algebra}.
 %
 Readers interested in the constructions of free monoids and free commutative monoids may skip ahead
 to~\cref{sec:monoids,sec:commutative-monoids}.
@@ -286,10 +286,10 @@ to~\cref{sec:monoids,sec:commutative-monoids}.
 If the reader already believes in the existence of free algebras for monoids and commutative monoids,
 they can directly skip to the application section on sorting, in~\cref{sec:application}.
 %
-Although the formalization is a contribution in itself, the purpose of the paper is not to directly discuss the
-formalization, but to present the results in un-formalized form (in type-theoretic foundations), so the ideas are
+Although the formalisation is a contribution in itself, the purpose of the paper is not to directly discuss the
+formalisation, but to present the results in un-formalized form (in type-theoretic foundations), so the ideas are
 accessible to a wider audience.
 %
-\ifarxiv{}{The extended version of this paper including additional formalization details and proofs is available on arXiv.}i
+\ifarxiv{}{The extended version of this paper including additional formalisation details and proofs is available on arXiv.}i
 %
-The formalization artifact is available at~\cite{choudhuryAgdasymmetries2025}.
+The formalisation artifact is available at~\cite{choudhuryAgdasymmetries2025}.

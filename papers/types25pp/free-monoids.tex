@@ -3,8 +3,8 @@
 \section{Constructions of Free Monoids}
 \label{sec:monoids}
 
-In this section, we consider various constructions of free monoids in type theory, with proofs of their universal
-property.
+In this section, we consider various constructions of free monoids in type theory,
+with proofs of their universal property.
 %
 Since each construction satisfies the same categorical universal property,
 by~\cref{lem:free-algebras-unique},
@@ -46,7 +46,7 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
             (x \cons \xs) \doubleplus \ys & = x \cons (\xs \doubleplus \ys)
         \end{align*}
     \end{definition}
-    The proof that $\doubleplus$ satisfies monoid laws is straightforward (see the formalization for details).
+    The proof that $\doubleplus$ satisfies monoid laws is straightforward (see the formalisation for details).
 
     \begin{definition}[Universal extension]
         For any monoid $\str{X}$, and given a map $f : A \to X$,
@@ -425,4 +425,4 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
 %
 An alternative proof of the universal property for $\Array$ can be given by directly constructing an equivalence (of
 types, and monoid structures) between $\Array(A)$ and $\List(A)$ (using $\term{tabulate}$ and $\term{lookup}$), and then
-applying univalence and transport (see formalization).
+applying univalence and transport (see formalisation).

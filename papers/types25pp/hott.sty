@@ -146,7 +146,7 @@
 \NewDocumentCommand{\dsum}{smm}{
   \IfBooleanTF{#1}
   {\sum_{{#2}}{#3}}
-  {{({#2})} \times {#3}}
+  {{({#2})}\mathrel{\times}{#3}}
 }
 \newcommand{\pair}[1]{\ps{#1}}
 \newcommand{\fst}{\pi_1}

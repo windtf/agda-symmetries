@@ -3,8 +3,7 @@
 \subsection{Total orders}
 \label{sec:total-orders}
 
-First, we recall the axioms of a total order $\leq$ on a set $A$. This is also known as a
-linear order.
+First, we recall the axioms of a total order or linear order $\leq$ on a set $A$.
 \begin{definition}[\alink{definition}{Total order}]
     \label{def:total-order}
     A total order on a set $A$ is a relation $\leq : A \to A \to \hProp$ that satisfies:
@@ -14,16 +13,17 @@ linear order.
         \item antisymmetry: if $x \leq y$ and $y \leq x$, then $x = y$,
         \item totality: $\forall x, y$, either $x \leq y$ or $y \leq x$.
     \end{itemize}
-    Note that \emph{either-or} means that this is a (truncated) logical disjunction.
-    In the context of this paper, we want to make a distinction between ``decidable total order''
-    and ``total order''. A \emph{decidable} total order requires the $\leq$ relation to be decidable:
+    A \emph{decidable} total order requires the $\leq$ relation to be decidable:
     \begin{itemize}
-        \item decidability: $\forall x, y$, we have $x \leq y + \neg(x \leq y)$.
+        \item decidable totality: $\forall x, y$, we have $x \leq y + \neg(x \leq y)$.
     \end{itemize}
 \end{definition}
-This strengthens the totality axiom,
+Note that \emph{either-or} means a (truncated) logical disjunction.
+In the context of this paper, we want to make a distinction between
+``decidable total order'' and ``total order''.
+The decidability axiom strengthens the totality axiom,
 where we have either $x \leq y$ or $y \leq x$ merely as a proposition,
-but decidability allows us to actually compute if $x \leq y$ is true.
+but decidability allows us to produce a witness if $x \leq y$ is true.
 \begin{proposition}[\alink{proposition}{}]
     \label{prop:decidable-total-order}
     In a decidable total order, it holds that ${\forall x, y}, \ps{x \leq y} + \ps{y \leq x}$.
@@ -35,8 +35,7 @@ but decidability allows us to actually compute if $x \leq y$ is true.
         \item
               if $x \leq y$ and $y \leq x$: by antisymmetry, $x = y$.
         \item
-              if $\neg(x \leq y)$ and $y \leq x$: assuming $x = y$, have $x \leq y$,
-              leading to contradiction by $\neg(x \leq y)$, hence $x \neq y$.
+              if $\neg(x \leq y)$ and $y \leq x$: assuming $x = y$ leads to a contradiction, hence $x \neq y$.
         \item
               if $x \leq y$ and $\neg(y \leq x)$: similar to the previous case.
         \item
@@ -44,11 +43,10 @@ but decidability allows us to actually compute if $x \leq y$ is true.
               $x \leq y$ or $y \leq x$, which leads to a contradiction.
     \end{itemize}
 \end{proof}
-We also recall the axioms of a strict total order $<$ on $A$. For clarity, we call this a
-a \emph{strict linear order} to distinguish it from the non-strict total order defined above.
-\begin{definition}[\alink{definition}{Strict linear order}]
-    \label{def:linear-order}
-    A strict linear order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
+We also recall the axioms of a strict total order $<$ on $A$.
+\begin{definition}[\alink{definition}{Strict total order}]
+    \label{def:strict-total-order}
+    A strict total order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
     \begin{itemize}
         \item irreflexivity: $\neg(x < x)$,
         \item transitivity: if $x < y$ and $y < z$, then $x < z$,
@@ -56,44 +54,42 @@ a \emph{strict linear order} to distinguish it from the non-strict total order d
         \item cotransitivity: $\forall x, y, z$, if $x < z$, then either $x < y$ or $y < z$.
         \item connectedness: $\forall x, y$, if $\neg(x < y)$ and $\neg(y < x)$, then $x = y$.
     \end{itemize}
-    A \emph{decidable} strict linear order requires the $<$ relation to be decidable:
+    A \emph{decidable} strict total order requires the $<$ relation to be decidable:
     \begin{itemize}
         \item decidability: $\forall x, y$, we have $x < y + \neg(x < y)$.
     \end{itemize}
 \end{definition}
 
 \begin{proposition}[\alink{proposition}{}]
-    \label{prop:decidable-linear-order}
-    In a decidable strict linear order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
+    \label{prop:decidable-strict-total-order}
+    In a decidable strict total order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
 \end{proposition}
 \begin{proof}
     We decide if $x < y$ and $y < x$, and by cases:
     \begin{itemize}
-        \item
-              if $\neg(x < y)$ and $\neg(y < x)$: by connectedness, $x = y$.
-        \item
-              if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
+        \item if $\neg(x < y)$ and $\neg(y < x)$: by connectedness, $x = y$.
+        \item if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
     \end{itemize}
 \end{proof}
 
 \begin{proposition}[\alink{proposition}{}]
-    \label{prop:dec-linear-total-order}
-    The set of decidable strict linear orders on $A$ and the set of decidable total orders on $A$ are equivalent.
+    \label{prop:decidable-strict-total-order}
+    The set of decidable strict total orders on $A$ and the set of decidable total orders on $A$ are equivalent.
 \end{proposition}
 \begin{proofsketch}
     Given a decidable total order $\leq$ on $A$, by~\cref{prop:decidable-total-order},
-    we can map to a decidable strict linear order $<$ on $A$ by
-    $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-linear-order}
-    given a decidable strict linear order $<$ on $A$,
-    we can map to a decidable total order $\leq$ on $A$ by
-    $x \leq y \defeq (x < y) + (x = y)$. We can then show that these maps are inverses
-    of each other.
+    we map it to a decidable strict total order $<$ on $A$ by
+    $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-strict-total-order}
+    given a decidable strict total order $<$ on $A$,
+    we map it to a decidable total order $\leq$ on $A$ by
+    $x \leq y \defeq (x < y) + (x = y)$.
+    These maps are inverses of each other.
 \end{proofsketch}
 
 %
 \noindent
-An equivalent way to define a total order is using a binary meet operation (without starting from an ordering relation).
+An equivalent way of defining a total order is using a binary meet operation, without starting from an ordering relation.
 \begin{definition}[\alink{definition}{Meet semi-lattice}]
     \label{def:meet-semi-lattice}
     A meet semi-lattice is a set $A$ with a binary operation $\blank\meet\blank : A \to A \to A$ that is:
@@ -102,20 +98,21 @@ An equivalent way to define a total order is using a binary meet operation (with
         \item associative: $(x \meet y) \meet z \id x \meet (y \meet z)$,
         \item commutative: $x \meet y \id y \meet x$.
     \end{itemize}
-    A \emph{strongly-connected} meet semi-lattice further satisfies: \ww{Are the names right?}
+    A \emph{strongly-connected} meet semi-lattice further satisfies:
     \begin{itemize}
         \item strong-connectedness: $\forall x, y$, either $x \meet y \id x$ or $x \meet y \id y$.
     \end{itemize}
-    A \emph{total} meet semi-lattice strengthens this to:
+    A \emph{decidable} strongly-connected meet semi-lattice strengthens this to:
     \begin{itemize}
-        \item totality: ${\forall x, y}, \ps{x \meet y \id x} + \ps{x \meet y \id y}$.
+        \item decidable strong-connectedness: ${\forall x, y}, \ps{x \meet y \id x} + \ps{x \meet y \id y}$.
     \end{itemize}
 \end{definition}
 
 \begin{proposition}[\alink{proposition}{}]
     \label{prop:total-order-meet-semi-lattice}
     A total order $\leq$ on a set $A$ is equivalent to a strongly-connected meet semi-lattice structure on $A$.
-    Further, a decidable total order on $A$ induces a total meet semi-lattice structure on $A$.
+    Further, a decidable total order on $A$ induces a decidable strongly-connected meet semi-lattice structure on $A$.
+    \vc{equivalence?}
 \end{proposition}
 \begin{proofsketch}
     Given a (mere) total order $\leq$ on a set $A$,
@@ -132,7 +129,7 @@ An equivalent way to define a total order is using a binary meet operation (with
     %
     If the total order is decidable, we use the discreteness of $A$ from~\cref{prop:decidable-total-order}.
 \end{proofsketch}
-
+%
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
 \begin{definition}[\alink{definition}{$\term{head}$}]
     \label{def:head-free-commutative-monoid}
@@ -154,52 +151,55 @@ Finally, tying this back to~\cref{def:head-free-monoid}, we have the following f
 \label{sec:sorting}
 
 The free commutative monoid is also a monoid, hence, there is a canonical monoid homomorphism
-$q : \LL(A) \to \MM(A)$, which is given by $\ext{\eta_A}$.
+$q : \LL(A) \to \MM(A)$, which is given by $\ext{\eta_A}$, the extension of the unit $\eta_A : A \to \MM(A)$.
 %
 Since $\MM(A)$ is (upto equivalence), a quotient of $\LL(A)$ by symmetries (or a permutation relation),
 it is a surjection (in particular, a regular epimorphism in $\Set$ as constructed in type theory).
 %
-Concretely, $q$ simply includes the elements of $\LL(A)$ into equivalence classes of lists in $\MM(A)$,
+Concretely, $\quotient$ simply includes the elements of $\LL(A)$ into equivalence classes of lists in $\MM(A)$,
 which ``forgets'' the order that was imposed by the indexing of the list.
 
-Classically, assuming the Axiom of Choice would allow us to construct a section (right-inverse) to the surjection $q$,
+Classically, assuming the Axiom of Choice would allow us to construct a section (right-inverse, in $\Set$) to the surjection $\quotient$,
 that is,
 a function $s : \MM(A) \to \LL(A)$ such that $\forall x.\, q(s(x)) \id x$.
 %
 Or in informal terms, given the surjective inclusion into the quotient,
 a section (uniformly) picks out a canonical representative for each equivalence class.
 %
-The core question we want to study is the existence of $s$ in a constructive
+The core question we want to study is the existence of $\ssection$ in a constructive
 setting, or equivalently, whether the order factored out by the symmetry quotient
 can be constructively recovered.
-\begin{figure}[H]
+\begin{figure}
     \centering
     \scalebox{1.0}{
         % https://q.uiver.app/#q=WzAsMixbMCwwLCJcXExMKEEpIl0sWzMsMCwiXFxNTShBKSJdLFsxLDAsInMiLDAseyJjdXJ2ZSI6LTF9XSxbMCwxLCJxIiwwLHsiY3VydmUiOi0xfV1d
         \begin{tikzcd}[ampersand replacement=\&,cramped]
             {\LL(A)} \&\&\& {\MM(A)}
-            \arrow["s", curve={height=-10pt}, from=1-4, to=1-1]
-            \arrow["q", two heads, from=1-1, to=1-4]
+            \arrow["\ssection", curve={height=-10pt}, from=1-4, to=1-1]
+            \arrow["\quotient", two heads, from=1-1, to=1-4]
         \end{tikzcd}
     }
     \caption{Relationship of $\LL(A)$ and $\MM(A)$}
     \label{fig:enter-label}
 \end{figure}
-
-Viewing the quotienting relation as a permutation relation (from~\cref{sec:cmon:qfreemon}), a section $s$ to $q$ has to pick out
+%
+Viewing the quotienting relation as a permutation relation (from~\cref{sec:cmon:qfreemon}), a section $\ssection$ to $\quotient$ has to pick out
 canonical representatives of equivalence classes generated by permutations.
 %
-Using $\SList$ as an example, $s(x \cons y \cons \xs) \id s(y \cons x \cons \xs)$ for any $x, y : A$ and $\xs : \SList(A)$,
-and since it must also respect $\forall \xs.\,q(s(\xs)) \id \xs$, $s$ must preserve all the elements of $\xs$.
-It cannot be a trivial function such as $\lambda\,\xs. []$ -- it must produce a permutation of the elements of $s$.
+Using $\SList$ as an example,
+$s(x \cons y \cons \xs) \id s(y \cons x \cons \xs)$ for any $x, y : A$ and $\xs : \SList(A)$,
+by $\term{swap}$.
 %
-But to place these elements side-by-side in the list, $s$ must somehow impose an order on $A$
+Since $\forall \xs.\,q(s(\xs)) \id \xs$, $\ssection$ must preserve all the elements of $\xs$.
+It cannot be a trivial function such as $\lambda\,\xs. []$ -- it must produce a permutation of the elements of $\ssection$.
+%
+But to place these elements side-by-side in the list, $\ssection$ must somehow impose an order on $A$
 (invariant under permutation), turning unordered lists of $A$ into ordered lists of $A$.
 %
-Axiom of Choice (AC) giving us a section $s$ to $q$ ``for free'' is analagous to how
+Axiom of Choice (AC) giving us a section $\ssection$ to $\quotient$ ``for free'' is analagous to how
 AC implies the well-ordering principle, which states every set can be well-ordered.
 %
-Thus, if AC was assumed, we could easily recover an order on $A$ from the section $s$.
+Thus, if AC was assumed, we could easily recover an order on $A$ from the section $\ssection$.
 %
 Instead we study how to constructively define such a section, and in fact,
 that is exactly the extensional view of a sorting algorithm,
@@ -209,22 +209,22 @@ and the implications of its existence is that $A$ can be ordered, or sorted.
 \label{sec:sort-section-from-order}
 
 \begin{proposition}[\alink{proposition}{}]
-    Assume a decidable total order on $A$. There is a sort function $s: \MM(A) \to \LL(A)$
-    which constructs a section to $q : \LL(A) \twoheadrightarrow \MM(A)$
+    Assume a decidable total order on $A$. There is a sort function $\ssection: \MM(A) \to \LL(A)$
+    which constructs a section to $\quotient : \LL(A) \twoheadrightarrow \MM(A)$
 \end{proposition}
 
 \begin{proofsketch}
-    We can construct such a sort function by implementing any sorting algorithm.
-    In our formalization we chose insertion sort,
+    We may construct such a sort function by implementing any sorting algorithm.
+    In our formaliziation we chose insertion sort,
     because it can be defined easily using the inductive structure of $\SList(A)$ and $\List(A)$.
     To implement other sorting algorithms like mergesort,
-    other representations such as $\Bag$ and $\Array$ would be preferable, as explained in~\cref{bag:rep}.
-    To see how this proposition holds: $q(s(\xs))$ orders an unordered list $\xs$ by $s$,
-    and discards the order again by $q$ --
+    other representations such as $\Bag$ and $\Array$ would be preferable,
+    as explained in~\cref{sec:cmon:bag}.
+    To see how this proposition holds: $q(s(\xs))$ first orders an unordered list $\xs$ by $\ssection$,
+    then discards the order again by $\quotient$ --
     imposing and then forgetting an order on $\xs$ simply \emph{permutes} its elements,
-    which proves $q \comp s = \idfunc$.
+    which proves $\quotient \comp \ssection = \idfunc$.
 \end{proofsketch}
-\noindent
 
 \subsubsection{Order from Section}
 \label{sec:sort-order-from-section}
@@ -233,25 +233,22 @@ The previous section allowed us to construct a section, but an arbitrary section
 %
 To show a section is indeed a sort function, we need to show the section imposes some total order on $A$ which it sorts by.
 %
-Indeed, just by the virtue of $s$ being a section,
+Indeed, just by the virtue of $\ssection$ being a section,
 we can \emph{almost} construct a total-order on the carrier set.
 
 \begin{definition}[\alink{definition}{$\term{least}$}]
     \label{def:least}
-    Given a section $s$, we define:
+    Given a section $\ssection$, we define:
     \[
-        \begin{aligned}
-            \term{least}(\xs) & \defeq \term{head}(s(\xs))                          \\
-            x \leqs y         & \defeq \term{least}(\bag{x, y}) = \inr(x) \enspace.
-        \end{aligned}
+        x \leqs y \defeq \term{head}(s(\bag{x, y})) = \inr(x) \enspace.
     \]
 \end{definition}
 %
 That is, we take the two-element bag $\bag{x, y}$,
-``sort'' it by $s$, and test if the $\term{head}$ element is $x$.
+``sort'' it by $\ssection$, and test if the $\term{head}$ element is $x$.
 %
 Note, this is equivalent to $x \leqs y \defeq s\bag{x, y} = [x,y]$,
-because $s$ preserves length, and the second element is forced to be $y$.
+because $\ssection$ preserves length, and the second element is forced to be $y$.
 %
 % \begin{proposition}
 %     $\leqs$ is decidable iff $A$ has decidable equality.
@@ -270,40 +267,43 @@ because $s$ preserves length, and the second element is forced to be $y$.
     For all $x$ and $y$, $\term{least}(\bag{x, y})$ is merely either $\inr(x)$ or $\inr(y)$,
     therefore we have merely either $x \leqs y$ or $y \leqs x$, giving totality.
 \end{proof}
-
-Although $s$ correctly orders 2-element bags, it doesn't necessarily sort 3 or more elements.
+%
+A crucial observation is that $\ssection$ correctly orders 2-element bags,
+but it does not necessarily sort bags with 3 or more elements.
 \begin{proposition}
     \label{prop:counterexample-transitivity}
     $\leqs$ is not necessarily transitive.
 \end{proposition}
 \begin{proof}
-    We give a counter-example of $s$ that would violate transitivity.
-    Consider this section $s : \SList(\Nat) \to \List(\Nat)$, we can define a sort function
-    $\term{sort} : \SList(\Nat) \to \List(\Nat)$ which sorts $\SList(\Nat)$ ascendingly. We can use $\term{sort}$
-    to construct $s$.
+    We give a counterexample of an $\ssection$ that violates transitivity.
+    Consider the section $s : \SList(\Nat) \to \List(\Nat)$ defined as follows.
+    First, we define a sort function
+    $\term{sort} : \SList(\Nat) \to \List(\Nat)$ which sorts $\SList(\Nat)$ ascendingly.
+    Then we use $\term{sort}$ to construct $\ssection$.
     \begin{align*}
-        s(\xs)       & = \begin{cases}
-                             \term{sort}(\xs)                 & \text{if $\term{length}(\xs)$ is odd} \\
-                             \term{reverse}(\term{sort}(\xs)) & \text{otherwise}
-                         \end{cases} \\
-        s([2,3,1,4]) & = [4,3,2,1]                                                                      \\
-        s([2,3,1])   & = [1,2,3]
+        \ssection(\xs) & = \begin{cases}
+                       \term{sort}(\xs)                 & \text{if $\term{length}(\xs)$ is odd} \\
+                       \term{reverse}(\term{sort}(\xs)) & \text{otherwise}
+                   \end{cases}
     \end{align*}
+    %
+    Now we have $\ssection([2,3,1]) = [1,2,3]$ but $\ssection([2,3,1,4]) = [4,3,2,1]$.
 \end{proof}
-
-Thus, we will enforce this by imposing additional constraints on the \emph{image} of $s$.
-\begin{definition}[\alink{definition}{$\blank\in\im{s}$}]
+%
+We will enforce additional constraints on the \emph{image} of $\ssection$, to turn it into a correct sort function.
+\begin{definition}[\alink{definition}{$\blank\in\im{\ssection}$}]
     \label{def:in-image}
-    The fiber of $s$ over~$\xs : \LL(A)$ is given by $\fib_{s}(\xs) \defeq \dsum{ys : \MM(A)}{s(ys) = \xs}$.
+    The fiber of $\ssection$ at a point in the codomain~$\xs : \LL(A)$
+    is given by $\fib_{\ssection}(\xs) \defeq \dsum{ys : \MM(A)}{(\ssection(ys) = \xs)}$.
     %
-    The image of $s$ is given by $\im{s} \defeq \dsum{\xs : \LL(A)}{\Trunc[-1]{\fib_{s}(\xs)}}$.
+    The image of $\ssection$ is given by $\im{\ssection} \defeq \dsum{\xs : \LL(A)}{\Trunc[-1]{\fib_{\ssection}(\xs)}}$.
     %
-    Simplifying, we say that $\xs:\LL(A)$ is ``in the image of $s$'', or, $\xs \in \im{s}$,
-    if there merely exists a $\ys:\MM(A)$ such that $s(\ys) = \xs$.
+    Simplifying, we say that $\xs:\LL(A)$ is ``in the image of $\ssection$'', or, $\xs \in \im{\ssection}$,
+    if there merely exists a $\ys:\MM(A)$ such that $\ssection(\ys) = \xs$.
 \end{definition}
-
-If $s$ \emph{were} a sort function, the image of $s$ would be the set of $s$-``sorted'' lists,
-therefore $\inimage{\xs}$ would imply $\xs$ is a correctly $s$-``sorted'' list.
+%
+If $\ssection$ \emph{were} a sort function, the image of $\ssection$ would be the set of $\ssection$-``sorted'' lists,
+therefore $\inimage{\xs}$ would imply $\xs$ is a correctly $\ssection$-``sorted'' list.
 %
 First, we note that the 2-element case is correct.
 %
@@ -312,10 +312,10 @@ First, we note that the 2-element case is correct.
     $x \leqs y$ \; iff \; $\inimage{[x, y]}$.
 \end{proposition}
 %
-\noindent Then, we state the first axiom on $s$.
+\noindent Then, we state the first axiom on $\ssection$.
 \begin{definition}[\alink{definition}{$\isheadleast$}]
     \label{sort:head-least}
-    A section $s$ satisfies $\isheadleast$ iff for all $x, y, \xs$:
+    A section $\ssection$ satisfies $\isheadleast$ iff for all $x, y, \xs$:
     \[
         y \in x \cons \xs \; \land \; \inimage{x \cons \xs} \; \to \; \inimage{[x, y]}
         \enspace.
@@ -325,7 +325,7 @@ First, we note that the 2-element case is correct.
 We use the definition of list membership from~\cref{def:membership}.
 The $\in$ symbol is intentionally overloaded
 to make the axiom look like a logical ``cut'' rule.
-Informally, it says that the head of an $s$-``sorted'' list
+Informally, it says that the head of an $\ssection$-``sorted'' list
 is the least element of the list.
 
 \begin{proposition}[\alink{proposition}{}]
@@ -336,7 +336,7 @@ is the least element of the list.
 
 \begin{proposition}[\alink{proposition}{}]
     \label{sort:trans}
-    If $s$ satisfies $\isheadleast$, $\leqs$ is transitive.
+    If $\ssection$ satisfies $\isheadleast$, $\leqs$ is transitive.
 \end{proposition}
 \begin{proof}
     Given $x \leqs y$ and $y \leqs z$, we want to show $x \leqs z$.
@@ -361,7 +361,7 @@ is the least element of the list.
 
 Following from \cref{sort:almost-total,sort:trans},
 and \cref{prop:order-to-sort-head-least},
-we have shown that a section $s$ that satisfies $\isheadleast$ produces a total order
+we have shown that a section $\ssection$ that satisfies $\isheadleast$ produces a total order
 $x \leqs y \defeq \term{least}(\bag{x, y}) \id \inr(x)$,
 and a total order $\leq$ on the carrier set produces a section satisfying $\isheadleast$,
 constructed by sorting with $\leq$.
@@ -370,8 +370,8 @@ This constitutes an embedding of decidable total orders into sections satisfying
 
 \begin{proposition}[\alink{proposition}{}]
     \label{sort:o2s2o}
-    Assume $A$ has a decidable total order $\leq$, we can construct a section $s$ that
-    satisfies $\isheadleast$, such that $\leqs$ constructed from $s$ is equivalent
+    Assume $A$ has a decidable total order $\leq$, we can construct a section $\ssection$ that
+    satisfies $\isheadleast$, such that $\leqs$ constructed from $\ssection$ is equivalent
     to $\leq$.
 \end{proposition}
 \begin{proof}
@@ -394,7 +394,7 @@ Unfortunately, $\isheadleast$ is not enough to guarantee this.
     and total orders on $A$.
 \end{proposition}
 \begin{proof}
-    We give a counter-example of $s$ that satisfy $\isheadleast$ but is not a sort function.
+    We give a counter-example of $\ssection$ that satisfy $\isheadleast$ but is not a sort function.
     Consider the insertion sort function $\term{sort} : \MM(\Nat) \to \LL(\Nat)$
     parameterized by $\leq$:
     \begin{align*}
@@ -406,8 +406,8 @@ Unfortunately, $\isheadleast$ is not enough to guarantee this.
         s(\bag{2,3})                    & = [2, 3]                               \\
     \end{align*}
     By~\cref{sort:o2s2o} we can use $\term{sort}$ to construct $\leqs$ which would be
-    equivalent to $\leq$. However, the $\leqs$ constructed by $s$ would also be equivalent
-    to $\leq$. This is because $s$ sorts 2-element list correctly, despite $s \neq \term{sort}$.
+    equivalent to $\leq$. However, the $\leqs$ constructed by $\ssection$ would also be equivalent
+    to $\leq$. This is because $\ssection$ sorts 2-element list correctly, despite $s \neq \term{sort}$.
     Since two different sections satisfying $\isheadleast$ maps to the same total order,
     there cannot be a full equivalence.
 \end{proof}
@@ -416,20 +416,20 @@ Therefore, we need to introduce a second axiom of sorting.
 
 \begin{definition}[\alink{definition}{$\istailsort$}]
     \label{def:tail-sort}
-    A section $s$ satisfies $\istailsort$ iff
+    A section $\ssection$ satisfies $\istailsort$ iff
     for all $x, \xs$,
     \[
         \inimage{x \cons \xs} \to \inimage{\xs}
     \]
 \end{definition}
 
-This says that $s$-``sorted'' lists are downwards-closed under cons-ing, that is,
-the tail of an $s$-``sorted'' list is also $s$-``sorted''.
+This says that $\ssection$-``sorted'' lists are downwards-closed under cons-ing, that is,
+the tail of an $\ssection$-``sorted'' list is also $\ssection$-``sorted''.
 %
 To prove the correctness of our axioms,
-first we need to show that a section $s$ satisfying
+first we need to show that a section $\ssection$ satisfying
 $\isheadleast$ and $\istailsort$ is equal to insertion sort parameterized by
-the $\leqs$ constructed from $s$.
+the $\leqs$ constructed from $\ssection$.
 %
 In fact, the axioms we have introduced are equivalent to the standard inductive characterization of sorted lists,
 found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
@@ -455,16 +455,16 @@ by function extensionality.
 \begin{proposition}[\alink{proposition}{}]
     \label{sort:sort-uniq}
     Given a total order $\leq$,
-    if a section $s$ always produces sorted list, i.e. $\forall \xs.\,\term{IsSorted}_{\leq}(s(\xs))$,
-    $s$ is equal to insertion sort by $\leq$.
+    if a section $\ssection$ always produces sorted list, i.e. $\forall \xs.\,\term{IsSorted}_{\leq}(s(\xs))$,
+    $\ssection$ is equal to insertion sort by $\leq$.
 \end{proposition}
 \noindent
 Finally, this gives us correctness of our axioms.
 
 \begin{proposition}[\alink{proposition}{}]
     \label{sort:well-behave-sorts}
-    Given a section $s$ that satisfies $\isheadleast$ and $\istailsort$,
-    and $\leqs$ the order derived from $s$, then for all $\xs : \MM(A)$,
+    Given a section $\ssection$ that satisfies $\isheadleast$ and $\istailsort$,
+    and $\leqs$ the order derived from $\ssection$, then for all $\xs : \MM(A)$,
     it holds that $\term{IsSorted}_{\leqs}(s(\xs))$.
     %
     Equivalently, for all lists $\xs : \LL(A)$,
@@ -487,14 +487,14 @@ Finally, this gives us correctness of our axioms.
     \label{sort:s2o2s}
     Given a decidable total order $\leq$ on $A$, we can construct
     a section $t_\leq$ satisfying $\isheadleast$ and $\istailsort$,
-    such that, for the order $\leqs$ derived from $s$,
-    we have $t_{\leqs} = s$.
+    such that, for the order $\leqs$ derived from $\ssection$,
+    we have $t_{\leqs} = \ssection$.
 \end{lemma}
 \begin{proof}
-    From $s$ we can construct a decidable total order $\leqs$ since $s$ satisfies
+    From $\ssection$ we can construct a decidable total order $\leqs$ since $\ssection$ satisfies
     $\isheadleast$ and $A$ has decidable equality by assumption.
     We construct $t_{\leqs}$ as insertion sort
-    parameterized by $\leqs$ constructed from $s$.
+    parameterized by $\leqs$ constructed from $\ssection$.
     By ~\cref{sort:sort-uniq} and ~\cref{sort:well-behave-sorts}, $s = t_{\leqs}$.
 \end{proof}
 
@@ -502,8 +502,8 @@ Finally, this gives us correctness of our axioms.
 We can now state and prove our main theorem.
 \begin{definition}[\alink{definition}{Sorting function}]
     \leavevmode
-    A sorting function is a section $s : \MM(A) \to \LL(A)$ to
-    the canonical surjection $q : \LL(A) \twoheadrightarrow \MM(A)$ satisfying two axioms:
+    A sorting function is a section $\ssection : \MM(A) \to \LL(A)$ to
+    the canonical surjection $\quotient : \LL(A) \twoheadrightarrow \MM(A)$ satisfying two axioms:
     \begin{itemize}[leftmargin=*]
         \item $\isheadleast$:
               \(\,
@@ -572,7 +572,7 @@ total order) matches our axioms. We consider the correctness criterion developed
     Sorting functions give sorting algorithms.
 \end{proposition}
 \begin{proof}
-    We construct our section $s:\MM(A) \to \LL(A)$,
-    and define $\term{sort} \defeq s \comp q$,
+    We construct our section $\ssection:\MM(A) \to \LL(A)$,
+    and define $\term{sort} \defeq \ssection \comp \quotient$,
     which produces ordered lists by~\cref{sort:well-behave-sorts}.
 \end{proof}
