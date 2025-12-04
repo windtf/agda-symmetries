@@ -5,8 +5,24 @@
 
 We conclude by discussing some high-level observations, related work, and future directions.
 
-\subsubsection*{Free commutative monoids}
+\myparagraph{Formalisation}
+%
+The paper uses informal type theoretic language,
+and is accessible without understanding any details of the formalisation.
+However, the formalisation is done in Cubical Agda, which has a few differences and
+shortcomings, that cause certain details to be more verbose than they are in informal type theory.
 
+For simplicity we omitted type levels in the paper,
+but our formalisation has many verbose uses of universe levels due to Agda's universe polymorphism.
+Similarly, h-levels were restricted to sets in the paper, but the formalisation is parameterized in many places for any
+h-level (to facilitate future generalizations).
+The free algebra framework currently only works with sets.
+Due to issues of regularity, certain computations only hold propositionally,
+and the formalisation requires proving auxiliary $\beta$ and $\eta$ computation rules in some places.
+We also note that the axioms of sorting in the formalisation are named differently from the paper.
+
+\myparagraph{Free commutative monoids}
+%
 The construction of finite multisets and free commutative monoids has a long history, and various authors have different
 approaches to it. We refer the reader to the discussions
 in~\cite{choudhuryFreeCommutativeMonoids2023,joramConstructiveFinalSemantics2023} for a detailed survey of these
@@ -16,24 +32,24 @@ Our work, in particular, was motivated by the colloquial observation that:
 ``there is no way to represent free commutative monoids using inductive types''.
 %
 From the categorical point of view, this is simply the fact that the free commutative monoid endofunctor on $\Set$ is
-not polynomial (doesn't preserve pullbacks).
+not polynomial.
 %
-This has led various authors to think about clever encodings of free commutative monoids using inductive types by adding
+Various authors have given clever encodings of free commutative monoids using inductive types by adding
 assumptions on the carrier set -- in particular, the assumption of total ordering on the carrier set leads to the
 construction of ``fresh-lists'', by~\cite{kupkeFreshLookCommutativity2023}, which forces the canonical \emph{sorted}
 ordering on the elements of the finite multiset.
 
 It is worth noting that in programming practice,
 it is usually the case that all user-defined types have some sort of total order enforced on them,
-either because they're finite, or they can be enumerated in some way.
+either because they're finite, or they can be canonically enumerated.
 %
-Therefore, under these assumptions, the construction of fresh lists is a very reasonable way to represent free
+Under these assumptions, the construction of fresh lists is a very reasonable way to represent free
 commutative monoids, or finite multisets.
 
-\subsubsection*{Correctness of Sorting}
-
-Sorting is a classic problem in computer science, and the functional programming view of sorting and its correctness has
-been studied by various authors.
+\myparagraph{Correctness of Sorting}
+%
+Sorting is a classic problem in computer science --
+the programming point of view of sorting and its correctness has been studied by various authors.
 %
 The simplest view of sorting is a function $\term{sort}: \LL(\Nat) \to \LL(\Nat)$,
 which permutes the list and outputs an ordered list, which is studied in~\cite{appelVerifiedFunctionalAlgorithms2023}.
@@ -43,7 +59,8 @@ and further, a very special case of a more general sorting algorithm.
 
 %% TODO: fix citation commands
 %% \citeauthor*{hengleinWhatSortingFunction2009} in~\citetitle{hengleinWhatSortingFunction2009}
-\cite{hengleinWhatSortingFunction2009}, studies sorting functions abstractly,
+\citeauthor{hengleinSortingSearchingDistribution2013}~\cite{hengleinWhatSortingFunction2009},
+studies sorting functions abstractly,
 without requiring a total order on the underlying set.
 %
 He considers sorting functions as functions on sequences (lists),

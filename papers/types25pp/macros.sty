@@ -56,10 +56,11 @@
 \crefnames{paragraph}{\P}{\P\P}
 
 % paragraphs
-% \newcommand{\myparagraph}[1]{\noindent\textbf{#1.}}
-% \makeatletter
-% \renewcommand{\@subsubsecfont}{\sffamily\bfseries}
-% \makeatother
+\newcommand{\myparagraph}[1]{
+  \medskip%
+  \noindent\sffamily\large\bfseries{#1.}%
+  \normalfont\normalsize\mdseries%
+}
 
 % frenchquotes
 \newcommand{\frenchquote}[1]{\guillemotleft{}#1\guillemotright{}}
