@@ -134,10 +134,10 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
     ≤*dec : ∀ x y -> Dec (x ≤* y)
     ≤*dec = dec≤ s sIsSection discA
 
-    Sorted* : List A -> Type _
-    Sorted* = Sorted _≤*_ ≤*isToset ≤*dec
+    IsSorted* : List A -> Type _
+    IsSorted* = IsSorted _≤*_ ≤*isToset ≤*dec
 
-    sIsSort'' : ∀ xs n -> n ≡ L.length (s xs) -> Sorted* (s xs)
+    sIsSort'' : ∀ xs n -> n ≡ L.length (s xs) -> IsSorted* (s xs)
     sIsSort'' xs n p with n | s xs | inspect s xs
     ... | zero  | []     | _ = sorted-nil
     ... | zero  | y ∷ ys | _ = ⊥.rec (znots p)
@@ -154,13 +154,13 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
       z∷zsSorted : s (list→slist (z ∷ zs)) ≡ z ∷ zs
       z∷zsSorted = sortUnique s sIsSection (z ∷ zs) (sIsSort .snd y (z ∷ zs) ∣ _ , q ∣₁)
 
-      induction : Sorted* (s (list→slist (z ∷ zs))) -> Sorted* (y ∷ z ∷ zs)
+      induction : IsSorted* (s (list→slist (z ∷ zs))) -> IsSorted* (y ∷ z ∷ zs)
       induction IH =
         sorted-cons y z zs
           (isSorted→≤ s sIsSection y z (sIsSort .fst y z _ ∣ _ , q ∣₁ (L.inr (L.inl refl))))
-          (subst Sorted* z∷zsSorted IH)
+          (subst IsSorted* z∷zsSorted IH)
 
-    sIsSort' : ∀ xs -> Sorted* (s xs)
+    sIsSort' : ∀ xs -> IsSorted* (s xs)
     sIsSort' xs = sIsSort'' xs (L.length (s xs)) refl -- helps with termination checking
 
   -- without tail sort, we get an embedding
