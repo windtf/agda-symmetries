@@ -240,10 +240,7 @@ we can \emph{almost} construct a total-order on the carrier set.
     \label{def:least}
     Given a section $s$, we define:
     \[
-        \begin{aligned}
-            \term{least}(\xs) & \defeq \term{head}(s(\xs))                          \\
-            x \leqs y         & \defeq \term{least}(\bag{x, y}) = \inr(x) \enspace.
-        \end{aligned}
+        x \leqs y \defeq \term{head}(s(\bag{x, y})) = \inr(x) \enspace.
     \]
 \end{definition}
 %
@@ -270,38 +267,41 @@ because $s$ preserves length, and the second element is forced to be $y$.
     For all $x$ and $y$, $\term{least}(\bag{x, y})$ is merely either $\inr(x)$ or $\inr(y)$,
     therefore we have merely either $x \leqs y$ or $y \leqs x$, giving totality.
 \end{proof}
-
-Although $s$ correctly orders 2-element bags, it doesn't necessarily sort 3 or more elements.
+%
+A crucial observation is that $s$ correctly orders 2-element bags,
+but it does not necessarily sort bags with 3 or more elements.
 \begin{proposition}
     \label{prop:counterexample-transitivity}
     $\leqs$ is not necessarily transitive.
 \end{proposition}
 \begin{proof}
-    We give a counter-example of $s$ that would violate transitivity.
-    Consider this section $s : \SList(\Nat) \to \List(\Nat)$, we can define a sort function
-    $\term{sort} : \SList(\Nat) \to \List(\Nat)$ which sorts $\SList(\Nat)$ ascendingly. We can use $\term{sort}$
-    to construct $s$.
+    We give a counterexample of an $s$ that violates transitivity.
+    Consider the section $s : \SList(\Nat) \to \List(\Nat)$ defined as follows.
+    First, we define a sort function
+    $\term{sort} : \SList(\Nat) \to \List(\Nat)$ which sorts $\SList(\Nat)$ ascendingly.
+    Then we use $\term{sort}$ to construct $s$.
     \begin{align*}
-        s(\xs)       & = \begin{cases}
-                             \term{sort}(\xs)                 & \text{if $\term{length}(\xs)$ is odd} \\
-                             \term{reverse}(\term{sort}(\xs)) & \text{otherwise}
-                         \end{cases} \\
-        s([2,3,1,4]) & = [4,3,2,1]                                                                      \\
-        s([2,3,1])   & = [1,2,3]
+        s(\xs) & = \begin{cases}
+                       \term{sort}(\xs)                 & \text{if $\term{length}(\xs)$ is odd} \\
+                       \term{reverse}(\term{sort}(\xs)) & \text{otherwise}
+                   \end{cases}
     \end{align*}
+    %
+    Now we have $s([2,3,1]) = [1,2,3]$ but $s([2,3,1,4]) = [4,3,2,1]$.
 \end{proof}
-
-Thus, we will enforce this by imposing additional constraints on the \emph{image} of $s$.
+%
+We will enforce additional constraints on the \emph{image} of $s$, to turn it into a correct sort function.
 \begin{definition}[\alink{definition}{$\blank\in\im{s}$}]
     \label{def:in-image}
-    The fiber of $s$ over~$\xs : \LL(A)$ is given by $\fib_{s}(\xs) \defeq \dsum{ys : \MM(A)}{s(ys) = \xs}$.
+    The fiber of $s$ at a point in the codomain~$\xs : \LL(A)$
+    is given by $\fib_{s}(\xs) \defeq \dsum{ys : \MM(A)}{(s(ys) = \xs)}$.
     %
     The image of $s$ is given by $\im{s} \defeq \dsum{\xs : \LL(A)}{\Trunc[-1]{\fib_{s}(\xs)}}$.
     %
     Simplifying, we say that $\xs:\LL(A)$ is ``in the image of $s$'', or, $\xs \in \im{s}$,
     if there merely exists a $\ys:\MM(A)$ such that $s(\ys) = \xs$.
 \end{definition}
-
+%
 If $s$ \emph{were} a sort function, the image of $s$ would be the set of $s$-``sorted'' lists,
 therefore $\inimage{\xs}$ would imply $\xs$ is a correctly $s$-``sorted'' list.
 %
