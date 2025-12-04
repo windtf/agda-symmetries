@@ -3,8 +3,7 @@
 \subsection{Total orders}
 \label{sec:total-orders}
 
-First, we recall the axioms of a total order $\leq$ on a set $A$. This is also known as a
-linear order.
+First, we recall the axioms of a total order or linear order $\leq$ on a set $A$.
 \begin{definition}[\alink{definition}{Total order}]
     \label{def:total-order}
     A total order on a set $A$ is a relation $\leq : A \to A \to \hProp$ that satisfies:
@@ -14,16 +13,17 @@ linear order.
         \item antisymmetry: if $x \leq y$ and $y \leq x$, then $x = y$,
         \item totality: $\forall x, y$, either $x \leq y$ or $y \leq x$.
     \end{itemize}
-    Note that \emph{either-or} means that this is a (truncated) logical disjunction.
-    In the context of this paper, we want to make a distinction between ``decidable total order''
-    and ``total order''. A \emph{decidable} total order requires the $\leq$ relation to be decidable:
+    A \emph{decidable} total order requires the $\leq$ relation to be decidable:
     \begin{itemize}
-        \item decidability: $\forall x, y$, we have $x \leq y + \neg(x \leq y)$.
+        \item decidable totality: $\forall x, y$, we have $x \leq y + \neg(x \leq y)$.
     \end{itemize}
 \end{definition}
-This strengthens the totality axiom,
+Note that \emph{either-or} means a (truncated) logical disjunction.
+In the context of this paper, we want to make a distinction between
+``decidable total order'' and ``total order''.
+The decidability axiom strengthens the totality axiom,
 where we have either $x \leq y$ or $y \leq x$ merely as a proposition,
-but decidability allows us to actually compute if $x \leq y$ is true.
+but decidability allows us to produce a witness if $x \leq y$ is true.
 \begin{proposition}[\alink{proposition}{}]
     \label{prop:decidable-total-order}
     In a decidable total order, it holds that ${\forall x, y}, \ps{x \leq y} + \ps{y \leq x}$.
@@ -35,8 +35,7 @@ but decidability allows us to actually compute if $x \leq y$ is true.
         \item
               if $x \leq y$ and $y \leq x$: by antisymmetry, $x = y$.
         \item
-              if $\neg(x \leq y)$ and $y \leq x$: assuming $x = y$, have $x \leq y$,
-              leading to contradiction by $\neg(x \leq y)$, hence $x \neq y$.
+              if $\neg(x \leq y)$ and $y \leq x$: assuming $x = y$ leads to a contradiction, hence $x \neq y$.
         \item
               if $x \leq y$ and $\neg(y \leq x)$: similar to the previous case.
         \item
@@ -44,11 +43,10 @@ but decidability allows us to actually compute if $x \leq y$ is true.
               $x \leq y$ or $y \leq x$, which leads to a contradiction.
     \end{itemize}
 \end{proof}
-We also recall the axioms of a strict total order $<$ on $A$. For clarity, we call this a
-a \emph{strict linear order} to distinguish it from the non-strict total order defined above.
-\begin{definition}[\alink{definition}{Strict linear order}]
-    \label{def:linear-order}
-    A strict linear order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
+We also recall the axioms of a strict total order $<$ on $A$.
+\begin{definition}[\alink{definition}{Strict total order}]
+    \label{def:strict-total-order}
+    A strict total order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
     \begin{itemize}
         \item irreflexivity: $\neg(x < x)$,
         \item transitivity: if $x < y$ and $y < z$, then $x < z$,
@@ -56,44 +54,42 @@ a \emph{strict linear order} to distinguish it from the non-strict total order d
         \item cotransitivity: $\forall x, y, z$, if $x < z$, then either $x < y$ or $y < z$.
         \item connectedness: $\forall x, y$, if $\neg(x < y)$ and $\neg(y < x)$, then $x = y$.
     \end{itemize}
-    A \emph{decidable} strict linear order requires the $<$ relation to be decidable:
+    A \emph{decidable} strict total order requires the $<$ relation to be decidable:
     \begin{itemize}
         \item decidability: $\forall x, y$, we have $x < y + \neg(x < y)$.
     \end{itemize}
 \end{definition}
 
 \begin{proposition}[\alink{proposition}{}]
-    \label{prop:decidable-linear-order}
-    In a decidable strict linear order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
+    \label{prop:decidable-strict-total-order}
+    In a decidable strict total order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
 \end{proposition}
 \begin{proof}
     We decide if $x < y$ and $y < x$, and by cases:
     \begin{itemize}
-        \item
-              if $\neg(x < y)$ and $\neg(y < x)$: by connectedness, $x = y$.
-        \item
-              if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
+        \item if $\neg(x < y)$ and $\neg(y < x)$: by connectedness, $x = y$.
+        \item if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
     \end{itemize}
 \end{proof}
 
 \begin{proposition}[\alink{proposition}{}]
-    \label{prop:dec-linear-total-order}
-    The set of decidable strict linear orders on $A$ and the set of decidable total orders on $A$ are equivalent.
+    \label{prop:decidable-strict-total-order}
+    The set of decidable strict total orders on $A$ and the set of decidable total orders on $A$ are equivalent.
 \end{proposition}
 \begin{proofsketch}
     Given a decidable total order $\leq$ on $A$, by~\cref{prop:decidable-total-order},
-    we can map to a decidable strict linear order $<$ on $A$ by
-    $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-linear-order}
-    given a decidable strict linear order $<$ on $A$,
-    we can map to a decidable total order $\leq$ on $A$ by
-    $x \leq y \defeq (x < y) + (x = y)$. We can then show that these maps are inverses
-    of each other.
+    we map it to a decidable strict total order $<$ on $A$ by
+    $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-strict-total-order}
+    given a decidable strict total order $<$ on $A$,
+    we map it to a decidable total order $\leq$ on $A$ by
+    $x \leq y \defeq (x < y) + (x = y)$.
+    These maps are inverses of each other.
 \end{proofsketch}
 
 %
 \noindent
-An equivalent way to define a total order is using a binary meet operation (without starting from an ordering relation).
+An equivalent way of defining a total order is using a binary meet operation, without starting from an ordering relation.
 \begin{definition}[\alink{definition}{Meet semi-lattice}]
     \label{def:meet-semi-lattice}
     A meet semi-lattice is a set $A$ with a binary operation $\blank\meet\blank : A \to A \to A$ that is:
@@ -102,20 +98,20 @@ An equivalent way to define a total order is using a binary meet operation (with
         \item associative: $(x \meet y) \meet z \id x \meet (y \meet z)$,
         \item commutative: $x \meet y \id y \meet x$.
     \end{itemize}
-    A \emph{strongly-connected} meet semi-lattice further satisfies: \ww{Are the names right?}
+    A \emph{strongly-connected} meet semi-lattice further satisfies:
     \begin{itemize}
         \item strong-connectedness: $\forall x, y$, either $x \meet y \id x$ or $x \meet y \id y$.
     \end{itemize}
-    A \emph{total} meet semi-lattice strengthens this to:
+    A \emph{decidable} strongly-connected meet semi-lattice strengthens this to:
     \begin{itemize}
-        \item totality: ${\forall x, y}, \ps{x \meet y \id x} + \ps{x \meet y \id y}$.
+        \item decidable strong-connectedness: ${\forall x, y}, \ps{x \meet y \id x} + \ps{x \meet y \id y}$.
     \end{itemize}
 \end{definition}
 
 \begin{proposition}[\alink{proposition}{}]
     \label{prop:total-order-meet-semi-lattice}
     A total order $\leq$ on a set $A$ is equivalent to a strongly-connected meet semi-lattice structure on $A$.
-    Further, a decidable total order on $A$ induces a total meet semi-lattice structure on $A$.
+    Further, a decidable total order on $A$ induces a decidable strongly-connected meet semi-lattice structure on $A$.
 \end{proposition}
 \begin{proofsketch}
     Given a (mere) total order $\leq$ on a set $A$,
@@ -132,7 +128,7 @@ An equivalent way to define a total order is using a binary meet operation (with
     %
     If the total order is decidable, we use the discreteness of $A$ from~\cref{prop:decidable-total-order}.
 \end{proofsketch}
-
+%
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
 \begin{definition}[\alink{definition}{$\term{head}$}]
     \label{def:head-free-commutative-monoid}
