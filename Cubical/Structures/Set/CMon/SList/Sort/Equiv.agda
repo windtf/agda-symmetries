@@ -59,10 +59,10 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   open Toset
 
   IsHeadLeastSection : (SList A -> List A) -> Type _
-  IsHeadLeastSection s = isSection s × imCut s
+  IsHeadLeastSection s = isSection s × isHeadLeast s
 
   IsSortSection : (SList A -> List A) -> Type _
-  IsSortSection s = isSection s × imCut s × imCons s
+  IsSortSection s = isSection s × isHeadLeast s × isTailSorted s
 
   HasHeadLeastSectionAndIsDiscrete : Type _
   HasHeadLeastSectionAndIsDiscrete = (Σ _ IsHeadLeastSection) × (Discrete A)
@@ -71,31 +71,31 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   HasSortSectionAndIsDiscrete = (Σ (SList A -> List A) IsSortSection) × (Discrete A)
 
   IsSortSection→IsHeadLeastSection : ∀ s -> IsSortSection s -> IsHeadLeastSection s
-  IsSortSection→IsHeadLeastSection s (section , imCut , _) = section , imCut
+  IsSortSection→IsHeadLeastSection s (section , isHeadLeast , _) = section , isHeadLeast
 
   order→sort : HasDecOrder -> HasSortSectionAndIsDiscrete
   order→sort (_≤_ , isToset , isDec) =
     (sort _≤_ isToset isDec , subst (λ isSetA' -> Sort.isSortSection isSetA' (sort _≤_ isToset isDec)) (isPropIsSet _ _) (Order→Sort.sortIsSortSection _≤_ isToset isDec)) , isDiscreteA _≤_ isToset isDec
 
-  order→imCut : HasDecOrder -> HasHeadLeastSectionAndIsDiscrete
-  order→imCut p = let ((s , sIsSort) , r) = order→sort p in (s , IsSortSection→IsHeadLeastSection s sIsSort) , r
+  order→isHeadLeast : HasDecOrder -> HasHeadLeastSectionAndIsDiscrete
+  order→isHeadLeast p = let ((s , sIsSort) , r) = order→sort p in (s , IsSortSection→IsHeadLeastSection s sIsSort) , r
 
-  imCut→order : HasHeadLeastSectionAndIsDiscrete -> HasDecOrder
-  imCut→order ((s , sIsSection , sIsSort) , discA) =
+  isHeadLeast→order : HasHeadLeastSectionAndIsDiscrete -> HasDecOrder
+  isHeadLeast→order ((s , sIsSection , sIsSort) , discA) =
     _≤_ s sIsSection , ≤IsToset s sIsSection sIsSort , dec≤ s sIsSection discA
 
   sort→order : HasSortSectionAndIsDiscrete -> HasDecOrder
-  sort→order ((s , sIsSort) , r) = imCut→order ((s , IsSortSection→IsHeadLeastSection s sIsSort) , r)
+  sort→order ((s , sIsSort) , r) = isHeadLeast→order ((s , IsSortSection→IsHeadLeastSection s sIsSort) , r)
 
-  order→imCut→order : ∀ x -> imCut→order (order→imCut x) ≡ x
-  order→imCut→order (_≤_ , isToset , isDec) =
+  order→isHeadLeast→order : ∀ x -> isHeadLeast→order (order→isHeadLeast x) ≡ x
+  order→isHeadLeast→order (_≤_ , isToset , isDec) =
     Σ≡Prop (λ _≤'_ -> isOfHLevelΣ 1 (isPropIsToset _) (λ p -> isPropΠ2 λ x y -> isPropDec (is-prop-valued p x y))) (sym ≤≡)
     where
     _≤*_ : A -> A -> Type _
-    _≤*_ = imCut→order (order→imCut (_≤_ , isToset , isDec)) .fst
+    _≤*_ = isHeadLeast→order (order→isHeadLeast (_≤_ , isToset , isDec)) .fst
 
     ≤*isToset : IsToset _≤*_
-    ≤*isToset = imCut→order (order→imCut (_≤_ , isToset , isDec)) .snd .fst
+    ≤*isToset = isHeadLeast→order (order→isHeadLeast (_≤_ , isToset , isDec)) .snd .fst
 
     isoTo : ∀ x y -> x ≤ y -> x ≤* y
     isoTo x y x≤y with isDec x y
@@ -164,13 +164,13 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
     sIsSort' xs = sIsSort'' xs (L.length (s xs)) refl -- helps with termination checking
 
   -- without tail sort, we get an embedding
-  order⊂imCut : isEmbedding order→imCut
-  order⊂imCut = injEmbedding (isSet× (isSetΣ (isSetΠ (λ _ -> isOfHLevelList 0 isSetA)) λ q -> isProp→isSet (isProp× (isPropIsSection q) (isPropImCut q))) (isProp→isSet isPropDiscrete))
-    (λ p -> sym (order→imCut→order _) ∙ congS imCut→order p ∙ order→imCut→order _)
+  order⊂isHeadLeast : isEmbedding order→isHeadLeast
+  order⊂isHeadLeast = injEmbedding (isSet× (isSetΣ (isSetΠ (λ _ -> isOfHLevelList 0 isSetA)) λ q -> isProp→isSet (isProp× (isPropIsSection q) (isPropIsHeadLeast q))) (isProp→isSet isPropDiscrete))
+    (λ p -> sym (order→isHeadLeast→order _) ∙ congS isHeadLeast→order p ∙ order→isHeadLeast→order _)
 
   -- with tail sort, we can construct a full equivalence
   sort↔order : Iso HasDecOrder HasSortSectionAndIsDiscrete
-  sort↔order = iso order→sort sort→order sort→order→sort order→imCut→order
+  sort↔order = iso order→sort sort→order sort→order→sort order→isHeadLeast→order
 
   sort≃order : HasDecOrder ≃ HasSortSectionAndIsDiscrete
   sort≃order = isoToEquiv sort↔order

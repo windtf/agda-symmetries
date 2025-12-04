@@ -54,23 +54,23 @@ module Sort {A : Type ℓ} (isSetA : isSet A) (sort : SList A -> List A) where
   isPropIsSection : isProp isSection
   isPropIsSection = isPropΠ (λ _ -> trunc _ _)
 
-  imCut : Type _
-  imCut = ∀ x y xs -> isSorted (x ∷ xs) -> y ∈ (x ∷ xs) -> isSorted (x ∷ y ∷ [])
+  isHeadLeast : Type _
+  isHeadLeast = ∀ x y xs -> isSorted (x ∷ xs) -> y ∈ (x ∷ xs) -> isSorted (x ∷ y ∷ [])
 
-  imCons : Type _
-  imCons = ∀ x xs -> isSorted (x ∷ xs) -> isSorted xs
+  isTailSorted : Type _
+  isTailSorted = ∀ x xs -> isSorted (x ∷ xs) -> isSorted xs
 
   isSort : Type _
-  isSort = imCut × imCons
+  isSort = isHeadLeast × isTailSorted
 
-  isPropImCut : isProp imCut
-  isPropImCut = isPropΠ5 λ _ _ _ _ _ -> squash₁
+  isPropIsHeadLeast : isProp isHeadLeast
+  isPropIsHeadLeast = isPropΠ5 λ _ _ _ _ _ -> squash₁
 
-  isPropImCons : isProp imCons
-  isPropImCons = isPropΠ3 (λ _ _ _ -> squash₁)
+  isPropIsTailSorted : isProp isTailSorted
+  isPropIsTailSorted = isPropΠ3 (λ _ _ _ -> squash₁)
 
   isPropIsSort : isProp isSort
-  isPropIsSort = isProp× isPropImCut isPropImCons
+  isPropIsSort = isProp× isPropIsHeadLeast isPropIsTailSorted
 
   isSortSection : Type _
   isSortSection = isSection × isSort

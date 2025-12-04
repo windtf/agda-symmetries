@@ -208,21 +208,21 @@ proposition-71 : _
 proposition-71 = Sort→Order.isSorted↔≤
 
 definition-72 : _
-definition-72 = Sort.imCut
+definition-72 = Sort.isHeadLeast
 
 proposition-73 : _
-proposition-73 = Order→Sort.sortImCut
+proposition-73 = Order→Sort.sortIsHeadLeast
 
 proposition-74 : _
 proposition-74 = Sort→Order.trans≤
 
 -- Section 5.3.3: Embedding orders into sections
 proposition-22 : _
-proposition-22 = Sort↔Order.order→imCut→order
+proposition-22 = Sort↔Order.order→isHeadLeast→order
 
 -- Section 5.3.4: Equivalence of order and sections
 definition-77 : _
-definition-77 = Sort.imCons
+definition-77 = Sort.isTailSorted
 
 lemma-78 : _
 lemma-78 = Order→Sort.uniqueSorted

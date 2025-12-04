@@ -310,13 +310,13 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
         (sort→orderLemma x z zs p)
         (sort→order z y zs (tailIsSorted x (z ∷ zs) p) y∈z∷zs)
 
-  sortImCut : imCut sort
-  sortImCut x y xs p y∈xs = ∣ (x ∷* y ∷* []* , insertβ1 x y [] (sort→order x y xs p y∈xs)) ∣₁
+  sortIsHeadLeast : isHeadLeast sort
+  sortIsHeadLeast x y xs p y∈xs = ∣ (x ∷* y ∷* []* , insertβ1 x y [] (sort→order x y xs p y∈xs)) ∣₁
 
   sortIsSortSection : isSortSection sort
-  sortIsSortSection = sortIsPermute , sortImCut , tailIsSorted
+  sortIsSortSection = sortIsPermute , sortIsHeadLeast , tailIsSorted
 
-  -- counter example that obeys im-cut and not tail-sort
+  -- counter example that obeys isHeadLeast and not tail-sort
 
   swap12 : List A -> List A
   swap12 [] = []
@@ -347,22 +347,22 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
     list→slist (f xs) ≡⟨ fIsPermute xs ⟩
     xs ∎
 
-  imCutOnly : SList A -> List A
-  imCutOnly = swap23 ∘ sort
+  isHeadLeastOnly : SList A -> List A
+  isHeadLeastOnly = swap23 ∘ sort
 
-  imCutOnlyIsPermute : isSection imCutOnly
-  imCutOnlyIsPermute = swap23IsPermute sort sortIsPermute
+  isHeadLeastOnlyIsPermute : isSection isHeadLeastOnly
+  isHeadLeastOnlyIsPermute = swap23IsPermute sort sortIsPermute
 
   private
-    imCutIsSameFor2 : ∀ u v -> isSorted sort (u ∷ v ∷ []) -> isSorted imCutOnly (u ∷ v ∷ [])
-    imCutIsSameFor2 u v = P.map λ (ys , q) -> ys , congS swap23 q
+    isHeadLeastIsSameFor2 : ∀ u v -> isSorted sort (u ∷ v ∷ []) -> isSorted isHeadLeastOnly (u ∷ v ∷ [])
+    isHeadLeastIsSameFor2 u v = P.map λ (ys , q) -> ys , congS swap23 q
 
-    imCut→sorted : ∀ x xs -> isSorted imCutOnly (x ∷ xs) -> isSorted sort (x ∷ swap12 xs)
-    imCut→sorted x [] =
+    isHeadLeast→sorted : ∀ x xs -> isSorted isHeadLeastOnly (x ∷ xs) -> isSorted sort (x ∷ swap12 xs)
+    isHeadLeast→sorted x [] =
       P.map λ (ys , q) -> ys , sym (swap23Id (sort ys)) ∙ congS swap23 q
-    imCut→sorted x (y ∷ []) =
+    isHeadLeast→sorted x (y ∷ []) =
       P.map λ (ys , q) -> ys , sym (swap23Id (sort ys)) ∙ congS swap23 q
-    imCut→sorted x (y ∷ z ∷ xs) =
+    isHeadLeast→sorted x (y ∷ z ∷ xs) =
       P.map λ (ys , q) -> ys , sym (swap23Id (sort ys)) ∙ congS swap23 q
 
     swap12∈ : ∀ x xs -> x ∈ xs -> x ∈ swap12 xs
@@ -379,26 +379,26 @@ module Order→Sort {A : Type ℓ} (_≤_ : A -> A -> Type ℓ) (≤-isToset : I
       (≤tail {ys = y ∷ []} (L.inr (L.inl refl)))
       (sortIsSorted'' (x ∷ y ∷ []) p)
 
-    imCutTailSort→x≡y : ∀ x y -> imCons imCutOnly -> x ≤ y -> x ≡ y
-    imCutTailSort→x≡y x y hTailSort x≤y =
+    isHeadLeastTailSort→x≡y : ∀ x y -> isTailSorted isHeadLeastOnly -> x ≤ y -> x ≡ y
+    isHeadLeastTailSort→x≡y x y hTailSort x≤y =
       is-antisym x y x≤y (isSorted→≤ (lemma1 ∣ x ∷* x ∷* y ∷* []* , lemma2 ∣₁))
       where
-      -- [1, 2, 3] sorted by sort -> [1, 3, 2] sorted by im-cut -> [3, 2] sorted by im-cut -> [3, 2] sorted by sort
+      -- [1, 2, 3] sorted by sort -> [1, 3, 2] sorted by isHeadLeast -> [3, 2] sorted by isHeadLeast -> [3, 2] sorted by sort
       lemma1 : isSorted sort (x ∷ x ∷ y ∷ []) -> isSorted sort (y ∷ x ∷ [])
-      lemma1 = P.rec squash₁ λ (ys , q) -> imCut→sorted y [ x ] (hTailSort x _ ∣ ys , congS swap23 q ∣₁)
+      lemma1 = P.rec squash₁ λ (ys , q) -> isHeadLeast→sorted y [ x ] (hTailSort x _ ∣ ys , congS swap23 q ∣₁)
       lemma2 : sort (x ∷* x ∷* [ y ]*) ≡ x ∷ x ∷ y ∷ []
       lemma2 =
         insert x (insert x [ y ]) ≡⟨ congS (insert x) (insertβ1 x y [] x≤y) ⟩
         insert x (x ∷ y ∷ []) ≡⟨ insertβ1 x x [ y ] (is-refl x) ⟩
         x ∷ x ∷ [ y ] ∎
 
-  imCutOnlyImCut : imCut imCutOnly
-  imCutOnlyImCut x y xs p y∈xs = imCutIsSameFor2 x y
-    (sortImCut x y (swap12 xs) (imCut→sorted x xs p) (swap23∈ y (x ∷ xs) y∈xs))
+  isHeadLeastOnlyIsHeadLeast : isHeadLeast isHeadLeastOnly
+  isHeadLeastOnlyIsHeadLeast x y xs p y∈xs = isHeadLeastIsSameFor2 x y
+    (sortIsHeadLeast x y (swap12 xs) (isHeadLeast→sorted x xs p) (swap23∈ y (x ∷ xs) y∈xs))
 
-  imCutTailSort→isPropA : imCons imCutOnly -> isProp A
-  imCutTailSort→isPropA hTailSort x y = P.rec (is-set _ _)
-    (⊎.rec (imCutTailSort→x≡y x y hTailSort) (sym ∘ (imCutTailSort→x≡y y x hTailSort)))
+  isHeadLeastTailSort→isPropA : isTailSorted isHeadLeastOnly -> isProp A
+  isHeadLeastTailSort→isPropA hTailSort x y = P.rec (is-set _ _)
+    (⊎.rec (isHeadLeastTailSort→x≡y x y hTailSort) (sym ∘ (isHeadLeastTailSort→x≡y y x hTailSort)))
     (is-total x y)
 
 module Order→Sort-Example where
