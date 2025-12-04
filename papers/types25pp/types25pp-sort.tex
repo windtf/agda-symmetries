@@ -1,9 +1,11 @@
 \documentclass[a4paper,UKenglish,cleveref,thm-restate]{lipics-v2021}
 
 \RequirePackage{currfile}
-\newcommand{\ifarxiv}[2]{%
-  \ifcurrfilename{arxiv-sort.tex}{#1}{#2}%
-}
+\providecommand{\ifarxiv}[2]{#2}
+\ifcurrfilename{arxiv-sort.tex}{%
+  \renewcommand{\ifarxiv}[2]{#1}%
+}{}
+
 \ifarxiv{%
 \pdfoutput=1
 \hideLIPIcs
@@ -57,7 +59,7 @@ grant~\textnumero~\href{https://cordis.europa.eu/project/id/101115046}{101115046
 
 \supplement{}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
 \supplementdetails[%
-  linktext={GitHub:windtf/agda-symmetries},
+  linktext={windtf/agda-symmetries},
   cite=choudhuryAgdasymmetries2025,
 ]{Formalisation}{https://github.com/windtf/agda-symmetries}%
 
