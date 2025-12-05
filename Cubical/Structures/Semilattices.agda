@@ -9,15 +9,65 @@ open import Cubical.Foundations.Path
 open import Cubical.Foundations.Prelude
 open import Cubical.Foundations.Structure
 open import Cubical.Relation.Nullary
+open import Cubical.Relation.Binary
 open import Cubical.Data.Unit
+open import Cubical.Data.Sum
+open import Cubical.Functions.Logic hiding (¬_; inl; inr)
 import Cubical.Functions.Logic as L
 import Cubical.Data.Empty as ⊥
 import Cubical.HITs.PropositionalTruncation as P
 
 private
   variable
-    ℓ : Level
+    ℓ ℓ' : Level
     A B : Type ℓ
+
+record IsTotalMeetSemiLatticeStr {A : Type ℓ} (_⋀_ : A -> A -> A) : Type ℓ where
+  no-eta-equality
+  constructor isTotalMeetSemiLatticeStr
+
+  field
+    ⋀isCarrierSet : isSet A
+    ⋀isIdempotent : ∀ a -> _⋀_ a a ≡ a
+    ⋀isAssociative : ∀ a b c -> _⋀_ (_⋀_ a b) c ≡ _⋀_ a (_⋀_ b c)
+    ⋀isCommutative : ∀ a b -> _⋀_ a b ≡ _⋀_ b a
+    ⋀isTotal : ∀ a b -> (_⋀_ a b ≡ a) ⊔′ (_⋀_ b a ≡ b)
+
+module _ (_⋀_ : A -> A -> A) where
+  open IsTotalMeetSemiLatticeStr
+
+  isPropIsTotalMeetSemiLatticeStr : isProp (IsTotalMeetSemiLatticeStr _⋀_)
+  isPropIsTotalMeetSemiLatticeStr p q i .⋀isCarrierSet =
+    isPropIsSet (⋀isCarrierSet p) (⋀isCarrierSet q) i
+  isPropIsTotalMeetSemiLatticeStr p q i .⋀isIdempotent x =
+    (isPropIsSet (⋀isCarrierSet p) (⋀isCarrierSet q) i (x ⋀ x) x)
+      (⋀isIdempotent p x) (⋀isIdempotent q x) i
+  isPropIsTotalMeetSemiLatticeStr p q i .IsTotalMeetSemiLatticeStr.⋀isAssociative a b c =
+    (isPropIsSet (⋀isCarrierSet p) (⋀isCarrierSet q) i ((a ⋀ b) ⋀ c) (a ⋀ (b ⋀ c)))
+      (⋀isAssociative p a b c) (⋀isAssociative q a b c) i
+  isPropIsTotalMeetSemiLatticeStr p q i .IsTotalMeetSemiLatticeStr.⋀isCommutative a b =
+    (isPropIsSet (⋀isCarrierSet p) (⋀isCarrierSet q) i (a ⋀ b) (b ⋀ a))
+      (⋀isCommutative p a b) (⋀isCommutative q a b) i
+  isPropIsTotalMeetSemiLatticeStr p q i .IsTotalMeetSemiLatticeStr.⋀isTotal a b =
+    P.squash₁ (⋀isTotal p a b) (⋀isTotal q a b) i
+
+record TotalMeetSemiLatticeStr (A : Type ℓ) : Type ℓ where
+  no-eta-equality
+  constructor isTotalMeetSemiLattice
+
+  field
+    _⋀_ : A -> A -> A
+    ⋀TotalMeetSemiLattice : IsTotalMeetSemiLatticeStr _⋀_
+
+record IsDecTotalMeetSemiLattice (A : Type ℓ) : Type ℓ where
+  no-eta-equality
+  constructor isDecTotalMeetSemiLattice
+
+  field
+    ⋀SemiLattice : TotalMeetSemiLatticeStr A
+    ⋀isDecidable : ∀ a b ->
+      let _⋀_ = TotalMeetSemiLatticeStr._⋀_ ⋀SemiLattice
+      in (a ⋀ b ≡ a) ⊎ (a ⋀ b ≡ b)
 
 module Toset {ℓ : Level} {A : Type ℓ} where
   open import Cubical.Relation.Binary.Order
@@ -179,6 +229,14 @@ module Toset {ℓ : Level} {A : Type ℓ} where
     ⋀Total : ∀ a b -> (a ⋀ b ≡ a) ⊔′ (b ⋀ a ≡ b)
     ⋀Total a b = P.map (⊎.map ⋀Β₁ ⋀Β₁) (tosetA .is-total a b)
 
+    ⋀SemiLattice : TotalMeetSemiLatticeStr A
+    ⋀SemiLattice .TotalMeetSemiLatticeStr._⋀_ = _⋀_
+    ⋀SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isCarrierSet = isSetA  
+    ⋀SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isIdempotent = ⋀Idem  
+    ⋀SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isAssociative = ⋀AssocR
+    ⋀SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isCommutative = ⋀Comm
+    ⋀SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isTotal = ⋀Total
+
   module Toset⋁ (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ) (tosetA : IsToset _≤_) where
 
     ⋁F : (a b : A) -> (a ≤ b) ⊎ (b ≤ a) -> A
@@ -250,26 +308,63 @@ module Toset {ℓ : Level} {A : Type ℓ} where
     ⋁Total : ∀ a b -> (a ⋁ b ≡ b) ⊔′ (b ⋁ a ≡ a)
     ⋁Total a b = P.map (⊎.map ⋁Β₁ ⋁Β₁) (tosetA .is-total a b)
 
-  module ⋀Toset (isSetA : isSet A) (_⋀_ : A -> A -> A)
-                 (⋀Idem : ∀ a -> a ⋀ a ≡ a) (⋀Comm : ∀ a b -> a ⋀ b ≡ b ⋀ a)
-                 (⋀AssocR : ∀ a b c -> (a ⋀ b) ⋀ c ≡ a ⋀ (b ⋀ c)) (⋀Total : ∀ a b -> (a ⋀ b ≡ a) ⊔′ (b ⋀ a ≡ b)) where
-
+    ⋁SemiLattice : TotalMeetSemiLatticeStr A
+    ⋁SemiLattice .TotalMeetSemiLatticeStr._⋀_ = _⋁_
+    ⋁SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isCarrierSet = isSetA
+    ⋁SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isIdempotent = ⋁Idem
+    ⋁SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isAssociative = ⋁AssocR
+    ⋁SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isCommutative = ⋁Comm
+    ⋁SemiLattice .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice .IsTotalMeetSemiLatticeStr.⋀isTotal a b = P.map swap (⋁Total a b)
+      where
+      swap : ((a ⋁ b) ≡ b) ⊎ ((b ⋁ a) ≡ a) -> ((a ⋁ b) ≡ a) ⊎ ((b ⋁ a) ≡ b)
+      swap (inl a⋁b≡b) = inr (⋁Comm b a ∙ a⋁b≡b)
+      swap (inr b⋁a≡a) = inl (⋁Comm a b ∙ b⋁a≡a)
+      
+  module ⋀Toset (semiLattice : TotalMeetSemiLatticeStr A) where
+    open TotalMeetSemiLatticeStr semiLattice public
+    open IsTotalMeetSemiLatticeStr ⋀TotalMeetSemiLattice public
+  
     _≤_ : A -> A -> Type ℓ
     a ≤ b = (a ⋀ b) ≡ a
-
+  
     tosetA : IsToset _≤_
-    tosetA .is-set = isSetA
-    tosetA .is-prop-valued a b = isSetA (a ⋀ b) a
-    tosetA .is-refl = ⋀Idem
-    tosetA .is-trans a b c a∧b≡a b∧c≡b = congS (_⋀ c) (sym a∧b≡a) ∙ ⋀AssocR a b c ∙ congS (a ⋀_) b∧c≡b ∙ a∧b≡a
-    tosetA .is-antisym a b a∧b≡a b∧a≡a = sym a∧b≡a ∙ ⋀Comm a b ∙ b∧a≡a
-    tosetA .is-total = ⋀Total
+    tosetA .is-set = ⋀isCarrierSet
+    tosetA .is-prop-valued a b = ⋀isCarrierSet (a ⋀ b) a
+    tosetA .is-refl = ⋀isIdempotent
+    tosetA .is-trans a b c a∧b≡a b∧c≡b =
+      a ⋀ c ≡⟨ congS (_⋀ c) (sym a∧b≡a) ⟩
+      ((a ⋀ b) ⋀ c) ≡⟨ ⋀isAssociative a b c ⟩
+      (a ⋀ (b ⋀ c)) ≡⟨ congS (a ⋀_) b∧c≡b ⟩
+      a ⋀ b ≡⟨ a∧b≡a ⟩
+      a ∎
+    tosetA .is-antisym a b a∧b≡a b∧a≡a =
+      a ≡⟨ sym a∧b≡a ⟩
+      a ⋀ b ≡⟨ ⋀isCommutative a b ⟩
+      b ⋀ a ≡⟨ b∧a≡a ⟩
+      b ∎
+    tosetA .is-total = ⋀isTotal
+  
+  module Toset⋀Toset where
+    fwd : TotalMeetSemiLatticeStr A -> TosetStr ℓ A
+    fwd semiLattice .TosetStr._≤_ = ⋀Toset._≤_ semiLattice
+    fwd semiLattice .TosetStr.isToset = ⋀Toset.tosetA semiLattice 
 
-  module Toset⋀Toset (isSetA : isSet A) (_≤_ : A -> A -> Type ℓ) (tosetA : IsToset _≤_) where
+    inv : TosetStr ℓ A -> TotalMeetSemiLatticeStr A
+    inv (tosetstr _≤_ isToset) =
+      Toset⋀.⋀SemiLattice (is-set isToset) _≤_ isToset  
 
-    module Tos⋀ = Toset⋀ isSetA _≤_ tosetA
-    module ⋀Tos = ⋀Toset isSetA Tos⋀._⋀_ Tos⋀.⋀Idem Tos⋀.⋀Comm Tos⋀.⋀AssocR Tos⋀.⋀Total
+    sec' : section fwd inv
+    sec' (tosetstr _≤_ tosetA) = cong₂ tosetstr
+      (funExt λ a -> funExt λ b -> sym (ua (eq a b)))
+      (toPathP (isPropIsToset _ _ _))
+      where
+      module Tos⋀ = Toset⋀ (is-set tosetA) _≤_ tosetA
+      module ⋀Tos = ⋀Toset (inv (tosetstr _≤_ tosetA))
+      eq : (a b : A) -> _ ≃ _
+      eq a b = propBiimpl→Equiv (tosetA .is-prop-valued a b) (is-set tosetA _ _) Tos⋀.⋀Β₁ Tos⋀.⋀Η₁  
 
-    eq : TosetEquiv (toset A _≤_ tosetA) (toset A ⋀Tos._≤_ ⋀Tos.tosetA)
-    eq .fst = idEquiv ⟨ toset A _≤_ tosetA ⟩
-    eq .snd = istosetequiv λ a b -> propBiimpl→Equiv (tosetA .is-prop-valued a b) (isSetA _ _) Tos⋀.⋀Β₁ Tos⋀.⋀Η₁
+    rec' : retract fwd inv
+    rec' semiLattice = {!   !}  
+
+    eqIso : Iso (TotalMeetSemiLatticeStr A) (TosetStr ℓ A)
+    eqIso = iso fwd inv sec' rec' 
