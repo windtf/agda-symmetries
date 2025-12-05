@@ -16,6 +16,8 @@ open import Cubical.Functions.Logic hiding (¬_; inl; inr)
 import Cubical.Functions.Logic as L
 import Cubical.Data.Empty as ⊥
 import Cubical.HITs.PropositionalTruncation as P
+import Cubical.Data.Sum as ⊎ 
+
 
 private
   variable
@@ -52,7 +54,6 @@ module _ (_⋀_ : A -> A -> A) where
     P.squash₁ (⋀isTotal p a b) (⋀isTotal q a b) i
 
 record TotalMeetSemiLatticeStr (A : Type ℓ) : Type ℓ where
-  no-eta-equality
   constructor isTotalMeetSemiLattice
 
   field
@@ -60,7 +61,6 @@ record TotalMeetSemiLatticeStr (A : Type ℓ) : Type ℓ where
     ⋀TotalMeetSemiLattice : IsTotalMeetSemiLatticeStr _⋀_
 
 record IsDecTotalMeetSemiLattice (A : Type ℓ) : Type ℓ where
-  no-eta-equality
   constructor isDecTotalMeetSemiLattice
 
   field
@@ -345,26 +345,48 @@ module Toset {ℓ : Level} {A : Type ℓ} where
     tosetA .is-total = ⋀isTotal
   
   module Toset⋀Toset where
-    fwd : TotalMeetSemiLatticeStr A -> TosetStr ℓ A
-    fwd semiLattice .TosetStr._≤_ = ⋀Toset._≤_ semiLattice
-    fwd semiLattice .TosetStr.isToset = ⋀Toset.tosetA semiLattice 
+    private
+      fwd : TotalMeetSemiLatticeStr A -> TosetStr ℓ A
+      fwd semiLattice .TosetStr._≤_ = ⋀Toset._≤_ semiLattice
+      fwd semiLattice .TosetStr.isToset = ⋀Toset.tosetA semiLattice 
 
-    inv : TosetStr ℓ A -> TotalMeetSemiLatticeStr A
-    inv (tosetstr _≤_ isToset) =
-      Toset⋀.⋀SemiLattice (is-set isToset) _≤_ isToset  
+      inv : TosetStr ℓ A -> TotalMeetSemiLatticeStr A
+      inv (tosetstr _≤_ isToset) =
+        Toset⋀.⋀SemiLattice (is-set isToset) _≤_ isToset  
 
-    sec' : section fwd inv
-    sec' (tosetstr _≤_ tosetA) = cong₂ tosetstr
-      (funExt λ a -> funExt λ b -> sym (ua (eq a b)))
-      (toPathP (isPropIsToset _ _ _))
-      where
-      module Tos⋀ = Toset⋀ (is-set tosetA) _≤_ tosetA
-      module ⋀Tos = ⋀Toset (inv (tosetstr _≤_ tosetA))
-      eq : (a b : A) -> _ ≃ _
-      eq a b = propBiimpl→Equiv (tosetA .is-prop-valued a b) (is-set tosetA _ _) Tos⋀.⋀Β₁ Tos⋀.⋀Η₁  
+      sec' : section fwd inv
+      sec' (tosetstr _≤_ tosetA) = cong₂ tosetstr
+        (funExt λ a -> funExt λ b -> sym (ua (eq a b)))
+        (toPathP (isPropIsToset _ _ _))
+        where
+        module Tos⋀ = Toset⋀ (is-set tosetA) _≤_ tosetA
+        module ⋀Tos = ⋀Toset (inv (tosetstr _≤_ tosetA))
+        eq : (a b : A) -> _ ≃ _
+        eq a b = propBiimpl→Equiv (tosetA .is-prop-valued a b) (is-set tosetA _ _) Tos⋀.⋀Β₁ Tos⋀.⋀Η₁  
 
-    rec' : retract fwd inv
-    rec' semiLattice = {!   !}  
+      rec' : retract fwd inv
+      rec' (isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice) =
+        cong₂ isTotalMeetSemiLattice (funExt (λ a -> funExt λ b -> eq a b))
+          (toPathP (isPropIsTotalMeetSemiLatticeStr _ _ _))
+        where
+        module ⋀Tos = ⋀Toset (isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice)
+        module Tos⋀ = Toset⋀ (⋀Tos.⋀isCarrierSet) (fwd (isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice) .TosetStr._≤_) (fwd (isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice) .TosetStr.isToset)
+        _⋀'_ : _
+        _⋀'_ = (⋀Tos.⋀isCarrierSet Toset⋀.⋀ ⋀Tos._≤_) ⋀Tos.tosetA
+        prf : ∀ a b x -> Toset⋀.⋀F ⋀Tos.⋀isCarrierSet ⋀Tos._≤_ ⋀Tos.tosetA a b x ≡ (a ⋀ b)
+        prf a b (inl a⋀b≡a) = sym a⋀b≡a
+        prf a b (inr b⋀a≡b) =
+          b ≡⟨ sym b⋀a≡b ⟩
+          b ⋀ a ≡⟨ ⋀Tos.⋀isCommutative b a ⟩
+          a ⋀ b ∎
+        eq : (a b : A) -> a ⋀' b ≡ a ⋀ b
+        eq a b =  P.elim {P = λ x -> P.rec→Set ⋀Tos.⋀isCarrierSet (Tos⋀.⋀F a b) (Tos⋀.⋀FConst a b) x ≡ (a ⋀ b)}
+          (λ x -> ⋀Tos.⋀isCarrierSet _ (a ⋀ b))
+          (λ x -> prf a b x)
+          (⋀Tos.⋀isTotal a b)
 
     eqIso : Iso (TotalMeetSemiLatticeStr A) (TosetStr ℓ A)
     eqIso = iso fwd inv sec' rec' 
+
+    eq : TotalMeetSemiLatticeStr A ≃ TosetStr ℓ A
+    eq = isoToEquiv eqIso
