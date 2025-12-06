@@ -43,6 +43,7 @@ but decidability allows us to produce a witness if $x \leq y$ is true.
               $x \leq y$ or $y \leq x$, which leads to a contradiction.
     \end{itemize}
 \end{proof}
+%
 We also recall the axioms of a strict total order $<$ on $A$.
 \begin{definition}[\alink{definition}{Strict total order}{strict-total-order}]
     \label{def:strict-total-order}
@@ -72,7 +73,8 @@ We also recall the axioms of a strict total order $<$ on $A$.
         \item if $x < y$ or $y < x$: by irreflexivity, $x \neq y$.
     \end{itemize}
 \end{proof}
-
+%
+We can show that giving a decidable strict total order structure on $A$ is equivalent to giving a decidable total order structure on $A$.
 \begin{proposition}[\alink{proposition}{}{decidable-strict-total-order-equiv}]
     \label{prop:decidable-strict-total-order-equiv}
     The set of decidable strict total orders on $A$ and the set of decidable total orders on $A$ are equivalent.
@@ -86,9 +88,7 @@ We also recall the axioms of a strict total order $<$ on $A$.
     $x \leq y \defeq (x < y) + (x = y)$.
     These maps are inverses of each other.
 \end{proofsketch}
-
 %
-\noindent
 An equivalent way of defining a total order is using a binary meet operation, without starting from an ordering relation.
 \begin{definition}[\alink{definition}{Meet semi-lattice}{meet-semi-lattice}]
     \label{def:meet-semi-lattice}
@@ -143,7 +143,6 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     %
     Thus, we do not have a full equivalence in the decidable case.
 \end{proofsketch}
-
 %
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
 \begin{definition}[\alink{definition}{$\term{head}$}{head-free-commutative-monoid}]
@@ -298,8 +297,8 @@ but it does not necessarily sort bags with 3 or more elements.
     we can use $\term{sort}$ to construct a counterexample $\ssection$ as follows:
     \begin{align*}
         \ssection(\xs) & = \begin{cases}
-                               [3, 1]                           & \text{if $xs = \bag{1, 3}$} \\
-                               \term{sort}(\xs)                 & \text{otherwise} \\
+                               [3, 1]           & \text{if $xs = \bag{1, 3}$} \\
+                               \term{sort}(\xs) & \text{otherwise}            \\
                            \end{cases}
     \end{align*}
     %
@@ -349,7 +348,7 @@ is the least element of the list.
 \begin{proposition}[\alink{proposition}{}{order-to-sort-head-least}]
     \label{prop:order-to-sort-head-least}
     If $A$ has a total order $\leq$,
-    insertion sort defined using $\leq$ satisfies $\isheadleast$.
+    the insertion sort function defined using $\leq$ satisfies $\isheadleast$.
 \end{proposition}
 
 \begin{proposition}[\alink{proposition}{}{trans}]
@@ -429,7 +428,7 @@ Unfortunately, $\isheadleast$ is not enough to guarantee this.
     Since two different sections satisfying $\isheadleast$ maps to the same total order,
     there cannot be a full equivalence.
 \end{proof}
-
+%
 Therefore, we need to introduce a second axiom of sorting.
 
 \begin{definition}[\alink{definition}{$\istailsort$}{tail-sort}]
@@ -510,8 +509,8 @@ Finally, this gives us the correctness property of our axioms.
 \begin{lemma}[\alink{lemma}{}{s2o2s}]
     \label{sort:s2o2s}
     Given a decidable total order $\leq$ on $A$, we can construct
-    a section $t_\leq$ satisfying $\isheadleast$ and $\istailsort$,
-    such that, for the order $\leqs$ derived from $\ssection$,
+    a section $t_\leq$ satisfying the axioms $\isheadleast$ and $\istailsort$,
+    such that, for the order $\leqs$ derived from~$\ssection$,
     we have $t_{\leqs} = \ssection$.
 \end{lemma}
 \begin{proof}
