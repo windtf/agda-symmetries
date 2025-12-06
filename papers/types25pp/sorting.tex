@@ -112,7 +112,6 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     \label{prop:total-order-meet-semi-lattice}
     A total order $\leq$ on a set $A$ is equivalent to a strongly-connected meet semi-lattice structure on $A$.
     Further, a decidable total order on $A$ induces a decidable strongly-connected meet semi-lattice structure on $A$.
-    \vc{equivalence?}
 \end{proposition}
 \begin{proofsketch}
     Given a (mere) total order $\leq$ on a set $A$,
@@ -127,7 +126,13 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     Conversely, given a meet semi-lattice, we define $x \leq y \defeq x \meet y \id x$,
     which defines an $\hProp$-valued total ordering relation.
     %
-    If the total order is decidable, we use the discreteness of $A$ from~\cref{prop:decidable-total-order}.
+    If the total order is decidable, we use the discreteness of $A$ from~\cref{prop:decidable-total-order}
+    to constructively define the meet operation.
+    %
+    The converse does not hold however, as a decidable strongly-connected meet semi-lattice
+    does not imply discreteness of $A$.
+    %
+    Thus, we do not have a full equivalence in the decidable case.
 \end{proofsketch}
 %
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.

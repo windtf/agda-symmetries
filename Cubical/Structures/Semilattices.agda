@@ -24,16 +24,19 @@ private
     ℓ ℓ' : Level
     A B : Type ℓ
 
+⋀Totality : ∀ {A : Type ℓ} (_⋀_ : A -> A -> A) (a b : A) -> Type ℓ
+⋀Totality _⋀_ a b = (a ⋀ b ≡ a) ⊎ (b ⋀ a ≡ b)
+
 record IsTotalMeetSemiLatticeStr {A : Type ℓ} (_⋀_ : A -> A -> A) : Type ℓ where
   no-eta-equality
   constructor isTotalMeetSemiLatticeStr
 
   field
     ⋀isCarrierSet : isSet A
-    ⋀isIdempotent : ∀ a -> _⋀_ a a ≡ a
-    ⋀isAssociative : ∀ a b c -> _⋀_ (_⋀_ a b) c ≡ _⋀_ a (_⋀_ b c)
-    ⋀isCommutative : ∀ a b -> _⋀_ a b ≡ _⋀_ b a
-    ⋀isTotal : ∀ a b -> (_⋀_ a b ≡ a) ⊔′ (_⋀_ b a ≡ b)
+    ⋀isIdempotent : ∀ a -> a ⋀ a ≡ a
+    ⋀isAssociative : ∀ a b c -> (a ⋀ b) ⋀ c ≡ a ⋀ (b ⋀ c)
+    ⋀isCommutative : ∀ a b -> a ⋀ b ≡ b ⋀ a
+    ⋀isTotal : ∀ a b -> ∥ ⋀Totality _⋀_ a b ∥₁
 
 module _ (_⋀_ : A -> A -> A) where
   open IsTotalMeetSemiLatticeStr
@@ -60,15 +63,6 @@ record TotalMeetSemiLatticeStr (A : Type ℓ) : Type ℓ where
     _⋀_ : A -> A -> A
     ⋀TotalMeetSemiLattice : IsTotalMeetSemiLatticeStr _⋀_
 
-record IsDecTotalMeetSemiLattice (A : Type ℓ) : Type ℓ where
-  constructor isDecTotalMeetSemiLattice
-
-  field
-    ⋀SemiLattice : TotalMeetSemiLatticeStr A
-    ⋀isDecidable : ∀ a b ->
-      let _⋀_ = TotalMeetSemiLatticeStr._⋀_ ⋀SemiLattice
-      in (a ⋀ b ≡ a) ⊎ (a ⋀ b ≡ b)
-
 module Toset {ℓ : Level} {A : Type ℓ} where
   open import Cubical.Relation.Binary.Order
   open import Cubical.Data.Sigma as S
@@ -89,11 +83,17 @@ module Toset {ℓ : Level} {A : Type ℓ} where
   isPropIsDecLinearOrder R =
     isOfHLevelΣ 1 (isPropIsLoset R) λ isLoset -> isPropΠ2 λ x y -> isPropDec (IsLoset.is-prop-valued isLoset x y)
 
+  IsDecTotalMeetSemiLattice : (A -> A -> A) -> Type _
+  IsDecTotalMeetSemiLattice _⋀_ = (IsTotalMeetSemiLatticeStr _⋀_) × (∀ a b -> ⋀Totality _⋀_ a b)
+
   HasDecOrder : Type _
   HasDecOrder = Σ _ IsDecOrder
 
   HasDecLinearOrder : Type _
   HasDecLinearOrder = Σ _ IsDecLinearOrder
+
+  HasDecTotalMeetSemiLattice : Type _
+  HasDecTotalMeetSemiLattice = Σ _ IsDecTotalMeetSemiLattice
 
   HasDecOrder≃HasDecLinearOrder : HasDecOrder ≃ HasDecLinearOrder
   HasDecOrder≃HasDecLinearOrder = isoToEquiv (iso fwd inv sec ret)
@@ -344,7 +344,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
       b ∎
     tosetA .is-total = ⋀isTotal
   
-  module Toset⋀Toset where
+  module _ where
     private
       fwd : TotalMeetSemiLatticeStr A -> TosetStr ℓ A
       fwd semiLattice .TosetStr._≤_ = ⋀Toset._≤_ semiLattice
@@ -385,8 +385,22 @@ module Toset {ℓ : Level} {A : Type ℓ} where
           (λ x -> prf a b x)
           (⋀Tos.⋀isTotal a b)
 
-    eqIso : Iso (TotalMeetSemiLatticeStr A) (TosetStr ℓ A)
-    eqIso = iso fwd inv sec' rec' 
+    TotalMeetSemiLatticeStr≃TosetStr : TotalMeetSemiLatticeStr A ≃ TosetStr ℓ A
+    TotalMeetSemiLatticeStr≃TosetStr = isoToEquiv (iso fwd inv sec' rec')
 
-    eq : TotalMeetSemiLatticeStr A ≃ TosetStr ℓ A
-    eq = isoToEquiv eqIso
+    HasDecOrder→HasDecTotalMeetSemiLattice : HasDecOrder -> HasDecTotalMeetSemiLattice
+    HasDecOrder→HasDecTotalMeetSemiLattice (_≤_ , toset , decTotal) =
+      _⋀_ , ⋀TotalMeetSemiLattice , ⋀DecTotal
+      where
+      _⋀_ : A -> A -> A
+      _⋀_ = inv (tosetstr _≤_ toset) .TotalMeetSemiLatticeStr._⋀_
+      ⋀TotalMeetSemiLattice : IsTotalMeetSemiLatticeStr _⋀_
+      ⋀TotalMeetSemiLattice = inv (tosetstr _≤_ toset) .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice
+      discreteA : Discrete A
+      discreteA = decOrd→disc _≤_ (toset , decTotal)
+      ⋀DecTotal : ∀ a b -> ⋀Totality _⋀_ a b
+      ⋀DecTotal a b with discreteA (a ⋀ b) a | discreteA (b ⋀ a) b
+      ... | yes p | yes q = inl p
+      ... | yes p | no ¬q = inl p
+      ... | no ¬p | yes q = inr q
+      ... | no ¬p | no ¬q = ⊥.rec (P.rec (λ ()) (rec ¬p ¬q) (⋀Toset.⋀isTotal (inv (tosetstr _≤_ toset)) a b))

@@ -181,11 +181,14 @@ proposition-61 = isTosetDecidable→Discrete
 proposition-62 : _
 proposition-62 = Toset.HasDecOrder≃HasDecLinearOrder
 
-proposition-63 : _
-proposition-63 = Toset.⋀Toset._≤_
+definition-63 : _
+definition-63 = IsTotalMeetSemiLatticeStr
 
 proposition-64 : _
-proposition-64 = Toset.Toset⋀Toset.eq
+proposition-64 = Toset.TotalMeetSemiLatticeStr≃TosetStr
+
+proposition-64-a : _
+proposition-64-a = Toset.HasDecOrder→HasDecTotalMeetSemiLattice
 
 proposition-65 : _
 proposition-65 = Sort→Order.least -- TODO: implement
