@@ -11,6 +11,8 @@ files_to_process = [
     'papers/types25pp/sorting.tex',
 ]
 
+to_replace = {}
+
 def find_next(alink_type, start_index):
     for i in range(start_index+1, 100):
         if f"{alink_type}-{i} :" in agda_content:
@@ -25,3 +27,10 @@ for file_path in files_to_process:
     for alink_type, alink_label in matches:
         i = find_next(alink_type, i)
         print(f"Found alink in {file_path}: type='{alink_type}', label='{alink_label}', assigned id={i}")
+        to_replace[f"{alink_type}-{i} "] = f"{alink_type}-{alink_label} "
+
+for old, new in to_replace.items():
+    agda_content = agda_content.replace(old, new)
+
+with open('types25pp.agda', 'w') as f:
+    f.write(agda_content)
