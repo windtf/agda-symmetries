@@ -63,39 +63,38 @@ We posit that, because there are exactly 6 orderings, we can only define 6 \emph
 Formally, there is a bijection between the set of orderings on a carrier set $A$ and the set of correct sorting
 functions on lists of $A$.
 %
-In fact, a sorting function can be correctly axiomatized just from this point of view, which is our main contribution.
+A sorting function can be correctly axiomatised from this point of view, which is our main contribution.
 
 \paragraph*{Outline and Contributions}
-% The paper is organized as follows:
+
+The paper is organised as follows:
 \begin{myitemize}
   \item In~\cref{sec:universal-algebra}, we describe a formalisation of universal algebra developed from the point of view
         of functorial signatures, the definition and universal property of free algebras,
-        and algebras satisfying an equational theory.
+        and equational systems over signatures.
   \item In~\cref{sec:monoids}, we give constructions of free monoids, and proofs of their universal property.
-        Following this, in~\cref{sec:commutative-monoids}, we add symmetry to each representation of free monoids,
+        Following this, in~\cref{sec:commutative-monoids}, we add commutativity to each representation of free monoids,
         and extend the proofs of universal property from free monoids to free commutative monoids.
-        These are standard constructions that we formalise conceptually by formal combinatorics.
+        These constructions are standard, which we formalise by using our general framework.
   \item In \cref{sec:application}, we build on the previous constructions and study sorting functions.
-        The main result connects total orders, sorting, and symmetry,
+        The main result connects total orders, sorting, and commutativity,
         by proving an equivalence between decidable total orders on a carrier set $A$,
-        and correct sorting functions on lists of $A$.
-  \item Finally, \cref{sec:discussion} discusses related and future work.
+        and correct sorting functions defined using free monoids and free commutative monoids over $A$.
+  \item Finally, \cref{sec:discussion} discusses aspects of the formalisation, related and future work.
 \end{myitemize}
 %
 The three main parts of the paper may be read independently.
 %
 Readers interested in the formalisation of universal algebra may start from~\cref{sec:universal-algebra}.
 %
-Readers interested in the constructions of free monoids and free commutative monoids may skip ahead
+Readers interested in constructions of free monoids and free commutative monoids may skip ahead
 to~\cref{sec:monoids,sec:commutative-monoids}.
 %
-If the reader already believes in the existence of free algebras for monoids and commutative monoids,
-they can directly skip to the application section on sorting, in~\cref{sec:application}.
+If the reader is already familiar with these constructions,
+they may directly skip to the application section on sorting, in~\cref{sec:application}.
 %
-Although the formalisation is a contribution in itself, the purpose of the paper is not to directly discuss the
-formalisation, but to present the results in un-formalised form (in type-theoretic foundations), so the ideas are
-accessible to a wider audience.
+The paper is accompanied by a formalisation of all the results in Cubical Agda,
+and the artifact is available at~\cite{choudhuryAgdasymmetries2025}.
+However, we use informal mathematical language in the exposition to keep the presentation accessible.
 %
-\ifarxiv{}{The extended version of this paper including additional details and proofs is available on Zenodo~\cite{extendedVersion}.}
-%
-All the results of this paper are formalised in Cubical Agda, and the formalisation artifact is available at~\cite{choudhuryAgdasymmetries2025}.
+\ifarxiv{}{An extended version of the paper including additional details and proofs is available on Zenodo~\cite{extendedVersion}.}
