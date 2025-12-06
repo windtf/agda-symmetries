@@ -98,20 +98,29 @@ An equivalent way of defining a total order is using a binary meet operation, wi
         \item associative: $(x \meet y) \meet z \id x \meet (y \meet z)$,
         \item commutative: $x \meet y \id y \meet x$.
     \end{itemize}
-    A \emph{strongly-connected} meet semi-lattice further satisfies:
+    A \emph{total} meet semi-lattice further satisfies:
     \begin{itemize}
-        \item strong-connectedness: $\forall x, y$, either $x \meet y \id x$ or $x \meet y \id y$.
+        \item total: $\forall x, y$, either $x \meet y \id x$ or $x \meet y \id y$.
     \end{itemize}
-    A \emph{decidable} strongly-connected meet semi-lattice strengthens this to:
+    A \emph{decidable} total meet semi-lattice strengthens this to:
     \begin{itemize}
-        \item decidable strong-connectedness: ${\forall x, y}, \ps{x \meet y \id x} + \ps{x \meet y \id y}$.
+        \item decidable totality: ${\forall x, y}, \ps{x \meet y \id x} + \ps{x \meet y \id y}$.
     \end{itemize}
 \end{definition}
 
+\begin{proposition}[\alink{proposition}{}{discrete-meet-semi-lattice}]
+    \label{prop:discrete-meet-semi-lattice}
+    A decidable total order on $A$ implies any total meet semi-lattice structure on $A$ is decidable.
+\end{proposition}
+\begin{proof}
+    We decide if $x \meet y \id x$ and $x \meet y \id y$ to compute a proof of
+    $x \meet y \id x$ or $x \meet y \id y$. By totality, one of them must hold.
+\end{proof}
+
 \begin{proposition}[\alink{proposition}{}{total-order-meet-semi-lattice}]
     \label{prop:total-order-meet-semi-lattice}
-    A total order $\leq$ on a set $A$ is equivalent to a strongly-connected meet semi-lattice structure on $A$.
-    Further, a decidable total order on $A$ induces a decidable strongly-connected meet semi-lattice structure on $A$.
+    A total order $\leq$ on a set $A$ is equivalent to a total meet semi-lattice structure on $A$.
+    Further, a decidable total order on $A$ induces a decidable total meet semi-lattice structure on $A$.
 \end{proposition}
 \begin{proofsketch}
     Given a (mere) total order $\leq$ on a set $A$,
@@ -126,10 +135,10 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     Conversely, given a meet semi-lattice, we define $x \leq y \defeq x \meet y \id x$,
     which defines an $\hProp$-valued total ordering relation.
     %
-    If the total order is decidable, we use the discreteness of $A$ from~\cref{prop:decidable-total-order}
-    to constructively define the meet operation.
+    If the total order is decidable, by~\cref{prop:decidable-total-order} and~\cref{prop:discrete-meet-semi-lattice},
+    the mapped meet operation is decidable.
     %
-    The converse does not hold however, as a decidable strongly-connected meet semi-lattice
+    The converse does not hold however, as a decidable total meet semi-lattice
     does not imply discreteness of $A$.
     %
     Thus, we do not have a full equivalence in the decidable case.
@@ -551,6 +560,19 @@ We can now state and prove our main theorem.
     \label{sort:strict-order}
     Let $\term{DecSTotOrd}(A)$ be the set of decidable strict total orders on $A$,
     There is a map $t2s \colon \term{DecSTotOrd}(A) \to \term{Sort}(A) \times \term{Discrete}(A)$,
+    which is an equivalence.
+\end{corollary}
+\begin{proof}
+    By~\cref{prop:decidable-total-order}, we have an equivalence
+    $\term{DecSTotOrd}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
+    by transitivity of equivalences.
+\end{proof}
+
+\begin{corollary}[\alink{corollary}{}{lattice}]
+    \label{sort:lattice}
+    Assume $A$ has decidable equality.
+    Let $\term{TMSLattice}(A)$ be the set of total meet semilattices on $A$,
+    There is a map $l2s \colon \term{TMSLattice}(A) \to \term{Sort}(A)$,
     which is an equivalence.
 \end{corollary}
 \begin{proof}

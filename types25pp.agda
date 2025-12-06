@@ -180,7 +180,7 @@ proposition-decidable-strict-total-order : _
 proposition-decidable-strict-total-order = isTosetDecidable→Discrete
 
 proposition-decidable-strict-total-order-equiv : _
-proposition-decidable-strict-total-order-equiv = Toset.HasDecOrder≃HasDecLinearOrder
+proposition-decidable-strict-total-order-equiv = Toset.HasDecOrder≃HasDecStrictOrder
 
 definition-meet-semi-lattice : _
 definition-meet-semi-lattice = IsTotalMeetSemiLatticeStr
@@ -250,7 +250,7 @@ theorem-main : _
 theorem-main = Sort↔Order.sort≃order
 
 corollary-strict-order : _
-corollary-strict-order = Sort↔Order.sort≃linear-order
+corollary-strict-order = Sort↔Order.sort≃strict-order
 
 ---------------------------------
 -- an exhaustive list of all modules:

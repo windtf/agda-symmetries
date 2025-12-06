@@ -76,11 +76,11 @@ module Toset {ℓ : Level} {A : Type ℓ} where
   isPropIsDecOrder R =
     isOfHLevelΣ 1 (isPropIsToset R) λ isToset -> isPropΠ2 λ x y -> isPropDec (IsToset.is-prop-valued isToset x y)
 
-  IsDecLinearOrder : (A -> A -> Type ℓ) -> Type _
-  IsDecLinearOrder _>_ = IsLoset _>_ × (∀ x y -> Dec (x > y))
+  IsDecStrictTotalOrder : (A -> A -> Type ℓ) -> Type _
+  IsDecStrictTotalOrder _>_ = IsLoset _>_ × (∀ x y -> Dec (x > y))
 
-  isPropIsDecLinearOrder : ∀ R -> isProp (IsDecLinearOrder R)
-  isPropIsDecLinearOrder R =
+  isPropIsDecStrictTotalOrder : ∀ R -> isProp (IsDecStrictTotalOrder R)
+  isPropIsDecStrictTotalOrder R =
     isOfHLevelΣ 1 (isPropIsLoset R) λ isLoset -> isPropΠ2 λ x y -> isPropDec (IsLoset.is-prop-valued isLoset x y)
 
   IsDecTotalMeetSemiLattice : (A -> A -> A) -> Type _
@@ -89,14 +89,14 @@ module Toset {ℓ : Level} {A : Type ℓ} where
   HasDecOrder : Type _
   HasDecOrder = Σ _ IsDecOrder
 
-  HasDecLinearOrder : Type _
-  HasDecLinearOrder = Σ _ IsDecLinearOrder
+  HasDecStrictOrder : Type _
+  HasDecStrictOrder = Σ _ IsDecStrictTotalOrder
 
   HasDecTotalMeetSemiLattice : Type _
   HasDecTotalMeetSemiLattice = Σ _ IsDecTotalMeetSemiLattice
 
-  HasDecOrder≃HasDecLinearOrder : HasDecOrder ≃ HasDecLinearOrder
-  HasDecOrder≃HasDecLinearOrder = isoToEquiv (iso fwd inv sec ret)
+  HasDecOrder≃HasDecStrictOrder : HasDecOrder ≃ HasDecStrictOrder
+  HasDecOrder≃HasDecStrictOrder = isoToEquiv (iso fwd inv sec ret)
     where
     fwd : _
     fwd (_ , isOrd , isDec) =
@@ -116,7 +116,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
       ret' (inl x , notB) = Σ≡Prop (λ _ -> isProp¬ _) refl
       ret' (inr x , notB) = ⊥.rec (notB x)
     sec : _
-    sec (R , isOrd , isDec) = Σ≡Prop isPropIsDecLinearOrder
+    sec (R , isOrd , isDec) = Σ≡Prop isPropIsDecStrictTotalOrder
       (funExt λ a -> funExt λ b -> ireflRefl λ rab a≡b →
         IsLoset.is-irrefl isOrd a (subst (R a) (sym a≡b) rab))
     ret : _
@@ -149,6 +149,19 @@ module Toset {ℓ : Level} {A : Type ℓ} where
   ... | yes p | no ¬q = no λ r -> ¬q (subst (_≤ x) r (tosetA .is-refl x))
   ... | no ¬p | yes q = no λ r -> ¬p (subst (x ≤_) r (tosetA .is-refl x))
   ... | no ¬p | no ¬q = ⊥.rec (P.rec ⊥.isProp⊥ (⊎.rec ¬p ¬q) (tosetA .is-total x y))
+
+  module _ (isDisc : Discrete A) (_⋀_ : A -> A -> A) (lattice : IsTotalMeetSemiLatticeStr _⋀_) where
+    open IsTotalMeetSemiLatticeStr lattice
+
+    abstract
+      ⋀TotalDec : ∀ a b -> ⋀Totality _⋀_ a b
+      ⋀TotalDec a b with isDisc (a ⋀ b) a | isDisc (b ⋀ a) b
+      ... | yes p | _ = inl p
+      ... | no ¬p | yes q = inr q
+      ... | no ¬p | no ¬q = ⊥.rec (P.rec ⊥.isProp⊥ (⊎.rec ¬p ¬q) (⋀isTotal a b))
+
+    disc→decLattice : IsDecTotalMeetSemiLattice _⋀_
+    disc→decLattice = lattice , ⋀TotalDec
 
   toset≰→≤ : (_≤_ : A -> A -> Type ℓ) -> IsToset (_≤_) -> ∀ x y -> ¬ (x ≤ y) -> (y ≤ x)
   toset≰→≤ _≤_ tosetA x y ¬p =
@@ -364,8 +377,8 @@ module Toset {ℓ : Level} {A : Type ℓ} where
         eq : (a b : A) -> _ ≃ _
         eq a b = propBiimpl→Equiv (tosetA .is-prop-valued a b) (is-set tosetA _ _) Tos⋀.⋀Β₁ Tos⋀.⋀Η₁  
 
-      rec' : retract fwd inv
-      rec' (isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice) =
+      ret' : retract fwd inv
+      ret' (isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice) =
         cong₂ isTotalMeetSemiLattice (funExt (λ a -> funExt λ b -> eq a b))
           (toPathP (isPropIsTotalMeetSemiLatticeStr _ _ _))
         where
@@ -386,7 +399,7 @@ module Toset {ℓ : Level} {A : Type ℓ} where
           (⋀Tos.⋀isTotal a b)
 
     TotalMeetSemiLatticeStr≃TosetStr : TotalMeetSemiLatticeStr A ≃ TosetStr ℓ A
-    TotalMeetSemiLatticeStr≃TosetStr = isoToEquiv (iso fwd inv sec' rec')
+    TotalMeetSemiLatticeStr≃TosetStr = isoToEquiv (iso fwd inv sec' ret')
 
     HasDecOrder→HasDecTotalMeetSemiLattice : HasDecOrder -> HasDecTotalMeetSemiLattice
     HasDecOrder→HasDecTotalMeetSemiLattice (_≤_ , toset , decTotal) =
@@ -396,11 +409,29 @@ module Toset {ℓ : Level} {A : Type ℓ} where
       _⋀_ = inv (tosetstr _≤_ toset) .TotalMeetSemiLatticeStr._⋀_
       ⋀TotalMeetSemiLattice : IsTotalMeetSemiLatticeStr _⋀_
       ⋀TotalMeetSemiLattice = inv (tosetstr _≤_ toset) .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice
-      discreteA : Discrete A
-      discreteA = decOrd→disc _≤_ (toset , decTotal)
       ⋀DecTotal : ∀ a b -> ⋀Totality _⋀_ a b
-      ⋀DecTotal a b with discreteA (a ⋀ b) a | discreteA (b ⋀ a) b
-      ... | yes p | yes q = inl p
-      ... | yes p | no ¬q = inl p
-      ... | no ¬p | yes q = inr q
-      ... | no ¬p | no ¬q = ⊥.rec (P.rec (λ ()) (rec ¬p ¬q) (⋀Toset.⋀isTotal (inv (tosetstr _≤_ toset)) a b))
+      ⋀DecTotal = ⋀TotalDec (decOrd→disc _≤_ (toset , decTotal)) _⋀_ ⋀TotalMeetSemiLattice
+    
+    TotalMeetSemiLattice→HasDecOrder : Discrete A -> TotalMeetSemiLatticeStr A -> HasDecOrder
+    TotalMeetSemiLattice→HasDecOrder discA (isTotalMeetSemiLattice _⋀_ semiLattice) =
+      _≤_ , isToset , λ x y -> discA (x ⋀ y) x
+      where
+      open TosetStr (fwd (isTotalMeetSemiLattice _⋀_ semiLattice))
+
+    HasDecOrder≃DecTotalMeetSemiLattice : Discrete A -> TotalMeetSemiLatticeStr A ≃ HasDecOrder
+    HasDecOrder≃DecTotalMeetSemiLattice discA = isoToEquiv (iso fwd' inv' sec'' ret'')
+      where
+      isSetA : isSet A
+      isSetA = Discrete→isSet discA
+      fwd' : TotalMeetSemiLatticeStr A -> HasDecOrder
+      fwd' semiLattice =
+        let tosetstr _≤_ isToset = fwd semiLattice
+        in _≤_ , isToset , λ x y -> discA ((semiLattice ⋀Toset.⋀ x) y) x
+      inv' : HasDecOrder -> TotalMeetSemiLatticeStr A
+      inv' (_≤_ , toset , _) = inv (tosetstr _≤_ toset)
+      sec'' : section fwd' inv'
+      sec'' (_≤_ , toset , decOrd) =
+        Σ≡Prop isPropIsDecOrder (congS TosetStr._≤_ (sec' (tosetstr _≤_ toset)))
+      ret'' : retract fwd' inv'
+      ret'' semiLattice =
+        cong₂ isTotalMeetSemiLattice (cong TotalMeetSemiLatticeStr._⋀_ (ret' semiLattice)) (toPathP (isPropIsTotalMeetSemiLatticeStr _ _ _))

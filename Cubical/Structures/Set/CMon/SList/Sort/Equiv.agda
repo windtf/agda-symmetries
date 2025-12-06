@@ -67,8 +67,11 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   HasHeadLeastSectionAndIsDiscrete : Type _
   HasHeadLeastSectionAndIsDiscrete = (Σ _ IsHeadLeastSection) × (Discrete A)
 
+  HasSortSection : Type _
+  HasSortSection = Σ (SList A -> List A) IsSortSection
+
   HasSortSectionAndIsDiscrete : Type _
-  HasSortSectionAndIsDiscrete = (Σ (SList A -> List A) IsSortSection) × (Discrete A)
+  HasSortSectionAndIsDiscrete = HasSortSection × (Discrete A)
 
   IsSortSection→IsHeadLeastSection : ∀ s -> IsSortSection s -> IsHeadLeastSection s
   IsSortSection→IsHeadLeastSection s (section , isHeadLeast , _) = section , isHeadLeast
@@ -175,8 +178,8 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   sort≃order : HasDecOrder ≃ HasSortSectionAndIsDiscrete
   sort≃order = isoToEquiv sort↔order
 
-  -- version for linear order (a strongly connected strict order)
-  sort≃linear-order : HasDecLinearOrder ≃ HasSortSectionAndIsDiscrete
-  sort≃linear-order = compEquiv (invEquiv HasDecOrder≃HasDecLinearOrder) sort≃order
+  -- version for strict order
+  sort≃strict-order : HasDecStrictOrder ≃ HasSortSectionAndIsDiscrete
+  sort≃strict-order = compEquiv (invEquiv HasDecOrder≃HasDecStrictOrder) sort≃order
 
   -- module AnyFree (𝔐 : MDef.Free ℓ ℓ 2) (𝔏 : LDef.Free ℓ ℓ 2) where
