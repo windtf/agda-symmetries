@@ -214,6 +214,9 @@ definition-least = Sort→Order.least
 proposition-sort-almost-order : _
 proposition-sort-almost-order = Sort→Order.total≤
 
+proposition-counterexample-transitivity : _
+proposition-counterexample-transitivity = Sort→Order-Counterexample.notTrans
+
 definition-in-image : _
 definition-in-image = Sort.isSorted
 

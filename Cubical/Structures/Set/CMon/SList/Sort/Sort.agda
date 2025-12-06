@@ -89,7 +89,6 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
   _≤_ : A -> A -> Type _
   x ≤ y = least (x ∷* y ∷* []*) ≡ just x
 
-
   ≤Prop : ∀ x y -> hProp _
   ≤Prop x y = (x ≤ y) , isSetMaybeA _ _
 
@@ -231,3 +230,41 @@ module Sort→Order (isSetA : isSet A) (sort : SList A -> List A) (sort≡ : ∀
     IsToset.is-trans ≤IsToset = trans≤
     IsToset.is-antisym ≤IsToset = antisym≤
     IsToset.is-total ≤IsToset = total≤
+
+module Sort→Order-Counterexample where
+  open import Cubical.Structures.Set.CMon.SList.Sort.Order 
+  open import Cubical.HITs.FiniteMultiset.CountExtensionality
+  open Order→Sort-Example renaming (sort to sortℕ)
+
+  isSectionSortℕ : ∀ xs -> list→slist (sortℕ xs) ≡ xs
+  isSectionSortℕ = sortIsPermute
+
+  sort≡ℕ : ∀ xs ys -> sortℕ xs ≡ sortℕ ys -> xs ≡ ys
+  sort≡ℕ xs ys xs≡ys =
+    xs ≡⟨ sym (sortIsPermute xs) ⟩
+    list→slist (sortℕ xs) ≡⟨ congS list→slist xs≡ys ⟩
+    list→slist (sortℕ ys) ≡⟨ sortIsPermute ys ⟩
+    ys ∎
+
+  discreteMℕ : Discrete (SList ℕ)
+  discreteMℕ xs ys with discreteList discreteℕ (sortℕ xs) (sortℕ ys)
+  ... | yes p = yes (sort≡ℕ xs ys p)
+  ... | no ¬p = no (¬p ∘ congS sortℕ)
+
+  counterexample : SList ℕ -> List ℕ
+  counterexample xs with discreteMℕ xs (1 ∷* 3 ∷* []*)
+  ... | yes p = 3 ∷ 1 ∷ []
+  ... | no ¬p = sortℕ xs
+
+  isSectionCounterexample : ∀ xs -> list→slist (counterexample xs) ≡ xs
+  isSectionCounterexample xs with discreteMℕ xs (1 ∷* 3 ∷* []*)
+  ... | yes p =
+    3 ∷* [ 1 ]* ≡⟨ swap 3 1 []* ⟩
+    1 ∷* [ 3 ]* ≡⟨ sym p ⟩
+    xs ∎
+  ... | no ¬p = isSectionSortℕ xs
+
+  open Sort→Order isSetℕ counterexample isSectionCounterexample
+
+  notTrans : ¬ (∀ x y z -> x ≤ y -> y ≤ z -> x ≤ z)
+  notTrans trans = snotz (injSuc (just-inj _ _ (trans 1 2 3 refl refl)))

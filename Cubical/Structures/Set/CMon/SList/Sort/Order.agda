@@ -416,7 +416,7 @@ module Order→Sort-Example where
     lemma : BinaryRelation.isTotal _≤ℕ_
     lemma x y = ∣ ⊎.rec ⊎.inl (_⊎_.inr ∘ <→≤) (splitℕ-≤ x y) ∣₁
 
-  open Order→Sort _≤ℕ_ ≤ℕ-isToset ≤Dec
+  open Order→Sort _≤ℕ_ ≤ℕ-isToset ≤Dec public
 
   _ : sort (4 ∷* 6 ∷* 1 ∷* 2 ∷* []*) ≡ (1 ∷ 2 ∷ 4 ∷ 6 ∷ [])
   _ = refl
