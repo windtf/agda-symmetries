@@ -244,11 +244,11 @@ marked by the operations in $\sig$.
                     \&\&\& \mult \\
                     \&\& \mult \\
                     \&\& {x \mult (y \mult z)}
-                    \arrow[from=1-1, to=3-3]
-                    \arrow[from=1-3, to=2-4]
-                    \arrow[from=1-5, to=2-4]
-                    \arrow[from=2-4, to=3-3]
-                    \arrow[from=3-3, to=4-3]
+                    \arrow[no head, from=1-1, to=3-3]
+                    \arrow[no head, from=1-3, to=2-4]
+                    \arrow[no head, from=1-5, to=2-4]
+                    \arrow[no head, from=2-4, to=3-3]
+                    \arrow[no head, from=3-3, to=4-3]
                 \end{tikzcd}
             }
             \qquad\qquad
@@ -258,7 +258,7 @@ marked by the operations in $\sig$.
                     e \\
                     \\
                     e
-                    \arrow[from=1-1, to=3-1]
+                    \arrow[no head, from=1-1, to=3-1]
                 \end{tikzcd}
             }
         \end{center}
@@ -288,12 +288,12 @@ since they are missing the unit and associativity laws.
                 2 \&\& 1 \&\& 1 \\
                 \&\&\& {+} \\
                 \&\& {+} \\
-                \&\& 4
-                \arrow[from=1-1, to=3-3]
-                \arrow[from=1-3, to=2-4]
-                \arrow[from=1-5, to=2-4]
-                \arrow[from=2-4, to=3-3]
-                \arrow[from=3-3, to=4-3]
+                \&\& 2 + (1 + 1)
+                \arrow[no head, from=1-1, to=3-3]
+                \arrow[no head, from=1-3, to=2-4]
+                \arrow[no head, from=1-5, to=2-4]
+                \arrow[no head, from=2-4, to=3-3]
+                \arrow[no head, from=3-3, to=4-3]
             \end{tikzcd}
         }
         \qquad\qquad
@@ -303,12 +303,12 @@ since they are missing the unit and associativity laws.
                 2 \&\& 1 \&\& 1 \\
                 \& {+} \\
                 \&\& {+} \\
-                \&\& {}
+                \&\& {(2 + 1) + 1}
                 \arrow[no head, from=3-3, to=4-3]
-                \arrow[from=1-5, to=3-3]
-                \arrow[from=1-1, to=2-2]
-                \arrow[from=1-3, to=2-2]
-                \arrow[from=2-2, to=3-3]
+                \arrow[no head, from=1-5, to=3-3]
+                \arrow[no head, from=1-1, to=2-2]
+                \arrow[no head, from=1-3, to=2-2]
+                \arrow[no head, from=2-2, to=3-3]
             \end{tikzcd}
         }
     \end{center}
@@ -369,15 +369,15 @@ free variables available.
             \begin{tikzcd}[ampersand replacement=\&,cramped]
                 e \&\& x \\
                 \& \mult \\
-                \& {}
-                \arrow[from=1-1, to=2-2]
-                \arrow[from=1-3, to=2-2]
+                \& {e \mult x}
+                \arrow[no head, from=1-1, to=2-2]
+                \arrow[no head, from=1-3, to=2-2]
                 \arrow[no head, from=2-2, to=3-2]
             \end{tikzcd}
             \hspace{2em}
             \begin{tikzcd}[ampersand replacement=\&,cramped]
                 x \\
-                \\
+                \\ x
                 \arrow[no head, from=1-1, to=3-1]
             \end{tikzcd}
         \end{center}
@@ -389,15 +389,15 @@ free variables available.
             \begin{tikzcd}[ampersand replacement=\&,cramped]
                 x \&\& e \\
                 \& \mult \\
-                \& {}
-                \arrow[from=1-1, to=2-2]
-                \arrow[from=1-3, to=2-2]
+                \& {x \mult e}
+                \arrow[no head, from=1-1, to=2-2]
+                \arrow[no head, from=1-3, to=2-2]
                 \arrow[no head, from=2-2, to=3-2]
             \end{tikzcd}
             \hspace{2em}
             \begin{tikzcd}[ampersand replacement=\&,cramped]
                 x \\
-                \\
+                \\ x
                 \arrow[no head, from=1-1, to=3-1]
             \end{tikzcd}
         \end{center}
@@ -411,12 +411,12 @@ free variables available.
                     x \&\& y \&\& z \\
                     \&\&\& {\mult} \\
                     \&\& {\mult} \\
-                    \&\&
+                    \&\& {x \mult (y \mult z)}
                     \arrow[no head, from=3-3, to=4-3]
-                    \arrow[from=2-4, to=3-3]
-                    \arrow[from=1-3, to=2-4]
-                    \arrow[from=1-5, to=2-4]
-                    \arrow[from=1-1, to=3-3]
+                    \arrow[no head, from=2-4, to=3-3]
+                    \arrow[no head, from=1-3, to=2-4]
+                    \arrow[no head, from=1-5, to=2-4]
+                    \arrow[no head, from=1-1, to=3-3]
                 \end{tikzcd}
                 \hspace{2em}
                 % https://q.uiver.app/#q=WzAsNixbMiwyLCIrIl0sWzIsM10sWzIsMCwiMSJdLFs0LDAsIjEiXSxbMCwwLCIyIl0sWzEsMSwiKyJdLFswLDEsIiIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywwXSxbNCw1XSxbMiw1XSxbNSwwXV0=
@@ -424,12 +424,12 @@ free variables available.
                     x \&\& y \&\& z \\
                     \& {\mult} \\
                     \&\& {\mult} \\
-                    \&\& {}
+                    \&\& {(x \mult y) \mult z}
                     \arrow[no head, from=3-3, to=4-3]
-                    \arrow[from=1-5, to=3-3]
-                    \arrow[from=1-1, to=2-2]
-                    \arrow[from=1-3, to=2-2]
-                    \arrow[from=2-2, to=3-3]
+                    \arrow[no head, from=1-5, to=3-3]
+                    \arrow[no head, from=1-1, to=2-2]
+                    \arrow[no head, from=1-3, to=2-2]
+                    \arrow[no head, from=2-2, to=3-3]
                 \end{tikzcd}
             }
         \end{center}
