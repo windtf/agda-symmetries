@@ -1,7 +1,7 @@
 # all sources needed to build the paper
 SOURCES = $(wildcard *.tex *.cls *.sty *.bib)
 # sources for the arxiv version
-ARXIV_SOURCES = $(filter-out $(wildcard *types*),$(wildcard *.tex *.cls *.sty *.bib *.bbl))
+ARXIV_SOURCES = $(filter-out $(wildcard *types*),$(wildcard *.tex *.cls *.sty *.bib *.bbl) cc-by.pdf lipics-logo-bw.pdf orcid.pdf)
 # sources for the camera-ready version
 TYPESPP_SOURCES = types25pp-sort.tex $(filter-out $(wildcard *arxiv*)$(wildcard *types*),$(wildcard *.tex *.cls *.sty *.bib *.bbl))
 # targets to build: full paper, and the stripped submission
