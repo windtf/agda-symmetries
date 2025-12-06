@@ -192,7 +192,7 @@ because $s$ preserves length, and the second element is forced to be $y$.
 % \end{proposition}
 
 \begin{proposition}
-    \label{sort:almost-total}
+    \label{sort:almost-order}
     $\leqs$ is reflexive, antisymmetric, and total.
 \end{proposition}
 \begin{proof}
@@ -297,7 +297,7 @@ is the least element of the list.
 
 \subsubsection{Embedding orders into sections}
 
-Following from \cref{sort:almost-total,sort:trans},
+Following from \cref{sort:almost-order,sort:trans},
 and \cref{prop:order-to-sort-head-least},
 we have shown that a section $s$ that satisfies $\isheadleast$ produces a total order
 $x \leqs y \defeq \term{least}(\bag{x, y}) \id \inr(x)$,
@@ -484,7 +484,7 @@ We can now state and prove our main theorem.
     By~\cref{sort:decord-to-deceq}, $A$ is $\term{Discrete}$.
     %
     The inverse $s2o(s)$ is constructed by~\cref{def:least}, which produces
-    a total order by~\cref{sort:almost-total,sort:trans},
+    a total order by~\cref{sort:almost-order,sort:trans},
     and a decidable total order by $\term{Discrete}(A)$.
     %
     By~\cref{sort:o2s2o} we have $s2o \comp o2s \id \idfunc$,

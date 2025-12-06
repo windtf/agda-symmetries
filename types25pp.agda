@@ -113,11 +113,15 @@ proposition-40 = QFreeMon.qFreeMonDef
 -- Section 4.2: Lists quotiented by permutation relations
 import Cubical.Structures.Set.CMon.PList as PList
 
-definition-24 : _
-definition-24 = PList.Perm
+definition-41 : _
+definition-41 = PList.Perm
 
 proposition-42 : _
 proposition-42 = PList.permRespf♯
+
+-- Section 4.3: Swap lists
+definition-43 : _
+definition-43 = SList
 
 -- Section 4.4: Bag
 import Cubical.Structures.Set.CMon.Bag as Bag
@@ -190,8 +194,8 @@ proposition-64 = Toset.TotalMeetSemiLatticeStr≃TosetStr
 proposition-64-a : _
 proposition-64-a = Toset.HasDecOrder→HasDecTotalMeetSemiLattice
 
-proposition-65 : _
-proposition-65 = Sort→Order.least -- TODO: implement
+definition-65 : _
+definition-65 = Sort→Order.least -- TODO: implement
 
 -- Section 5.3.1: Section from Order
 proposition-66 : _
@@ -199,7 +203,7 @@ proposition-66 = Sort↔Order.order→sort
 
 -- Section 5.3.2: Section from Order
 definition-67 : _
-definition-67 = Sort→Order._≤_
+definition-67 = Sort→Order.least
 
 proposition-68 : _
 proposition-68 = Sort→Order.total≤
@@ -220,33 +224,39 @@ proposition-74 : _
 proposition-74 = Sort→Order.trans≤
 
 -- Section 5.3.3: Embedding orders into sections
-proposition-22 : _
-proposition-22 = Sort↔Order.order→isHeadLeast→order
+proposition-75 : _
+proposition-75 = Sort↔Order.order→isHeadLeast→order
 
 -- Section 5.3.4: Equivalence of order and sections
 definition-77 : _
 definition-77 = Sort.isTailSorted
 
-lemma-78 : _
-lemma-78 = Order→Sort.uniqueSorted
+definition-78 : _
+definition-78 = ?
 
-proposition-79 : _
-proposition-79 = Order→Sort.uniqueSort
+lemma-79 : _
+lemma-79 = Order→Sort.uniqueSorted
 
 proposition-80 : _
-proposition-80 = Order→Sort.sortIsSorted
+proposition-80 = Order→Sort.uniqueSort
 
-lemma-81 : _
-lemma-81 = Sort↔Order.sort→order→sort
+proposition-81 : _
+proposition-81 = Order→Sort.sortIsSorted
 
-definition-82 : _
-definition-82 = Sort↔Order.HasSortSectionAndIsDiscrete
+lemma-82 : _
+lemma-82 = Sort↔Order.sort→order→sort
 
-theorem-83 : _
-theorem-83 = Sort↔Order.sort≃order
+definition-83 : _
+definition-83 = Sort↔Order.HasSortSectionAndIsDiscrete
 
-corollary-84 : _
-corollary-84 = Sort↔Order.sort≃linear-order
+theorem-84 : _
+theorem-84 = Sort↔Order.sort≃order
+
+corollary-85 : _
+corollary-85 = Sort↔Order.sort≃linear-order
+
+proposition-86 : _
+proposition-86 = ?
 
 ---------------------------------
 -- an exhaustive list of all modules:

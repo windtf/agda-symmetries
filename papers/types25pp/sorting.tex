@@ -4,7 +4,7 @@
 \label{sec:total-orders}
 
 First, we recall the axioms of a total order or linear order $\leq$ on a set $A$.
-\begin{definition}[\alink{definition}{Total order}]
+\begin{definition}[\alink{definition}{Total order}{total-order}]
     \label{def:total-order}
     A total order on a set $A$ is a relation $\leq : A \to A \to \hProp$ that satisfies:
     \begin{itemize}
@@ -24,7 +24,7 @@ In the context of this paper, we want to make a distinction between
 The decidability axiom strengthens the totality axiom,
 where we have either $x \leq y$ or $y \leq x$ merely as a proposition,
 but decidability allows us to produce a witness if $x \leq y$ is true.
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{decidable-total-order}]
     \label{prop:decidable-total-order}
     In a decidable total order, it holds that ${\forall x, y}, \ps{x \leq y} + \ps{y \leq x}$.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
@@ -44,7 +44,7 @@ but decidability allows us to produce a witness if $x \leq y$ is true.
     \end{itemize}
 \end{proof}
 We also recall the axioms of a strict total order $<$ on $A$.
-\begin{definition}[\alink{definition}{Strict total order}]
+\begin{definition}[\alink{definition}{Strict total order}{strict-total-order}]
     \label{def:strict-total-order}
     A strict total order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
     \begin{itemize}
@@ -60,7 +60,7 @@ We also recall the axioms of a strict total order $<$ on $A$.
     \end{itemize}
 \end{definition}
 
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{decidable-strict-total-order}]
     \label{prop:decidable-strict-total-order}
     In a decidable strict total order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
@@ -73,7 +73,7 @@ We also recall the axioms of a strict total order $<$ on $A$.
     \end{itemize}
 \end{proof}
 
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{decidable-strict-total-order-equiv}]
     \label{prop:decidable-strict-total-order-equiv}
     The set of decidable strict total orders on $A$ and the set of decidable total orders on $A$ are equivalent.
 \end{proposition}
@@ -90,7 +90,7 @@ We also recall the axioms of a strict total order $<$ on $A$.
 %
 \noindent
 An equivalent way of defining a total order is using a binary meet operation, without starting from an ordering relation.
-\begin{definition}[\alink{definition}{Meet semi-lattice}]
+\begin{definition}[\alink{definition}{Meet semi-lattice}{meet-semi-lattice}]
     \label{def:meet-semi-lattice}
     A meet semi-lattice is a set $A$ with a binary operation $\blank\meet\blank : A \to A \to A$ that is:
     \begin{itemize}
@@ -108,7 +108,7 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     \end{itemize}
 \end{definition}
 
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{total-order-meet-semi-lattice}]
     \label{prop:total-order-meet-semi-lattice}
     A total order $\leq$ on a set $A$ is equivalent to a strongly-connected meet semi-lattice structure on $A$.
     Further, a decidable total order on $A$ induces a decidable strongly-connected meet semi-lattice structure on $A$.
@@ -136,7 +136,7 @@ An equivalent way of defining a total order is using a binary meet operation, wi
 \end{proofsketch}
 %
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
-\begin{definition}[\alink{definition}{$\term{head}$}]
+\begin{definition}[\alink{definition}{$\term{head}$}{head-free-commutative-monoid}]
     \label{def:head-free-commutative-monoid}
     Assume a total order $\leq$ on a set $A$.
     We define a commutative monoid structure on $1 + A$,
@@ -213,7 +213,7 @@ and the implications of its existence is that $A$ can be ordered, or sorted.
 \subsubsection{Section from Order}
 \label{sec:sort-section-from-order}
 
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{sort-from-order}]
     Assume a decidable total order on $A$. There is a sort function $\ssection: \MM(A) \to \LL(A)$
     which constructs a section to $\quotient : \LL(A) \twoheadrightarrow \MM(A)$
 \end{proposition}
@@ -241,7 +241,7 @@ To show a section is indeed a sort function, we need to show the section imposes
 Indeed, just by the virtue of $\ssection$ being a section,
 we can \emph{almost} construct a total-order on the carrier set.
 
-\begin{definition}[\alink{definition}{$\term{least}$}]
+\begin{definition}[\alink{definition}{$\term{least}$}{least}]
     \label{def:least}
     Given a section $\ssection$, we define:
     \[
@@ -259,8 +259,8 @@ because $\ssection$ preserves length, and the second element is forced to be $y$
 %     $\leqs$ is decidable iff $A$ has decidable equality.
 % \end{proposition}
 
-\begin{proposition}[\alink{proposition}{}]
-    \label{sort:almost-total}
+\begin{proposition}[\alink{proposition}{}{sort-almost-order}]
+    \label{sort:almost-order}
     $\leqs$ is reflexive, antisymmetric, and total.
 \end{proposition}
 \begin{proof}
@@ -296,7 +296,7 @@ but it does not necessarily sort bags with 3 or more elements.
 \end{proof}
 %
 We will enforce additional constraints on the \emph{image} of $\ssection$, to turn it into a correct sort function.
-\begin{definition}[\alink{definition}{$\blank\in\im{\ssection}$}]
+\begin{definition}[\alink{definition}{$\blank\in\im{\ssection}$}{in-image}]
     \label{def:in-image}
     The fiber of $\ssection$ at a point in the codomain~$\xs : \LL(A)$
     is given by $\fib_{\ssection}(\xs) \defeq \dsum{ys : \MM(A)}{(\ssection(ys) = \xs)}$.
@@ -312,13 +312,13 @@ therefore $\inimage{\xs}$ would imply $\xs$ is a correctly $\ssection$-``sorted'
 %
 First, we note that the 2-element case is correct.
 %
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{sort-to-order}]
     \label{sort:sort-to-order}
     $x \leqs y$ \; iff \; $\inimage{[x, y]}$.
 \end{proposition}
 %
 \noindent Then, we state the first axiom on $\ssection$.
-\begin{definition}[\alink{definition}{$\isheadleast$}]
+\begin{definition}[\alink{definition}{$\isheadleast$}{head-least}]
     \label{sort:head-least}
     A section $\ssection$ satisfies $\isheadleast$ iff for all $x, y, \xs$:
     \[
@@ -333,13 +333,13 @@ to make the axiom look like a logical ``cut'' rule.
 Informally, it says that the head of an $\ssection$-``sorted'' list
 is the least element of the list.
 
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{order-to-sort-head-least}]
     \label{prop:order-to-sort-head-least}
     If $A$ has a total order $\leq$,
     insertion sort defined using $\leq$ satisfies $\isheadleast$.
 \end{proposition}
 
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{trans}]
     \label{sort:trans}
     If $\ssection$ satisfies $\isheadleast$, $\leqs$ is transitive.
 \end{proposition}
@@ -364,7 +364,7 @@ is the least element of the list.
 \subsubsection{Embedding orders into sections}
 \label{sec:sort-embedding}
 
-Following from \cref{sort:almost-total,sort:trans},
+Following from \cref{sort:almost-order,sort:trans},
 and \cref{prop:order-to-sort-head-least},
 we have shown that a section $\ssection$ that satisfies $\isheadleast$ produces a total order
 $x \leqs y \defeq \term{least}(\bag{x, y}) \id \inr(x)$,
@@ -373,7 +373,7 @@ constructed by sorting with $\leq$.
 %
 This constitutes an embedding of decidable total orders into sections satisfying $\isheadleast$.
 
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{o2s2o}]
     \label{sort:o2s2o}
     Assume $A$ has a decidable total order $\leq$, we can construct a section $\ssection$ that
     satisfies $\isheadleast$, such that $\leqs$ constructed from $\ssection$ is equivalent
@@ -419,7 +419,7 @@ Unfortunately, $\isheadleast$ is not enough to guarantee this.
 
 Therefore, we need to introduce a second axiom of sorting.
 
-\begin{definition}[\alink{definition}{$\istailsort$}]
+\begin{definition}[\alink{definition}{$\istailsort$}{tail-sort}]
     \label{def:tail-sort}
     A section $\ssection$ satisfies $\istailsort$ iff
     for all $x, \xs$,
@@ -439,7 +439,7 @@ the $\leqs$ constructed from $\ssection$.
 In fact, the axioms we have introduced are equivalent to the standard inductive characterization of sorted lists,
 found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
 
-\begin{definition}[\alink{definition}{$\isSorted$}]
+\begin{definition}[\alink{definition}{$\isSorted$}{is-sorted}]
     \label{def:is-sorted}
     Given a total order $\leq$ on $A$,
     the predicate $\isSorted_{\leq}$ on $\LL(A)$ is generated by the following constructors:
@@ -454,7 +454,7 @@ found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
 %
 Note that $\isSorted_{\leq}(\xs)$ is a proposition for every $\xs$,
 and forces the list $\xs$ to be permuted in a unique way.
-\begin{lemma}[\alink{lemma}{}]
+\begin{lemma}[\alink{lemma}{}{is-sorted-unique}]
     Given a total order $\leq$, for any $\xs, \ys : \LL(A)$,
     $\quotient(\xs) = \quotient(\ys) \land \isSorted_{\leq}(\xs) \land \isSorted_{\leq}(\ys) \to \xs = \ys$.
 \end{lemma}
@@ -463,7 +463,7 @@ Insertion sort by $\leq$ always produces lists that satisfy $\isSorted_{\leq}$.
 Functions that also produce lists satisfying $\isSorted_{\leq}$ are equal to insertion sort
 by function extensionality.
 %
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{sort-uniq}]
     \label{sort:sort-uniq}
     Given a total order $\leq$,
     if a section $\ssection$ always a produces sorted list, i.e. $\forall \xs.\,\isSorted_{\leq}(\ssection(\xs))$,
@@ -472,7 +472,7 @@ by function extensionality.
 %
 Finally, this gives us the correctness property of our axioms.
 %
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{well-behave-sorts}]
     \label{sort:well-behave-sorts}
     Given a section $\ssection$ that satisfies $\isheadleast$ and $\istailsort$,
     and $\leqs$ the order derived from $\ssection$, then for all $\xs : \MM(A)$,
@@ -494,7 +494,7 @@ Finally, this gives us the correctness property of our axioms.
     inductively prove $\isSorted_{\leqs}(y \cons \ys)$.
 \end{proof}
 
-\begin{lemma}[\alink{lemma}{}]
+\begin{lemma}[\alink{lemma}{}{s2o2s}]
     \label{sort:s2o2s}
     Given a decidable total order $\leq$ on $A$, we can construct
     a section $t_\leq$ satisfying $\isheadleast$ and $\istailsort$,
@@ -511,7 +511,7 @@ Finally, this gives us the correctness property of our axioms.
 
 \noindent
 We can now state and prove our main theorem.
-\begin{definition}[\alink{definition}{Sorting function}]
+\begin{definition}[\alink{definition}{Sorting function}{sorting-function}]
     \leavevmode
     A sorting function is a section $\ssection : \MM(A) \to \LL(A)$ to
     the canonical surjection $\quotient : \LL(A) \twoheadrightarrow \MM(A)$ satisfying two axioms:
@@ -526,7 +526,7 @@ We can now state and prove our main theorem.
               \).
     \end{itemize}
 \end{definition}
-\begin{theorem}[\alink{theorem}{}]
+\begin{theorem}[\alink{theorem}{}{main}]
     \label{sort:main}
     Let $\term{DecTotOrd}(A)$ be the set of decidable total orders on $A$,
     $\term{Sort}(A)$ be the set of sorting functions with carrier set $A$,
@@ -539,7 +539,7 @@ We can now state and prove our main theorem.
     By~\cref{prop:decidable-total-order}, $A$ is $\term{Discrete}$.
     %
     The inverse $s2o(s)$ is constructed by~\cref{def:least}, which produces
-    a total order by~\cref{sort:almost-total,sort:trans},
+    a total order by~\cref{sort:almost-order,sort:trans},
     and a decidable total order by $\term{Discrete}(A)$.
     %
     By~\cref{sort:o2s2o} we have $s2o \comp o2s \id \idfunc$,
@@ -547,8 +547,8 @@ We can now state and prove our main theorem.
     giving an isomorphism, hence an equivalence.
 \end{proof}
 
-\begin{corollary}[\alink{corollary}{}]
-    \label{sort:linear-order}
+\begin{corollary}[\alink{corollary}{}{strict-order}]
+    \label{sort:strict-order}
     Let $\term{DecSTotOrd}(A)$ be the set of decidable strict total orders on $A$,
     There is a map $t2s \colon \term{DecSTotOrd}(A) \to \term{Sort}(A) \times \term{Discrete}(A)$,
     which is an equivalence.
@@ -564,7 +564,7 @@ The sorting axioms we have come up with are abstract properties of functions.
 As a sanity check, we can verify that the colloquial correctness specification of a sorting function (starting from a
 total order) matches our axioms. We use the correctness criterion developed in~\cite{alexandruIntrinsicallyCorrectSorting2023}.
 %
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{sort-correctness}]
     \label{prop:sort-correctness}
     Assume a decidable total order $\leq$ on $A$.
     %

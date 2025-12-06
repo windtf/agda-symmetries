@@ -118,7 +118,7 @@ First, we observe some properties of $\preccurlyeq$.
     $\preccurlyeq$ is decidable iff $A$ has decidable equality.
 \end{proposition}
 
-\begin{proposition}{\href{https://windtfw.com/agda-symmetries/Cubical.Structures.Set.CMon.SList.Sort.Sort.html#3109}{link}}\label{sort:almost-total}
+\begin{proposition}{\href{https://windtfw.com/agda-symmetries/Cubical.Structures.Set.CMon.SList.Sort.Sort.html#3109}{link}}\label{sort:almost-order}
     $\preccurlyeq$ is reflexive, antisymmetric, and total.
 \end{proposition}
 \begin{proof}
@@ -377,7 +377,7 @@ which axiomatizes a correct sorting algorithm.
     $o2s(\leq)$ can be constructed by parameterizing insertion sort with $\leq$.
     By~\cref{sort:decord-to-deceq} we show that $A$ satisfy $\term{isDiscrete}$.
     The inverse $s2o(s)$ can be constructed by~\cref{def:least}, which is proven to be
-    a total order by~\cref{sort:almost-total} and~\cref{sort:trans}, and decidable
+    a total order by~\cref{sort:almost-order} and~\cref{sort:trans}, and decidable
     since we assume $\term{isDiscrete}(A)$.
 
     By~\cref{sort:o2s2o} we show that $s2o \comp o2s = id$, and by~\cref{sort:s2o2s}

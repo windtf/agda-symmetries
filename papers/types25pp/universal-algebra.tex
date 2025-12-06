@@ -18,7 +18,7 @@ We keep a running example of monoids in mind, while explaining and defining the 
 \subsection{Algebras}
 \label{sec:universal-algebra:algebras}
 
-\begin{definition}[\alink{definition}{Signature}]
+\begin{definition}[\alink{definition}{Signature}{signature}]
     \label{algebra:signature}
     \label{def:signature}
     A signature, denoted $\sig$, is a (dependent) pair consisting of
@@ -40,7 +40,7 @@ We keep a running example of monoids in mind, while explaining and defining the 
 
 \noindent
 Every signature $\sig$ induces a signature functor $\Sig$ on $\Set$.
-\begin{definition}[\alink{definition}{Signature functor} $\Sig \colon \Set \to \Set$]
+\begin{definition}[\alink{definition}{Signature functor}{signature-functor}]
     \label{def:signature-functor}
     \[
         X \mapsto \dsum{o:\op}{X^{\ar(o)}}
@@ -69,7 +69,7 @@ These two pieces of data constitute an algebra for the $\Sig$ functor.
 %
 We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the model-theoretic notational convention.
 
-\begin{definition}[\alink{definition}{Structure}]
+\begin{definition}[\alink{definition}{Structure}{structure}]
     \label{algebra:struct}
     A $\sig$-structure $\str{X}$ is an $\Sig$-algebra, that is, a pair consisting of
     a carrier set $X$, and
@@ -89,7 +89,7 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
     Natural numbers $\Nat$ with $(0, +)$ or $(1, \times)$ are examples of monoid structures.
 \end{example}
 
-\begin{definition}[\alink{definition}{$\sig$-Homomorphism}]
+\begin{definition}[\alink{definition}{$\sig$-Homomorphism}{sig-homomorphism}]
     A homomorphism between $\sig$-structures $\str{X}$ and $\str{Y}$ is a morphism of $\Sig$-algebras,
     that is, a map $f : X \to Y$ making the following diagram commute:
     \[
@@ -131,7 +131,7 @@ also known as the term algebra (or the \emph{absolutely free} algebra without eq
 %
 We rephrase this in more concrete terms.
 
-\begin{definition}[\alink{definition}{Free Algebras}]
+\begin{definition}[\alink{definition}{Free Algebras}{free-algebras}]
     \label{def:free-algebras}
     A free $\sig$-algebra construction consists of the following:
     \begin{itemize}
@@ -155,7 +155,7 @@ The inverse operation to post-composing with $\eta_X$ extends a function to a ho
 %
 Note that the free algebra on the empty set~\(\str{F}(\emptyt)\) is inhabited by all the constant symbols in the signature.
 
-\begin{definition}[\alink{definition}{Universal extension}]
+\begin{definition}[\alink{definition}{Universal extension}{universal-extension}]
     \label{def:universal-extension}
     The universal extension of a function $f : X \to Y$ to a homomorphism out of the free $\sig$-algebra on $X$ is written
     as $\ext{f} : \str{F}(X) \to \str{Y}$.
@@ -165,7 +165,7 @@ Note that the free algebra on the empty set~\(\str{F}(\emptyt)\) is inhabited by
 \end{definition}
 \noindent
 Free algebra constructions are canonically equivalent.
-\begin{propositionrep}[\alink{proposition}{}]
+\begin{propositionrep}[\alink{proposition}{}{free-algebras-unique}]
     \label{lem:free-algebras-unique}
     If $\str{F}(X)$ and $\str{G}(X)$ are free $\sig$-algebras on $X$,
     %
@@ -223,7 +223,7 @@ In type theory, \emph{free} constructions are often given by inductive types,
 where the constructors are the pieces of data that freely generate the structure,
 and the type-theoretic induction principle enforces the category-theoretic universal property.
 
-\begin{definition}[\alink{definition}{Construction of Free $\sig$-algebras}]
+\begin{definition}[\alink{definition}{Construction of Free $\sig$-algebras}{free-algebra-construction}]
     \label{algebra:tree}
     \label{def:free-algebra-construction}
     The free $\sig$-algebra on a type $X$ is given by the inductive type $\type{Tree}(X)$,
@@ -268,7 +268,7 @@ marked by the operations in $\sig$.
     \end{example}
 \end{toappendix}
 %
-\begin{proposition}[\alink{proposition}{}]
+\begin{proposition}[\alink{proposition}{}{free-algebra-construction-is}]
     \label{prop:free-algebra-construction-is}
     $(\type{Tree}(X), \term{leaf})$ is the free $\sig$-algebra on~$X$. %% for any set $X$.
 \end{proposition}
@@ -317,7 +317,7 @@ since they are missing the unit and associativity laws.
 %
 To impose equations on the generated abstract syntax trees, we adopt the point of view of equational logic.
 %
-\begin{definition}[\alink{definition}{Equational Signature}]
+\begin{definition}[\alink{definition}{Equational Signature}{equational-signature}]
     \label{def:equational-signature}
     An equational signature, denoted $\eqsig$, is a (dependent) pair consisting of:
     a set of names for equations, $\eqop : \Set$, and
@@ -336,7 +336,7 @@ To impose equations on the generated abstract syntax trees, we adopt the point o
 \end{example}
 %
 Similar to the term signature functor in~\cref{def:signature-functor}, this produces an equational signature functor on $\Set$.
-\begin{definition}[\alink{definition}{Eq. Signature Functor $\EqSig \colon \Set \to \Set$}]
+\begin{definition}[\alink{definition}{Eq. Signature Functor}{equational-signature-functor}]
     \label{def:equational-signature-functor}
     \begin{gather*}
         X \mapsto \dsum{e:\eqop}{X^{\eqfv(e)}}
@@ -352,7 +352,7 @@ To build equations out of this,
 we use the $\sig$-operations and construct trees for the left and right-hand sides of each equation using the
 free variables available.
 %
-\begin{definition}[\alink{definition}{System of Equations}]
+\begin{definition}[\alink{definition}{System of Equations}{system-of-equations}]
     A system of equations over a signature $(\sig,\eqsig)$ is a pair of natural transformations:
     \[
         \eqleft, \eqright \colon \EqSig \natto \str{F}_{\sig} \enspace.
@@ -449,7 +449,7 @@ that is by construction, a homomorphism from $\str{F}(V)$ to $\str{X}$.
 %
 To satisfy an equation, these two evaluations should agree.
 %
-\begin{definition}[\alink{definition}{Satisfaction $\str{X} \entails T$}]
+\begin{definition}[\alink{definition}{Satisfaction $\str{X} \entails T$}{satisfaction}]
     A $\sig$-structure $\str{X}$ satisfies the system of equations $T_{(\sig,\eqsig)}$ if for every set $V$,
     and every assignment $\rho : V \to X$, $\ext{\rho}$ is a (co)fork:
     % https://q.uiver.app/#q=WzAsMyxbMiwwLCJcXHN0cntGfShWKSJdLFs0LDAsIlxcc3Rye1h9Il0sWzAsMCwiXFxFcVNpZyhWKSJdLFswLDEsIlxcZXh0e1xccmhvfSJdLFsyLDAsIlxcZXFsZWZ0X3tWfSIsMCx7Im9mZnNldCI6LTN9XSxbMiwwLCJcXGVxcmlnaHRfe1Z9IiwyLHsib2Zmc2V0IjozfV1d
