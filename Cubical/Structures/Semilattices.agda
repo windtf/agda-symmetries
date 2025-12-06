@@ -411,12 +411,6 @@ module Toset {ℓ : Level} {A : Type ℓ} where
       ⋀TotalMeetSemiLattice = inv (tosetstr _≤_ toset) .TotalMeetSemiLatticeStr.⋀TotalMeetSemiLattice
       ⋀DecTotal : ∀ a b -> ⋀Totality _⋀_ a b
       ⋀DecTotal = ⋀TotalDec (decOrd→disc _≤_ (toset , decTotal)) _⋀_ ⋀TotalMeetSemiLattice
-    
-    TotalMeetSemiLattice→HasDecOrder : Discrete A -> TotalMeetSemiLatticeStr A -> HasDecOrder
-    TotalMeetSemiLattice→HasDecOrder discA (isTotalMeetSemiLattice _⋀_ semiLattice) =
-      _≤_ , isToset , λ x y -> discA (x ⋀ y) x
-      where
-      open TosetStr (fwd (isTotalMeetSemiLattice _⋀_ semiLattice))
 
     HasDecOrder≃DecTotalMeetSemiLattice : Discrete A -> TotalMeetSemiLatticeStr A ≃ HasDecOrder
     HasDecOrder≃DecTotalMeetSemiLattice discA = isoToEquiv (iso fwd' inv' sec'' ret'')

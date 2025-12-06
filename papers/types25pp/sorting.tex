@@ -110,7 +110,7 @@ An equivalent way of defining a total order is using a binary meet operation, wi
 
 \begin{proposition}[\alink{proposition}{}{discrete-meet-semi-lattice}]
     \label{prop:discrete-meet-semi-lattice}
-    A decidable total order on $A$ implies any total meet semi-lattice structure on $A$ is decidable.
+    A decidable total order on $A$ implies all total meet semi-lattice structures on $A$ are decidable.
 \end{proposition}
 \begin{proof}
     We decide if $x \meet y \id x$ and $x \meet y \id y$ to compute a proof of
@@ -143,6 +143,7 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     %
     Thus, we do not have a full equivalence in the decidable case.
 \end{proofsketch}
+
 %
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
 \begin{definition}[\alink{definition}{$\term{head}$}{head-free-commutative-monoid}]
@@ -576,8 +577,9 @@ We can now state and prove our main theorem.
     which is an equivalence.
 \end{corollary}
 \begin{proof}
-    By~\cref{prop:decidable-total-order}, we have an equivalence
-    $\term{DecSTotOrd}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
+    By assumption and~\cref{prop:discrete-meet-semi-lattice}, every total meet semilattice on $A$ is decidable.
+    Thus, by~\cref{prop:total-order-meet-semi-lattice}, we have an equivalence
+    $\term{TMSLattice}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
     by transitivity of equivalences.
 \end{proof}
 %
