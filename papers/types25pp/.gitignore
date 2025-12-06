@@ -320,3 +320,6 @@ html/**
 *.tuc
 *-temp-*.tex
 _region_.tex
+
+# arxiv tarball
+arxiv.tar.gz
