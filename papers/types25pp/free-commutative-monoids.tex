@@ -235,9 +235,11 @@ and in the Cubical library~\cite{theagdacommunityCubicalAgdaLibrary2025}.
             \term{ap}_{\concat \ys}(\term{swap}(x, y, \xs)) & = \term{swap}(x, y, \ys \concat \xs)
         \end{align*}
     \end{definition}
-
-    \cite{choudhuryFreeCommutativeMonoids2023} have already given a proof of $(\SList(A), \concat, [])$ satisfying
-    commutative monoid laws. We explain the proof of $\concat$ satisfying commutativity here.
+    %
+    A proof of $(\SList(A), \concat, [])$ satisfying commutative monoid laws
+    is given in~\cite{choudhuryFreeCommutativeMonoids2023} and the Cubical Agda library~\cite{theagdacommunityCubicalAgdaLibrary2025}.
+    %
+    We explain the proof of $\concat$ satisfying commutativity here.
 
     \begin{lemma}[Head rearrange]\label{slist:cons}
         For all $x : A$, $\xs : \SList(A)$, $x \cons \xs = \xs \concat [ x ]$.
@@ -466,17 +468,15 @@ in~\cite{choudhurySymmetriesReversibleProgramming2022} for studying permutation 
     \begin{itemize}
         \item At $n = 0$, $\ext{f}(0, i) \id \ext{f}(0, i \circ \phi) = e$.
         \item At $n = S(m)$,
-              \[
-                  \begin{array}{rll}
-                        & \ext{f}(S(m), i \circ \phi)                          &                                          \\
-                      = & \ext{f}(S(m), i \circ \tau)                          & \text{by~\cref{bag:tau}}                 \\
-                      = & f(i(\tau(0))) \mult \ext{f}(m, i \circ \tau \circ S) & \text{by definition of $\ext{(\blank)}$} \\
-                      = & f(i(0)) \mult \ext{f}(m, i \circ \tau \circ S)       & \text{by construction of $\tau$}         \\
-                      = & f(i(0)) \mult \ext{f}(m, i \circ S \circ \psi)       & \text{by~\cref{bag:punch}}               \\
-                      = & f(i(0)) \mult \ext{f}(m, i \circ S)                  & \text{induction}                         \\
-                      = & \ext{f}(S(m), i)                                     & \text{by definition of $\ext{(\blank)}$}
-                  \end{array}
-              \]
+              \begin{align*}
+                   & \mathrel{\phantom{=}} \ext{f}(S(m), i \circ \phi)                                                 \\
+                   & = \ext{f}(S(m), i \circ \tau)                          & \text{by~\cref{bag:tau}}                 \\
+                   & = f(i(\tau(0))) \mult \ext{f}(m, i \circ \tau \circ S) & \text{by definition of $\ext{(\blank)}$} \\
+                   & = f(i(0)) \mult \ext{f}(m, i \circ \tau \circ S)       & \text{by construction of $\tau$}         \\
+                   & = f(i(0)) \mult \ext{f}(m, i \circ S \circ \psi)       & \text{by~\cref{bag:punch}}               \\
+                   & = f(i(0)) \mult \ext{f}(m, i \circ S)                  & \text{induction}                         \\
+                   & = \ext{f}(S(m), i)                                     & \text{by definition of $\ext{(\blank)}$}
+              \end{align*}
     \end{itemize}
 \end{proof}
 %
