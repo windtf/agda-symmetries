@@ -178,8 +178,18 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
   sort≃order : HasDecOrder ≃ HasSortSectionAndIsDiscrete
   sort≃order = isoToEquiv sort↔order
 
-  -- version for strict order
   sort≃strict-order : HasDecStrictOrder ≃ HasSortSectionAndIsDiscrete
   sort≃strict-order = compEquiv (invEquiv HasDecOrder≃HasDecStrictOrder) sort≃order
+
+  sort≃lattice : Discrete A -> TotalMeetSemiLatticeStr A ≃ HasSortSection
+  sort≃lattice discA =
+    TotalMeetSemiLatticeStr A ≃⟨ HasDecOrder≃DecTotalMeetSemiLattice discA ⟩
+    HasDecOrder ≃⟨ sort≃order ⟩
+    HasSortSectionAndIsDiscrete ≃⟨ Σ-contractSnd (λ _ -> isContrDiscreteA) ⟩
+    HasSortSection ■
+    where
+    isContrDiscreteA : isContr (Discrete A)
+    isContrDiscreteA = discA , λ z -> funExt λ x -> funExt λ y -> isPropDec (isSetA x y) (discA x y) (z x y)
+
 
   -- module AnyFree (𝔐 : MDef.Free ℓ ℓ 2) (𝔏 : LDef.Free ℓ ℓ 2) where
