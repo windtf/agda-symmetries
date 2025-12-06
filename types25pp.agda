@@ -11,156 +11,153 @@ open import Cubical.Structures.Eq
 
 
 -- Section 2.1 Algebras
-definition-1 : _
-definition-1 = Sig
+definition-signature : _
+definition-signature = Sig
 
-definition-3 : _
-definition-3 = sig
+definition-signature-functor : _
+definition-signature-functor = sig
 
-definition-5 : _
-definition-5 = struct
+definition-structure : _
+definition-structure = struct
 
-definition-7 : _
-definition-7 = structHom
+definition-sig-homomorphism : _
+definition-sig-homomorphism = structHom
 
 -- Section 2.2 Free Algebras
-definition-9 : _
-definition-9 = Definition.Free
+definition-free-algebras : _
+definition-free-algebras = Definition.Free
 
-definition-10 : _
-definition-10 = Definition.Free.ext
+definition-universal-extension : _
+definition-universal-extension = Definition.Free.ext
 
-proposition-11 : _
-proposition-11 = Definition.freeIso
+proposition-free-algebras-unique : _
+proposition-free-algebras-unique = Definition.freeIso
 
-definition-14 : _
-definition-14 = Tree
+definition-free-algebra-construction : _
+definition-free-algebra-construction = Tree
 
-proposition-16 : _
-proposition-16 = trEquiv
+proposition-free-algebra-construction-is : _
+proposition-free-algebra-construction-is = trEquiv
 
 -- Section 2.3 Equations
-definition-17 : _
-definition-17 = EqSig
+definition-equational-signature : _
+definition-equational-signature = EqSig
 
-definition-19 : _
-definition-19 = eqsig
+definition-equational-signature-functor : _
+definition-equational-signature-functor = eqsig
 
-definition-20 : _
-definition-20 = sysEq
+definition-system-of-equations : _
+definition-system-of-equations = sysEq
 
-definition-22 : _
-definition-22 = _⊨_
+definition-satisfaction : _
+definition-satisfaction = _⊨_
 
 -- Section 3.1: Lists
 open import Cubical.Data.List
 import Cubical.Structures.Set.Mon.List as ListMon
 
-definition-23 : _
-definition-23 = List
+definition-lists : _
+definition-lists = List
 
-proposition-26 : _
-proposition-26 = ListMon.Free.♯IsMonHom
+proposition-ext-lifts-homomorphism : _
+proposition-ext-lifts-homomorphism = ListMon.Free.♯IsMonHom
 
-proposition-27 : _
-proposition-27 = ListMon.listDef
+proposition-universal-property-for-list : _
+proposition-universal-property-for-list = ListMon.listDef
 
 -- Section 3.2: Arrays
 import Cubical.Structures.Set.Mon.Array as ArrayMon
 
-definition-28 : _
-definition-28 = ArrayMon.Array
+definition-arrays : _
+definition-arrays = ArrayMon.Array
 
-lemma-29 : _
-lemma-29 = ArrayMon.eEta
+lemma-array-zero-is-id : _
+lemma-array-zero-is-id = ArrayMon.eEta
 
-definition-30 : _
-definition-30 = ArrayMon._⊕_
+definition-concatenation : _
+definition-concatenation = ArrayMon._⊕_
 
-proposition-31 : _
-proposition-31 = ArrayMon.arraySat
+proposition-arrays-monoid : _
+proposition-arrays-monoid = ArrayMon.arraySat
 
-lemma-32 : _
-lemma-32 = ArrayMon.η+fsuc
+lemma-array-eta-suc : _
+lemma-array-eta-suc = ArrayMon.η+fsuc
 
-lemma-33 : _
-lemma-33 = ArrayMon.⊕Split
+lemma-array-split : _
+lemma-array-split = ArrayMon.⊕Split
 
-definition-34 : _
-definition-34 = ArrayMon.Free._♯
+definition-array-universal-extension : _
+definition-array-universal-extension = ArrayMon.Free._♯
 
-proposition-35 : _
-proposition-35 = ArrayMon.Free.♯IsMonHom
+proposition-array-ext-lifts-homomorphism : _
+proposition-array-ext-lifts-homomorphism = ArrayMon.Free.♯IsMonHom
 
-proposition-36 : _
-proposition-36 = ArrayMon.arrayDef
+proposition-array-univ : _
+proposition-array-univ = ArrayMon.arrayDef
 
 -- Section 4.1: Free monoids quotiented by permutation relations
 import Cubical.Structures.Set.CMon.QFreeMon as QFreeMon
 
-definition-37 : _
-definition-37 = QFreeMon.isPermRel
+definition-permutation-relation : _
+definition-permutation-relation = QFreeMon.isPermRel
 
-proposition-38 : _
-proposition-38 = QFreeMon.QFreeMon.qFreeMonSat
+proposition-qfreemon-cmonoid : _
+proposition-qfreemon-cmonoid = QFreeMon.QFreeMon.qFreeMonSat
 
-definition-39 : _
-definition-39 = QFreeMon.QFreeMon.IsFree._♯
+definition-qfreemon-ext : _
+definition-qfreemon-ext = QFreeMon.QFreeMon.IsFree._♯
 
-proposition-40 : _
-proposition-40 = QFreeMon.qFreeMonDef
+proposition-qfreemon-univ : _
+proposition-qfreemon-univ = QFreeMon.qFreeMonDef
 
 -- Section 4.2: Lists quotiented by permutation relations
 import Cubical.Structures.Set.CMon.PList as PList
 
-definition-41 : _
-definition-41 = PList.Perm
+definition-perm : _
+definition-perm = PList.Perm
 
-proposition-42 : _
-proposition-42 = PList.permRespf♯
+proposition-plist-resp-ext : _
+proposition-plist-resp-ext = PList.permRespf♯
 
 -- Section 4.3: Swap lists
-definition-43 : _
-definition-43 = SList
+import Cubical.Structures.Set.CMon.SList as SList
+
+definition-slist : _
+definition-slist = SList.SList
 
 -- Section 4.4: Bag
 import Cubical.Structures.Set.CMon.Bag as Bag
 
-definition-46 : _
-definition-46 = Bag.Bag
+definition-bag : _
+definition-bag = Bag.Bag
 
-proposition-47 : _
-proposition-47 = Bag.trans≈ -- TODO: × other properties of ≈
+proposition-bag-equiv : _
+proposition-bag-equiv = Bag.trans≈ -- TODO: × other properties of ≈
 
-proposition-48 : _
-proposition-48 = Bag.cong≈
+proposition-bag-cong : _
+proposition-bag-cong = Bag.cong≈
 
-proposition-49 : _
-proposition-49 = Bag.comm≈
+proposition-bag-comm : _
+proposition-bag-comm = Bag.comm≈
 
-proposition-50 : _
-proposition-50 = Bag.≈Respf♯
+lemma-bag-tau : _
+lemma-bag-tau = Bag.swapAut0≡0
 
-lemma-51 : _
-lemma-51 = Bag.swapAut0≡0
+lemma-bag-punch : _
+lemma-bag-punch = Bag.punchOutZero≡fsuc
 
-lemma-52 : _
-lemma-52 = Bag.punchOutZero≡fsuc
-
-theorem-53 : _
-theorem-53 = Bag.permuteInvariant
+theorem-bag-perm-sat : _
+theorem-bag-perm-sat = Bag.≈Respf♯
 
 -- Section 5.1: Prelude
-import Cubical.Structures.Set.CMon.SList as SList
+definition-length : _
+definition-length = SList.Membership*.よ
 
-definition-54 : _
-definition-54 = SList.Membership*.よ
+definition-membership : _
+definition-membership = SList.Membership*.∈*Prop
 
-definition-55 : _
-definition-55 = SList.Membership*.∈*Prop
-
-definition-57 : _
-definition-57 = ListMon.Head.Set.head
+definition-head : _
+definition-head = ListMon.Head.Set.head
 
 -- Section 5.2: Total orders
 open import Cubical.Relation.Binary.Order
@@ -170,93 +167,90 @@ open import Cubical.Structures.Set.CMon.SList.Sort.Sort
 open import Cubical.Structures.Set.CMon.SList.Sort.Order
 open import Cubical.Structures.Set.CMon.SList.Sort.Equiv
 
-definition-58 : _
-definition-58 = IsToset
+definition-total-order : _
+definition-total-order = IsToset
 
-proposition-59 : _
-proposition-59 = Order→Sort.isDiscreteA
+proposition-decidable-total-order : _
+proposition-decidable-total-order = Order→Sort.isDiscreteA
 
-definition-60 : _
-definition-60 = IsLoset
+definition-strict-total-order : _
+definition-strict-total-order = IsLoset
 
-proposition-61 : _
-proposition-61 = isTosetDecidable→Discrete
+proposition-decidable-strict-total-order : _
+proposition-decidable-strict-total-order = isTosetDecidable→Discrete
 
-proposition-62 : _
-proposition-62 = Toset.HasDecOrder≃HasDecLinearOrder
+proposition-decidable-strict-total-order-equiv : _
+proposition-decidable-strict-total-order-equiv = Toset.HasDecOrder≃HasDecLinearOrder
 
-definition-63 : _
-definition-63 = IsTotalMeetSemiLatticeStr
+definition-meet-semi-lattice : _
+definition-meet-semi-lattice = IsTotalMeetSemiLatticeStr
 
-proposition-64 : _
-proposition-64 = Toset.TotalMeetSemiLatticeStr≃TosetStr
+proposition-total-order-meet-semi-lattice : _
+proposition-total-order-meet-semi-lattice = Toset.TotalMeetSemiLatticeStr≃TosetStr
 
-proposition-64-a : _
-proposition-64-a = Toset.HasDecOrder→HasDecTotalMeetSemiLattice
+proposition-total-order-meet-semi-lattice-a : _
+proposition-total-order-meet-semi-lattice-a = Toset.HasDecOrder→HasDecTotalMeetSemiLattice
 
-definition-65 : _
-definition-65 = Sort→Order.least -- TODO: implement
+definition-head-free-commutative-monoid : _
+definition-head-free-commutative-monoid = Sort→Order.least -- TODO: implement
 
 -- Section 5.3.1: Section from Order
-proposition-66 : _
-proposition-66 = Sort↔Order.order→sort
+proposition-sort-from-order : _
+proposition-sort-from-order = Sort↔Order.order→sort
 
 -- Section 5.3.2: Section from Order
-definition-67 : _
-definition-67 = Sort→Order.least
+definition-least : _
+definition-least = Sort→Order.least
 
-proposition-68 : _
-proposition-68 = Sort→Order.total≤
+proposition-sort-almost-order : _
+proposition-sort-almost-order = Sort→Order.total≤
 
-definition-70 : _
-definition-70 = Sort.isSorted
+definition-in-image : _
+definition-in-image = Sort.isSorted
 
-proposition-71 : _
-proposition-71 = Sort→Order.isSorted↔≤
+proposition-sort-to-order : _
+proposition-sort-to-order = Sort→Order.isSorted↔≤
 
-definition-72 : _
-definition-72 = Sort.isHeadLeast
+definition-head-least : _
+definition-head-least = Sort.isHeadLeast
 
-proposition-73 : _
-proposition-73 = Order→Sort.sortIsHeadLeast
+proposition-order-to-sort-head-least : _
+proposition-order-to-sort-head-least = Order→Sort.sortIsHeadLeast
 
-proposition-74 : _
-proposition-74 = Sort→Order.trans≤
+proposition-trans : _
+proposition-trans = Sort→Order.trans≤
 
 -- Section 5.3.3: Embedding orders into sections
-proposition-75 : _
-proposition-75 = Sort↔Order.order→isHeadLeast→order
+proposition-o2s2o : _
+proposition-o2s2o = Sort↔Order.order→isHeadLeast→order
 
 -- Section 5.3.4: Equivalence of order and sections
-definition-77 : _
-definition-77 = Sort.isTailSorted
+definition-tail-sort : _
+definition-tail-sort = Sort.isTailSorted
 
-definition-78 : _
-definition-78 = ?
+definition-is-sorted : _
+definition-is-sorted = Order→Sort.IsSorted
 
-lemma-79 : _
-lemma-79 = Order→Sort.uniqueSorted
+lemma-is-sorted-unique : _
+lemma-is-sorted-unique = Order→Sort.uniqueSorted
 
-proposition-80 : _
-proposition-80 = Order→Sort.uniqueSort
+proposition-sort-uniq : _
+proposition-sort-uniq = Order→Sort.uniqueSort
 
-proposition-81 : _
-proposition-81 = Order→Sort.sortIsSorted
+proposition-well-behave-sorts : _
+proposition-well-behave-sorts = Order→Sort.sortIsSorted
 
-lemma-82 : _
-lemma-82 = Sort↔Order.sort→order→sort
+lemma-s2o2s : _
+lemma-s2o2s = Sort↔Order.sort→order→sort
 
-definition-83 : _
-definition-83 = Sort↔Order.HasSortSectionAndIsDiscrete
+definition-sorting-function : _
+definition-sorting-function = Sort↔Order.HasSortSectionAndIsDiscrete
 
-theorem-84 : _
-theorem-84 = Sort↔Order.sort≃order
+theorem-main : _
+theorem-main = Sort↔Order.sort≃order
 
-corollary-85 : _
-corollary-85 = Sort↔Order.sort≃linear-order
-
-proposition-86 : _
-proposition-86 = ?
+corollary-strict-order : _
+corollary-strict-order = Sort↔Order.sort≃linear-order
 
 ---------------------------------
 -- an exhaustive list of all modules:
