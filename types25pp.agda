@@ -59,6 +59,12 @@ import Cubical.Structures.Set.Mon.List as ListMon
 definition-lists : _
 definition-lists = List
 
+definition-list-concatenation : _
+definition-list-concatenation = _++_
+
+definition-list-universal-extension : _
+definition-list-universal-extension = ListMon.Free._♯
+
 proposition-ext-lifts-homomorphism : _
 proposition-ext-lifts-homomorphism = ListMon.Free.♯IsMonHom
 

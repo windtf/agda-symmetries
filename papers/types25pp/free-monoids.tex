@@ -38,7 +38,7 @@ the identity element is the empty list~\inline{nil},
 and the monoid multiplication $\doubleplus$ is given by list concatenation.
 %
 \begin{toappendix}
-    \begin{definition}[Concatenation]
+    \begin{definition}[\alink{definition}{Concatenation}{list-concatenation}]
         We define the concatenation operation $\doubleplus : \List(A) \to \List(A) \to \List(A)$,
         by recursion on the first argument:
         \begin{align*}
@@ -48,7 +48,7 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
     \end{definition}
     The proof that $\doubleplus$ satisfies monoid laws is straightforward (see the formalisation for details).
 
-    \begin{definition}[Universal extension]
+    \begin{definition}[\alink{definition}{Universal extension}{list-universal-extension}]
         For any monoid $\str{X}$, and given a map $f : A \to X$,
         we define the extension $\ext{f} : \List(A) \to \mathfrak{X}$ by recursion on the list:
         \begin{align*}
