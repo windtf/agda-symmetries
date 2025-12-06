@@ -64,17 +64,19 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
     \begin{proof}
         To show that $\ext{f}$ is a monoid homomorphism,
         we need to show $\ext{f}(\xs \doubleplus \ys) = \ext{f}(\xs) \mult \ext{f}(\ys)$.
-        We can do so by induction on $\xs$.
+        We do so by induction on $\xs$.
 
         Case $\nil$:
-        $\ext{f}(\nil \doubleplus \ys) = \ext{f}(\ys)$,
-        and $\ext{f}(\nil) \mult \ext{f}(\ys) = e \mult \ext{f}(\ys) = \ext{f}(\ys)$
-        by definition of $\ext{(\blank)}$. Therefore, we have
-        $\ext{f}(\nil \doubleplus \ys) = \ext{f}(\nil) \mult \ext{f}(\ys)$.
+        \begin{align*}
+            \ext{f}(\nil \doubleplus \ys)
+             & = \ext{f}(\ys)                     & \text{by definition of concatenation}    \\
+             & = e \mult \ext{f}(\ys)             & \text{by unit law}                       \\
+             & = \ext{f}(\nil) \mult \ext{f}(\ys) & \text{by definition of $\ext{(\blank)}$}
+        \end{align*}
 
         Case $x \cons \xs$:
         \begin{align*}
-             & \ext{f}((x \cons \xs) \doubleplus \ys)                                                        \\
+            \ext{f}((x \cons \xs) \doubleplus \ys)
              & = \ext{f}(([ x ] \doubleplus \xs) \doubleplus \ys) & \text{by definition of concatenation}    \\
              & = \ext{f}([ x ] \doubleplus (\xs \doubleplus \ys)) & \text{by associativity}                  \\
              & = \ext{f}(x \cons (\xs \doubleplus \ ys))          & \text{by definition of concatenation}    \\
@@ -83,7 +85,7 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
              & = (f(x) \mult \ext{f}(\xs)) \mult \ext{f}(\ys)     & \text{by associativity}                  \\
              & = \ext{f}(x \cons \xs) \mult \ext{f}(\ys)          & \text{by definition of $\ext{(\blank)}$} \\
         \end{align*}
-
+        %
         Therefore, $\ext{(\blank)}$ does correctly lift a function to a monoid homomorphism.
     \end{proof}
 \end{toappendix}
@@ -103,19 +105,23 @@ and the monoid multiplication $\doubleplus$ is given by list concatenation.
     for any monoid homomorphism $f : \List(A) \to \mathfrak{X}$, $\ext{(f \comp \eta_A)}(\xs) = f(\xs)$.
     We can do so by induction on $\xs$.
 
-    Case $\nil$: $\ext{(f \comp \eta_A)}(\nil) = e$ by definition of the $\ext{(\blank)}$ operation,
-    and $f(\nil) = e$ by homomorphism properties of $f$. Therefore, $\ext{(f \comp \eta_A)}(\nil) = f(\nil)$.
+    Case $\nil$:
+    \begin{align*}
+        \ext{(f \comp \eta_A)}(\nil)
+         & = e       & \text{by definition of $\ext{(\blank)}$} \\
+         & = f(\nil) & \text{by homomorphism properties of $f$}
+    \end{align*}
 
     Case $x \cons \xs$:
     \begin{align*}
-         & \ext{(f \comp \eta_A)}(x \cons \xs)                                                                \\
+        \ext{(f \comp \eta_A)}(x \cons \xs)
          & = (f \comp \eta_A)(x) \mult \ext{(f \comp \eta_A)}(\xs) & \text{by definition of $\ext{(\blank)}$} \\
          & = (f \comp \eta_A)(x) \mult f(\xs)                      & \text{by induction}                      \\
          & = f([x]) \mult f(\xs)                                   & \text{by definition of $\eta_A$}         \\
          & = f([x] \doubleplus \xs)                                & \text{by homomorphism properties of $f$} \\
          & = f(x \cons \xs)                                        & \text{by definition of concatenation}
     \end{align*}
-
+    %
     By function extensionality, $\ext{(\blank)} \comp (\blank \circ \eta_A) = id$.
     Therefore, $\ext{(\blank)}$ and $(\blank) \circ [\_]$ are inverse of each other.
 
@@ -200,7 +206,7 @@ and the monoid operation $\doubleplus$ is given by array concatenation.
                                                           f(k - 0)         & \text{otherwise}
                                                       \end{cases}
         \end{align*}
-
+        %
         It is trivial to see the length matches: $0 + n = n$. We also need to show $\lambda\{\} \oplus f = f$.
         Since $n < 0$ for any $n : \mathbb{N}$ is impossible, $(\lambda\{\} \oplus f)(k)$ would always reduce to
         $f(k - 0) = f(k)$, therefore $(0, \lambda\{\}) \doubleplus (n, f) = (n, f)$.
@@ -214,7 +220,7 @@ and the monoid operation $\doubleplus$ is given by array concatenation.
                                                          (\lambda\{\})(k - 0) & \text{otherwise}
                                                      \end{cases}
         \end{align*}
-
+        %
         It is trivial to see the length matches: $n + 0 = n$. We also need to show $f \oplus \lambda\{\} = f$.
         We note that the type of $f \oplus \lambda\{\}$ is $\Fin[n + 0] \to A$, therefore $k$ is of the type $\Fin[n + 0]$.
         Since $\Fin[n+0] \cong \Fin[n]$, it must always hold that $k < n$, therefore $(f \oplus \lambda\{\})(k)$ must
@@ -222,7 +228,7 @@ and the monoid operation $\doubleplus$ is given by array concatenation.
 
         For associativity, we want to show for any array $(n, f)$, $(m, g)$, $(o, h)$,
         $((n, f) \doubleplus (m, g)) \doubleplus (o, h) = (n, f) \doubleplus ((m, g) \doubleplus (o, h))$.
-
+        %
         \begin{align*}
             ((n, f) \doubleplus (m, g)) \doubleplus (o, h) & = ((n + m) + o, (f \oplus g) \oplus h)                \\
             ((f \oplus g) \oplus h)(k)                     & = \begin{cases}
@@ -242,7 +248,7 @@ and the monoid operation $\doubleplus$ is given by array concatenation.
                 \end{cases} & \text{otherwise}
                                                                \end{cases}
         \end{align*}
-
+        %
         We first case split on $k < n + m$ then $k < n$.
 
         Case $k < n + m$, $k < n$: Both $(f \oplus (g \oplus h))(k)$ and $((f \oplus g) \oplus h)(k)$ reduce to $f(k)$.
@@ -258,7 +264,7 @@ and the monoid operation $\doubleplus$ is given by array concatenation.
         We then need to show $\neg(k - n < m)$, which also follows from $k \geq n + m$.
         We now have $(f \oplus (g \oplus h))(k) = h(k - n - m)$. Since $k \geq n + m$, $h(k - n - m)$ is well defined
         and is equal to $h(k - (n + m))$, therefore $(f \oplus (g \oplus h))(k) = (f \oplus g) \oplus h)(k) = h(k - (n + m))$.
-
+        %
         In all cases $(f \oplus (g \oplus h))(k) = ((f \oplus g) \oplus h)(k)$, therefore associativity holds.
     \end{proof}
     %
@@ -282,7 +288,7 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
                                                                              (f \comp S)(k - 1) & \text{otherwise}
                                                                          \end{cases}
     \end{align*}
-
+    %
     It is trivial to see the length matches: $1 + n = S(n)$. We need to show
     $(\lambda\{ 0 \mapsto f(0) \} \oplus (f \comp S)) = f$.
     We prove by case splitting on $k < 1$.
@@ -305,7 +311,11 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
 \end{lemmarep}
 %
 \begin{proof}
-    It is trivial to see both array have length $n + m$. We want to show $(f \oplus g) \comp S = (f \comp S) \oplus g$.
+    It is trivial to see both array have length $n + m$.
+    We want to show that:
+    \[
+        (f \oplus g) \comp S = (f \comp S) \oplus g \enspace.
+    \]
     \begin{align*}
         ((f \oplus g) \comp S)(k) & = \begin{cases}
                                           f(S(k))        & \text{if}\ S(k) < S(n) \\
@@ -316,7 +326,7 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
                                           g(k - n)       & \text{otherwise}
                                       \end{cases}
     \end{align*}
-
+    %
     We prove by case splitting on $k < n$.
     On $k < n$, $((f \oplus g) \comp S)(k)$ reduces to $f(S(k))$ since $k < n$ implies $S(k) < S(n)$,
     and $((f \comp S) \oplus g)(k)$ reduces to $(f \comp S)(k)$ by definition, therefore they are equal.
@@ -351,14 +361,16 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
 
         Case $(0, g)$:
         We have $g = \lambda\{\}$ by~\cref{array:zero-is-id}.
-        $\ext{f}((0, \lambda\{\}) \doubleplus \ys) = \ext{f}(\ys)$ by left unit,
-        and $\ext{f}(0, \lambda\{\}) \mult \ext{f}(\ys) = e \mult \ext{f}(\ys) = \ext{f}(\ys)$
-        by definition of $\ext{(\blank)}$. Therefore,
-        $\ext{f}((0, \lambda\{\}) \doubleplus \ys) = \ext{f}(0, \lambda\{\}) \mult \ext{f}(\ys)$.
+        \begin{align*}
+             & \mathrel{\phantom{=}} \ext{f}((0, \lambda\{\}) \doubleplus \ys)                                            \\
+             & = \ext{f}(\ys)                                                  & \text{by definition of concatenation}    \\
+             & = e \mult \ext{f}(\ys)                                          & \text{by left unit}                      \\
+             & = \ext{f}(0, \lambda\{\}) \mult \ext{f}(\ys)                    & \text{by definition of $\ext{(\blank)}$} \\
+        \end{align*}
 
         Case $(S(n), g)$: Let $\ys$ be $(m, h)$.
         \begin{align*}
-             & \ext{f}((S(n), g) \doubleplus (m, h))                                                                              \\
+             & \mathrel{\phantom{=}} \ext{f}((S(n), g) \doubleplus (m, h))                                                        \\
              & = \ext{f}(S(n + m), g \oplus h)                                 & \text{by definition of concatenation}            \\
              & = f((g \oplus h)(0)) \mult \ext{f}(n + m, (g \oplus h) \comp S) & \text{by definition of $\ext{(\blank)}$}         \\
              & = f(g(0)) \mult \ext{f}(n + m, (g \oplus h) \comp S)            & \text{by definition of $\oplus$, and $0 < S(n)$} \\
@@ -367,8 +379,8 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
              & = (f(g(0)) \mult \ext{f}(n, g \comp S)) \mult \ext{f}(m, h))    & \text{by associativity}                          \\
              & = \ext{f}(S(n), g) \mult \ext{f}(m, h))                         & \text{by definition of $\ext{(\blank)}$}         \\
         \end{align*}
-
-        Therefore, $\ext{(\blank)}$ does correctly lift a function to a monoid homomorphism.
+        %
+        Therefore, $\ext{(\blank)}$ correctly lifts a function to a monoid homomorphism.
     \end{proof}
 \end{toappendix}
 %
@@ -400,19 +412,21 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
 
     Case $(0, g)$:
     By~\cref{array:zero-is-id} we have $g = \lambda\{\}$.
-    $\ext{(f \comp \eta_A)}(0, \lambda\{\}) = e$ by definition of the $\ext{(\blank)}$ operation,
-    and $f(0, \lambda\{\}) = e$ by homomorphism properties of $f$.
-    Therefore, $\ext{(f \comp \eta_A)}(0, g) = f(0, g)$.
+    \begin{align*}
+        \ext{(f \comp \eta_A)}(0, \lambda\{\})
+         & = e                 & \text{by definition of $\ext{(\blank)}$} \\
+         & = f(0, \lambda\{\}) & \text{by homomorphism properties of $f$}
+    \end{align*}
 
     Case $(S(n), g)$, we prove it in reverse:
     \begin{align*}
-         & f(S(n), g)                                                                                                     \\
+         & \mathrel{\phantom{=}} f(S(n), g)                                                                               \\
          & = f(\eta_A(g(0)) \doubleplus (n, g \comp S))                        & \text{by~\cref{array:eta-suc}}           \\
          & = f(\eta_A(g(0))) \mult f(n, g \comp S)                             & \text{by homomorphism properties of $f$} \\
          & = (f \comp \eta_A)(g(0)) \mult \ext{(f \comp \eta_A)}(n, g \comp S) & \text{by induction}                      \\
          & = \ext{(f \comp \eta_A)}(S(n), g)                                   & \text{by definition of $\ext{(\blank)}$}
     \end{align*}
-
+    %
     By function extensionality, $\ext{(\blank)} \comp (\blank \circ \eta_A) = id$.
     Therefore, $\ext{(\blank)}$ and $(\blank) \circ [\_]$ are inverse of each other.
 
