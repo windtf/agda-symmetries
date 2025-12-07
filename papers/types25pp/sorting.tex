@@ -30,7 +30,7 @@ but decidability allows us to produce a witness if $x \leq y$ is true.
     Further, this makes $A$ discrete, that is ${\forall x, y}, \ps{x \id y} + \ps{x \neq y}$.
 \end{proposition}
 \begin{proof}
-    We decide if $x \leq y$ and $y \leq x$, and by cases:
+    We decide if $x \leq y$ and $y \leq x$, and then by cases:
     \begin{itemize}
         \item
               if $x \leq y$ and $y \leq x$: by antisymmetry, $x = y$.
@@ -44,7 +44,7 @@ but decidability allows us to produce a witness if $x \leq y$ is true.
     \end{itemize}
 \end{proof}
 %
-We also recall the axioms of a strict total order $<$ on $A$.
+We also recall the axioms of a \emph{strict} total order $<$ on $A$.
 \begin{definition}[\alink{definition}{Strict total order}{strict-total-order}]
     \label{def:strict-total-order}
     A strict total order on a set $A$ is a relation $< : A \to A \to \hProp$ that satisfies:
@@ -60,7 +60,7 @@ We also recall the axioms of a strict total order $<$ on $A$.
         \item decidability: $\forall x, y$, we have $x < y + \neg(x < y)$.
     \end{itemize}
 \end{definition}
-
+%
 \begin{proposition}[\alink{proposition}{}{decidable-strict-total-order}]
     \label{prop:decidable-strict-total-order}
     In a decidable strict total order, it holds that ${\forall x, y}, \ps{x < y} + \ps{y < x}$.
@@ -74,7 +74,8 @@ We also recall the axioms of a strict total order $<$ on $A$.
     \end{itemize}
 \end{proof}
 %
-We can show that giving a decidable strict total order structure on $A$ is equivalent to giving a decidable total order structure on $A$.
+We can show that giving a decidable \emph{strict} total order structure on $A$
+is equivalent to giving a decidable total order structure on $A$.
 \begin{proposition}[\alink{proposition}{}{decidable-strict-total-order-equiv}]
     \label{prop:decidable-strict-total-order-equiv}
     The set of decidable strict total orders on $A$ and the set of decidable total orders on $A$ are equivalent.
@@ -119,7 +120,7 @@ An equivalent way of defining a total order is using a binary meet operation, wi
 
 \begin{proposition}[\alink{proposition}{}{total-order-meet-semi-lattice}]
     \label{prop:total-order-meet-semi-lattice}
-    A total order $\leq$ on a set $A$ is equivalent to a total meet semi-lattice structure on $A$.
+    A $\leq$ on a set $A$ is equivalent to a total meet semi-lattice structure on $A$.
     Further, a decidable total order on $A$ induces a decidable total meet semi-lattice structure on $A$.
 \end{proposition}
 \begin{proofsketch}
@@ -448,7 +449,7 @@ first we need to show that a section $\ssection$ satisfying
 $\isheadleast$ and $\istailsort$ is equal to insertion sort parameterized by
 the $\leqs$ constructed from $\ssection$.
 %
-In fact, the axioms we have introduced are equivalent to the standard inductive characterization of sorted lists,
+In fact, the axioms we have introduced are equivalent to the standard inductive characterisation of sorted lists,
 found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
 
 \begin{definition}[\alink{definition}{$\isSorted$}{is-sorted}]
@@ -574,14 +575,14 @@ We can now state and prove our main theorem.
 \begin{corollary}[\alink{corollary}{}{lattice}]
     \label{sort:lattice}
     Assume $A$ has decidable equality.
-    Let $\term{TMSLattice}(A)$ be the set of total meet semilattices on $A$,
-    There is a map $l2s \colon \term{TMSLattice}(A) \to \term{Sort}(A)$,
+    Let $\term{TMSLat}(A)$ be the set of total meet semilattices on $A$,
+    There is a map $l2s \colon \term{TMSLat}(A) \to \term{Sort}(A)$,
     which is an equivalence.
 \end{corollary}
 \begin{proof}
     By assumption and~\cref{prop:discrete-meet-semi-lattice}, every total meet semilattice on $A$ is decidable.
     Thus, by~\cref{prop:total-order-meet-semi-lattice}, we have an equivalence
-    $\term{TMSLattice}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
+    $\term{TMSLat}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
     by transitivity of equivalences.
 \end{proof}
 %

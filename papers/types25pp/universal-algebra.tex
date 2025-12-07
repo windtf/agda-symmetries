@@ -152,8 +152,23 @@ The inverse operation to post-composing with $\eta_X$ extends a function to a ho
     %
     It satisfies the identities: $\ext{f} \comp \eta_X = f$, $\ext{\eta_{X}} = \idfunc_{\str{F}(X)}$,
     and $\ext{(\ext{g} \comp f)} = \ext{g} \comp \ext{f}$.
+    \[\begin{tikzcd}[ampersand replacement=\&]
+            X \\
+            \\
+            Y
+            \arrow["f"', from=1-1, to=3-1]
+        \end{tikzcd}
+        \quad\mapsto\quad
+        \begin{tikzcd}[ampersand replacement=\&]
+            X \&\& {F(X)} \\
+            \\
+            \&\& {Y}
+            \arrow["\eta_X", color={solarized-red}, from=1-1, to=1-3]
+            \arrow["f"', from=1-1, to=3-3]
+            \arrow["\ext{f}", dotted, from=1-3, to=3-3]
+        \end{tikzcd}\]
 \end{definition}
-\noindent
+%
 Free algebra constructions are canonically equivalent.
 \begin{propositionrep}[\alink{proposition}{}{free-algebras-unique}]
     \label{lem:free-algebras-unique}
@@ -176,21 +191,25 @@ Free algebra constructions are canonically equivalent.
     % \vc{Mention SIP.}
 \end{proof}
 \begin{toappendix}
-    \begin{proposition}
-        The free algebra construction gives a monad on $\Set$.
+    \begin{proposition}[\alink{proposition}{}{free-algebra-monad}]
+        \label{prop:free-algebra-monad}
+        The free algebra construction produces a monad on $\Set$.
     \end{proposition}
     \begin{proof}
-        $F$ is an endofunctor on $\Set$ where the action on functions is given by
-        $X \xto{f} Y \mapsto F(X) \xto{\ext{(\eta_{Y} \comp f)}} F(Y)$.
+        We have unit $\eta$ and extension $\ext{(\blank)}$ from the free algebra construction.
+        %
+        $F$ becomes an endofunctor on $\Set$ where the action on functions is given by
+        $f : X \to Y \mapsto \ext{(\eta_{Y} \comp f)} : F(X) \to F(Y)$.
         %
         The monad unit is given by $\eta$,
-        and multiplication given by $\mu_{X} \defeq F(F(X)) \xto{\ext{\idfunc_{F(X)}}} F(X)$.
+        and multiplication given by $\mu_{X} \defeq \ext{\idfunc_{F(X)}} : F(F(X)) \to F(X)$.
+        %
+        The monad laws follow from the identities of universal extension.
     \end{proof}
 
-    \begin{proposition}
+    \begin{proposition}[\alink{proposition}{}{free-algebra-colimits}]
         \label{prop:free-algebra-colimits}
-        \leavevmode
-        The following properties of free algebras on $\emptyt$, $\unitt$, and coproducts hold:
+        The following properties of free algebras on $\emptyt$, $\unitt$, and $+$ hold:
         \begin{itemize}
             \item if $\sig$ has one constant symbol, then $\str{F}(\emptyt)$ is contractible,
             \item the type of algebra structures on $\unitt$ is contractible,
@@ -391,7 +410,7 @@ free variables available.
             \end{tikzcd}
             \hspace{2em}
             \begin{tikzcd}[ampersand replacement=\&,cramped]
-                x 
+                x
             \end{tikzcd}
         \end{center}
         %

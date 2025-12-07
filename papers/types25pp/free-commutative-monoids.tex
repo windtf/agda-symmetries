@@ -42,18 +42,15 @@ then we quotient $F(A)$ by an \emph{appropriate} symmetry relation $\approx$.
 %
 This is precisely a \emph{permutation relation}.
 
-% $(\str{F}(A), i, \mult)$ quotiented by a permutation relation $({F(A) / \approx}, e, \concat)$
-% would be the free commutative monoid on $A$.
-
 \begin{definition}[\alink{definition}{Permutation relation}{permutation-relation}]
     \label{def:permutation-relation}
     \leavevmode
-    A binary relation on a free monoid $(F(A), e, \mult)$ is a permutation relation iff it:
+    A binary relation on a free monoid $(F(A), e, \mult)$ is a permutation relation iff it is:
     \begin{itemize}
-        \item is reflexive, symmetric, transitive (an equivalence),
-        \item is a congruence wrt $\mult$: $a \approx b \to c \approx d \to a \mult c \approx b \mult d$,
-        \item is commutative: $a \mult b \approx b \mult a$, and
-        \item respects $\ext{(\blank)}$: $\forall f, \, a \approx b \to \ext{f}(a) = \ext{f}(b)$.
+        \item reflexive, symmetric, transitive (an equivalence),
+        \item a congruence w.r.t $\mult$: $\forall a, b, c, d, \, a \approx b \to c \approx d \to a \mult c \approx b \mult d$,
+        \item commutative: $\forall a, b, \, a \mult b \approx b \mult a$, and
+        \item respects $\ext{(\blank)}$: $\forall a, b, f, \, a \approx b \to \ext{f}(a) = \ext{f}(b)$.
     \end{itemize}
 \end{definition}
 %
@@ -62,62 +59,77 @@ We write $\quot{F(A)}{\approx}$ for the quotient of $F(A)$ by $\approx$,
 with the inclusion map $q: F(A) \twoheadrightarrow \quot{F(A)}{\approx}$.
 %
 The generators map into $\quot{F(A)}{\approx}$ is given by $q \comp \eta_A$,
-the identity element is $q(e)$,
-and the multiplication operation $\mult$ is lifted to the quotient by congruence.
-
+the identity element is $\qlift{e} = q(e)$,
+and the multiplication operation $\mult$ is lifted to $\qlift{\mult}$ in the quotient by congruence.
+%
 \begin{propositionrep}[\alink{proposition}{}{qfreemon-cmonoid}]
-    $(\quot{\str{F}(A)}{\approx}, \mult, q(e))$ is a commutative monoid.
+    $(\quot{\str{F}(A)}{\approx}, \qlift{e}, \qlift{\mult})$ is a commutative monoid.
 \end{propositionrep}
 \begin{proof}
-    Since $\approx$ is a congruence wrt $\mult$,
+    Since $\approx$ is a congruence w.r.t. $\mult$,
     we can lift $\mult : F(A) \to F(A) \to F(A)$ to the quotient to obtain
-    $\concat : \quot{F(A)}{\approx} \to \quot{F(A)}{\approx} \to \quot{F(A)}{\approx}$.
-    $\concat$ also satisfies the unit and associativity laws that $\mult$ satisfy.
-    Commutativity of $\concat$ follows from the commutativity requirement of $\approx$,
-    therefore $(\quot{F(A)}{\approx}, \concat, q(i))$ forms a commutative monoid.
+    $\qlift{\mult} : \quot{F(A)}{\approx} \to \quot{F(A)}{\approx} \to \quot{F(A)}{\approx}$.
+    $\qlift{\mult}$ also satisfies unit and associativity laws on quotiented elements,
+    because these laws hold on representatives in $F(A)$.
+    Commutativity of $\qlift{\mult}$ follows from the commutativity requirement of $\approx$.
+    This makes $(\quot{F(A)}{\approx}, \qlift{e}, \qlift{\mult})$ a commutative monoid.
+    Note also that $q(a \mult b) = q(a) \qlift{\mult} q(b)$.
 \end{proof}
 %
-\begin{toappendix}
-    For clarity, we use $\exthat{(\blank)}$ to denote the extension operation of $F(A)$,
-    and $\ext{(\blank)}$ for the extension operation of $\quot{F(A)}{\approx}$.
-\end{toappendix}
+The monoid extension operation of $F(A)$, denoted $\ext{(\blank)}$,
+lifts to an extension operation for commutative monoids, for $\quot{F(A)}{\approx}$,
+which we denote by $\exthat{(\blank)}$.
 %
 \begin{definition}[\alink{definition}{}{qfreemon-ext}]
     Given a commutative monoid $\str{X}$ and a map $f : A \to X$,
     we define the extension operation as follows:
-    we first obtain $\exthat{f} : \str{F}(A) \to \str{X}$ by the universal property of $F$,
-    then lift it to $\ext{f} : \quot{\str{F}(A)}{\approx} \; \to \str{X}$,
-    by the properties of $\approx$ in~\cref{def:permutation-relation}.
+    we first obtain $\ext{f} : \str{F}(A) \to \str{X}$ by the universal property of $F$,
+    then lift it to $\exthat{f} : \quot{\str{F}(A)}{\approx} \; \to \str{X}$,
+    by using that $\approx$ respects $\ext{(\blank)}$, as in~\cref{def:permutation-relation}.
 \end{definition}
 
 \begin{propositionrep}[\alink{proposition}{Universal property for $\quot{\str{F}(A)}{\approx}$}{qfreemon-univ}]
     \label{prop:qfreemon}
     \leavevmode
     $(\quot{\str{F}(A)}{\approx}, \eta_A : {A \xto{\eta_A} \str{F}(A) \xto{q} \quot{\str{F}(A)}{\approx}})$
-    forms the free commutative monoid on $A$.
+    with the extension operation $\exthat{(\blank)}$ forms the free commutative monoid on $A$.
 \end{propositionrep}
 \begin{proof}
-    To show that $\ext{(\blank)}$ is an inverse to $(\blank) \comp \eta_A$,
-    we first show $\ext{(\blank)}$ is the right inverse to $(\blank) \comp \eta_A$.
-    For all $f$ and $x$, $(\ext{f} \comp \eta_A)(x) = (\ext{f} \comp q)(\mu_A(x)) = \exthat{f}(\mu_A(x))$.
-    By universal property of $F$, $\exthat{f}(\mu_A(x)) = f(x)$, therefore $(\ext{f} \comp \eta_A)(x) = f(x)$.
-    By function extensionality, for any $f$, $\ext{f} \circ \eta_A = f$,
-    and $(\blank \circ \eta_A) \comp \ext{(\blank)} = id$.
+    We have the following situation.
+    % https://q.uiver.app/#q=WzAsNSxbMCwyLCJGKEEpIl0sWzAsNCwiQSJdLFsyLDIsIlgiXSxbMCwwLCJcXHF1b3R7RihBKX17XFxhcHByb3h9Il0sWzIsMCwiWCJdLFsxLDAsIlxcZXRhX3tBfSJdLFswLDIsIlxcZXh0e2Z9Il0sWzEsMiwiZiIsMl0sWzAsMywicSIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dLFsyLDQsIiIsMix7ImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzMsNCwiXFxleHRoYXR7Zn0iXV0=
+    \[\begin{tikzcd}[ampersand replacement=\&,cramped]
+            {\quot{F(A)}{\approx}} \&\& X \\
+            \\
+            {F(A)} \&\& X \\
+            \\
+            A
+            \arrow["{\exthat{f}}", from=1-1, to=1-3]
+            \arrow["q", two heads, from=3-1, to=1-1]
+            \arrow["{\ext{f}}", from=3-1, to=3-3]
+            \arrow[equals, from=3-3, to=1-3]
+            \arrow["{\eta_{A}}", from=5-1, to=3-1]
+            \arrow["f"', from=5-1, to=3-3]
+        \end{tikzcd}\]
+    By definition of $\exthat{(\blank)}$, the upper square commutes, and so the whole diagram commutes.
 
-    To show $\ext{(\blank)}$ is the left inverse to $(\blank) \comp \eta_A$, we need to prove
-    for any commutative monoid homomorphism $f : {\str{F}(A)}{\approx} \to \str{X}$ and $x : {\str{F}(A)}{\approx}$,
-    $\ext{(f \comp \eta_A)}(x) = f(x)$. To prove this it is suffice to show for all $x : \str{F}(A)$,
-    $\ext{(f \comp \eta_A)}(q(x)) = f(q(x))$.
-    $\ext{(f \comp \eta_A)}(q(x))$ reduces to $\exthat{(f \comp q \comp \mu_A)}(x)$.
-    Note that both $f$ and $\quotient$ are homomorphism, therefore $f \comp q$ is a homomorphism. By
-    universal property of $F$ we get $\exthat{(f \comp q \comp \mu_A)}(x) = (f \comp q)(x)$,
-    therefore $\ext{(f \comp \eta_A)}(q(x)) = f(q(x))$.
+    To see that $\exthat{(\blank)}$ is the right inverse to $(\blank) \comp q \comp \eta_A$,
+    observe that $\exthat{f} \comp q \comp \eta_A = \ext{f} \comp \eta_A = f$.
+    And, $\exthat{f}(q(x) \qlift{\mult} q(y)) = \exthat{f}{(q(x \mult y))} = \ext{f}(x \mult y) = \ext{f}(x) \mult \ext{f}(y)$,
+    making $\exthat{f}$ a (commutative) monoid homomorphism.
 
-    We have now shown that $(\blank) \comp \eta_A$ is an equivalence from
+    To show $\exthat{(\blank)}$ is the left inverse to $(\blank) \comp q \comp \eta_A$,
+    we need to show for any commutative monoid homomorphism
+    $f : \quot{\str{F}(A)}{\approx} \to \str{X}$, that $\exthat{(f \comp q \comp \eta_A)} = f$.
+    It is enough to check on generators, so for any $x : F(A)$,
+    we note that $\exthat{(f \comp q \comp \eta_A)}(q(x)) = \ext{(f \comp q \comp \eta_A)}(x) = f(q(x))$
+    since $f \comp q$ is a monoid homomorphism, and we are done.
+
+    We have now shown that $(\blank) \comp q \comp \eta_A$ produces an equivalence from
     commutative monoid homomorphisms $\quot{\str{F}(A)}{\approx} \to \str{X}$
-    to set functions $A \to X$, and its inverse is given by $\ext{(\blank)}$, which maps set
+    to set functions $A \to X$, and its inverse is given by $\exthat{(\blank)}$, which maps set
     functions $A \to X$ to commutative monoid homomorphisms $\quot{\str{F}(A)}{\approx} \to \str{X}$.
-    Therefore, $\quot{\str{F}(A)}{\approx}$ is indeed the free commutative monoid on $A$.
+    Therefore, $\quot{\str{F}(A)}{\approx}$ is indeed the free commutative monoid on $A$
+    with generators map $q \comp \eta_A$ and extension operation $\exthat{(\blank)}$.
 \end{proof}
 
 
@@ -126,7 +138,7 @@ and the multiplication operation $\mult$ is lifted to the quotient by congruence
 
 A specific instance of this construction is $\List$ quotiented by a concrete permutation relation to get commutativity.
 Of course, there are many permutation relations in the literature,
-we consider a simple one which swaps any two adjacent elements somewhere in the middle of the list.
+we consider a simple one which swaps any two adjacent elements anywhere in the middle of the list.
 This $\PList$ construction has also been considered in~\cite{joramConstructiveFinalSemantics2023},
 who prove that $\PList$ is equivalent to the free commutative monoid (constructed as a HIT).
 We give a direct proof of its universal property using our generalisation.
@@ -178,7 +190,7 @@ such as insertion sort.
 %
 This property also makes it possible to normalize inductively constructed list elements in $\PList$
 to their simplest forms, e.g. $q([ x ]) \concat q([y, z])$ normalizes to $q([x,y,z])$ by definition,
-saving the efforts of defining auxillary lemmas to prove their equality.
+saving the efforts of defining auxiliary lemmas to prove their equality.
 
 This inductive nature, however, makes it difficult to define efficient operations on $\PList$. Consider a
 divide-and-conquer algorithm such as merge sort, which involves partitioning a $\PList$ of length $n+m$ into
@@ -248,7 +260,7 @@ and in the Cubical library~\cite{theagdacommunityCubicalAgdaLibrary2025}.
     \begin{proof}
         We can prove this by induction on $\xs$.
         For $\xs \jdgeq []$ this is trivial. For $\xs \jdgeq y \cons \ys$, we have the induction hypothesis $x \cons \ys = \ys \concat [ x ]$.
-        By applying $y \cons (\blank)$ on both side and then apply $\term{swap}$, we can complete the proof.
+        By applying $y \cons (\blank)$ on both sides and then applying a $\term{swap}$, we complete the proof.
     \end{proof}
 
     \begin{theorem}[Commutativity]\label{slist:comm}
@@ -257,7 +269,7 @@ and in the Cubical library~\cite{theagdacommunityCubicalAgdaLibrary2025}.
 
     \begin{proof}
         By induction on $\xs$ we can iteratively apply~\cref{slist:cons} to move all elements of $\xs$
-        to after $\ys$. This would move $\ys$ to the head and $\xs$ to the end, thereby proving
+        to after $\ys$. This moves $\ys$ to the head and $\xs$ to the end, thereby proving
         $\xs \concat \ys = \ys \concat \xs$.
     \end{proof}
 \end{toappendix}
@@ -279,7 +291,7 @@ in~\cref{sec:cmon:plist}.
     $f(\xs\,\concat\,x \cons y \cons \ys) = f(\xs\,\concat\,y \cons x \cons \ys)$. One may be tempted to just remove $\xs$
     from the $\term{perm-swap}$ constructor such that it becomes
     $\term{perm-swap} : \Perm\,(x \cons y \cons \ys)\,\zs \to \Perm\,(y \cons x \cons \ys)\,\zs$.
-    However this would break $\Perm$'s congruence wrt to $\concat$, therefore violating the axioms of
+    However this would break $\Perm$'s congruence w.r.t. $\concat$, therefore violating the axioms of
     permutation relations. Also, since we are working with the identity type directly, properties we would
     expect from $\term{swap}$, such as reflexivity, transitivity, symmetry, congruence and such all comes directly by
     construction, whereas with $\Perm$ we would have to prove these properties manually.
@@ -344,7 +356,7 @@ is the free commutative monoid.
 %
 \begin{proposition}[\alink{proposition}{}{bag-cong}]
     \label{bag:cong}
-    $\approx$ is congruent wrt to $\concat$.
+    $\approx$ is congruent w.r.t. $\concat$.
 \end{proposition}
 %
 \begin{proof}

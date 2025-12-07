@@ -5,8 +5,8 @@
 
 Consider a puzzle about sorting,
 inspired by Dijkstra's Dutch National Flag problem~\cite[Ch.14]{dijkstraDisciplineProgramming1997}.
-Suppose there are balls of three colors,
-corresponding to the colors of the Dutch flag: red, white, and blue.
+Suppose there are balls of three colours,
+corresponding to the colours of the Dutch flag: red, white, and blue.
 \[
   \{
   \tikz[anchor=base, baseline]{%
@@ -28,7 +28,7 @@ Given an unordered list (bag) of such balls, how many ways can you sort them int
     }
   }
 \]
-Obviously there is only one way, decided by the order the colors appear in the Dutch flag:
+Obviously there is only one way, decided by the order the colours appear in the Dutch flag:
 $\term{red} < \term{white} < \term{blue}$.
 \[
   [
@@ -44,7 +44,7 @@ What if we are avid enjoyers of vexillology who also want to consider other flag
 We might ask: how many ways can we sort our unordered list of balls?
 We know there are exactly $3! = 6$ permutations of
 $\{\term{red}, \term{white}, \term{blue}\}$, so there are 6 possible orderings we can define.
-In fact, there are exactly 6 such categories of tricolor flags
+In fact, there are exactly 6 such categories of tricolour flags
 (see~\href{https://en.wikipedia.org/wiki/List_of_flags_with_blue,_red,_and_white_stripes#Triband}{Wikipedia}).
 We have no allegiance to any of the countries presented by the flags, hypothetical or otherwise --
 this is purely a matter of combinatorics.
@@ -72,10 +72,13 @@ The paper is organised as follows:
   \item In~\cref{sec:universal-algebra}, we describe a formalisation of universal algebra developed from the point of view
         of functorial signatures, the definition and universal property of free algebras,
         and equational systems over signatures.
+        %
+        These are elementary constructions but necessary groundwork for us,
+        and we give an informal exposition in type theory.
   \item In~\cref{sec:monoids}, we give constructions of free monoids, and proofs of their universal property.
         Following this, in~\cref{sec:commutative-monoids}, we add commutativity to each representation of free monoids,
         and extend the proofs of universal property from free monoids to free commutative monoids.
-        These constructions are standard, which we formalise by using our general framework.
+        These constructions are standard, and we formalise by using our general framework.
   \item In \cref{sec:application}, we build on the previous constructions and study sorting functions.
         The main result connects total orders, sorting, and commutativity,
         by proving an equivalence between decidable total orders on a carrier set $A$,
@@ -85,16 +88,17 @@ The paper is organised as follows:
 %
 The three main parts of the paper may be read independently.
 %
-Readers interested in the formalisation of universal algebra may start from~\cref{sec:universal-algebra}.
+Readers interested in the formalisation of universal algebra and free algebras
+may start from~\cref{sec:universal-algebra}.
 %
-Readers interested in constructions of free monoids and free commutative monoids may skip ahead
-to~\cref{sec:monoids,sec:commutative-monoids}.
+Readers interested in concrete constructions of free monoids and free commutative monoids
+may skip ahead to~\cref{sec:monoids,sec:commutative-monoids}.
 %
 If the reader is already familiar with these constructions,
-they may directly skip to the application section on sorting, in~\cref{sec:application}.
+they may directly skip to the technical section on sorting functions, in~\cref{sec:application}.
 %
 The paper is accompanied by a formalisation of all the results in Cubical Agda,
-and the artifact is available at~\cite{choudhuryAgdasymmetries2025}.
-However, we use informal mathematical language in the exposition to keep the presentation accessible.
+and the artefact is available online at~\cite{choudhuryAgdasymmetries2025}.
+However, we use informal mathematical language in the paper to keep the presentation accessible.
 %
 \ifarxiv{}{An extended version of the paper including additional details and proofs is available on Zenodo~\cite{extendedVersion}.}
