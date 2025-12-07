@@ -176,21 +176,28 @@ Free algebra constructions are canonically equivalent.
     % \vc{Mention SIP.}
 \end{proof}
 \begin{toappendix}
-    \begin{proposition}
-        The free algebra construction gives a monad on $\Set$.
+    \begin{proposition}[\alink{proposition}{}{free-algebra-monad}]
+        \label{prop:free-algebra-monad}
+        The free algebra construction produces a monad on $\Set$.
     \end{proposition}
     \begin{proof}
-        $F$ is an endofunctor on $\Set$ where the action on functions is given by
-        $X \xto{f} Y \mapsto F(X) \xto{\ext{(\eta_{Y} \comp f)}} F(Y)$.
+        We have unit $\eta$ and extension $\ext{(\blank)}$ from the free algebra construction.
+        %
+        $F$ becomes an endofunctor on $\Set$ where the action on functions is given by
+        $f : X \to Y \mapsto \ext{(\eta_{Y} \comp f)} : F(X) \to F(Y)$.
         %
         The monad unit is given by $\eta$,
-        and multiplication given by $\mu_{X} \defeq F(F(X)) \xto{\ext{\idfunc_{F(X)}}} F(X)$.
+        and multiplication given by $\mu_{X} \defeq \ext{\idfunc_{F(X)}} : F(F(X)) \to F(X)$.
+        %
+        The monad laws follow from:
+        $\ext{\eta_{X}} = \idfunc_{F(X)}$,
+        $\ext{f} \comp \eta_{X} = f$,
+        and $\ext{(\ext{g} \comp f)} = \ext{g} \comp \ext{f}$.
     \end{proof}
 
-    \begin{proposition}
+    \begin{proposition}[\alink{proposition}{}{free-algebra-colimits}]
         \label{prop:free-algebra-colimits}
-        \leavevmode
-        The following properties of free algebras on $\emptyt$, $\unitt$, and coproducts hold:
+        The following properties of free algebras on $\emptyt$, $\unitt$, and $+$ hold:
         \begin{itemize}
             \item if $\sig$ has one constant symbol, then $\str{F}(\emptyt)$ is contractible,
             \item the type of algebra structures on $\unitt$ is contractible,
@@ -391,7 +398,7 @@ free variables available.
             \end{tikzcd}
             \hspace{2em}
             \begin{tikzcd}[ampersand replacement=\&,cramped]
-                x 
+                x
             \end{tikzcd}
         \end{center}
         %

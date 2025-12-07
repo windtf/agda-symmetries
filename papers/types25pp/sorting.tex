@@ -574,14 +574,14 @@ We can now state and prove our main theorem.
 \begin{corollary}[\alink{corollary}{}{lattice}]
     \label{sort:lattice}
     Assume $A$ has decidable equality.
-    Let $\term{TMSLattice}(A)$ be the set of total meet semilattices on $A$,
-    There is a map $l2s \colon \term{TMSLattice}(A) \to \term{Sort}(A)$,
+    Let $\term{TMSLat}(A)$ be the set of total meet semilattices on $A$,
+    There is a map $l2s \colon \term{TMSLat}(A) \to \term{Sort}(A)$,
     which is an equivalence.
 \end{corollary}
 \begin{proof}
     By assumption and~\cref{prop:discrete-meet-semi-lattice}, every total meet semilattice on $A$ is decidable.
     Thus, by~\cref{prop:total-order-meet-semi-lattice}, we have an equivalence
-    $\term{TMSLattice}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
+    $\term{TMSLat}(A) \simeq \term{DecTotOrd}(A)$, and the result follows from~\cref{sort:main}
     by transitivity of equivalences.
 \end{proof}
 %
