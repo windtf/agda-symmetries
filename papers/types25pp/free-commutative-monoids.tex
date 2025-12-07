@@ -48,7 +48,7 @@ This is precisely a \emph{permutation relation}.
     A binary relation on a free monoid $(F(A), e, \mult)$ is a permutation relation iff it is:
     \begin{itemize}
         \item reflexive, symmetric, transitive (an equivalence),
-        \item a congruence wrt $\mult$: $\forall a, b, c, d, \, a \approx b \to c \approx d \to a \mult c \approx b \mult d$,
+        \item a congruence w.r.t $\mult$: $\forall a, b, c, d, \, a \approx b \to c \approx d \to a \mult c \approx b \mult d$,
         \item commutative: $\forall a, b, \, a \mult b \approx b \mult a$, and
         \item respects $\ext{(\blank)}$: $\forall a, b, f, \, a \approx b \to \ext{f}(a) = \ext{f}(b)$.
     \end{itemize}
@@ -66,7 +66,7 @@ and the multiplication operation $\mult$ is lifted to $\qlift{\mult}$ in the quo
     $(\quot{\str{F}(A)}{\approx}, \qlift{e}, \qlift{\mult})$ is a commutative monoid.
 \end{propositionrep}
 \begin{proof}
-    Since $\approx$ is a congruence wrt $\mult$,
+    Since $\approx$ is a congruence w.r.t. $\mult$,
     we can lift $\mult : F(A) \to F(A) \to F(A)$ to the quotient to obtain
     $\qlift{\mult} : \quot{F(A)}{\approx} \to \quot{F(A)}{\approx} \to \quot{F(A)}{\approx}$.
     $\qlift{\mult}$ also satisfies unit and associativity laws on quotiented elements,
@@ -190,7 +190,7 @@ such as insertion sort.
 %
 This property also makes it possible to normalize inductively constructed list elements in $\PList$
 to their simplest forms, e.g. $q([ x ]) \concat q([y, z])$ normalizes to $q([x,y,z])$ by definition,
-saving the efforts of defining auxillary lemmas to prove their equality.
+saving the efforts of defining auxiliary lemmas to prove their equality.
 
 This inductive nature, however, makes it difficult to define efficient operations on $\PList$. Consider a
 divide-and-conquer algorithm such as merge sort, which involves partitioning a $\PList$ of length $n+m$ into
@@ -291,7 +291,7 @@ in~\cref{sec:cmon:plist}.
     $f(\xs\,\concat\,x \cons y \cons \ys) = f(\xs\,\concat\,y \cons x \cons \ys)$. One may be tempted to just remove $\xs$
     from the $\term{perm-swap}$ constructor such that it becomes
     $\term{perm-swap} : \Perm\,(x \cons y \cons \ys)\,\zs \to \Perm\,(y \cons x \cons \ys)\,\zs$.
-    However this would break $\Perm$'s congruence wrt to $\concat$, therefore violating the axioms of
+    However this would break $\Perm$'s congruence w.r.t. $\concat$, therefore violating the axioms of
     permutation relations. Also, since we are working with the identity type directly, properties we would
     expect from $\term{swap}$, such as reflexivity, transitivity, symmetry, congruence and such all comes directly by
     construction, whereas with $\Perm$ we would have to prove these properties manually.
@@ -356,7 +356,7 @@ is the free commutative monoid.
 %
 \begin{proposition}[\alink{proposition}{}{bag-cong}]
     \label{bag:cong}
-    $\approx$ is congruent wrt to $\concat$.
+    $\approx$ is congruent w.r.t. $\concat$.
 \end{proposition}
 %
 \begin{proof}
