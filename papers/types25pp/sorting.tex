@@ -298,10 +298,11 @@ but it does not necessarily sort bags with 3 or more elements.
     $\term{sort} : \SList(\Nat) \to \List(\Nat)$ which sorts $\SList(\Nat)$ ascendingly,
     we can use $\term{sort}$ to construct a counterexample $\ssection$ as follows:
     \begin{align*}
-        \ssection(\xs) & = \begin{cases}
-                               [3, 1]           & \text{if $xs = \bag{1, 3}$} \\
-                               \term{sort}(\xs) & \text{otherwise}            \\
-                           \end{cases}
+        \ssection(\xs) & \defeq
+        \begin{cases}
+            [3, 1]           & \text{if $xs = \bag{1, 3}$} \\
+            \term{sort}(\xs) & \text{otherwise}            \\
+        \end{cases}
     \end{align*}
     %
     Indeed, we have $1 \leqs 2$ and $2 \leqs 3$ as expected,
@@ -417,13 +418,13 @@ Unfortunately, $\isheadleast$ is not enough to guarantee this.
     We consider the set $\Nat$ of natural numbers,
     and construct a $\ssection$ that satisfies $\isheadleast$ but is not a sort function.
     Let the correct insertion sort function be $\term{sort} : \MM(\Nat) \to \LL(\Nat)$.
-    We define $\term{reverseTail}$ which reverses the tail of a list,
+    We define $\term{reverseTail}$ which reverses only the tail of a list,
     and a section $\ssection$ that sorts correctly using $\term{sort}$ then reverses the tail:
     %
     \begin{align*}
-        \term{reverseTail}([])          & = []                                   \\
-        \term{reverseTail}(x \cons \xs) & = x \cons \term{reverse}(\xs)          \\
-        \ssection(\xs)                  & = \term{reverseTail}(\term{sort}(\xs))
+        \term{reverseTail}([])          & \defeq []                                   \\
+        \term{reverseTail}(x \cons \xs) & \defeq x \cons \term{reverse}(\xs)          \\
+        \ssection(\xs)                  & \defeq \term{reverseTail}(\term{sort}(\xs))
     \end{align*}
     For example:
     \begin{align*}
@@ -541,14 +542,14 @@ We can now state and prove our main theorem.
     A sorting function is a section $\ssection : \MM(A) \to \LL(A)$ to
     the canonical surjection $\quotient : \LL(A) \twoheadrightarrow \MM(A)$ satisfying two axioms:
     \begin{itemize}[leftmargin=*]
-        \item $\isheadleast$:
-              \(\,
-              \inimage{x \cons \xs} \land y \in x \cons \xs \to \inimage{[x, y]}
-              \),
-        \item $\istailsort$:
-              \(\,
-              \inimage{x \cons \xs} \to \inimage{\xs}
-              \).
+        \item $\isheadleast :
+                  \forall\, x, y, \xs,\,\,
+                  y \in x \cons \xs \mathrel{\land} \inimage{x \cons \xs} \to \inimage{[x, y]}
+              $,
+        \item $\istailsort :
+                  \forall\, x, \xs,\,\,
+                  \inimage{x \cons \xs} \to \inimage{\xs}
+              $.
     \end{itemize}
 \end{definition}
 \begin{theorem}[\alink{theorem}{}{main}]
