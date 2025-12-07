@@ -140,8 +140,8 @@ module Minimum {ℓ : Level} (A : Type ℓ) (AToset : TosetStr ℓ A) where
     isSetMaybeA = isOfHLevelMaybe zero is-set
 
   module _ (freeCMonDef : ∀ {ℓ' ℓ''} -> FreeCMonDef.Free ℓ' ℓ'' 2) where
-    minHom : structHom _ Maybe-CMonStr
-    minHom = FreeCMonDef.Free.ext freeCMonDef isSetMaybeA Maybe-CMonStrCMonSEq just
+    headHom : structHom _ Maybe-CMonStr
+    headHom = FreeCMonDef.Free.ext freeCMonDef isSetMaybeA Maybe-CMonStrCMonSEq just
 
-    min : F.Definition.Free.F freeCMonDef A -> Maybe A
-    min = minHom .fst
+    head : F.Definition.Free.F freeCMonDef A -> Maybe A
+    head = headHom .fst

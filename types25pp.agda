@@ -201,8 +201,8 @@ proposition-total-order-meet-semi-lattice = Toset.TotalMeetSemiLatticeStr≃Tose
 proposition-total-order-meet-semi-lattice-a : _
 proposition-total-order-meet-semi-lattice-a = Toset.HasDecOrder→HasDecTotalMeetSemiLattice
 
-definition-min-free-commutative-monoid : _
-definition-min-free-commutative-monoid = Minimum.minHom
+definition-head-free-commutative-monoid : _
+definition-head-free-commutative-monoid = Minimum.headHom
 
 -- Section 5.3.1: Section from Order
 proposition-sort-from-order : _
