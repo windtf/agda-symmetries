@@ -9,6 +9,10 @@ open import Cubical.Data.Sigma
 open import Cubical.Functions.Image
 open import Cubical.Foundations.Univalence
 
+open import Cubical.Categories.Monad.Base
+open import Cubical.Categories.Functor renaming (𝟙⟨_⟩ to funcId)
+open import Cubical.Categories.Instances.Sets
+
 open import Cubical.HITs.PropositionalTruncation as P
 open import Cubical.HITs.SetQuotients as Q
 
@@ -174,3 +178,33 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
     FreeAux.sat (snd (from free)) = Free.sat free
     FreeAux.isFree (snd (from free)) = Free.isFree free
     FreeAux.trunc (snd (from free)) = Free.trunc free
+
+module Categories {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)) (ε : sysEq {n = ℓ-max n s} σ τ) where
+  open Definition {n = n} {s = s} σ τ ε
+
+  ℓ : Level
+  ℓ = ℓ-max ℓ' ns
+
+  module _ (freeDef : Free ℓ ℓ' 2) where
+    open Free freeDef
+
+    algFunctor : Functor (SET ℓ) (SET ℓ)
+    algFunctor .Functor.F-ob (A , isSetA) =
+      F A , trunc isSetA
+    algFunctor .Functor.F-hom {y = Yset} f =
+      ext (trunc (Yset .snd)) sat (η ∘ f) .fst
+    algFunctor .Functor.F-id {x = Xset} =
+      congS fst (ext-β (trunc (Xset .snd)) sat (idHom (σStruct _)))
+    algFunctor .Functor.F-seq {x = Xset} {y = Yset} {z = Zset} f g = congS fst $
+      hom≡ (trunc (Zset .snd)) sat
+        (ext (trunc (Zset .snd)) sat (η ∘ g ∘ f))
+        (structHom∘ (σStruct (Xset .fst)) (σStruct (Yset .fst)) (σStruct (Zset .fst)) (ext (trunc (Zset .snd)) sat (η ∘ g)) (ext (trunc (Yset .snd)) sat (η ∘ f))) $ sym $
+          ext (trunc (Zset .snd)) sat (η ∘ g) .fst ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst ∘ η
+        ≡⟨ congS (ext (trunc (Zset .snd)) sat (η ∘ g) .fst ∘_) (ext-η (trunc (Yset .snd)) sat (η ∘ f)) ⟩
+          ext (trunc (Zset .snd)) sat (η ∘ g) .fst ∘ η ∘ f
+        ≡⟨ congS (_∘ f) (ext-η (trunc (Zset .snd)) sat (η ∘ g)) ⟩
+          η ∘ g ∘ f
+        ≡⟨ sym (ext-η (trunc (Zset .snd)) sat (η ∘ g ∘ f)) ⟩
+          ext (trunc (Zset .snd)) sat (η ∘ g ∘ f) .fst ∘ η ∎
+
+  
