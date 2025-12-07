@@ -530,6 +530,7 @@ Finally, this gives us the correctness property of our axioms.
 \noindent
 We can now state and prove our main theorem.
 \begin{definition}[\alink{definition}{Sorting function}{sorting-function}]
+    \label{def:sorting-function}
     \leavevmode
     A sorting function is a section $\ssection : \MM(A) \to \LL(A)$ to
     the canonical surjection $\quotient : \LL(A) \twoheadrightarrow \MM(A)$ satisfying two axioms:
@@ -612,7 +613,7 @@ total order) matches our axioms. We use the correctness criterion developed in~\
             \arrow["q"', from=1-1, to=2-2]
             \arrow["{q \comp \pi_1}", from=1-3, to=2-2]
         \end{tikzcd}\]
-    Sorting functions give sorting algorithms.
+    Sorting functions (as in~\cref{def:sorting-function}) give sorting algorithms.
 \end{proposition}
 \begin{proof}
     We construct our section $\ssection:\MM(A) \to \LL(A)$,
