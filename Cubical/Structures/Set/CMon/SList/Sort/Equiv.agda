@@ -218,46 +218,31 @@ module Triangle {ℓ : Level} {A : Type ℓ} (decOrder : Toset.HasDecOrder {A = 
   triangle : quotient* ∘ fst ∘ sort* ≡ quotient*
   triangle = funExt λ xs -> sortIsPermute (quotient* xs)
 
--- module Univalence {ℓ : Level} {A : Type ℓ} (decOrder : Toset.HasDecOrder {A = A}) where
---   open import Cubical.Foundations.Transport 
---   module FreeLMonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
---   module FreeCMonDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
--- 
---   module _ (freeLMonDef : ∀ {ℓ' ℓ''} -> FreeLMonDef.Free ℓ' ℓ'' 2)
---            (freeCMonDef : ∀ {ℓ' ℓ''} -> FreeCMonDef.Free ℓ' ℓ'' 2) where
--- 
---     LA : Type ℓ
---     LA = FreeLMonDef.Free.F {ℓ' = ℓ} freeLMonDef A
--- 
---     LA≡ListA : LA ≡ List A
---     LA≡ListA = FreeLMonDef.free≡ freeLMonDef listDef is-set
--- 
---     IsSorted* : LA -> Type _
---     IsSorted* = IsSorted ∘ transport LA≡ListA
--- 
---     OLA : Type ℓ
---     OLA = Σ LA IsSorted*
--- 
---     MA : Type ℓ
---     MA = FreeCMonDef.Free.F {ℓ' = ℓ} freeCMonDef A
--- 
---     MA≡SListA : MA ≡ SList A
---     MA≡SListA = FreeCMonDef.free≡ freeCMonDef slistDef is-set
--- 
---     section* : MA -> LA
---     section* = transport (sym LA≡ListA) ∘ sort ∘ transport MA≡SListA
--- 
---     quotientHom* : _
---     quotientHom* = FreeLMonDef.Free.ext freeLMonDef
---       (FreeCMonDef.Free.trunc {ℓ' = ℓ} freeCMonDef is-set)
---       (M.cmonSatMon (FreeCMonDef.Free.sat freeCMonDef))
---       (FreeCMonDef.Free.η freeCMonDef)
---     
---     quotient* : LA -> MA
---     quotient* = quotientHom* .fst
--- 
---     sort* : LA -> OLA
---     sort* xs = section* (quotient* xs) , transport
---       (congS IsSorted (sym (transportTransport⁻ LA≡ListA (sort (transport MA≡SListA (quotient* xs))))))
---       (sortIsSorted (transport MA≡SListA (quotient* xs)))
--- 
+module Univalence {ℓ : Level} {A : Type ℓ} (is-set : isSet A) where
+  open import Cubical.Foundations.Transport 
+  module FreeLMonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
+  module FreeCMonDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
+
+  module _ (freeLMonDef : ∀ {ℓ' ℓ''} -> FreeLMonDef.Free ℓ' ℓ'' 2)
+           (freeCMonDef : ∀ {ℓ' ℓ''} -> FreeCMonDef.Free ℓ' ℓ'' 2) where
+
+    LA : Type ℓ
+    LA = FreeLMonDef.Free.F {ℓ' = ℓ} freeLMonDef A
+
+    LA≡ListA : LA ≡ List A
+    LA≡ListA = FreeLMonDef.free≡ freeLMonDef listDef is-set
+
+    MA : Type ℓ
+    MA = FreeCMonDef.Free.F {ℓ' = ℓ} freeCMonDef A
+
+    MA≡SListA : MA ≡ SList A
+    MA≡SListA = FreeCMonDef.free≡ freeCMonDef slistDef is-set
+
+    quotientHom* : _
+    quotientHom* = FreeLMonDef.Free.ext freeLMonDef
+      (FreeCMonDef.Free.trunc {ℓ' = ℓ} freeCMonDef is-set)
+      (M.cmonSatMon (FreeCMonDef.Free.sat freeCMonDef))
+      (FreeCMonDef.Free.η freeCMonDef)
+    
+    quotient* : LA -> MA
+    quotient* = quotientHom* .fst
