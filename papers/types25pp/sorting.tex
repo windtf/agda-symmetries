@@ -145,8 +145,8 @@ An equivalent way of defining a total order is using a binary meet operation, wi
 \end{proofsketch}
 %
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
-\begin{definition}[\alink{definition}{$\term{head}$}{head-free-commutative-monoid}]
-    \label{def:head-free-commutative-monoid}
+\begin{definition}[\alink{definition}{$\term{min}$}{min-free-commutative-monoid}]
+    \label{def:min-free-commutative-monoid}
     Assume a total order $\leq$ on a set $A$.
     We define a commutative monoid structure on $1 + A$,
     with unit \(e \defeq \inl(\ttt) : 1 + A\), and multiplication defined as:
@@ -157,7 +157,7 @@ Finally, tying this back to~\cref{def:head-free-monoid}, we have the following f
             \inr(a)    & \oplus & \inr(b)    & \defeq & \inr(a \meet b) \enspace.
         \end{array}
     \]
-    This gives a homomorphism \({\term{head} \defeq \ext{\inr}} : {\MM(A) \to 1 + A}\),
+    This gives a homomorphism \({\term{min} \defeq \ext{\inr}} : {\MM(A) \to 1 + A}\),
     which picks out the \emph{least} element of the free commutative monoid.
 \end{definition}
 

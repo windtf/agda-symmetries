@@ -440,20 +440,3 @@ module Toset {ℓ : Level} {A : Type ℓ} where
         (λ (_⋀_ , ⋀TotalMeetSemiLattice , decLattice) -> isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice)
         (λ (_⋀_ , ⋀TotalMeetSemiLattice , decLattice) -> congS (λ x -> (_⋀_ , ⋀TotalMeetSemiLattice , x)) (squash₁ _ _))
         (λ (isTotalMeetSemiLattice _⋀_ ⋀TotalMeetSemiLattice) -> refl))
-
-    -- HasDecOrder≃DecTotalMeetSemiLattice' : (Discrete A × TotalMeetSemiLatticeStr A) ≃ HasDecOrder
-    -- HasDecOrder≃DecTotalMeetSemiLattice' = isoToEquiv
-    --   (iso fwd' inv' sec'' {!   !})
-    --   where
-    --   fwd' : Discrete A × TotalMeetSemiLatticeStr A -> HasDecOrder
-    --   fwd' (discA , semiLattice) = Iso.fun (isoHasDecOrderDecTotalMeetSemiLattice discA) semiLattice
-    --   inv' : HasDecOrder -> Discrete A × TotalMeetSemiLatticeStr A
-    --   inv' (_≤_ , decOrd) =
-    --     let discA = decOrd→disc _≤_ decOrd
-    --     in discA , Iso.inv (isoHasDecOrderDecTotalMeetSemiLattice discA) (_≤_ , decOrd)
-    --   sec'' : section fwd' inv'
-    --   sec'' (_≤_ , decOrd) = Iso.rightInv (isoHasDecOrderDecTotalMeetSemiLattice (decOrd→disc _≤_ decOrd)) (_≤_ , decOrd)
-    --   ret'' : retract fwd' inv'
-    --   ret'' (discA , semiLattice) = cong₂ _,_
-    --     (funExt λ x -> funExt λ y -> {!   !})
-    --     (Iso.leftInv (isoHasDecOrderDecTotalMeetSemiLattice discA) semiLattice)

@@ -4,9 +4,10 @@ open import Cubical.Structures.Prelude
 
 open import Cubical.Data.Empty as ⊥
 open import Cubical.Data.List
-open import Cubical.Data.Nat
-open import Cubical.Data.Nat.Order
+open import Cubical.Data.Nat hiding (min)
 open import Cubical.Data.Sigma
+open import Cubical.Data.Maybe
+open import Cubical.Relation.Binary.Order.Toset
 
 open import Cubical.Functions.Logic as L
 
@@ -77,6 +78,7 @@ module CMonSEq {ℓ} (𝔛 : CMonStruct {ℓ}) (ϕ : 𝔛 ⊨ CMonSEq) where
     ≡⟨⟩
       n ⊕ m ∎
     where
+      open import Cubical.Data.Nat.Order
       lemma1 : (w : CMonSig .arity `⊕) -> lookup (m ∷ n ∷ []) w ≡ sharp CMonSig 𝔛 (lookup (m ∷ n ∷ [])) (lookup (leaf fzero ∷ leaf fone ∷ []) w)
       lemma1 (zero , p) = refl
       lemma1 (suc zero , p) = refl
@@ -101,3 +103,45 @@ module CMonSEq {ℓ} (𝔛 : CMonStruct {ℓ}) (ϕ : 𝔛 ⊨ CMonSEq) where
 ⊓MonStrCMonSEq : (ℓ : Level) -> M.⊓-MonStr ℓ ⊨ CMonSEq
 ⊓MonStrCMonSEq ℓ (`mon eqn) ρ = M.⊓-MonStr-MonSEq ℓ eqn ρ
 ⊓MonStrCMonSEq ℓ `comm ρ = ⊓-comm (ρ fzero) (ρ fone)
+
+module Minimum {ℓ : Level} (A : Type ℓ) (AToset : TosetStr ℓ A) where
+  import Cubical.Structures.Free as F
+  import Cubical.Structures.Semilattices
+  module FreeCMonDef = F.Definition M.MonSig CMonEqSig CMonSEq
+  open TosetStr AToset
+  open Toset.Toset⋀ is-set _≤_ isToset
+
+  Maybe-CMonStr : CMonStruct
+  Maybe-CMonStr .car = Maybe A
+  Maybe-CMonStr .alg (`e , i) = nothing
+  Maybe-CMonStr .alg (`⊕ , i) with i fzero | i fone
+  ... | nothing | x = x
+  ... | just x | nothing = just x
+  ... | just x | just y  = just (x ⋀ y)
+
+  Maybe-CMonStrCMonSEq : Maybe-CMonStr ⊨ CMonSEq
+  Maybe-CMonStrCMonSEq (`mon M.`unitl) ρ = refl
+  Maybe-CMonStrCMonSEq (`mon M.`unitr) ρ with ρ fzero
+  ... | nothing = refl
+  ... | just x  = refl
+  Maybe-CMonStrCMonSEq (`mon M.`assocr) ρ with ρ fzero | ρ fone | ρ ftwo
+  ... | nothing | _       | _ = refl
+  ... | just x  | nothing | _ = refl
+  ... | just x  | just y  | nothing = refl
+  ... | just x  | just y  | just z  = congS just (⋀AssocR x y z)
+  Maybe-CMonStrCMonSEq `comm ρ with ρ fzero | ρ fone
+  ... | nothing | nothing = refl
+  ... | nothing | just x  = refl
+  ... | just x  | nothing = refl
+  ... | just x  | just y  = congS just (⋀Comm x y)
+
+  private
+    isSetMaybeA : isSet (Maybe A)
+    isSetMaybeA = isOfHLevelMaybe zero is-set
+
+  module _ (freeCMonDef : ∀ {ℓ' ℓ''} -> FreeCMonDef.Free ℓ' ℓ'' 2) where
+    minHom : structHom _ Maybe-CMonStr
+    minHom = FreeCMonDef.Free.ext freeCMonDef isSetMaybeA Maybe-CMonStrCMonSEq just
+
+    min : F.Definition.Free.F freeCMonDef A -> Maybe A
+    min = minHom .fst

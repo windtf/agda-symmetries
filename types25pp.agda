@@ -167,6 +167,7 @@ definition-head = ListMon.Head.Set.head
 
 -- Section 5.2: Total orders
 open import Cubical.Relation.Binary.Order
+open import Cubical.Structures.Set.CMon.Desc
 open import Cubical.Structures.Semilattices
 open import Cubical.Structures.Set.CMon.SList.Sort.Base
 open import Cubical.Structures.Set.CMon.SList.Sort.Sort
@@ -192,7 +193,7 @@ definition-meet-semi-lattice : _
 definition-meet-semi-lattice = IsTotalMeetSemiLatticeStr
 
 proposition-discrete-meet-semi-lattice : _
-proposition-discrete-meet-semi-lattice = Toset.disc→decLattice
+proposition-discrete-meet-semi-lattice = Toset.TotalMeetSemiLattice≃DecTotalMeetSemiLattice
 
 proposition-total-order-meet-semi-lattice : _
 proposition-total-order-meet-semi-lattice = Toset.TotalMeetSemiLatticeStr≃TosetStr
@@ -200,8 +201,8 @@ proposition-total-order-meet-semi-lattice = Toset.TotalMeetSemiLatticeStr≃Tose
 proposition-total-order-meet-semi-lattice-a : _
 proposition-total-order-meet-semi-lattice-a = Toset.HasDecOrder→HasDecTotalMeetSemiLattice
 
-definition-head-free-commutative-monoid : _
-definition-head-free-commutative-monoid = Sort→Order.least -- TODO: implement
+definition-min-free-commutative-monoid : _
+definition-min-free-commutative-monoid = Minimum.minHom
 
 -- Section 5.3.1: Section from Order
 proposition-sort-from-order : _
