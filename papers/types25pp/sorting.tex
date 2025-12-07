@@ -407,16 +407,16 @@ This constitutes an embedding of decidable total orders into sections satisfying
 
 We want to upgrade the embedding to an isomorphism, and it
 remains to show that we can turn a section satisfying $\isheadleast$ to a total order $\leqs$,
-then construct the \emph{same} section back from $\leqs$.
+then reconstruct the \emph{same} section from $\leqs$.
 Unfortunately, $\isheadleast$ is not enough to guarantee this.
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}{counterexample-equivalence}]
     \label{prop:counterexample-equivalence}
-    Assume $A$ is a set with different elements, i.e. $\exists x, y: A.\,x \neq y$,
-    we cannot construct a full equivalence between sections that satisfy $\isheadleast$
+    Assume $A$ is a set with distinct elements, i.e. $\exists x, y: A.\,x \neq y$,
+    then there is no equivalence between sections satisfying $\isheadleast$
     and total orders on $A$.
 \end{proposition}
 \begin{proof}
-    We give a counter-example of $\ssection$ that satisfy $\isheadleast$ but is not a sort function.
+    We give a counter-example of a $\ssection$ that satisfies $\isheadleast$ but is not a sort function.
     Consider the insertion sort function $\term{sort} : \MM(\Nat) \to \LL(\Nat)$
     parameterized by $\leq$:
     \begin{align*}
