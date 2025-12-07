@@ -169,7 +169,8 @@ The free commutative monoid is also a monoid, hence, there is a canonical monoid
 $\quotient : \LL(A) \to \MM(A)$, which is given by $\ext{\eta_A}$, the extension of the unit $\eta_A : A \to \MM(A)$.
 %
 Since $\MM(A)$ is (upto equivalence), a quotient of $\LL(A)$ by symmetries (or a permutation relation),
-it is a surjection (in particular, a regular epimorphism in $\Set$ as constructed in type theory).
+it is a surjection (in particular, a regular epimorphism in $\Set$ as constructed in type theory),
+the canonical inclusion into the quotient.
 %
 Concretely, $\quotient$ simply includes the elements of $\LL(A)$ into equivalence classes of lists in $\MM(A)$,
 which ``forgets'' the order that was imposed by the indexing of the list.
@@ -253,7 +254,7 @@ we can \emph{almost} construct a total-order on the carrier set.
 
 \begin{definition}[\alink{definition}{$\term{least}$}{least}]
     \label{def:least}
-    Given a section $\ssection$, we define:
+    Given a section $\ssection$, we define a relation $\leqs$ parametrised by $\ssection$:
     \[
         x \leqs y \defeq \term{head}(\ssection(\bag{x, y})) = \inr(x) \enspace.
     \]
@@ -308,7 +309,8 @@ but it does not necessarily sort bags with 3 or more elements.
     thus violating transitivity.
 \end{proof}
 %
-We will enforce additional constraints on the \emph{image} of $\ssection$, to turn it into a correct sort function.
+To make sure that $\ssection$ is a well-behaved section that recovers a total order on $A$,
+we will enforce additional constraints on the \emph{image} of $\ssection$.
 \begin{definition}[\alink{definition}{$\blank\in\im{\ssection}$}{in-image}]
     \label{def:in-image}
     The fiber of $\ssection$ at a point in the codomain~$\xs : \LL(A)$
@@ -340,11 +342,13 @@ First, we note that the 2-element case is correct.
     \]
 \end{definition}
 \noindent
-We use the definition of list membership from~\cref{def:membership}.
-The $\in$ symbol is intentionally overloaded
-to make the axiom look like a logical ``cut'' rule.
-Informally, it says that the head of an $\ssection$-``sorted'' list
-is the least element of the list.
+There are two different membership symbols in this axiom,
+where the first membership is list membership from~\cref{def:membership},
+and the second membership is image membership from~\cref{def:in-image}.
+%
+The $\in$ symbol is intentionally overloaded to make the axiom look like a logical ``cut'' rule,
+that pushes the (least) $x$ element to the head of the list.
+Informally, the head of an $\ssection$-``sorted'' list is always the least element of the list.
 
 \begin{proposition}[\alink{proposition}{}{order-to-sort-head-least}]
     \label{prop:order-to-sort-head-least}
@@ -403,16 +407,16 @@ This constitutes an embedding of decidable total orders into sections satisfying
 
 We want to upgrade the embedding to an isomorphism, and it
 remains to show that we can turn a section satisfying $\isheadleast$ to a total order $\leqs$,
-then construct the \emph{same} section back from $\leqs$.
+then reconstruct the \emph{same} section from $\leqs$.
 Unfortunately, $\isheadleast$ is not enough to guarantee this.
-\begin{proposition}
+\begin{proposition}[\alink{proposition}{}{counterexample-equivalence}]
     \label{prop:counterexample-equivalence}
-    Assume $A$ is a set with different elements, i.e. $\exists x, y: A.\,x \neq y$,
-    we cannot construct a full equivalence between sections that satisfy $\isheadleast$
+    Assume $A$ is a set with distinct elements, i.e. $\exists x, y: A.\,x \neq y$,
+    then there is no equivalence between sections satisfying $\isheadleast$
     and total orders on $A$.
 \end{proposition}
 \begin{proof}
-    We give a counter-example of $\ssection$ that satisfy $\isheadleast$ but is not a sort function.
+    We give a counter-example of a $\ssection$ that satisfies $\isheadleast$ but is not a sort function.
     Consider the insertion sort function $\term{sort} : \MM(\Nat) \to \LL(\Nat)$
     parameterized by $\leq$:
     \begin{align*}
