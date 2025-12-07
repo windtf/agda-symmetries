@@ -36,6 +36,9 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
         (H : isOfHLevel h (𝔜 .car)) (ϕ : 𝔜 ⊨ ε)
         -> isEquiv (\(f : structHom {x = ℓ-max ℓ ns} < F X , α > 𝔜) -> f .fst ∘ η)
 
+    σStruct : Type ℓ -> _
+    σStruct X = < F X , α >
+
     ext : {X : Type ℓ} {𝔜 : struct (ℓ-max ℓ' ns) σ}
           (H : isOfHLevel h (𝔜 .car)) (ϕ : 𝔜 ⊨ ε)
        -> (hom : X -> 𝔜 .car) -> structHom < F X , α > 𝔜
@@ -105,6 +108,12 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
     freeIso = iso (ϕ1 .fst) (ϕ2 .fst)
       (λ x -> congS (λ f -> f .fst x) (hom≡ 𝔜 isSet𝔜 (𝔜 .sat) ϕ1∘ϕ2 (idHom str𝔜) ϕ1∘ϕ2≡))
       (λ x -> congS (λ f -> f .fst x) (hom≡ 𝔛 isSet𝔛 (𝔛 .sat) ϕ2∘ϕ1 (idHom str𝔛) ϕ2∘ϕ1≡))
+    
+    freeIsoFunHom : structIsHom str𝔛 str𝔜 (Iso.fun freeIso)
+    freeIsoFunHom = ϕ1 .snd
+
+    freeIsoInvHom : structIsHom str𝔜 str𝔛 (Iso.inv freeIso)
+    freeIsoInvHom = ϕ2 .snd
 
     free≡ : 𝔛 .F A ≡ 𝔜 .F A
     free≡ = ua (isoToEquiv freeIso)

@@ -268,6 +268,9 @@ corollary-strict-order = Sort↔Order.sort≃strict-order
 corollary-lattice : _
 corollary-lattice = Sort↔Order.sort≃lattice
 
+proposition-sort-correctness : _
+proposition-sort-correctness = Triangle.triangle
+
 ---------------------------------
 -- an exhaustive list of all modules:
 import everything
