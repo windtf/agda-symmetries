@@ -83,11 +83,13 @@ is equivalent to giving a decidable total order structure on $A$.
 \begin{proofsketch}
     Given a decidable total order $\leq$ on $A$, by~\cref{prop:decidable-total-order},
     we map it to a decidable strict total order $<$ on $A$ by
-    $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-strict-total-order}
+    $x < y \defeq (x \leq y) \times (x \neq y)$.
+    %
+    Vice versa, by~\cref{prop:decidable-strict-total-order},
     given a decidable strict total order $<$ on $A$,
     we map it to a decidable total order $\leq$ on $A$ by
     $x \leq y \defeq (x < y) + (x = y)$.
-    These maps are inverses of each other.
+    These maps are checked to be inverses of each other.
 \end{proofsketch}
 %
 An equivalent way of defining a total order is using a binary meet operation, without starting from an ordering relation.
@@ -111,16 +113,16 @@ An equivalent way of defining a total order is using a binary meet operation, wi
 
 \begin{proposition}[\alink{proposition}{}{discrete-meet-semi-lattice}]
     \label{prop:discrete-meet-semi-lattice}
-    A decidable total order on $A$ implies all total meet semi-lattice structures on $A$ are decidable.
+    If $A$ has decidable equality, all total meet semi-lattice structures on $A$ are decidable.
 \end{proposition}
 \begin{proof}
-    We decide if $x \meet y \id x$ and $x \meet y \id y$ to compute a proof of
+    We decide if $x \meet y \id x$ and $x \meet y \id y$ to compute whether
     $x \meet y \id x$ or $x \meet y \id y$. By totality, one of them must hold.
 \end{proof}
 
 \begin{proposition}[\alink{proposition}{}{total-order-meet-semi-lattice}]
     \label{prop:total-order-meet-semi-lattice}
-    A $\leq$ on a set $A$ is equivalent to a total meet semi-lattice structure on $A$.
+    A total order structure on a set $A$ is equivalent to a total meet semi-lattice structure on $A$.
     Further, a decidable total order on $A$ induces a decidable total meet semi-lattice structure on $A$.
 \end{proposition}
 \begin{proofsketch}
@@ -139,10 +141,8 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     If the total order is decidable, by~\cref{prop:decidable-total-order} and~\cref{prop:discrete-meet-semi-lattice},
     the mapped meet operation is decidable.
     %
-    The converse does not hold however, as a decidable total meet semi-lattice
-    does not imply discreteness of $A$.
-    %
-    Thus, we do not have a full equivalence in the decidable case.
+    The converse does not hold however,
+    as a decidable total meet semi-lattice structure does not imply discreteness of $A$.
 \end{proofsketch}
 %
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
@@ -405,7 +405,7 @@ This constitutes an embedding of decidable total orders into sections satisfying
 
 \subsubsection{Equivalence of order and sections}
 
-We want to upgrade the embedding to an isomorphism, and it
+We want to improve the embedding to an isomorphism, and it
 remains to show that we can turn a section satisfying $\isheadleast$ to a total order $\leqs$,
 then reconstruct the \emph{same} section from $\leqs$.
 Unfortunately, $\isheadleast$ is not enough to guarantee this.
