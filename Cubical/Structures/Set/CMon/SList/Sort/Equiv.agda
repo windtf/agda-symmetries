@@ -191,5 +191,36 @@ module Sort↔Order {ℓ : Level} {A : Type ℓ} (isSetA : isSet A) where
     isContrDiscreteA : isContr (Discrete A)
     isContrDiscreteA = discA , λ z -> funExt λ x -> funExt λ y -> isPropDec (isSetA x y) (discA x y) (z x y)
 
+module Univalence {ℓ : Level} {A : Type ℓ} (decOrder : Toset.HasDecOrder {A = A}) where
+  module FreeLMonDef = F.Definition M.MonSig M.MonEqSig M.MonSEq
+  module FreeCMonDef = F.Definition M.MonSig M.CMonEqSig M.CMonSEq
 
-  -- module AnyFree (𝔐 : MDef.Free ℓ ℓ 2) (𝔏 : LDef.Free ℓ ℓ 2) where
+  _≤_ : A -> A -> Type _
+  _≤_ = fst decOrder
+
+  tosetA : IsToset _≤_
+  tosetA = snd decOrder .fst
+
+  decOrderA : ∀ x y -> Dec (x ≤ y)
+  decOrderA = snd decOrder .snd
+
+  open IsToset tosetA
+  open Sort↔Order is-set
+  open Order→Sort _≤_ tosetA decOrderA
+
+  module _ (freeLMonDef : ∀ {ℓ' ℓ''} -> FreeLMonDef.Free ℓ' ℓ'' 2)
+           (freeCMonDef : ∀ {ℓ' ℓ''} -> FreeCMonDef.Free ℓ' ℓ'' 2) where
+
+    LA : Type ℓ
+    LA = FreeLMonDef.Free.F {ℓ' = ℓ} freeLMonDef A
+
+    -- LA≡ListA : LA ≡ List A
+    -- LA≡ListA = {!   !}
+
+    -- OLA : Type ℓ
+    -- OLA = Σ[ xs ∈ LA ] (IsSorted (transport {!  free !} xs))
+
+    MA : Type ℓ
+    MA = FreeCMonDef.Free.F {ℓ' = ℓ} freeCMonDef A
+    
+

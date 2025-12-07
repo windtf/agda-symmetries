@@ -45,6 +45,8 @@ F.Definition.Free.F treeDef = Tree emptySig
 F.Definition.Free.η treeDef = leaf
 F.Definition.Free.α treeDef = emptyΑ (Tree emptySig _)
 F.Definition.Free.sat treeDef = emptySat (Tree emptySig _)
+F.Definition.Free.trunc (treeDef {ℓ = ℓ}) isSetX =
+  isOfHLevelTree {y = ℓ} emptySig {h = 0} {h' = 0} isSetX λ x y -> ⊥.rec x
 F.Definition.Free.isFree (treeDef {ℓ = ℓ}) {X = A} {𝔜 = 𝔜} H ϕ = lemma .snd
   where
   𝔗 : struct ℓ emptySig
@@ -61,4 +63,5 @@ F.Definition.Free.F anyDef A = A
 F.Definition.Free.η anyDef a = a
 F.Definition.Free.α anyDef = emptyΑ _
 F.Definition.Free.sat anyDef = emptySat _
+F.Definition.Free.trunc (anyDef {ℓ = ℓ}) isSetX = isSetX
 F.Definition.Free.isFree anyDef {𝔜 = 𝔜} _ _ = emptyHomDegen 𝔜 .snd

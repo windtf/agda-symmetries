@@ -97,6 +97,7 @@ F.Definition.Free.F listDef = List
 F.Definition.Free.η listDef = [_]
 F.Definition.Free.α listDef = listΑ
 F.Definition.Free.sat listDef = listSat
+F.Definition.Free.trunc listDef = isOfHLevelList zero
 F.Definition.Free.isFree listDef isSet𝔜 satMon = (Free.listEquiv isSet𝔜 satMon) .snd
 
 listBot : (List ⊥.⊥) ≃ Unit

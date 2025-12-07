@@ -7,6 +7,7 @@ open import Cubical.Data.Nat
 open import Cubical.Data.Sigma
 
 open import Cubical.Functions.Image
+open import Cubical.Foundations.Univalence
 
 open import Cubical.HITs.PropositionalTruncation as P
 open import Cubical.HITs.SetQuotients as Q
@@ -29,6 +30,7 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
       η : {X : Type ℓ} -> X -> F X
       α : {X : Type ℓ} -> sig σ (F X) -> F X
       sat : {X : Type ℓ} -> < F X , α > ⊨ ε
+      trunc : {X : Type ℓ} -> isOfHLevel h X -> isOfHLevel h (F X)
       isFree : {X : Type ℓ}
         {𝔜 : struct (ℓ-max ℓ' ns) σ}
         (H : isOfHLevel h (𝔜 .car)) (ϕ : 𝔜 ⊨ ε)
@@ -57,13 +59,19 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
     hom≡ H ϕ H1 H2 α = sym (ext-β H ϕ H1) ∙ cong (ext H ϕ) α ∙ ext-β H ϕ H2
 
   open Free
-  module _ {ℓ} {A : Type ℓ} (𝔛 : Free ℓ ℓ 2) (𝔜 : Free ℓ ℓ 2) (isSet𝔛 : isSet (𝔛 .F A)) (isSet𝔜 : isSet (𝔜 .F A)) where
+  module _ {ℓ} {A : Type ℓ} (𝔛 : Free ℓ ℓ 2) (𝔜 : Free ℓ ℓ 2) (isSetA : isSet A) where
     private
       str𝔛 : struct (ℓ-max (ℓ-max n s) ℓ) σ
       str𝔛 = < 𝔛 .F A , 𝔛 .α >
 
       str𝔜 : struct (ℓ-max (ℓ-max n s) ℓ) σ
       str𝔜 = < 𝔜 .F A , 𝔜 .α >
+
+      isSet𝔜 : isSet (𝔜 .F A)
+      isSet𝔜 = 𝔜 .trunc isSetA
+
+      isSet𝔛 : isSet (𝔛 .F A)
+      isSet𝔛 = 𝔛 .trunc isSetA
 
       ϕ1 : structHom str𝔛 str𝔜
       ϕ1 = ext 𝔛 isSet𝔜 (𝔜 .sat) (𝔜 .η)
@@ -98,12 +106,16 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
       (λ x -> congS (λ f -> f .fst x) (hom≡ 𝔜 isSet𝔜 (𝔜 .sat) ϕ1∘ϕ2 (idHom str𝔜) ϕ1∘ϕ2≡))
       (λ x -> congS (λ f -> f .fst x) (hom≡ 𝔛 isSet𝔛 (𝔛 .sat) ϕ2∘ϕ1 (idHom str𝔛) ϕ2∘ϕ1≡))
 
+    free≡ : 𝔛 .F A ≡ 𝔜 .F A
+    free≡ = ua (isoToEquiv freeIso)
+
   -- Alternative definition where F is paramterized, used for transporting Free proofs
   record FreeAux (ℓ ℓ' : Level) (h : HLevel) (F : (X : Type ℓ) -> Type (ℓ-max ℓ ns)) : Type (ℓ-suc (ℓ-max ℓ' (ℓ-max ℓ (ℓ-max f (ℓ-max a (ℓ-max e ns)))))) where
     field
       η : {X : Type ℓ} -> X -> F X
       α : {X : Type ℓ} -> sig σ (F X) -> F X
       sat : {X : Type ℓ} -> < F X , α > ⊨ ε
+      trunc : {X : Type ℓ} -> isOfHLevel h X -> isOfHLevel h (F X)
       isFree : {X : Type ℓ}
         {𝔜 : struct (ℓ-max ℓ' ns) σ}
         (H : isOfHLevel h (𝔜 .car)) (ϕ : 𝔜 ⊨ ε)
@@ -119,6 +131,7 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
     Free.α (to (F , aux)) = FreeAux.α aux
     Free.sat (to (F , aux)) = FreeAux.sat aux
     Free.isFree (to (F , aux)) = FreeAux.isFree aux
+    Free.trunc (to (F , aux)) = FreeAux.trunc aux
 
     from : Free ℓ ℓ' h -> Σ[ F ∈ ((X : Type ℓ) -> Type (ℓ-max ℓ ns)) ] FreeAux ℓ ℓ' h F
     fst (from free) = Free.F free
@@ -126,7 +139,7 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
     FreeAux.α (snd (from free)) = Free.α free
     FreeAux.sat (snd (from free)) = Free.sat free
     FreeAux.isFree (snd (from free)) = Free.isFree free
-
+    FreeAux.trunc (snd (from free)) = Free.trunc free
 
 -- -- constructions of a free structure on a signature and equations
 -- -- TODO: generalise the universe levels!!

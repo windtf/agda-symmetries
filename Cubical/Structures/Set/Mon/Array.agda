@@ -422,6 +422,7 @@ F.Definition.Free.F arrayDef = Array
 F.Definition.Free.η arrayDef = η
 F.Definition.Free.α arrayDef = arrayA
 F.Definition.Free.sat arrayDef = arraySat
+F.Definition.Free.trunc arrayDef = isSetArray
 F.Definition.Free.isFree arrayDef isSet𝔜 satMon = (Free.arrayEquiv isSet𝔜 satMon) .snd
 
 -- direct proof of isomorphism between Array and List

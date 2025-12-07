@@ -174,4 +174,5 @@ F.Definition.Free.F clistDef = CList
 F.Definition.Free.η clistDef = [_]
 F.Definition.Free.α clistDef = clistAlpha
 F.Definition.Free.sat clistDef = clistSat
+F.Definition.Free.trunc clistDef _ = isSetCList
 F.Definition.Free.isFree clistDef isSet𝔜 satMon = (Free.clistMonEquiv isSet𝔜 satMon) .snd

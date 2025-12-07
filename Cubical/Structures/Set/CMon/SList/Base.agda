@@ -98,4 +98,5 @@ F.Definition.Free.F slistDef = SList
 F.Definition.Free.η slistDef = [_]
 F.Definition.Free.α slistDef = slistAlpha
 F.Definition.Free.sat slistDef = slistSat
+F.Definition.Free.trunc slistDef _ = trunc
 F.Definition.Free.isFree slistDef isSet𝔜 satMon = (Free.slistMonEquiv isSet𝔜 satMon) .snd

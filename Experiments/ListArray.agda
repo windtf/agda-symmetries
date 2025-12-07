@@ -57,7 +57,7 @@ _ : to-list' .fst an-array ≡ want
 _ = refl
 
 to-list'' : Array ℕ -> List ℕ
-to-list'' = MonDef.freeIso arrayDef listDef (isSetArray isSetℕ) (isOfHLevelList 0 isSetℕ) .fun
+to-list'' = MonDef.freeIso arrayDef listDef isSetℕ .fun
 
 _ : to-list'' an-array ≡ want
 _ = refl

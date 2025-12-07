@@ -192,4 +192,5 @@ F (qFreeMonDef R) A = QFreeMon.𝒬 A R
 η (qFreeMonDef R) = QFreeMon.η/ _ R
 α (qFreeMonDef R) = QFreeMon.qFreeMonAlpha _ R
 sat (qFreeMonDef R) = QFreeMon.qFreeMonSat _ R
+trunc (qFreeMonDef R) _ = squash/
 isFree (qFreeMonDef R) isSet𝔜 𝔜Cmon = (QFreeMon.IsFree.qFreeMonEquiv _ R isSet𝔜 𝔜Cmon) .snd

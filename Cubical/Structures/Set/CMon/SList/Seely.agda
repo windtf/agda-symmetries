@@ -27,7 +27,7 @@ open import Cubical.Structures.Set.CMon.SList.Base as SList
 
 module _ {ℓ} {A B : Type ℓ} where
 
-  open SListDef.Free
+  open SListDef.Free renaming (trunc to trunc*)
 
   isSetSList× : isSet (SList A × SList B)
   isSetSList× = isSet× trunc trunc

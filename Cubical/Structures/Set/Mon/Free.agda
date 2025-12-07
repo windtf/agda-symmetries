@@ -140,4 +140,5 @@ F.Definition.Free.F freeMonDef = FreeMon
 F.Definition.Free.η freeMonDef = η
 F.Definition.Free.α freeMonDef = freeMonΑ
 F.Definition.Free.sat freeMonDef = freeMonSat
+F.Definition.Free.trunc freeMonDef _ = trunc
 F.Definition.Free.isFree freeMonDef isSet𝔜 satMon = (Free.freeMonEquiv isSet𝔜 satMon) .snd
