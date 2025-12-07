@@ -114,7 +114,12 @@ which we denote by $\exthat{(\blank)}$.
 
     To see that $\exthat{(\blank)}$ is the right inverse to $(\blank) \comp q \comp \eta_A$,
     observe that $\exthat{f} \comp q \comp \eta_A = \ext{f} \comp \eta_A = f$.
-    And, $\exthat{f}(q(x) \qlift{\mult} q(y)) = \exthat{f}{(q(x \mult y))} = \ext{f}(x \mult y) = \ext{f}(x) \mult \ext{f}(y)$,
+    And,
+    $\exthat{f}(q(x) \qlift{\mult} q(y))
+        = \exthat{f}{(q(x \mult y))}
+        = \ext{f}(x \mult y) = \ext{f}(x) \mult \ext{f}(y)
+        = \exthat{f}(q(x)) \mult \exthat{f}(q(y))
+    $,
     making $\exthat{f}$ a (commutative) monoid homomorphism.
 
     To show $\exthat{(\blank)}$ is the left inverse to $(\blank) \comp q \comp \eta_A$,
