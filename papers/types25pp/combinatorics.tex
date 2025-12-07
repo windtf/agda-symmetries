@@ -44,10 +44,10 @@ By construction, this membership predicate satisfies its homomorphic properties,
 which are colloquially the properties of inductively defined de Bruijn indices.
 
 We note that $\hProp$ is actually one type level higher than $A$.
-To make the type level explicit, $A$ is of type level $\ell$, and since $\hProp_\ell$
+To make the type levels explicit, $A$ is of type level $\ell$, and since $\hProp_\ell$
 is the type of all types $X : \Set_\ell$ that are mere propositions, $\hProp_\ell$ has
 type level $\ell + 1$. We do not assume any propositional resizing axioms~\cite{voevodskyResizingRulesTheir2011},
-and use level polymorphism $\ext{(\blank)}$ in our formalisation to accommodate this.
+and instead use Agda's universe polymorphism in our formalisation to accommodate this.
 
 Any presentation of free (commutative) monoids $\FF(A)$ also supports the
 $\term{Any}$ and $\term{All}$ predicates, which allow lifting a predicate $A \to \hProp$ (on $A$),
