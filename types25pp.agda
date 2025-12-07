@@ -138,7 +138,7 @@ definition-bag : _
 definition-bag = Bag.Bag
 
 proposition-bag-equiv : _
-proposition-bag-equiv = Bag.trans≈ -- TODO: × other properties of ≈
+proposition-bag-equiv = Bag.isEquiv≈
 
 proposition-bag-cong : _
 proposition-bag-cong = Bag.cong≈

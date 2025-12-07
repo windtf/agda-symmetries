@@ -24,6 +24,7 @@ open import Cubical.Structures.Arity hiding (_/_)
 open import Cubical.Structures.Set.CMon.QFreeMon
 open import Cubical.Structures.Set.CMon.Bag.Base
 open import Cubical.Relation.Nullary
+open import Cubical.Relation.Binary.Base
 
 open Iso
 
@@ -48,6 +49,11 @@ trans≈ {as = (n , f)} {bs = (m , g)} {cs = (o , h)} (σ , p) (τ , q) =
     ((h ∘ τ .fun) ∘ σ .fun ≡⟨ congS (_∘ σ .fun) (sym q) ⟩
     g ∘ σ .fun ≡⟨ sym p ⟩
     f ∎)
+
+isEquiv≈ : ∀ {A : Type ℓ} -> BinaryRelation.isEquivRel {A = Array A} _≈_
+isEquiv≈ .BinaryRelation.isEquivRel.reflexive as = refl≈
+isEquiv≈ .BinaryRelation.isEquivRel.symmetric as bs = sym≈
+isEquiv≈ .BinaryRelation.isEquivRel.transitive as bs cs = trans≈ {cs = cs}
 
 Fin+-cong : {n m n' m' : ℕ} -> Iso (Fin n) (Fin n') -> Iso (Fin m) (Fin m') -> Iso (Fin (n + m)) (Fin (n' + m'))
 Fin+-cong {n} {m} {n'} {m'} σ τ =
