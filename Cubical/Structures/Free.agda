@@ -136,12 +136,12 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
     free≡ : 𝔛 .F A ≡ 𝔜 .F A
     free≡ = ua (isoToEquiv freeIso)
 
-    -- η≡ : ∀ x -> PathP (λ i -> free≡ i) (𝔛 .η x) (𝔜 .η x)
-    -- η≡ x = toPathP $
-    --   transport free≡ (𝔛 .η x) ≡⟨⟩
-    --   transport (λ i -> 𝔜 .F A) (ϕ1 .fst (𝔛 .η x)) ≡⟨ sym (transport-filler refl (ϕ1 .fst (𝔛 .η x))) ⟩
-    --   ϕ1 .fst (𝔛 .η x) ≡⟨⟩
-    --   {!   !}
+    η≡ : ∀ x -> PathP (λ i -> free≡ i) (𝔛 .η x) (𝔜 .η x)
+    η≡ x = toPathP $
+      transport free≡ (𝔛 .η x) ≡⟨⟩
+      transport (λ i -> 𝔜 .F A) (ϕ1 .fst (𝔛 .η x)) ≡⟨ sym (transport-filler refl (ϕ1 .fst (𝔛 .η x))) ⟩
+      ϕ1 .fst (𝔛 .η x) ≡⟨ cong (λ f -> f x) (ext-η 𝔛 isSet𝔜 (𝔜 .sat) (𝔜 .η)) ⟩
+      η 𝔜 x ∎
 
   -- Alternative definition where F is paramterized, used for transporting Free proofs
   record FreeAux (ℓ ℓ' : Level) (h : HLevel) (F : (X : Type ℓ) -> Type (ℓ-max ℓ ns)) : Type (ℓ-suc (ℓ-max ℓ' (ℓ-max ℓ (ℓ-max f (ℓ-max a (ℓ-max e ns)))))) where
