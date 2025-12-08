@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://github.com/windtf/agda-symmetries/blob/main/LICENSE)
 
 This repository contains the artifacts for the [Symmetries in Sorting](https://doi.org/10.5281/zenodo.17829281) paper.
-An index of the formalized proofs in the paper can be found [here](/types25pp.agda), and an HTML rendered version is hosted [here](https://symmetries.windtfw.com/).
+An HTML index of the formalized proofs in the paper can be found [here](https://symmetries.windtfw.com/types25pp.agda).
 
 # Abstract
 
