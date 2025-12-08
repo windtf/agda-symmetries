@@ -208,24 +208,25 @@ module Categories {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max
         ≡⟨ sym (ext-η (trunc (Zset .snd)) sat (η ∘ g ∘ f)) ⟩
           ext (trunc (Zset .snd)) sat (η ∘ g ∘ f) .fst ∘ η ∎
 
-    algIsMonad : IsMonad (algFunctor)
-    algIsMonad .IsMonad.η .NatTrans.N-ob isSetX =
-      η
-    algIsMonad .IsMonad.η .NatTrans.N-hom {y = Yset} f =
-      sym (ext-η (trunc (Yset .snd)) sat (η ∘ f))
-    algIsMonad .IsMonad.μ .NatTrans.N-ob isSetX =
-      ext (trunc (isSetX .snd)) sat (idfun _) .fst
-    algIsMonad .IsMonad.μ .NatTrans.N-hom {x = Xset} {y = Yset} f = congS fst $
-      hom≡ (trunc (Yset .snd)) sat
-        (structHom∘ (σStruct (F _)) (σStruct (F (Yset .fst))) (σStruct (Yset .fst)) (ext (trunc (Yset .snd)) sat (idfun _)) (ext (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst)))
-        _ $
-          ext (trunc (Yset .snd)) sat (idfun _) .fst ∘ (ext (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst) .fst) ∘ η
-        ≡⟨ congS (ext (trunc (Yset .snd)) sat (idfun _) .fst ∘_) (ext-η (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst)) ⟩
-          ext (trunc (Yset .snd)) sat (idfun _) .fst ∘ η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst
-        ≡⟨ congS (_∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst) (ext-η (trunc (Yset .snd)) sat (idfun _)) ⟩
-          ext (trunc (Yset .snd)) sat (η ∘ f) .fst
-        ≡⟨ congS (ext (trunc (Yset .snd)) sat (η ∘ f) .fst ∘_) (sym (ext-η (trunc (Xset .snd)) sat (idfun _))) ⟩
-          ext (trunc (Yset .snd)) sat (η ∘ f) .fst ∘ ext (trunc (Xset .snd)) sat (idfun _) .fst ∘ η ∎
-    algIsMonad .IsMonad.idl-μ = {!   !}
-    algIsMonad .IsMonad.idr-μ = {!   !}
-    algIsMonad .IsMonad.assoc-μ = {!   !}
+    -- algIsMonad : IsMonad (algFunctor)
+    -- algIsMonad .IsMonad.η .NatTrans.N-ob isSetX =
+    --   η
+    -- algIsMonad .IsMonad.η .NatTrans.N-hom {y = Yset} f =
+    --   sym (ext-η (trunc (Yset .snd)) sat (η ∘ f))
+    -- algIsMonad .IsMonad.μ .NatTrans.N-ob isSetX =
+    --   ext (trunc (isSetX .snd)) sat (idfun _) .fst
+    -- algIsMonad .IsMonad.μ .NatTrans.N-hom {x = Xset} {y = Yset} f = congS fst $
+    --   hom≡ (trunc (Yset .snd)) sat
+    --     (structHom∘ (σStruct (F _)) (σStruct (F (Yset .fst))) (σStruct (Yset .fst)) (ext (trunc (Yset .snd)) sat (idfun _)) (ext (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst)))
+    --     _ $
+    --       ext (trunc (Yset .snd)) sat (idfun _) .fst ∘ (ext (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst) .fst) ∘ η
+    --     ≡⟨ congS (ext (trunc (Yset .snd)) sat (idfun _) .fst ∘_) (ext-η (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst)) ⟩
+    --       ext (trunc (Yset .snd)) sat (idfun _) .fst ∘ η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst
+    --     ≡⟨ congS (_∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst) (ext-η (trunc (Yset .snd)) sat (idfun _)) ⟩
+    --       ext (trunc (Yset .snd)) sat (η ∘ f) .fst
+    --     ≡⟨ congS (ext (trunc (Yset .snd)) sat (η ∘ f) .fst ∘_) (sym (ext-η (trunc (Xset .snd)) sat (idfun _))) ⟩
+    --       ext (trunc (Yset .snd)) sat (η ∘ f) .fst ∘ ext (trunc (Xset .snd)) sat (idfun _) .fst ∘ η ∎
+    -- algIsMonad .IsMonad.idl-μ i .NatTrans.N-ob = {!   !}
+    -- algIsMonad .IsMonad.idl-μ i .NatTrans.N-hom = {!   !}
+    -- algIsMonad .IsMonad.idr-μ = {!   !}
+    -- algIsMonad .IsMonad.assoc-μ = {!   !}
