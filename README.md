@@ -3,22 +3,16 @@
 [![dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen?logo=dependabot&style=for-the-badge)](https://github.com/windtf/agda-symmetries/security/dependabot)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://github.com/windtf/agda-symmetries/blob/main/LICENSE)
 
-This repository contains the source code, project time log, supervisor meeting minutes, status report,
-and dissertation of my individual project for the 4th year of my computing science BSc at the University of Glasgow.
+This repository contains the artifacts for the [Symmetries in Sorting](https://doi.org/10.5281/zenodo.17829281) paper.
+An index of the formalized proofs in the paper can be found [here](/types25pp.agda), and an HTML rendered version is hosted [here](https://symmetries.windtfw.com/).
 
 # Abstract
 
-In this project, we study free monoids, free commutative monoids, and their connections with sorting and total
-orders. Univalent type theory provides a rigorous framework for implementing these ideas, in the construction
-of free algebras using higher inductive types and quotients, and reasoning upto equivalence using categorical
-universal properties. The main contributions are a framework for universal algebra (free algebras and their
-universal properties), various constructions of free monoids and free commutative monoids (with proofs of their
-universal properties), applications to proving combinatorial properties of these constructions, and finally an
-axiomatic understanding of sorting.
+Sorting algorithms are fundamental to computer science, and their correctness criteria are well understood as rearranging elements of a list according to a specified total order on the underlying set of elements. As mathematical functions, they are functions on lists that perform combinatorial operations on the representation of the input list. In this paper, we study sorting algorithms conceptually as abstract sorting functions.
 
-# Formalization in Agda
+There is a canonical surjection from the free monoid on a set (lists of elements) to the free commutative monoid on the same set (multisets of elements). We show that sorting functions determine a section (right inverse) to this surjection satisfying two axioms, that do not presuppose a total order on the underlying set. Then, we establish an equivalence between (decidable) total orders on the underlying set and correct sorting functions.
 
-This project is formalized using cubical Agda. A HTML rendered version is hosted [here](https://symmetries.windtfw.com/).
+The first part of the paper develops concepts from universal algebra from the point of view of functorial signatures, and gives constructions of free monoids and free commutative monoids in (univalent) type theory. Using these constructions, the second part of the paper develops the axiomatization of sorting functions. The paper uses informal mathematical language, and comes with an accompanying formalisation in Cubical Agda.
 
 ## Prerequisites
 
