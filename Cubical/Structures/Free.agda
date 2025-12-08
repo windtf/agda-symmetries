@@ -261,5 +261,14 @@ module SameLevel {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max 
         (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ η)
       ≡⟨ funExt (λ X -> ext-η (trunc (X .snd)) sat (idfun _)) ⟩
         (λ X -> idfun _) ∎
-    algIsMonad .IsMonad.idr-μ = {!   !}
+    algIsMonad .IsMonad.idr-μ = toPathP $ NatTransSet≡ _ _ _ _ $
+        transport refl (λ X → ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (η ∘ η) .fst)
+      ≡⟨ transportRefl _ ⟩
+        (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (η ∘ η) .fst)
+      ≡⟨ funExt (λ X -> sym (congS fst (ext-∘ (trunc (X .snd)) (X .snd) (η ∘ η) (idfun _)))) ⟩
+        (λ X -> ext (trunc (X .snd)) sat (ext (trunc (X .snd)) sat (idfun _) .fst ∘ η ∘ η) .fst)
+      ≡⟨ funExt (λ X -> congS (λ f -> ext (trunc (X .snd)) sat (f ∘ η) .fst) (ext-η (trunc (X .snd)) sat (idfun _))) ⟩
+        (λ X -> ext (trunc (X .snd)) sat η .fst)
+      ≡⟨ funExt (λ X -> congS fst (ext-η-id (X .snd))) ⟩
+        (λ X -> idfun _) ∎
     algIsMonad .IsMonad.assoc-μ = {!   !}
