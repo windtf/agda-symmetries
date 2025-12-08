@@ -194,7 +194,7 @@ module SameLevel {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max 
     EndofunctorOnSet : Type _
     EndofunctorOnSet = Functor (SET ℓ) (SET ℓ)
 
-    module _ (F G : EndofunctorOnSet) where
+    module _ {F G : EndofunctorOnSet} where
       PreNatTransOnSet : Type _
       PreNatTransOnSet = ∀ X -> F .F-ob X .fst -> G .F-ob X .fst
 
@@ -242,9 +242,9 @@ module SameLevel {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max 
 
     algIsMonad : IsMonad algFunctor
     algIsMonad .IsMonad.η =
-      setNaturalTrans _ _ (λ X x -> η x) (λ X Y f -> sym (ext-η (trunc _) sat (η ∘ f)))
+      setNaturalTrans (λ X x -> η x) (λ X Y f -> sym (ext-η (trunc _) sat (η ∘ f)))
     algIsMonad .IsMonad.μ =
-      setNaturalTrans _ _ (λ X fx -> ext (trunc (X .snd)) sat (idfun _) .fst fx) λ X Y f -> congS fst $
+      setNaturalTrans (λ X fx -> ext (trunc (X .snd)) sat (idfun _) .fst fx) λ X Y f -> congS fst $
         hom≡ (trunc (Y .snd)) sat
           (structHom∘ (σStruct (F _)) (σStruct (F (Y .fst))) (σStruct (Y .fst)) (ext (trunc (Y .snd)) sat (idfun _)) (ext (trunc (trunc (Y .snd))) sat (η ∘ ext (trunc (Y .snd)) sat (η ∘ f) .fst)))
           (structHom∘ (σStruct (F _)) (σStruct (X .fst)) (σStruct (Y .fst)) (ext (trunc (Y .snd)) sat (η ∘ f)) (ext (trunc (X .snd)) sat (idfun _))) $
@@ -255,14 +255,14 @@ module SameLevel {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max 
           ext (trunc (Y .snd)) sat (η ∘ f) .fst
         ≡⟨ congS (ext (trunc (Y .snd)) sat (η ∘ f) .fst ∘_) (sym (ext-η (trunc (X .snd)) sat (idfun _))) ⟩
           ext (trunc (Y .snd)) sat (η ∘ f) .fst ∘ ext (trunc (X .snd)) sat (idfun _) .fst ∘ η ∎
-    algIsMonad .IsMonad.idl-μ = toPathP $ NatTransSet≡ _ _ _ _ $
+    algIsMonad .IsMonad.idl-μ = toPathP $ NatTransSet≡ _ _ $
         transport refl (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ η)
       ≡⟨ transportRefl _ ⟩
         (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ η)
       ≡⟨ funExt (λ X -> ext-η (trunc (X .snd)) sat (idfun _)) ⟩
         (λ X -> idfun _) ∎
-    algIsMonad .IsMonad.idr-μ = toPathP $ NatTransSet≡ _ _ _ _ $
-        transport refl (λ X → ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (η ∘ η) .fst)
+    algIsMonad .IsMonad.idr-μ = toPathP $ NatTransSet≡ _ _ $
+        transport refl (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (η ∘ η) .fst)
       ≡⟨ transportRefl _ ⟩
         (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (η ∘ η) .fst)
       ≡⟨ funExt (λ X -> sym (congS fst (ext-∘ (trunc (X .snd)) (X .snd) (η ∘ η) (idfun _)))) ⟩
@@ -271,4 +271,13 @@ module SameLevel {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max 
         (λ X -> ext (trunc (X .snd)) sat η .fst)
       ≡⟨ funExt (λ X -> congS fst (ext-η-id (X .snd))) ⟩
         (λ X -> idfun _) ∎
-    algIsMonad .IsMonad.assoc-μ = {!   !}
+    algIsMonad .IsMonad.assoc-μ = toPathP $ NatTransSet≡ _ _ $
+        transport refl (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (η ∘ ext (trunc (X .snd)) sat (idfun _) .fst) .fst)
+      ≡⟨ transportRefl _ ⟩
+        (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (η ∘ ext (trunc (X .snd)) sat (idfun _) .fst) .fst)
+      ≡⟨ funExt (λ X -> sym (congS fst (ext-∘ (trunc (X .snd)) (X .snd) (η ∘ ext (trunc (X .snd)) sat (idfun _) .fst) (idfun _)))) ⟩
+        (λ X -> ext (trunc (X .snd)) sat (ext (trunc (X .snd)) sat (idfun _) .fst ∘ η ∘ (ext (trunc (X .snd)) sat (idfun (F (X .fst))) .fst)) .fst)
+      ≡⟨ funExt (λ X -> congS (λ f -> ext (trunc (X .snd)) sat (f ∘ (ext (trunc (X .snd)) sat (idfun (F (X .fst))) .fst)) .fst) (ext-η (trunc (X .snd)) sat (idfun _))) ⟩
+        (λ X -> ext (trunc (X .snd)) sat (ext (trunc (X .snd)) sat (idfun (F (X .fst))) .fst) .fst)
+      ≡⟨ funExt (λ X -> congS fst (ext-∘ (trunc (X .snd)) (X .snd) (idfun _) (idfun _))) ⟩
+        (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ ext (trunc (trunc (X .snd))) sat (idfun _) .fst) ∎

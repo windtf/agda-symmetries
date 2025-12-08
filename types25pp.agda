@@ -30,8 +30,20 @@ definition-free-algebras = Definition.Free
 definition-universal-extension : _
 definition-universal-extension = Definition.Free.ext
 
+definition-universal-extension-a : _
+definition-universal-extension-a = Definition.Free.ext-η
+
+definition-universal-extension-b : _
+definition-universal-extension-b = SameLevel.Equalities.ext-η-id
+
+definition-universal-extension-c : _
+definition-universal-extension-c = SameLevel.Equalities.ext-∘
+
 proposition-free-algebras-unique : _
 proposition-free-algebras-unique = Definition.freeIso
+
+proposition-free-algebra-monad : _
+proposition-free-algebra-monad = SameLevel.Categories.algIsMonad
 
 definition-free-algebra-construction : _
 definition-free-algebra-construction = Tree
