@@ -66,24 +66,6 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
         -> H1 ≡ H2
     hom≡ H ϕ H1 H2 α = sym (ext-β H ϕ H1) ∙ cong (ext H ϕ) α ∙ ext-β H ϕ H2
 
-  module _ {ℓ : Level} {h : HLevel} (freeDef : Free ℓ ℓ h) where
-    open Free freeDef
-
-    ext-η-id : {X : Type ℓ}
-      -> (isHX : isOfHLevel h X)
-      -> ext (trunc isHX) sat η ≡ idHom (σStruct X)
-    ext-η-id isHX = ext-β (trunc isHX) sat (idHom (σStruct _))
-
-    ext-∘ : ∀ {A B C : Type ℓ} (isHB : isOfHLevel h B) (isHC : isOfHLevel h C)
-            (f : A -> F B) (g : B -> F C)
-         -> ext (trunc isHC) sat (ext (trunc isHC) sat g .fst ∘ f) ≡ structHom∘ (σStruct A) (σStruct B) (σStruct C) (ext (trunc isHC) sat g) (ext (trunc isHB) sat f)
-    ext-∘ isHB isHC f g = hom≡ (trunc isHC) sat _ _ $
-        ext (trunc isHC) sat (ext (trunc isHC) sat g .fst ∘ f) .fst ∘ η
-      ≡⟨ ext-η (trunc isHC) sat _ ⟩
-        ext (trunc isHC) sat g .fst ∘ f
-      ≡⟨ sym (congS (ext (trunc isHC) sat g .fst ∘_) (ext-η (trunc isHB) sat f)) ⟩
-        ext (trunc isHC) sat g .fst ∘ ext (trunc isHB) sat f .fst ∘ η ∎
-
   open Free
   module _ {ℓ} {A : Type ℓ} (𝔛 : Free ℓ ℓ 2) (𝔜 : Free ℓ ℓ 2) (isSetA : isSet A) where
     private
@@ -180,16 +162,66 @@ module Definition {f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)
     FreeAux.isFree (snd (from free)) = Free.isFree free
     FreeAux.trunc (snd (from free)) = Free.trunc free
 
-module Categories {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)) (ε : sysEq {n = ℓ-max n s} σ τ) where
+module SameLevel {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max n s)) (ε : sysEq {n = ℓ-max n s} σ τ) where
   open Definition {n = n} {s = s} σ τ ε
 
   ℓ : Level
   ℓ = ℓ-max ℓ' ns
 
-  module _ (freeDef : Free ℓ ℓ' 2) where
+  module Equalities {h : HLevel} (freeDef : Free ℓ ℓ' h) where
     open Free freeDef
 
-    algFunctor : Functor (SET ℓ) (SET ℓ)
+    ext-η-id : {X : Type ℓ}
+      -> (isHX : isOfHLevel h X)
+      -> ext (trunc isHX) sat η ≡ idHom (σStruct X)
+    ext-η-id isHX = ext-β (trunc isHX) sat (idHom (σStruct _))
+
+    ext-∘ : ∀ {A B C : Type ℓ} (isHB : isOfHLevel h B) (isHC : isOfHLevel h C)
+            (f : A -> F B) (g : B -> F C)
+         -> ext (trunc isHC) sat (ext (trunc isHC) sat g .fst ∘ f) ≡ structHom∘ (σStruct A) (σStruct B) (σStruct C) (ext (trunc isHC) sat g) (ext (trunc isHB) sat f)
+    ext-∘ isHB isHC f g = hom≡ (trunc isHC) sat _ _ $
+        ext (trunc isHC) sat (ext (trunc isHC) sat g .fst ∘ f) .fst ∘ η
+      ≡⟨ ext-η (trunc isHC) sat _ ⟩
+        ext (trunc isHC) sat g .fst ∘ f
+      ≡⟨ sym (congS (ext (trunc isHC) sat g .fst ∘_) (ext-η (trunc isHB) sat f)) ⟩
+        ext (trunc isHC) sat g .fst ∘ ext (trunc isHB) sat f .fst ∘ η ∎
+
+  module Categories (freeDef : Free ℓ ℓ' 2) where
+    open Free freeDef
+    open Equalities freeDef
+    open Functor
+
+    EndofunctorOnSet : Type _
+    EndofunctorOnSet = Functor (SET ℓ) (SET ℓ)
+
+    module _ (F G : EndofunctorOnSet) where
+      PreNatTransOnSet : Type _
+      PreNatTransOnSet = ∀ X -> F .F-ob X .fst -> G .F-ob X .fst
+
+      NatTransSatSquare : PreNatTransOnSet -> Type _
+      NatTransSatSquare η = ∀ X Y f -> η Y ∘ F .F-hom f ≡ G .F-hom f ∘ η X
+
+      isPropNatTransSatSquare : ∀ η -> isProp (NatTransSatSquare η)
+      isPropNatTransSatSquare η = isPropΠ3 λ X Y f ->
+        isSetΠ (λ _ -> G .F-ob Y .snd) (η Y ∘ F .F-hom f) (G .F-hom f ∘ η X)
+
+      NatTransSetΣ : Type _
+      NatTransSetΣ = Σ PreNatTransOnSet NatTransSatSquare
+
+      setNaturalTrans : ∀ η (square : NatTransSatSquare η) -> NatTrans F G
+      setNaturalTrans η square .NatTrans.N-ob = η
+      setNaturalTrans η square .NatTrans.N-hom {x = X} {y = Y} f = square X Y f
+
+      NatTransSetIso : Iso NatTransSetΣ (NatTrans F G)
+      NatTransSetIso = iso (uncurry setNaturalTrans) (λ nat -> NatTrans.N-ob nat , λ X Y -> NatTrans.N-hom nat)
+        (λ (natTrans N-ob N-hom) -> refl)
+        (λ (N-ob , N-hom) -> refl)
+
+      NatTransSet≡ : ∀ (η1 η2 : NatTrans F G) -> NatTrans.N-ob η1 ≡ NatTrans.N-ob η2 -> η1 ≡ η2
+      NatTransSet≡ (natTrans N-ob1 N-hom1) (natTrans N-ob2 N-hom2) eq≡ =
+        isoInvInjective NatTransSetIso (natTrans N-ob1 N-hom1) (natTrans N-ob2 N-hom2) (Σ≡Prop isPropNatTransSatSquare eq≡)
+
+    algFunctor : EndofunctorOnSet
     algFunctor .Functor.F-ob (A , isSetA) =
       F A , trunc isSetA
     algFunctor .Functor.F-hom {y = Yset} f =
@@ -208,25 +240,26 @@ module Categories {ℓ' f a e n s : Level} (σ : Sig f a) (τ : EqSig e (ℓ-max
         ≡⟨ sym (ext-η (trunc (Zset .snd)) sat (η ∘ g ∘ f)) ⟩
           ext (trunc (Zset .snd)) sat (η ∘ g ∘ f) .fst ∘ η ∎
 
-    -- algIsMonad : IsMonad (algFunctor)
-    -- algIsMonad .IsMonad.η .NatTrans.N-ob isSetX =
-    --   η
-    -- algIsMonad .IsMonad.η .NatTrans.N-hom {y = Yset} f =
-    --   sym (ext-η (trunc (Yset .snd)) sat (η ∘ f))
-    -- algIsMonad .IsMonad.μ .NatTrans.N-ob isSetX =
-    --   ext (trunc (isSetX .snd)) sat (idfun _) .fst
-    -- algIsMonad .IsMonad.μ .NatTrans.N-hom {x = Xset} {y = Yset} f = congS fst $
-    --   hom≡ (trunc (Yset .snd)) sat
-    --     (structHom∘ (σStruct (F _)) (σStruct (F (Yset .fst))) (σStruct (Yset .fst)) (ext (trunc (Yset .snd)) sat (idfun _)) (ext (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst)))
-    --     _ $
-    --       ext (trunc (Yset .snd)) sat (idfun _) .fst ∘ (ext (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst) .fst) ∘ η
-    --     ≡⟨ congS (ext (trunc (Yset .snd)) sat (idfun _) .fst ∘_) (ext-η (trunc (trunc (Yset .snd))) sat (η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst)) ⟩
-    --       ext (trunc (Yset .snd)) sat (idfun _) .fst ∘ η ∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst
-    --     ≡⟨ congS (_∘ ext (trunc (Yset .snd)) sat (η ∘ f) .fst) (ext-η (trunc (Yset .snd)) sat (idfun _)) ⟩
-    --       ext (trunc (Yset .snd)) sat (η ∘ f) .fst
-    --     ≡⟨ congS (ext (trunc (Yset .snd)) sat (η ∘ f) .fst ∘_) (sym (ext-η (trunc (Xset .snd)) sat (idfun _))) ⟩
-    --       ext (trunc (Yset .snd)) sat (η ∘ f) .fst ∘ ext (trunc (Xset .snd)) sat (idfun _) .fst ∘ η ∎
-    -- algIsMonad .IsMonad.idl-μ i .NatTrans.N-ob = {!   !}
-    -- algIsMonad .IsMonad.idl-μ i .NatTrans.N-hom = {!   !}
-    -- algIsMonad .IsMonad.idr-μ = {!   !}
-    -- algIsMonad .IsMonad.assoc-μ = {!   !}
+    algIsMonad : IsMonad algFunctor
+    algIsMonad .IsMonad.η =
+      setNaturalTrans _ _ (λ X x -> η x) (λ X Y f -> sym (ext-η (trunc _) sat (η ∘ f)))
+    algIsMonad .IsMonad.μ =
+      setNaturalTrans _ _ (λ X fx -> ext (trunc (X .snd)) sat (idfun _) .fst fx) λ X Y f -> congS fst $
+        hom≡ (trunc (Y .snd)) sat
+          (structHom∘ (σStruct (F _)) (σStruct (F (Y .fst))) (σStruct (Y .fst)) (ext (trunc (Y .snd)) sat (idfun _)) (ext (trunc (trunc (Y .snd))) sat (η ∘ ext (trunc (Y .snd)) sat (η ∘ f) .fst)))
+          (structHom∘ (σStruct (F _)) (σStruct (X .fst)) (σStruct (Y .fst)) (ext (trunc (Y .snd)) sat (η ∘ f)) (ext (trunc (X .snd)) sat (idfun _))) $
+          ext (trunc _) sat (idfun _) .fst ∘ (ext _ sat (η ∘ ext (trunc _) sat (η ∘ f) .fst) .fst) ∘ η
+        ≡⟨ congS (ext (trunc (Y .snd)) sat (idfun _) .fst ∘_) (ext-η (trunc (trunc (Y .snd))) sat (η ∘ ext (trunc _) sat (η ∘ f) .fst)) ⟩
+          ext (trunc (Y .snd)) sat (idfun _) .fst ∘ η ∘ ext (trunc (Y .snd)) sat (η ∘ f) .fst
+        ≡⟨ congS (_∘ ext (trunc (Y .snd)) sat (η ∘ f) .fst) (ext-η (trunc (Y .snd)) sat (idfun _)) ⟩
+          ext (trunc (Y .snd)) sat (η ∘ f) .fst
+        ≡⟨ congS (ext (trunc (Y .snd)) sat (η ∘ f) .fst ∘_) (sym (ext-η (trunc (X .snd)) sat (idfun _))) ⟩
+          ext (trunc (Y .snd)) sat (η ∘ f) .fst ∘ ext (trunc (X .snd)) sat (idfun _) .fst ∘ η ∎
+    algIsMonad .IsMonad.idl-μ = toPathP $ NatTransSet≡ _ _ _ _ $
+        transport refl (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ η)
+      ≡⟨ transportRefl _ ⟩
+        (λ X -> ext (trunc (X .snd)) sat (idfun _) .fst ∘ η)
+      ≡⟨ funExt (λ X -> ext-η (trunc (X .snd)) sat (idfun _)) ⟩
+        (λ X -> idfun _) ∎
+    algIsMonad .IsMonad.idr-μ = {!   !}
+    algIsMonad .IsMonad.assoc-μ = {!   !}
