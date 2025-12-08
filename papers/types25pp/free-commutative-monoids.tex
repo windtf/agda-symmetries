@@ -114,7 +114,12 @@ which we denote by $\exthat{(\blank)}$.
 
     To see that $\exthat{(\blank)}$ is the right inverse to $(\blank) \comp q \comp \eta_A$,
     observe that $\exthat{f} \comp q \comp \eta_A = \ext{f} \comp \eta_A = f$.
-    And, $\exthat{f}(q(x) \qlift{\mult} q(y)) = \exthat{f}{(q(x \mult y))} = \ext{f}(x \mult y) = \ext{f}(x) \mult \ext{f}(y)$,
+    And,
+    $\exthat{f}(q(x) \qlift{\mult} q(y))
+        = \exthat{f}{(q(x \mult y))}
+        = \ext{f}(x \mult y) = \ext{f}(x) \mult \ext{f}(y)
+        = \exthat{f}(q(x)) \mult \exthat{f}(q(y))
+    $,
     making $\exthat{f}$ a (commutative) monoid homomorphism.
 
     To show $\exthat{(\blank)}$ is the left inverse to $(\blank) \comp q \comp \eta_A$,
@@ -242,8 +247,8 @@ and in the Cubical library~\cite{theagdacommunityCubicalAgdaLibrary2025}.
         We define the concatenation operation $\concat : \SList(A) \to \SList(A) \to \SList(A)$
         recursively, where we also have to consider the (functorial) action on the $\term{swap}$ path using $\term{ap}$.
         \begin{align*}
-            [] \concat \ys                                  & = \ys                                \\
-            (x \cons \xs) \concat \ys                       & = x \cons (\xs \concat \ys)          \\
+            [] \concat \ys                                  & \defeq \ys                           \\
+            (x \cons \xs) \concat \ys                       & \defeq x \cons (\xs \concat \ys)     \\
             \term{ap}_{\concat \ys}(\term{swap}(x, y, \xs)) & = \term{swap}(x, y, \ys \concat \xs)
         \end{align*}
     \end{definition}
@@ -515,8 +520,8 @@ $\ext{f}(n, i \comp \sigma) = \ext{f}(n, i \comp \tau)$ before we can apply indu
     However, performing arbitrary partitioning with $\Array$ and $\Bag$ is much easier than
     $\List$, $\SList$, $\PList$. For example,
     one can simply use the combinator ${\Fin[n+m] \xto{\sim} \Fin[n] + \Fin[m]}$ to partition the array,
-    then perform operations on the partitions such as swapping in~\cref{bag:comm},
-    or perform operations on the partitions individually such as two individual permutation in~\cref{bag:cong}.
-    This makes it such that when defining divide-and-conquer algorithms such as merge sort,
-    $\Bag$ and $\Array$ are more natural to work with than $\List$, $\SList$, and $\PList$.
+    then perform operations on the partitions, such as swapping in~\cref{bag:comm},
+    or perform operations on the partitions individually, such as two individual permutations in~\cref{bag:cong}.
+    This makes it so that when defining divide-and-conquer algorithms like merge sort,
+    $\Bag$ and $\Array$ are more natural representations to work with than $\List$, $\SList$, or $\PList$.
 \end{toappendix}

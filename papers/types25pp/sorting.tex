@@ -83,11 +83,13 @@ is equivalent to giving a decidable total order structure on $A$.
 \begin{proofsketch}
     Given a decidable total order $\leq$ on $A$, by~\cref{prop:decidable-total-order},
     we map it to a decidable strict total order $<$ on $A$ by
-    $x < y \defeq (x \leq y) \times (x \neq y)$. Vice versa, by~\cref{prop:decidable-strict-total-order}
+    $x < y \defeq (x \leq y) \times (x \neq y)$.
+    %
+    Vice versa, by~\cref{prop:decidable-strict-total-order},
     given a decidable strict total order $<$ on $A$,
     we map it to a decidable total order $\leq$ on $A$ by
     $x \leq y \defeq (x < y) + (x = y)$.
-    These maps are inverses of each other.
+    These maps are checked to be inverses of each other.
 \end{proofsketch}
 %
 An equivalent way of defining a total order is using a binary meet operation, without starting from an ordering relation.
@@ -111,16 +113,16 @@ An equivalent way of defining a total order is using a binary meet operation, wi
 
 \begin{proposition}[\alink{proposition}{}{discrete-meet-semi-lattice}]
     \label{prop:discrete-meet-semi-lattice}
-    A decidable total order on $A$ implies all total meet semi-lattice structures on $A$ are decidable.
+    If $A$ has decidable equality, all total meet semi-lattice structures on $A$ are decidable.
 \end{proposition}
 \begin{proof}
-    We decide if $x \meet y \id x$ and $x \meet y \id y$ to compute a proof of
+    We decide if $x \meet y \id x$ and $x \meet y \id y$ to compute whether
     $x \meet y \id x$ or $x \meet y \id y$. By totality, one of them must hold.
 \end{proof}
 
 \begin{proposition}[\alink{proposition}{}{total-order-meet-semi-lattice}]
     \label{prop:total-order-meet-semi-lattice}
-    A $\leq$ on a set $A$ is equivalent to a total meet semi-lattice structure on $A$.
+    A total order structure on a set $A$ is equivalent to a total meet semi-lattice structure on $A$.
     Further, a decidable total order on $A$ induces a decidable total meet semi-lattice structure on $A$.
 \end{proposition}
 \begin{proofsketch}
@@ -139,10 +141,8 @@ An equivalent way of defining a total order is using a binary meet operation, wi
     If the total order is decidable, by~\cref{prop:decidable-total-order} and~\cref{prop:discrete-meet-semi-lattice},
     the mapped meet operation is decidable.
     %
-    The converse does not hold however, as a decidable total meet semi-lattice
-    does not imply discreteness of $A$.
-    %
-    Thus, we do not have a full equivalence in the decidable case.
+    The converse does not hold however,
+    as a decidable total meet semi-lattice structure does not imply discreteness of $A$.
 \end{proofsketch}
 %
 Finally, tying this back to~\cref{def:head-free-monoid}, we have the following for free commutative monoids.
@@ -298,10 +298,11 @@ but it does not necessarily sort bags with 3 or more elements.
     $\term{sort} : \SList(\Nat) \to \List(\Nat)$ which sorts $\SList(\Nat)$ ascendingly,
     we can use $\term{sort}$ to construct a counterexample $\ssection$ as follows:
     \begin{align*}
-        \ssection(\xs) & = \begin{cases}
-                               [3, 1]           & \text{if $xs = \bag{1, 3}$} \\
-                               \term{sort}(\xs) & \text{otherwise}            \\
-                           \end{cases}
+        \ssection(\xs) & \defeq
+        \begin{cases}
+            [3, 1]           & \text{if $xs = \bag{1, 3}$} \\
+            \term{sort}(\xs) & \text{otherwise}            \\
+        \end{cases}
     \end{align*}
     %
     Indeed, we have $1 \leqs 2$ and $2 \leqs 3$ as expected,
@@ -405,33 +406,39 @@ This constitutes an embedding of decidable total orders into sections satisfying
 
 \subsubsection{Equivalence of order and sections}
 
-We want to upgrade the embedding to an isomorphism, and it
+We want to improve the embedding to an isomorphism, and it
 remains to show that we can turn a section satisfying $\isheadleast$ to a total order $\leqs$,
 then reconstruct the \emph{same} section from $\leqs$.
 Unfortunately, $\isheadleast$ is not enough to guarantee this.
 \begin{proposition}[\alink{proposition}{}{counterexample-equivalence}]
     \label{prop:counterexample-equivalence}
-    Assume $A$ is a set with distinct elements, i.e. $\exists x, y: A.\,x \neq y$,
-    then there is no equivalence between sections satisfying $\isheadleast$
-    and total orders on $A$.
+    There is no equivalence between sections satisfying the $\isheadleast$ axiom and total orders on $A$.
 \end{proposition}
 \begin{proof}
-    We give a counter-example of a $\ssection$ that satisfies $\isheadleast$ but is not a sort function.
-    Consider the insertion sort function $\term{sort} : \MM(\Nat) \to \LL(\Nat)$
-    parameterized by $\leq$:
+    We consider the set $\Nat$ of natural numbers,
+    and construct a $\ssection$ that satisfies $\isheadleast$ but is not a sort function.
+    Let the correct insertion sort function be $\term{sort} : \MM(\Nat) \to \LL(\Nat)$.
+    We define $\term{reverseTail}$ which reverses only the tail of a list,
+    and a section $\ssection$ that sorts correctly using $\term{sort}$ then reverses the tail:
+    %
     \begin{align*}
-        \term{reverseTail}([])          & = []                                   \\
-        \term{reverseTail}(x \cons \xs) & = x \cons \term{reverse}(\xs)          \\
-        \ssection(\xs)                  & = \term{reverseTail}(\term{sort}(\xs)) \\
-        \ssection(\bag{2,3,1,4})        & = [1,4,3,2]                            \\
-        \ssection(\bag{2,3,1})          & = [1, 3, 2]                            \\
-        \ssection(\bag{2,3})            & = [2, 3]                               \\
+        \term{reverseTail}([])          & \defeq []                                   \\
+        \term{reverseTail}(x \cons \xs) & \defeq x \cons \term{reverse}(\xs)          \\
+        \ssection(\xs)                  & \defeq \term{reverseTail}(\term{sort}(\xs))
     \end{align*}
-    By~\cref{sort:o2s2o} we can use $\term{sort}$ to construct $\leqs$ which would be
-    equivalent to $\leq$. However, the $\leqs$ constructed by $\ssection$ would also be equivalent
-    to $\leq$. This is because $\ssection$ sorts 2-element list correctly, despite $s \neq \term{sort}$.
-    Since two different sections satisfying $\isheadleast$ maps to the same total order,
-    there cannot be a full equivalence.
+    For example:
+    \begin{align*}
+        \ssection(\bag{2,3,1,4}) & = [1,4,3,2] \\
+        \ssection(\bag{2,3,1})   & = [1, 3, 2] \\
+        \ssection(\bag{2,3})     & = [2, 3]
+    \end{align*}
+    %
+    Note that both $\term{sort}$ and $\ssection$ satisfy $\isheadleast$,
+    but $\ssection$ only sorts 2-element lists correctly, and $\ssection \neq \term{sort}$.
+    %
+    By~\cref{sort:o2s2o} we can use both $\term{sort}$ and $\ssection$
+    to reconstruct the same $\leq$ on $\Nat$.
+    Hence, two different sections satisfying $\isheadleast$ map to the same total order.
 \end{proof}
 %
 Therefore, we need to introduce a second axiom of sorting.
@@ -462,7 +469,7 @@ found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
     the predicate $\isSorted_{\leq}$ on $\LL(A)$ is generated by the following constructors:
     \begin{align*}
         \term{sorted-nil}  & : \isSorted_{\leq}([])              \\
-        \term{sorted}-\eta & : \forall x.\,\isSorted_{\leq}([x]) \\
+        \term{sorted-\eta} & : \forall x.\,\isSorted_{\leq}([x]) \\
         \term{sorted-cons} & : \forall x, y, \zs.\, x \leq y
         \to \isSorted_{\leq}(y \cons \zs)
         \to \isSorted_{\leq}(x \cons y \cons \zs)
@@ -472,18 +479,19 @@ found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
 Note that $\isSorted_{\leq}(\xs)$ is a proposition for every $\xs$,
 and forces the list $\xs$ to be permuted in a unique way.
 \begin{lemma}[\alink{lemma}{}{is-sorted-unique}]
-    Given a total order $\leq$, for any $\xs, \ys : \LL(A)$,
-    $\quotient(\xs) = \quotient(\ys) \land \isSorted_{\leq}(\xs) \land \isSorted_{\leq}(\ys) \to \xs = \ys$.
+    Given a total order $\leq$, for any lists $\xs, \ys : \LL(A)$,
+    if $\quotient(\xs) = \quotient(\ys)$, $\isSorted_{\leq}(\xs)$, and $\isSorted_{\leq}(\ys)$,
+    then $\xs = \ys$.
 \end{lemma}
 %
 Insertion sort by $\leq$ always produces lists that satisfy $\isSorted_{\leq}$.
-Functions that also produce lists satisfying $\isSorted_{\leq}$ are equal to insertion sort
+Sections that also produce lists satisfying $\isSorted_{\leq}$ are equal to insertion sort
 by function extensionality.
 %
 \begin{proposition}[\alink{proposition}{}{sort-uniq}]
     \label{sort:sort-uniq}
     Given a total order $\leq$,
-    if a section $\ssection$ always a produces sorted list, i.e. $\forall \xs.\,\isSorted_{\leq}(\ssection(\xs))$,
+    if a section $\ssection$ always produces a sorted list, that is, $\forall \xs.\,\isSorted_{\leq}(\ssection(\xs))$,
     $\ssection$ is equal to insertion sort by $\leq$.
 \end{proposition}
 %
@@ -516,7 +524,7 @@ Finally, this gives us the correctness property of our axioms.
     Given a decidable total order $\leq$ on $A$, we can construct
     a section $t_\leq$ satisfying the axioms $\isheadleast$ and $\istailsort$,
     such that, for the order $\leqs$ derived from~$\ssection$,
-    we have $t_{\leqs} = \ssection$.
+    we have $t_{\leq} = \ssection$.
 \end{lemma}
 \begin{proof}
     From $\ssection$ we can construct a decidable total order $\leqs$ since $\ssection$ satisfies
@@ -529,18 +537,19 @@ Finally, this gives us the correctness property of our axioms.
 \noindent
 We can now state and prove our main theorem.
 \begin{definition}[\alink{definition}{Sorting function}{sorting-function}]
+    \label{def:sorting-function}
     \leavevmode
     A sorting function is a section $\ssection : \MM(A) \to \LL(A)$ to
     the canonical surjection $\quotient : \LL(A) \twoheadrightarrow \MM(A)$ satisfying two axioms:
     \begin{itemize}[leftmargin=*]
-        \item $\isheadleast$:
-              \(\,
-              \inimage{x \cons \xs} \land y \in x \cons \xs \to \inimage{[x, y]}
-              \),
-        \item $\istailsort$:
-              \(\,
-              \inimage{x \cons \xs} \to \inimage{\xs}
-              \).
+        \item $\isheadleast :
+                  \forall\, x, y, \xs,\,\,
+                  y \in x \cons \xs \mathrel{\land} \inimage{x \cons \xs} \to \inimage{[x, y]}
+              $,
+        \item $\istailsort :
+                  \forall\, x, \xs,\,\,
+                  \inimage{x \cons \xs} \to \inimage{\xs}
+              $.
     \end{itemize}
 \end{definition}
 \begin{theorem}[\alink{theorem}{}{main}]
@@ -611,7 +620,7 @@ total order) matches our axioms. We use the correctness criterion developed in~\
             \arrow["q"', from=1-1, to=2-2]
             \arrow["{q \comp \pi_1}", from=1-3, to=2-2]
         \end{tikzcd}\]
-    Sorting functions give sorting algorithms.
+    Sorting functions (as in~\cref{def:sorting-function}) give sorting algorithms.
 \end{proposition}
 \begin{proof}
     We construct our section $\ssection:\MM(A) \to \LL(A)$,

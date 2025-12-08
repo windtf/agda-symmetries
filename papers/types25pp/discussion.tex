@@ -14,25 +14,35 @@ shortcomings, that cause certain details to be more verbose than they are in inf
 
 For simplicity we omitted type levels in the paper,
 but our formalisation has many verbose uses of universe levels due to Agda's universe polymorphism.
-Similarly, h-levels were restricted to sets in the paper, but the formalisation is parameterized in many places for any
+Similarly, h-levels were restricted to sets in the paper, but the formalisation is parameterised in many places for any
 h-level (to facilitate future generalisations).
 The free algebra framework currently only works with sets.
 Due to issues of regularity, certain computations only hold propositionally,
 and the formalisation requires proving auxiliary $\beta$ and $\eta$ computation rules in some places.
-We also note that the axioms of sorting in the formalisation are named differently from the paper.
+
+\myparagraph{Universal Algebra}
+%
+One of the contributions of our work is a rudimentary framework for universal algebra, but done in a more
+categorical style, which lends itself to an elegant formalisation in type theory.
+%
+This framework may be improved and generalised from sets to groupoids --
+using a system of coherences on top of a system of equations,
+to talk about 2-algebraic structures on groupoids,
+such as monoidal groupoids, symmetric monoidal groupoids, and so on.
+%
 
 \myparagraph{Free commutative monoids}
 %
-The construction of finite multisets and free commutative monoids has a long history, and various authors have different
-approaches to it. We refer the reader to the discussions
+The construction of finite multisets and free commutative monoids in type theory has a long history,
+and various authors have different approaches to it. We refer the reader to the discussions
 in~\cite{choudhuryFreeCommutativeMonoids2023,joramConstructiveFinalSemantics2023} for a detailed survey of these
 constructions.
 %
 Our work, in particular, was motivated by the colloquial observation that:
 ``there is no way to represent free commutative monoids using inductive types''.
 %
-From the categorical point of view, this is simply the fact that the free commutative monoid endofunctor on $\Set$ is
-not polynomial.
+From the categorical point of view, note that the free monoid functor on $\Set$ is polynomial,
+but the free commutative monoid endofunctor is not polynomial, since it only weakly preserves pullbacks.
 %
 Various authors have given clever encodings of free commutative monoids using inductive types by adding
 assumptions on the carrier set -- in particular, the assumption of total ordering on the carrier set leads to the
@@ -41,10 +51,19 @@ ordering on the elements of the finite multiset.
 
 It is worth noting that in programming practice,
 it is usually the case that all user-defined types have some sort of total order enforced on them,
-either because they're finite, or they can be canonically enumerated.
+either because they're finite, or because they can be canonically enumerated.
 %
 Under these assumptions, the construction of fresh lists is a very reasonable way to represent free
 commutative monoids, or finite multisets.
+
+The free monoid and free commutative monoid constructions can be categorified
+to free monoidal categories and free symmetric monoidal categories, respectively.
+%
+In type theory, these types can be groupoidified to free monoidal groupoids and free symmetric monoidal groupoids,
+using the groupoid structure of identity types.
+%
+This is a natural next step,
+and its connections to assumptions about total orders on the type of objects would be an important direction to explore.
 
 \myparagraph{Correctness of Sorting}
 %
@@ -54,8 +73,9 @@ the programming point of view of sorting and its correctness has been studied by
 The simplest view of sorting is a function $\term{sort}: \LL(\Nat) \to \LL(\Nat)$,
 which permutes the list and outputs an ordered list, which is studied in~\cite{appelVerifiedFunctionalAlgorithms2023}.
 %
-Fundamentally, this is a very extrinsic view of program verification, which is common in the \emph{Coq} community,
-and further, a very special case of a more general sorting algorithm.
+Fundamentally, this is a very extrinsic view of program verification,
+which is commonly used in program verification and proof assistants,
+and further, a special case of a more general sorting algorithm.
 
 %% TODO: fix citation commands
 %% \citeauthor*{hengleinWhatSortingFunction2009} in~\citetitle{hengleinWhatSortingFunction2009}
@@ -88,21 +108,9 @@ the abstract properties of sorting functions, which are independent of a given o
 It is unclear whether the abstract property of sorting functions can be combined
 with the intrinsic complexity of sorting algorithms --
 and that is a direction for future work.
-%
+
 Although we only talk about sorting lists and bags,
-the same ideas can be applied to other inductive types such as trees.
+the same ideas can be applied to other inductive types (polynomial functors) such as trees.
 %
 We speculate that this could lead to some interesting connections with sorting
 (binary) trees, and constructions of (binary) search trees, from classical computer science.
-
-\subsubsection*{Universal Algebra}
-
-One of the contributions of our work is also a rudimentary framework for universal algebra, but done in a more
-categorical style, which lends itself to an elegant formalisation in type theory.
-%
-We believe this framework could be improved and generalised from sets to groupoids,
-and using a system of coherences on top of a system of equations,
-to talk about 2-algebraic structures on groupoids, such as monoidal groupoids and symmetric monoidal groupoids.
-%
-Groupoidyfying free (commutative) monoids to free (symmetric) monoidal groupoids is a natural next step, and its
-connections to assumptions about total orders on the type of objects would be an important direction to explore.

@@ -1,3 +1,4 @@
+module Experiments.FreeByTree where
 -- -- constructions of a free structure on a signature and equations
 -- -- TODO: generalise the universe levels!!
 -- -- using a HIT
