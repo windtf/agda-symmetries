@@ -3,22 +3,43 @@
 [![dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen?logo=dependabot&style=for-the-badge)](https://github.com/windtf/agda-symmetries/security/dependabot)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://github.com/windtf/agda-symmetries/blob/main/LICENSE)
 
-This repository contains the artifacts for the [Symmetries in Sorting](https://doi.org/10.5281/zenodo.17829281) paper.
-An HTML index of the formalized proofs in the paper can be found [here](https://symmetries.windtfw.com/types25pp.html).
+This repository contains the artifacts for the paper: [Symmetries in Sorting](https://doi.org/10.5281/zenodo.17829281).
+An HTML index of the formalized proofs in the paper can be found [here](https://symmetries.windtfw.com).
+
+# Formalisation
+
+- Website: [https://symmetries.windtfw.com/](https://symmetries.windtfw.com/)
+- TYPES'25 artifact: [https://symmetries.windtfw.com/types25pp](https://symmetries.windtfw.com/types25pp)
+- Zenodo: [https://doi.org/10.5281/zenodo.17829281](https://doi.org/10.5281/zenodo.17829281)
 
 # Abstract
 
-Sorting algorithms are fundamental to computer science, and their correctness criteria are well understood as rearranging elements of a list according to a specified total order on the underlying set of elements. As mathematical functions, they are functions on lists that perform combinatorial operations on the representation of the input list. In this paper, we study sorting algorithms conceptually as abstract sorting functions.
+Sorting algorithms are fundamental to computer science, and their correctness
+criteria are well understood as rearranging elements of a list according to a
+specified total order on the underlying set of elements. As mathematical
+functions, they are functions on lists that perform combinatorial operations on
+the representation of the input list. In this paper, we study sorting algorithms
+conceptually as abstract sorting functions.
 
-There is a canonical surjection from the free monoid on a set (lists of elements) to the free commutative monoid on the same set (multisets of elements). We show that sorting functions determine a section (right inverse) to this surjection satisfying two axioms, that do not presuppose a total order on the underlying set. Then, we establish an equivalence between (decidable) total orders on the underlying set and correct sorting functions.
+There is a canonical surjection from the free monoid on a set (lists of
+elements) to the free commutative monoid on the same set (multisets of
+elements). We show that sorting functions determine a section (right inverse) to
+this surjection satisfying two axioms, that do not presuppose a total order on
+the underlying set. Then, we establish an equivalence between (decidable) total
+orders on the underlying set and correct sorting functions.
 
-The first part of the paper develops concepts from universal algebra from the point of view of functorial signatures, and gives constructions of free monoids and free commutative monoids in (univalent) type theory. Using these constructions, the second part of the paper develops the axiomatization of sorting functions. The paper uses informal mathematical language, and comes with an accompanying formalisation in Cubical Agda.
+The first part of the paper develops concepts from universal algebra from the
+point of view of functorial signatures, and gives constructions of free monoids
+and free commutative monoids in (univalent) type theory. Using these
+constructions, the second part of the paper develops the axiomatisation of
+sorting functions. The paper uses informal mathematical language, and comes with
+an accompanying formalisation in Cubical Agda.
 
 ## Prerequisites
 
 This library has been tested with the following software versions:
- * Agda v2.8.0
- * The Cubical library, [version 0.9](https://github.com/agda/cubical/releases/tag/v0.9) (Jul 30, 2025)
+- Agda, [v2.8.0](https://github.com/agda/agda/releases/tag/v2.8.0) (Jul 5, 2025)
+- The Cubical library, [v0.9](https://github.com/agda/cubical/releases/tag/v0.9) (Jul 30, 2025)
 
 ## Type checking the code
 
