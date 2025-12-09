@@ -99,23 +99,8 @@ isGpdSList as cs p q u v i j k ++ bs =
              (cong (cong (\z -> ++-assocr z bs cs l)) u) (cong (cong (\z -> ++-assocr z bs cs l)) v) i j k
 
 
-++-∷ : (a : A) (as : SList A) -> a ∷ as ≡ as ++ [ a ]
-++-∷ = TODO
--- ++-∷ a [] = refl
--- ++-∷ a (b ∷ as) = swap a b as ∙ cong (b ∷_) (++-∷ a as)
--- ++-∷ a (swap b c as i) =
---   {!!}
+-- ++-∷ : (a : A) (as : SList A) -> a ∷ as ≡ as ++ [ a ]
+-- ++-∷ = TODO
 
-++-comm : (as bs : SList A) -> as ++ bs ≡ bs ++ as
-++-comm = TODO
--- ++-comm [] bs = sym (++-unitr bs)
--- ++-comm (a ∷ as) bs = cong (a ∷_) (++-comm as bs)
---                     ∙ cong (_++ as) (++-∷ a bs)
---                     ∙ ++-assocr bs [ a ] as
--- ++-comm (swap a b as i) bs = {!!}
--- ++-comm (swap⁻¹ a b as i i₁) bs = {!!}
--- ++-comm (hexagon– a b c as i) bs = {!!}
--- ++-comm (hexagon↑ a b c as i j) bs = {!!}
--- ++-comm (hexagon↓ a b c as i j) bs = {!!}
--- ++-comm (isGpdSList as cs p q u v i j k) bs =
---   {!!}
+-- ++-comm : (as bs : SList A) -> as ++ bs ≡ bs ++ as
+-- ++-comm = TODO
