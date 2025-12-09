@@ -10,7 +10,7 @@ An HTML index of the formalized proofs in the paper can be found [here](https://
 
 - Website: [https://symmetries.windtfw.com/](https://symmetries.windtfw.com/)
 - TYPES'25 artifact: [https://symmetries.windtfw.com/types25pp](https://symmetries.windtfw.com/types25pp)
-- Zenodo: [https://doi.org/10.5281/zenodo.17829281](https://doi.org/10.5281/zenodo.17829281)
+- arXiv: [https://arxiv.org/abs/arXiv:2512.07349](https://arxiv.org/abs/arXiv:2512.07349)
 
 # Abstract
 
