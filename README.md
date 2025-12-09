@@ -1,9 +1,10 @@
 [![website](https://img.shields.io/website?down_color=red&down_message=offline&label=website&up_color=green&up_message=online&url=https%3A%2F%2Fsymmetries.windtfw.com&logo=cloudflare&style=for-the-badge)](https://symmetries.windtfw.com/)
 [![build](https://img.shields.io/github/actions/workflow/status/windtf/agda-symmetries/ci-ubuntu.yml?logo=github&style=for-the-badge)](https://github.com/windtf/agda-symmetries/actions/workflows/ci-ubuntu.yml)
-[![dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen?logo=dependabot&style=for-the-badge)](https://github.com/windtf/agda-symmetries/security/dependabot)
+[![DOI](https://img.shields.io/badge/DOI-10.48550%2FarXiv.2512.07349-blue?style=for-the-badge
+)](https://doi.org/10.48550/arXiv.2512.07349)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://github.com/windtf/agda-symmetries/blob/main/LICENSE)
 
-This repository contains the artifacts for the paper: [Symmetries in Sorting](https://doi.org/10.5281/zenodo.17829281).
+This repository contains the artifacts for the paper: [Symmetries in Sorting](https://arxiv.org/abs/arXiv:2512.07349).
 An HTML index of the formalized proofs in the paper can be found [here](https://symmetries.windtfw.com).
 
 # Formalisation
