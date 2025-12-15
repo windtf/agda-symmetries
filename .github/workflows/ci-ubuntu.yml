@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Cache Agda artifacts
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           key: ${{ env.AGDA_BRANCH }}-${{ env.CUBICAL_BRANCH }}
           path: |
