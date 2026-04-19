@@ -334,15 +334,17 @@ since they are missing the unit and associativity laws.
 %
 To impose equations on the generated abstract syntax trees, we adopt the point of view of equational logic.
 %
-\begin{definition}[\alink{definition}{Equational Signature}{equational-signature}]
-    \label{def:equational-signature}
-    An equational signature, denoted $\eqsig$, is a (dependent) pair consisting of:
+\begin{definition}[\alink{definition}{Term Arity}{term-arity}]
+    \label{def:term-arity}
+    A \emph{term arity}, denoted $\eqsig$, is a (dependent) pair consisting of:
     a set of names for equations, $\eqop : \Set$, and
     an arity of free variables for each equation, $\eqfv : \eqop \to \Set$.
 \end{definition}
 %
+This will be used to define a \emph{system of equations} (\cref{def:system-of-equations}).
+%
 \begin{example}
-    The equational signature for monoids $\eqsigMon$ is:
+    The term arity for monoids $\eqsigMon$ is:
     $(\Fin[3],\lambda \{0 \mapsto \Fin[1] ; 1 \mapsto \Fin[1] ; 2 \mapsto \Fin[3] \})$.
     %
     The three equations are the left and right unit laws, and the associativity law --
@@ -352,16 +354,16 @@ To impose equations on the generated abstract syntax trees, we adopt the point o
     and the associativity law uses three free variables.
 \end{example}
 %
-Similar to the term signature functor in~\cref{def:signature-functor}, this produces an equational signature functor on $\Set$.
-\begin{definition}[\alink{definition}{Eq. Signature Functor}{equational-signature-functor}]
-    \label{def:equational-signature-functor}
+Similar to the term signature functor in~\cref{def:signature-functor}, this produces a \emph{term arity functor} on $\Set$.
+\begin{definition}[\alink{definition}{Term Arity Functor}{term-arity-functor}]
+    \label{def:term-arity-functor}
     \begin{gather*}
         X \mapsto \dsum{e:\eqop}{X^{\eqfv(e)}}
         \qquad
         X \xto{f} Y \mapsto
-        \dsum{e:\eqop}{X^{\ar(e)}}
+        \dsum{e:\eqop}{X^{\eqfv(e)}}
         \xto{(e, \blank \comp f)}
-        \dsum{e:\eqop}{Y^{\ar(e)}}
+        \dsum{e:\eqop}{Y^{\eqfv(e)}}
     \end{gather*}
 \end{definition}
 %
@@ -370,6 +372,7 @@ we use the $\sig$-operations and construct trees for the left and right-hand sid
 free variables available.
 %
 \begin{definition}[\alink{definition}{System of Equations}{system-of-equations}]
+    \label{def:system-of-equations}
     A system of equations over a signature $(\sig,\eqsig)$ is a pair of natural transformations:
     \[
         \eqleft, \eqright \colon \EqSig \natto \str{F}_{\sig} \enspace.
