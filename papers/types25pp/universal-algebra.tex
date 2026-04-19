@@ -95,13 +95,13 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
 \end{definition}
 
 \begin{example}
-    Given two monoids \(\str{X}\) and \(\str{Y}\), the top half denotes:
+    Given two monoid structures \(\str{X}\) and \(\str{Y}\), the top half denotes:
     \({\unitt + (X \times X) \xto{\alpha_{X}} X \xto{f} Y}\), which applies \(f\) to the output of each operation,
     and the bottom half denotes the map:
     \({\unitt + (X \times X) \xto{\SigMon(f)} \unitt + (Y \times Y) \xto{\alpha_{Y}} Y}\).
     % Commutativity of the diagram says that these two maps are equal.
     %
-    In other words, a homomorphism between $X$ and $Y$ is a map $f$ on the carrier sets that commutes with the
+    In other words, a homomorphism between \(\str{X}\) and \(\str{Y}\) is a map $f$ on the carrier sets that commutes with the
     interpretation of the monoid operations, or simply, preserves the monoid structure.
 \end{example}
 %
@@ -131,8 +131,8 @@ We rephrase this in more concrete terms.
         \item a $\sig$-structure on $F(X)$, written as $\str{F}(X)$,
         \item a universal map $\eta_X : X \to F(X)$, for every $X$, such that,
         \item for any $\sig$-algebra $\str{Y}$, the operation
-              assigning to each homomorphism $f : \str{X} \to \str{Y}$,
-              the map ${f \comp \eta_X : X \to Y}$ (or, post-composition with $\eta_X$),
+              assigning to each homomorphism $f : \str{F}(X) \to \str{Y}$,
+              the map ${f \comp \eta_X : X \to Y}$ (or, pre-composition with $\eta_X$),
               is an equivalence.
     \end{itemize}
 \end{definition}
