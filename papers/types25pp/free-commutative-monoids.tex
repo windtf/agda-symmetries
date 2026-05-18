@@ -165,13 +165,27 @@ We give a direct proof of its universal property using our generalisation.
     \]
 \end{definition}
 %
-By~\cref{sec:cmon:qfreemon}, it suffices to show $\Perm(A)$ satisfies the axioms of permutation relations
-to obtain that $\PList(A)$ is the free commutative monoid on $A$.
+By~\cref{sec:cmon:qfreemon}, to obtain that $\PList(A)$ is the free commutative monoid on $A$, it suffices to prove the property of $\Perm(A)$ being a permutation relation.
+
+\begin{propositionrep}[\alink{proposition}{Perm is a permutation relation}{perm-is-perm-relation}]
+    \label{prop:perm-is-perm-relation}
+    The relation $\Perm$ is a permutation relation on $\List(A)$.
+\end{propositionrep}
+\begin{proof}
+    We must show that $\Perm$ is:
+    \begin{enumerate}
+        \item an equivalence relation (reflexive, symmetric, transitive): reflexivity is by construction ($\term{perm-refl}$). Symmetry and transitivity are straightforward by induction on the relation.
+        \item a congruence w.r.t $\mult$: we want to show for any lists $\xs, \ys, \zs, \ws$, if $\xs \approx \ys$ and $\zs \approx \ws$, then $\xs \mult \zs \approx \ys \mult \ws$, which is proven by induction.
+        \item commutative: $\xs \mult \ys \approx \ys \mult \xs$, proven by induction on the lists.
+        \item respects $\ext{(\blank)}$: shown in~\cref{plist:sharp-sat}.
+    \end{enumerate}
+    Thus, $\Perm$ is a permutation relation.
+\end{proof}
 
 \begin{propositionrep}[\alink{proposition}{}{plist-resp-ext}]
     \label{plist:sharp-sat}
     Let $\str{X}$ be a commutative monoid, and $f : A \to X$.
-    For $x,y : A$ and $\xs, \ys : \PList(A)$,
+    For $x,y : A$ and $\xs, \ys : \List(A)$,
     $\ext{f}(\xs\,\mult\,x \cons y \cons \ys) \id \ext{f}(\xs\,\mult\,y \cons x \cons \ys)$.
     Hence, $\Perm$ respects $\ext{(\blank)}$.
 \end{propositionrep}
@@ -247,7 +261,7 @@ and in the Cubical library~\cite{theagdacommunityCubicalAgdaLibrary2025}.
         We define the concatenation operation $\mult : \SList(A) \to \SList(A) \to \SList(A)$
         recursively, where we also have to consider the (functorial) action on the $\term{swap}$ path using $\term{ap}$.
         \begin{align*}
-            [] \mult \ys                                  & \defeq \ys                           \\
+            [] \mult \ys                                  & \defeq \ys                         \\
             (x \cons \xs) \mult \ys                       & \defeq x \cons (\xs \mult \ys)     \\
             \term{ap}_{\mult \ys}(\term{swap}(x, y, \xs)) & = \term{swap}(x, y, \ys \mult \xs)
         \end{align*}
@@ -343,11 +357,23 @@ and its action on the elements.
 %
 We have already shown $\Array$ to be the free monoid in~\cref{sec:arrays}.
 %
-By~\cref{prop:qfreemon}, it suffices to show that $\approx$ satisfies
-the axioms of permutation relations to establish that $\Bag$
-is the free commutative monoid.
+By~\cref{prop:qfreemon}, to obtain that $\Bag(A)$ is the free commutative monoid on $A$, it suffices to prove the property of $\approx$ being a permutation relation.
+
+\begin{propositionrep}[\alink{proposition}{Bag equivalence is a permutation relation}{bag-is-perm-relation}]
+    \label{prop:bag-is-perm-relation}
+    The relation $\approx$ is a permutation relation on $\Array(A)$.
+\end{propositionrep}
+\begin{proof}
+    By definition of a permutation relation (\cref{def:permutation-relation}), we must show that $\approx$ is:
+    an equivalence relation (proven in~\cref{bag-equiv}),
+    a congruence w.r.t $\mult$ (proven in~\cref{bag:cong}),
+    commutative (proven in~\cref{bag:comm}), and
+    respects $\ext{(\blank)}$ (proven in~\cref{bag:perm-sat}).
+    Thus, $\approx$ is a permutation relation.
+\end{proof}
 %
 \begin{toappendix}
+    \label{bag-equiv}
     \begin{proposition}[\alink{proposition}{}{bag-equiv}]
         $\approx$ is a equivalence relation.
     \end{proposition}
