@@ -42,6 +42,8 @@ $\term{red} < \term{white} < \term{blue}$.
 \]
 What if we are avid enjoyers of vexillology who also want to consider other flags?
 We might ask: how many ways can we sort our unordered list of balls?
+Here, we must distinguish between a sorting \emph{algorithm} (a computational procedure) and a sorting \emph{function} (a mathematical mapping). We also assume that our balls of the same colour are completely indistinguishable; if they had extra metadata (like a unique ID) and we sorted them only by colour, we would have to address sorting stability, where different stable or unstable algorithms could produce different relative orderings of the identical-looking elements. Because we sort the elements of the carrier set $A$ directly rather than sorting by non-distinct keys, stability is not an issue, and a sorting function must produce a unique, deterministic output list for each input bag.
+Thus, when we ask ``how many ways,'' we mean how many extensionally distinct sorting \emph{functions} can be defined.
 We know there are exactly $3! = 6$ permutations of
 $\{\term{red}, \term{white}, \term{blue}\}$, so there are 6 possible orderings we can define.
 In fact, there are exactly 6 such categories of tricolour flags
@@ -58,12 +60,17 @@ this is purely a matter of combinatorics.
       \end{tikzpicture}
     }
 \end{center}
-We posit that, because there are exactly 6 orderings, we can only define 6 \emph{extensionally correct} sorting functions.
+We posit that, for a carrier set with exactly 3 elements, because there are exactly 6 possible total orderings, we can define exactly 6 extensionally correct sorting functions.
+Intuitively, a \emph{correct} sorting function is a function that takes an unordered bag of elements and returns a list containing exactly the same elements, but arranged in a unique, sorted order. Extensional correctness thus means two things: first, the output list must be a permutation of the input elements (meaning no elements are lost, duplicated, or created); and second, the output must be sorted according to a consistent total order, so that sorting a given collection always yields a unique canonical representative.
 %
 Formally, there is a bijection between the set of orderings on a carrier set $A$ and the set of correct sorting
 functions on lists of $A$.
 %
 A sorting function can be correctly axiomatised from this point of view, which is our main contribution.
+
+\paragraph*{Prerequisites}
+
+No advanced background in Homotopy Type Theory (HoTT) or Univalence is required to read this paper. We expect the reader to be familiar with basic dependent type theory and functional programming (such as Agda, Coq, or Haskell). While the accompanying formalisation is written in Cubical Agda and relies on univalence and higher inductive types for the quotient constructions, the text of the paper is written in informal mathematical language and remains accessible to those without prior exposure to univalent foundations.
 
 \paragraph*{Outline and Contributions}
 
