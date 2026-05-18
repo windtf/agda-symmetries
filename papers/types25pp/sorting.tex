@@ -483,6 +483,8 @@ found in textbooks, such as in~\cite{appelVerifiedFunctionalAlgorithms2023}.
 %
 Note that $\isSorted_{\leq}(\xs)$ is a proposition for every $\xs$,
 and forces the list $\xs$ to be permuted in a unique way.
+This predicate is equivalent to the standard $\type{Sorted}$ relation in the Agda standard library~\cite{Daggitt_The_Agda_standard_2025}, which is defined pairwise using the more general $\type{Linked}$ relation (i.e., $\type{Sorted}(\xs) \defeq \type{Linked}(\blank\leq\blank, \xs)$).
+Indeed, many of these definitions are traditional constructions that are completely independent of univalence or cubical features.
 \begin{lemma}[\alink{lemma}{}{is-sorted-unique}]
     Given a total order $\leq$, for any lists $\xs, \ys : \LL(A)$,
     if $\quotient(\xs) = \quotient(\ys)$, $\isSorted_{\leq}(\xs)$, and $\isSorted_{\leq}(\ys)$,
