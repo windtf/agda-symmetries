@@ -260,7 +260,9 @@ we can \emph{almost} construct a total-order on the carrier set.
     \]
 \end{definition}
 %
-That is, we take the two-element bag $\bag{x, y}$,
+Recall that the head homomorphism $\term{head} \defeq \ext{\inr} : \LL(A) \to 1 + A$ (as in~\cref{def:head-free-monoid}) is defined by equipping $1 + A$ with a monoid structure with unit $e \defeq \inl(\ttt)$ and multiplication defined as $\inl(\ttt) \oplus b \defeq b$ and $\inr(a) \oplus b \defeq \inr(a)$, which picks out the first (leftmost) element of a list.
+%
+Here, we take the two-element bag $\bag{x, y}$,
 ``sort'' it by $\ssection$, and test if the $\term{head}$ element is $x$.
 %
 Note, this is equivalent to $x \leqs y \defeq s\bag{x, y} = [x,y]$,
