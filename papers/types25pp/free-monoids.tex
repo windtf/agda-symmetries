@@ -44,7 +44,7 @@ and the monoid multiplication $\mult$ is given by list concatenation.
         We define the concatenation operation $\mult : \List(A) \to \List(A) \to \List(A)$,
         by recursion on the first argument:
         \begin{align*}
-            \nil \mult \ys          & = \ys                           \\
+            \nil \mult \ys          & = \ys                     \\
             (x \cons \xs) \mult \ys & = x \cons (\xs \mult \ys)
         \end{align*}
     \end{definition}
@@ -79,13 +79,13 @@ and the monoid multiplication $\mult$ is given by list concatenation.
         Case $x \cons \xs$:
         \begin{align*}
             \ext{f}((x \cons \xs) \mult \ys)
-             & = \ext{f}(([ x ] \mult \xs) \mult \ys) & \text{by definition of concatenation}    \\
-             & = \ext{f}([ x ] \mult (\xs \mult \ys)) & \text{by associativity}                  \\
-             & = \ext{f}(x \cons (\xs \mult \ ys))          & \text{by definition of concatenation}    \\
-             & = f(x) \mult \ext{f}(\xs \mult \ys)          & \text{by definition of $\ext{(\blank)}$} \\
-             & = f(x) \mult (\ext{f}(\xs) \mult \ext{f}(\ys))     & \text{by induction}                      \\
-             & = (f(x) \mult \ext{f}(\xs)) \mult \ext{f}(\ys)     & \text{by associativity}                  \\
-             & = \ext{f}(x \cons \xs) \mult \ext{f}(\ys)          & \text{by definition of $\ext{(\blank)}$} \\
+             & = \ext{f}(([ x ] \mult \xs) \mult \ys)         & \text{by definition of concatenation}    \\
+             & = \ext{f}([ x ] \mult (\xs \mult \ys))         & \text{by associativity}                  \\
+             & = \ext{f}(x \cons (\xs \mult \ ys))            & \text{by definition of concatenation}    \\
+             & = f(x) \mult \ext{f}(\xs \mult \ys)            & \text{by definition of $\ext{(\blank)}$} \\
+             & = f(x) \mult (\ext{f}(\xs) \mult \ext{f}(\ys)) & \text{by induction}                      \\
+             & = (f(x) \mult \ext{f}(\xs)) \mult \ext{f}(\ys) & \text{by associativity}                  \\
+             & = \ext{f}(x \cons \xs) \mult \ext{f}(\ys)      & \text{by definition of $\ext{(\blank)}$} \\
         \end{align*}
         %
         Therefore, $\ext{(\blank)}$ does correctly lift a function to a monoid homomorphism.
@@ -120,7 +120,7 @@ and the monoid multiplication $\mult$ is given by list concatenation.
          & = (f \comp \eta_A)(x) \mult \ext{(f \comp \eta_A)}(\xs) & \text{by definition of $\ext{(\blank)}$} \\
          & = (f \comp \eta_A)(x) \mult f(\xs)                      & \text{by induction}                      \\
          & = f([x]) \mult f(\xs)                                   & \text{by definition of $\eta_A$}         \\
-         & = f([x] \mult \xs)                                & \text{by homomorphism properties of $f$} \\
+         & = f([x] \mult \xs)                                      & \text{by homomorphism properties of $f$} \\
          & = f(x \cons \xs)                                        & \text{by definition of concatenation}
     \end{align*}
     %
@@ -146,7 +146,7 @@ We call this an \emph{array},
 which is a pair of a natural number $n$, denoting the length of the array,
 and a lookup (or index) function $\Fin[n] \to A$, mapping indices to elements of $A$.
 %
-In type theory, this is also understood as a container~\cite{abbottCategoriesContainers2003},
+In type theory, this is also understood as an extension of a container~\cite{abbottCategoriesContainers2003},
 where the type of shapes is a $n\colon\Nat$, and the type of positions for each shape is $\Fin[n]$,
 where the array elements are stored.
 %
@@ -202,11 +202,11 @@ and the monoid operation $\mult$ is given by array concatenation.
         To show $\Array$ satisfies left unit,
         we want to show $(0, \lambda\{\}) \mult (n, f) = (n, f)$.
         \begin{align*}
-            (0 , \lambda\{\}) \mult (n , f) & = (0 + n , \lambda\{\} \oplus f)      \\
-            (\lambda\{\} \oplus f)(k)             & = \begin{cases}
-                                                          (\lambda\{\})(k) & \text{if}\ k < 0 \\
-                                                          f(k - 0)         & \text{otherwise}
-                                                      \end{cases}
+            (0 , \lambda\{\}) \mult (n , f) & = (0 + n , \lambda\{\} \oplus f)          \\
+            (\lambda\{\} \oplus f)(k)       & = \begin{cases}
+                                                    (\lambda\{\})(k) & \text{if}\ k < 0 \\
+                                                    f(k - 0)         & \text{otherwise}
+                                                \end{cases}
         \end{align*}
         %
         It is trivial to see the length matches: $0 + n = n$. We also need to show $\lambda\{\} \oplus f = f$.
@@ -216,11 +216,11 @@ and the monoid operation $\mult$ is given by array concatenation.
         To show $\Array$ satisfies right unit,
         we want to show $(n, f) \mult (0, \lambda\{\}) = (n, f)$.
         \begin{align*}
-            (n, f) \mult (0 , \lambda\{\}) & = (n + 0, f \oplus \lambda\{\})           \\
-            (f \oplus \lambda\{\})(k)            & = \begin{cases}
-                                                         f(k)                 & \text{if}\ k < n \\
-                                                         (\lambda\{\})(k - 0) & \text{otherwise}
-                                                     \end{cases}
+            (n, f) \mult (0 , \lambda\{\}) & = (n + 0, f \oplus \lambda\{\})               \\
+            (f \oplus \lambda\{\})(k)      & = \begin{cases}
+                                                   f(k)                 & \text{if}\ k < n \\
+                                                   (\lambda\{\})(k - 0) & \text{otherwise}
+                                               \end{cases}
         \end{align*}
         %
         It is trivial to see the length matches: $n + 0 = n$. We also need to show $f \oplus \lambda\{\} = f$.
@@ -232,23 +232,23 @@ and the monoid operation $\mult$ is given by array concatenation.
         $((n, f) \mult (m, g)) \mult (o, h) = (n, f) \mult ((m, g) \mult (o, h))$.
         %
         \begin{align*}
-            ((n, f) \mult (m, g)) \mult (o, h) & = ((n + m) + o, (f \oplus g) \oplus h)                \\
-            ((f \oplus g) \oplus h)(k)                     & = \begin{cases}
-                                                                   \begin{cases}
-                    f(k)     & \text{if}\ k < n \\
-                    g(k - n) & \text{otherwise}
-                \end{cases}
-                                                                                  & \text{if}\ k < n + m \\
-                                                                   h(k - (n + m)) & \text{otherwise}
-                                                               \end{cases}                    \\
-            (n, f) \mult ((m, g) \mult (o, h)) & = (n + (m + o), f \oplus (g \oplus h))                \\
-            (f \oplus (g \oplus h))(k)                     & = \begin{cases}
-                                                                   f(k)                               & \ \text{k < n} \\
-                                                                   \begin{cases}
-                    g(k - n)     & \text{k - n < m} \\
-                    h(k - n - m) & \text{otherwise} \\
-                \end{cases} & \text{otherwise}
-                                                               \end{cases}
+            ((n, f) \mult (m, g)) \mult (o, h) & = ((n + m) + o, (f \oplus g) \oplus h)                        \\
+            ((f \oplus g) \oplus h)(k)         & = \begin{cases}
+                                                       \begin{cases}
+                                                           f(k)     & \text{if}\ k < n \\
+                                                           g(k - n) & \text{otherwise}
+                                                       \end{cases}
+                                                                      & \text{if}\ k < n + m \\
+                                                       h(k - (n + m)) & \text{otherwise}
+                                                   \end{cases}                   \\
+            (n, f) \mult ((m, g) \mult (o, h)) & = (n + (m + o), f \oplus (g \oplus h))                        \\
+            (f \oplus (g \oplus h))(k)         & = \begin{cases}
+                                                       f(k)                                   & \ \text{k < n} \\
+                                                       \begin{cases}
+                                                           g(k - n)     & \text{k - n < m} \\
+                                                           h(k - n - m) & \text{otherwise} \\
+                                                       \end{cases} & \text{otherwise}
+                                                   \end{cases}
         \end{align*}
         %
         We first case split on $k < n + m$ then $k < n$.
@@ -284,11 +284,11 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
     We want to show $\eta_A (f(0)) \mult (n, f \comp S) = (S(n), f)$.
     \begin{align*}
         (1, \lambda\{ 0 \mapsto f(0) \}) \mult (n , f \comp S) &
-        = (1 + n, \lambda\{ 0 \mapsto f(0) \} \oplus (f \comp S))                                              \\
-        (\lambda\{ 0 \mapsto f(0) \} \oplus (f \comp S))(k)          & = \begin{cases}
-                                                                             f(0)               & \text{if}\ k < 1 \\
-                                                                             (f \comp S)(k - 1) & \text{otherwise}
-                                                                         \end{cases}
+        = (1 + n, \lambda\{ 0 \mapsto f(0) \} \oplus (f \comp S))                                            \\
+        (\lambda\{ 0 \mapsto f(0) \} \oplus (f \comp S))(k)    & = \begin{cases}
+                                                                       f(0)               & \text{if}\ k < 1 \\
+                                                                       (f \comp S)(k - 1) & \text{otherwise}
+                                                                   \end{cases}
     \end{align*}
     %
     It is trivial to see the length matches: $1 + n = S(n)$. We need to show
@@ -365,18 +365,18 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
         We have $g = \lambda\{\}$ by~\cref{array:zero-is-id}.
         \begin{align*}
              & \mathrel{\phantom{=}} \ext{f}((0, \lambda\{\}) \mult \ys)                                            \\
-             & = \ext{f}(\ys)                                                  & \text{by definition of concatenation}    \\
-             & = e \mult \ext{f}(\ys)                                          & \text{by left unit}                      \\
-             & = \ext{f}(0, \lambda\{\}) \mult \ext{f}(\ys)                    & \text{by definition of $\ext{(\blank)}$} \\
+             & = \ext{f}(\ys)                                            & \text{by definition of concatenation}    \\
+             & = e \mult \ext{f}(\ys)                                    & \text{by left unit}                      \\
+             & = \ext{f}(0, \lambda\{\}) \mult \ext{f}(\ys)              & \text{by definition of $\ext{(\blank)}$} \\
         \end{align*}
 
         Case $(S(n), g)$: Let $\ys$ be $(m, h)$.
         \begin{align*}
-             & \mathrel{\phantom{=}} \ext{f}((S(n), g) \mult (m, h))                                                        \\
+             & \mathrel{\phantom{=}} \ext{f}((S(n), g) \mult (m, h))                                                              \\
              & = \ext{f}(S(n + m), g \oplus h)                                 & \text{by definition of concatenation}            \\
              & = f((g \oplus h)(0)) \mult \ext{f}(n + m, (g \oplus h) \comp S) & \text{by definition of $\ext{(\blank)}$}         \\
              & = f(g(0)) \mult \ext{f}(n + m, (g \oplus h) \comp S)            & \text{by definition of $\oplus$, and $0 < S(n)$} \\
-             & = f(g(0)) \mult \ext{f}((n, g \comp S) \mult (m, h))      & \text{by~\cref{array:split}}                     \\
+             & = f(g(0)) \mult \ext{f}((n, g \comp S) \mult (m, h))            & \text{by~\cref{array:split}}                     \\
              & = f(g(0)) \mult (\ext{f}(n, g \comp S) \mult \ext{f}(m, h)))    & \text{by induction}                              \\
              & = (f(g(0)) \mult \ext{f}(n, g \comp S)) \mult \ext{f}(m, h))    & \text{by associativity}                          \\
              & = \ext{f}(S(n), g) \mult \ext{f}(m, h))                         & \text{by definition of $\ext{(\blank)}$}         \\
@@ -423,7 +423,7 @@ We need two auxiliary lemmas about array concatenation to do induction on arrays
     Case $(S(n), g)$, we prove it in reverse:
     \begin{align*}
          & \mathrel{\phantom{=}} f(S(n), g)                                                                               \\
-         & = f(\eta_A(g(0)) \mult (n, g \comp S))                        & \text{by~\cref{array:eta-suc}}           \\
+         & = f(\eta_A(g(0)) \mult (n, g \comp S))                              & \text{by~\cref{array:eta-suc}}           \\
          & = f(\eta_A(g(0))) \mult f(n, g \comp S)                             & \text{by homomorphism properties of $f$} \\
          & = (f \comp \eta_A)(g(0)) \mult \ext{(f \comp \eta_A)}(n, g \comp S) & \text{by induction}                      \\
          & = \ext{(f \comp \eta_A)}(S(n), g)                                   & \text{by definition of $\ext{(\blank)}$}

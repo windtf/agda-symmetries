@@ -178,7 +178,7 @@ the canonical inclusion into the quotient.
 Concretely, $\quotient$ simply includes the elements of $\LL(A)$ into equivalence classes of lists in $\MM(A)$,
 which ``forgets'' the order that was imposed by the indexing of the list.
 
-Classically, assuming the Axiom of Choice would allow us to construct a section (right-inverse, in $\Set$) to the surjection $\quotient$,
+Classically, assuming the Axiom of Choice would allow us to construct a section ({right-inverse}, in $\Set$) to the surjection $\quotient$,
 that is,
 a function $\ssection : \MM(A) \to \LL(A)$ such that $\forall x.\, \quotient(\ssection(x)) \id x$.
 %
@@ -210,7 +210,7 @@ $\ssection(x \cons y \cons \xs) \id \ssection(y \cons x \cons \xs)$ for any $x, 
 by $\term{swap}$.
 %
 Since $\forall \xs.\,\quotient(\ssection(\xs)) \id \xs$, $\ssection$ must preserve all the elements of $\xs$.
-It cannot be a trivial function such as $\lambda\,\xs. []$ -- it must produce a permutation of the elements of $\ssection$.
+It cannot be a trivial function such as $\lambda\,\xs. []$ -- it must produce a permutation of the elements of $\xs$.
 %
 But to place these elements side-by-side in the list, $\ssection$ must somehow impose an order on $A$
 (invariant under permutation), turning unordered lists of $A$ into ordered lists of $A$.
@@ -240,7 +240,7 @@ and the implications of its existence is that $A$ can be ordered, or sorted.
     other representations such as $\Bag$ and $\Array$ would be preferable,
     as explained in~\cref{sec:cmon:bag}.
     To see how this proposition holds: $\quotient(\ssection(\xs))$ first orders an unordered list $\xs$ by $\ssection$,
-    then discards the order again by $\quotient$ --
+    then forgets the order again by $\quotient$ --
     imposing and then forgetting an order on $\xs$ simply \emph{permutes} its elements,
     which proves $\quotient \comp \ssection = \idfunc$.
 \end{proofsketch}
@@ -305,8 +305,8 @@ but it does not necessarily sort bags with 3 or more elements.
     \begin{align*}
         \ssection(\xs) & \defeq
         \begin{cases}
-            [3, 1]           & \text{if $xs = \bag{1, 3}$} \\
-            \term{sort}(\xs) & \text{otherwise}            \\
+            [3, 1]           & \text{if $\xs = \bag{1, 3}$} \\
+            \term{sort}(\xs) & \text{otherwise}             \\
         \end{cases}
     \end{align*}
     %
@@ -406,7 +406,7 @@ This constitutes an embedding of decidable total orders into sections satisfying
     By the insertion sort algorithm parameterized by $\leq$,
     it holds that $\inimage{[x, y]}$ iff $x \leq y$.
     By~\cref{sort:sort-to-order}, we have $x \leqs y$ iff $x \leq y$.
-    We now have a total order $x \leqs y$ equivalent to $x \leq y$.
+    We now have a total order $x \leqs y$ that is equivalent to $x \leq y$.
 \end{proof}
 
 \subsubsection{Equivalence of order and sections}

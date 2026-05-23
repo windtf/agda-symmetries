@@ -8,7 +8,7 @@ logic~\cite{birkhoffStructureAbstractAlgebras1935},
 which gives us a vocabulary and framework to express our results in.
 %
 The point of view we take is the standard category-theoretic approach to universal algebra~\cite{waltersCategoricalApproachUniversal1970},
-that predates the Lawvere theory or abstract clone point of view~\cite{lawvereFunctorialSemanticsAlgebraic1963,hylandCategoryTheoreticUnderstanding2007}.
+which is an alternative perspective to the Lawvere theory or abstract clone point of view~\cite{lawvereFunctorialSemanticsAlgebraic1963,hylandCategoryTheoreticUnderstanding2007}.
 %
 We keep a running example of monoids in mind, while explaining and defining the abstract concepts.
 
@@ -27,7 +27,7 @@ We keep a running example of monoids in mind, while explaining and defining the 
     A premonoid is a set with an identity element (a nullary operation), and a binary multiplication operation,
     with signature $\sigMon \defeq (\Fin[2],\lambda \{0 \mapsto \Fin[0] ; 1 \mapsto \Fin[2] \})$.
     %
-    Informally, we denote this two-element list of operations as a tuple $(e,\mult)$.
+    Informally, we denote the two operations as a tuple $(e,\mult)$.
 \end{example}
 
 \noindent
@@ -108,7 +108,7 @@ We write $\str{X}$ for a $\sig$-structure with carrier set $X$, following the mo
 For a fixed signature $\sig$,
 the category of $\Sig$-algebras and their morphisms form a category of algebras,
 written $\SigAlg$, or simply, $\sigAlg$,
-given by the obvious definitions of identity and composition of the underlying functions.
+given by the obvious definitions of identity and composition for the underlying functions.
 
 \subsection{Free Algebras}
 \label{sec:universal-algebra:free-algebras}
@@ -187,8 +187,8 @@ Free algebra constructions are canonically equivalent.
     \(
     {\ext{F\fdot\eta_{X}} \comp \ext{G\fdot\eta_{X}}} =
     {\ext{(\ext{F\fdot\eta_{X}} \comp G\fdot\eta_{X})}} =
-        {\ext{F\fdot\eta_{X}}} =
-        {\idfunc_{\str{F}(X)}}
+    {\ext{F\fdot\eta_{X}}} =
+    {\idfunc_{\str{F}(X)}}
     \).
     % \vc{Mention SIP.}
 \end{proof}

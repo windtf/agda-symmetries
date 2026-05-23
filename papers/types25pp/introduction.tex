@@ -32,13 +32,13 @@ Obviously there is only one way, decided by the order the colours appear in the 
 $\term{red} < \term{white} < \term{blue}$.
 \[
   [
-      \tikz[anchor=base, baseline]{%
-        \foreach \x/\color in {1/red,2/red,3/red,4/white,5/white,6/blue,7/blue,8/blue} {
-            \node[circle,draw,fill=\color,line width=1pt] at (\x,0) {\phantom{\tiny\x}};
-            \ifthenelse{\NOT 1 = \x}{\node at ({\x-0.5},0) {,};}{}
-          }
-      }
-    ]
+    \tikz[anchor=base, baseline]{%
+      \foreach \x/\color in {1/red,2/red,3/red,4/white,5/white,6/blue,7/blue,8/blue} {
+          \node[circle,draw,fill=\color,line width=1pt] at (\x,0) {\phantom{\tiny\x}};
+          \ifthenelse{\NOT 1 = \x}{\node at ({\x-0.5},0) {,};}{}
+        }
+    }
+  ]
 \]
 What if we are avid enjoyers of vexillology who also want to consider other flags?
 We might ask: how many ways can we sort our unordered list of balls?
@@ -61,7 +61,7 @@ this is purely a matter of combinatorics.
     }
 \end{center}
 We posit that, for a carrier set with exactly 3 elements, because there are exactly 6 possible total orderings, we can define exactly 6 extensionally correct sorting functions.
-Intuitively, a \emph{correct} sorting function is a function that takes an unordered bag of elements and returns a list containing exactly the same elements, but arranged in a unique, sorted order. Extensional correctness thus means two things: first, the output list must be a permutation of the input elements (meaning no elements are lost, duplicated, or created); and second, the output must be sorted according to a consistent total order, so that sorting a given collection always yields a unique canonical representative.
+Intuitively, a \emph{correct} sorting function is a function that takes an unordered bag of elements and returns a list containing exactly the same elements, but arranged in a unique, sorted order. Extensional correctness thus means two things: first, the output list must be a permutation of the input elements (meaning no elements are lost, duplicated, or created); and second, the output must be sorted according to a fixed total order, so that sorting a given collection always yields a unique canonical representative.
 %
 Formally, there is a bijection between the set of orderings on a carrier set $A$ and the set of correct sorting
 functions on lists of $A$.
