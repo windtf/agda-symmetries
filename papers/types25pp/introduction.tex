@@ -7,16 +7,6 @@ Consider a puzzle about sorting,
 inspired by Dijkstra's Dutch National Flag problem~\cite[Ch.14]{dijkstraDisciplineProgramming1997}.
 Suppose there are balls of three colours,
 corresponding to the colours of the Dutch flag: red, white, and blue.
-\[
-  \{
-  \tikz[anchor=base, baseline]{%
-    \foreach \x/\color in {1/red,2/white,3/blue} {
-        \node[circle,draw,fill=\color,line width=1pt] at (\x,0) {\phantom{\tiny\x}};
-        \ifthenelse{\NOT 1 = \x}{\node at ({\x-0.5},0) {,};}{}
-      }
-  }
-  \}
-\]
 Given an unordered list (bag) of such balls, how many ways can you sort them into the Dutch flag?
 \[
   \bag{
@@ -40,16 +30,12 @@ $\term{red} < \term{white} < \term{blue}$.
     }
   ]
 \]
-What if we are avid enjoyers of vexillology who also want to consider other flags?
-We might ask: how many ways can we sort our unordered list of balls?
-Here, we must distinguish between a sorting \emph{algorithm} (a computational procedure) and a sorting \emph{function} (a mathematical mapping). We also assume that our balls of the same colour are completely indistinguishable; if they had extra metadata (like a unique ID) and we sorted them only by colour, we would have to address sorting stability, where different stable or unstable algorithms could produce different relative orderings of the identical-looking elements. Because we sort the elements of the carrier set $A$ directly rather than sorting by non-distinct keys, stability is not an issue, and a sorting function must produce a unique, deterministic output list for each input bag.
-Thus, when we ask ``how many ways,'' we mean how many extensionally distinct sorting \emph{functions} can be defined.
-We know there are exactly $3! = 6$ permutations of
-$\{\term{red}, \term{white}, \term{blue}\}$, so there are 6 possible orderings we can define.
-In fact, there are exactly 6 such categories of tricolour flags
-(see~\href{https://en.wikipedia.org/wiki/List_of_flags_with_blue,_red,_and_white_stripes#Triband}{Wikipedia}).
-We have no allegiance to any of the countries presented by the flags, hypothetical or otherwise --
-this is purely a matter of combinatorics.
+What if we consider other flags using the same three colours? 
+How many ways can we sort our unordered list?
+To answer this, we distinguish between a sorting \emph{algorithm} (a computational procedure) and a sorting \emph{function} (a mathematical mapping). 
+Since we sort the elements of a carrier set $A$ directly (so stability and metadata are not concerns), a sorting function must produce a unique, deterministic output list for each input bag. 
+Thus, ``how many ways to sort'' means how many extensionally distinct sorting functions can be defined. 
+Because there are $3! = 6$ permutations of $\{\term{red}, \term{white}, \term{blue}\}$, there are 6 possible orderings, corresponding to 6 categories of tricolour flags:
 \begin{center}
   \foreach \colorA/\colorB/\colorC in {red/white/blue, red/blue/white, white/red/blue, white/blue/red, blue/red/white, blue/white/red}{
       \begin{tikzpicture}[scale=0.5]
@@ -60,17 +46,11 @@ this is purely a matter of combinatorics.
       \end{tikzpicture}
     }
 \end{center}
-We posit that, for a carrier set with exactly 3 elements, because there are exactly 6 possible total orderings, we can define exactly 6 extensionally correct sorting functions.
-Intuitively, a \emph{correct} sorting function is a function that takes an unordered bag of elements and returns a list containing exactly the same elements, but arranged in a unique, sorted order. Extensional correctness thus means two things: first, the output list must be a permutation of the input elements (meaning no elements are lost, duplicated, or created); and second, the output must be sorted according to a fixed total order, so that sorting a given collection always yields a unique canonical representative.
-%
-Formally, there is a bijection between the set of orderings on a carrier set $A$ and the set of correct sorting
-functions on lists of $A$.
-%
-A sorting function can be correctly axiomatised from this point of view, which is our main contribution.
-
-\paragraph*{Prerequisites}
-
-No advanced background in Homotopy Type Theory (HoTT) or Univalence is required to read this paper. We expect the reader to be familiar with basic dependent type theory and functional programming (such as Agda, Coq, or Haskell). While the accompanying formalisation is written in Cubical Agda and relies on univalence and higher inductive types for the quotient constructions, the text of the paper is written in informal mathematical language and remains accessible to those without prior exposure to univalent foundations.
+For a carrier set with 3 elements, the 6 possible total orderings yield exactly 6 \textit{extensionally correct} sorting functions. 
+Intuitively, a \emph{correct} sorting function takes a bag and returns a unique, sorted list of the same elements. 
+Extensional correctness therefore requires the output list to be a permutation of the input elements, and sorted according to a fixed total order. 
+Formally, there is a bijection between total orderings on a carrier set $A$ and correct sorting functions on lists over $A$. 
+Our main contribution is showing how a sorting function can be correctly axiomatised and formalised from this point of view.
 
 \paragraph*{Outline and Contributions}
 
@@ -93,19 +73,12 @@ The paper is organised as follows:
   \item Finally, \cref{sec:discussion} discusses aspects of the formalisation, related and future work.
 \end{myitemize}
 %
-The three main parts of the paper may be read independently.
+These sections are largely independent. Readers interested in universal algebra can start at~\cref{sec:universal-algebra}; those focused on free (commutative) monoids can skip to~\cref{sec:monoids,sec:commutative-monoids}; and those interested primarily in sorting can proceed directly to~\cref{sec:application}.
 %
-Readers interested in the formalisation of universal algebra and free algebras
-may start from~\cref{sec:universal-algebra}.
-%
-Readers interested in concrete constructions of free monoids and free commutative monoids
-may skip ahead to~\cref{sec:monoids,sec:commutative-monoids}.
-%
-If the reader is already familiar with these constructions,
-they may directly skip to the technical section on sorting functions, in~\cref{sec:application}.
-%
-The paper is accompanied by a formalisation of all the results in Cubical Agda,
-and the artefact is available online at~\cite{choudhuryAgdasymmetries2025}.
-However, we use informal mathematical language in the paper to keep the presentation accessible.
-%
-\ifarxiv{}{An extended version of the paper including additional details and proofs is available on arXiv~\cite{choudhurySymmetriesSorting2025}.}
+All results are formalised in Cubical Agda, available online at~\cite{choudhuryAgdasymmetries2025}.
+We use informal mathematical language in the paper to keep it accessible.
+\ifarxiv{}{An extended version with additional details is on arXiv~\cite{choudhurySymmetriesSorting2025}.}
+
+No prior exposure to Homotopy Type Theory (HoTT) or Univalence is required. 
+We assume only basic familiarity with dependent type theory and functional programming (such as Agda, Coq, or Haskell). 
+While the formalisation is written in Cubical Agda and uses higher inductive types and univalence for quotient constructions, the paper's text is presented in informal mathematical language.
