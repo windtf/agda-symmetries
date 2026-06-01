@@ -395,7 +395,7 @@ By~\cref{prop:qfreemon}, to obtain that $\Bag(A)$ is the free commutative monoid
     we want to show $(n, f) \mult (u, p) \approx (m, g) \mult (v, q)$ by some $\tau$.
     We construct $\tau$ as follows:
     \[
-        \tau \defeq \Fin[n+u] \xto{\sim} \Fin[n] + \Fin[u] \xto{\sigma,\,\phi} \Fin[m] + \Fin[v] \xto{\sim} \Fin[m+v] \\
+        \tau \defeq \Fin[n+u] \xto{\sim} \Fin[n] + \Fin[u] \xto{\sigma + \phi} \Fin[m] + \Fin[v] \xto{\sim} \Fin[m+v] \\
     \]
     which operationally performs:
     \[
@@ -403,7 +403,7 @@ By~\cref{prop:qfreemon}, to obtain that $\Bag(A)$ is the free commutative monoid
         \begin{tikzcd}[ampersand replacement=\&,cramped]
             {\{\color{red}0,1,\dots,n-1, \color{blue} n,n+1,\dots,n+u-1 \color{black}\}} \\
             { \{\color{red}\sigma(0),\sigma(1)\dots,\sigma(n-1), \color{blue}\phi(0),\phi(1),\dots,\phi(u-1) \color{black}\}}
-            \arrow["{\sigma,\phi}", maps to, from=1-1, to=2-1]
+            \arrow["{\sigma+\phi}", maps to, from=1-1, to=2-1]
         \end{tikzcd}
         \enspace.
     \]
