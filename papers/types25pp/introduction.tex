@@ -30,12 +30,13 @@ $\term{red} < \term{white} < \term{blue}$.
     }
   ]
 \]
-What if we consider other flags using the same three colours? 
+What if we are avid enjoyers of vexillology who also want to consider other flags?
 How many ways can we sort our unordered list?
 To answer this, we distinguish between a sorting \emph{algorithm} (a computational procedure) and a sorting \emph{function} (a mathematical mapping). 
 Since we sort the elements of a carrier set $A$ directly (so stability and metadata are not concerns), a sorting function must produce a unique, deterministic output list for each input bag. 
 Thus, ``how many ways to sort'' means how many extensionally distinct sorting functions can be defined. 
-Because there are $3! = 6$ permutations of $\{\term{red}, \term{white}, \term{blue}\}$, there are 6 possible orderings, corresponding to 6 categories of tricolour flags:
+Because there are $3! = 6$ permutations of $\{\term{red}, \term{white}, \term{blue}\}$, there are 6 possible orderings, corresponding to 6 categories of tricolour flags
+(see~\href{https://en.wikipedia.org/wiki/List_of_flags_with_blue,_red,_and_white_stripes#Triband}{Wikipedia}):
 \begin{center}
   \foreach \colorA/\colorB/\colorC in {red/white/blue, red/blue/white, white/red/blue, white/blue/red, blue/red/white, blue/white/red}{
       \begin{tikzpicture}[scale=0.5]
